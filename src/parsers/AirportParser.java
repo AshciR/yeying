@@ -1,10 +1,9 @@
 /** Engineer: Richard Walker
  * Date: March 5. 2015
- * Description: Creates a DOM that parses an Airplane XML file
+ * Description: Creates a DOM that parses an Airport XML file
  * 				given by Professor Blake Nelson for the CS 509 Project.
- * 				Currently the Class just prints the information to the 
- * 				console, but it will be modified to store the information in 
- * 				a list of airplane objects.
+ * 				The class stores the information in 
+ * 				a list of airport objects.
  */
 
 package parsers;
@@ -22,43 +21,43 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import flight_system.Airplane;
+import flight_system.*;
 
-public class AirplaneParser {
+public class AirportParser {
 	
 	/* List to hold the airplanes parsed from the XML */
-	private ArrayList<Airplane> airplaneList; 
+	private ArrayList<Airport> airportList; 
 	
 	/**
 	 * @param the constructor creates an empty 
 	 *        list that is used to hold a the parsed airplanes
 	 */
-	public AirplaneParser() {
-		this.airplaneList = new ArrayList<Airplane>();
+	public AirportParser() {
+		this.airportList = new ArrayList<Airport>();
 	}
 	
 	/* Returns a list of the parsed airplanes */
-	public ArrayList<Airplane> getAirplaneList() {
-		return airplaneList;
+	public ArrayList<Airport> getAirportList() {
+		return airportList;
 	}
 	
 	/* Returns the number of airplanes in the list */
-	public int getNumOfAirplanes() {
-		return this.airplaneList.size();
+	public int getNumOfAirports() {
+		return this.airportList.size();
 	}
 		
 	/* Prints the airplane list */
-	public void printAirplaneList(){
-		System.out.println("Printing the Airplane XML data:");
+	public void printAirportList(){
+		System.out.println("Printing the Airport XML data:");
 		/* Print each Airplanes in the list */
-		for (int i = 0; i < airplaneList.size(); i++) {
-			System.out.println(this.airplaneList.get(i).toString());
+		for (int i = 0; i < airportList.size(); i++) {
+			System.out.println(this.airportList.get(i).toString());
 		}
 
 	}
 
 	/* Static Method used to parse the airplane XML */
-	public void parseAirplaneXML() {
+	public void parseAirportXML() {
 
 		/* DOM Factory Builder */
 		DocumentBuilderFactory dom_fac = DocumentBuilderFactory.newInstance();
@@ -67,37 +66,37 @@ public class AirplaneParser {
 			/* Builds the doc object that contains the 
 			 * tree structure of the XML file */
 			DocumentBuilder builder = dom_fac.newDocumentBuilder();
-			Document doc = builder.parse("airplanes.xml"); // This is the root node
+			Document doc = builder.parse("airports.xml"); // This is the root node
 
 			/* Contains a list of all the airplanes from the Airplanes XML */
-			NodeList airplaneNodeList = doc.getElementsByTagName("Airplane");
+			NodeList airportNodeList = doc.getElementsByTagName("Airport");
 
 			/* Iterate through all the airplanes in the airplane list */
-			for (int i = 0; i < airplaneNodeList.getLength(); i++) {
+			for (int i = 0; i < airportNodeList.getLength(); i++) {
 
-				Node airplaneNode = airplaneNodeList.item(i); // Airplane Node
+				Node airportNode = airportNodeList.item(i); // Airport Node
 
 				/* I know this node is an element, so can cast it as such */
-				Element airplane = (Element) airplaneNode;
+				Element airport = (Element) airportNode;
 
 				/* Get the Airplane Manufacturer and Model */
-				String model = airplane.getAttribute("Model");
-				String manufacturer = airplane.getAttribute("Manufacturer");
+				String code = airport.getAttribute("Code");
+				String name = airport.getAttribute("Name");
 				
 				/* Contains the 1st Class & Coach seat nodes */
-				NodeList airplaneNodeChildren = airplaneNode.getChildNodes();
+				NodeList airportNodeChildren = airportNode.getChildNodes();
 
-				/* 2nd child is the First Class Seat Node */
-				String firstClassSeats = airplaneNodeChildren.item(1).getTextContent();
+				/* 2nd child is the Latitude Node */
+				String latitude = airportNodeChildren.item(1).getTextContent();
 				
-				/* 4th child is the Coach Seat Node */
-				String coachSeats = airplaneNodeChildren.item(3).getTextContent();
+				/* 4th child is the Longitude Node */
+				String longitude = airportNodeChildren.item(3).getTextContent();
 				
 				/* Adds the parsed airplane to the airplane list */
-				airplaneList.add(new Airplane(model, 
-						manufacturer, 
-						Integer.parseInt(firstClassSeats), 
-						Integer.parseInt(coachSeats)
+				airportList.add(new Airport(code, 
+						name, 
+						Float.parseFloat(latitude), 
+						Float.parseFloat(longitude)
 						));
 			}
 
@@ -119,7 +118,7 @@ public class AirplaneParser {
 	
 	@Override
 	public String toString() {
-		return "AirplaneParser extracted" + getNumOfAirplanes() + "airplanes from the XML";
+		return "AirportParser extracted" + this.getNumOfAirports() + "airports from the XML";
 	}
 
 	

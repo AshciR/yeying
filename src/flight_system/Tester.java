@@ -1,14 +1,30 @@
 package flight_system;
 
-import parsers.AirplaneParser;
+import parsers.*;
 
 public class Tester {
 
 	public static void main(String[] args) {
 		
-		testAirplaneParserClass();
+		testAirportParserClass();
+		
 	}
 
+	private static void testAirportParserClass() {
+		
+		System.out.println("\nAirportParser Tester");
+		
+		/* Make an Airport Parser */
+		AirportParser aParse = new AirportParser();
+		aParse.parseAirportXML();  // Parses the XML
+		
+		/* Print the number of Airports */
+		System.out.println("There are " + aParse.getNumOfAirports() + " airports.\n" );	
+		
+		aParse.printAirportList(); // Prints the list of airplanes
+	}
+	
+	@SuppressWarnings("unused")
 	private static void testAirplaneParserClass() {
 		
 		System.out.println("\nAirplaneParser Tester");
