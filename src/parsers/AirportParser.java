@@ -10,6 +10,7 @@ package parsers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -45,7 +46,40 @@ public class AirportParser {
 	public int getNumOfAirports() {
 		return this.airportList.size();
 	}
-		
+
+	/* Return the airport from the list that corresponds with the code */
+	public Airport getAirport(String code){
+
+		boolean notFound = true;  // used determine if an airport was found 
+		Airport airport = null; // holds the airport that matches the code
+
+		/* Iterator object for the airplane list */
+		ListIterator<Airport> airportIterator = airportList.listIterator();
+
+		/* Search this list until the airplane with the model is found */
+		do {
+
+			try {
+				airport = airportIterator.next(); // get the next Airport in the list
+				/* If the model matches, set the notFound flag to false */
+				if (airport.getCode().equalsIgnoreCase(code)) {
+					notFound = false; 
+				}
+			} catch (Exception e) {
+				/* No such element (Airplane) found */
+				airport = null;
+				notFound = true; 
+			}
+
+
+		} while (notFound); // end while loop
+
+		return airport; // Return the airport that matches the code
+						// Will return null if there's no match
+
+	}
+	
+	
 	/* Prints the airplane list */
 	public void printAirportList(){
 		System.out.println("Printing the Airport XML data:");
