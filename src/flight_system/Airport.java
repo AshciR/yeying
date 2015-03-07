@@ -12,21 +12,17 @@ public class Airport {
 	/* The Fields */
 	private String code;
 	private String name;
-	private float latitude;
-	private float longitude;
+	private Location location;
 	
 	/**
-	 * @param code the 3 digit code of the airport
-	 * @param name the official name for the airport
-	 * @param latitude the latitude of the airport xx.xxxxx
-	 * @param longitude the longitude of the airport xx.xxxxx
+	 * @param code the airport's 3 letter code
+	 * @param name the airport's name
+	 * @param location the airport's location
 	 */
-	/* The constructor */
-	public Airport(String code, String name, float latitude, float longitude) {
+	public Airport(String code, String name, Location location) {
 		this.code = code;
 		this.name = name;
-		this.latitude = latitude;
-		this.longitude = longitude;
+		this.location = location;
 	}
 	
 	/* The getter methods */
@@ -38,19 +34,17 @@ public class Airport {
 		return name;
 	}
 
-	public float getLatitude() {
-		return latitude;
-	}
-
-	public float getLongitude() {
-		return longitude;
+	public Location getLocation() {
+		return location;
 	}
 
 	@Override
 	public String toString() {
-		return "Airport [code=" + code + ", name=" + name + ", latitude="
-				+ latitude + ", longitude=" + longitude + "]";
+		return "Airport [code=" + code + ", name=" + name + ", location="
+				+ location + "]";
 	}
+
+
 	
 	
 }

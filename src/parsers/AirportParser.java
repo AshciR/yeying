@@ -92,12 +92,11 @@ public class AirportParser {
 				/* 4th child is the Longitude Node */
 				String longitude = airportNodeChildren.item(3).getTextContent();
 				
+				Location location = new Location(Double.parseDouble(latitude),
+												 Double.parseDouble(longitude));
+				
 				/* Adds the parsed airplane to the airplane list */
-				airportList.add(new Airport(code, 
-						name, 
-						Float.parseFloat(latitude), 
-						Float.parseFloat(longitude)
-						));
+				airportList.add(new Airport(code, name, location));
 			}
 
 		/* Exceptions required by the Parser */	
