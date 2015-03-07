@@ -6,7 +6,7 @@ public class Tester {
 
 	public static void main(String[] args) {
 		
-		testAirportParserClass();
+		testAirplaneParserClass();
 		
 	}
 	
@@ -24,21 +24,6 @@ public class Tester {
 		System.out.println(testLoc.getLongitude());
 	}
 	
-	private static void testAirportParserClass() {
-		
-		System.out.println("\nAirportParser Tester");
-		
-		/* Make an Airport Parser */
-		AirportParser aParse = new AirportParser();
-		aParse.parseAirportXML();  // Parses the XML
-		
-		/* Print the number of Airports */
-		System.out.println("There are " + aParse.getNumOfAirports() + " airports.\n" );	
-		
-		aParse.printAirportList(); // Prints the list of airplanes
-	}
-	
-	@SuppressWarnings("unused")
 	private static void testAirplaneParserClass() {
 		
 		System.out.println("\nAirplaneParser Tester");
@@ -51,6 +36,19 @@ public class Tester {
 		System.out.println("There are " + aParse.getNumOfAirplanes() + " airplanes.\n" );	
 		
 		aParse.printAirplaneList(); // Prints the list of airplanes
+		
+		System.out.println();
+		System.out.println("Looking for Airplane Model 'A310'");
+		System.out.println("Found " + aParse.getAirplane("A310").toString());
+		
+		System.out.println();
+		System.out.println("Looking for Airplane Model '777'");
+		System.out.println("Found " + aParse.getAirplane("777").toString());
+		
+		System.out.println();
+		System.out.println("Looking for Airplane Model 'ABC'");
+		System.out.println("Found " + aParse.getAirplane("ABC").toString());
+		
 	}
 	
 	@SuppressWarnings("unused")

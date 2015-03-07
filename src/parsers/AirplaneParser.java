@@ -11,6 +11,7 @@ package parsers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -46,7 +47,39 @@ public class AirplaneParser {
 	public int getNumOfAirplanes() {
 		return this.airplaneList.size();
 	}
+	
+	/* Return the airplane from the list that corresponds with the model number */
+	public Airplane getAirplane(String model){
 		
+		boolean notFound = true;  // used determine if a model was found 
+		Airplane airplane = null; // holds the airplane that matches the model
+		
+		/* Iterator object for the airplane list */
+		ListIterator<Airplane> airplaneIterator = airplaneList.listIterator();
+		
+		/* Search this list until the airplane with the model is found */
+		do {
+
+			try {
+				airplane = airplaneIterator.next(); // get the next Airplane in the list
+				/* If the model matches, set the notFound flag to false */
+				if (airplane.getModel().equalsIgnoreCase(model)) {
+					notFound = false; 
+				}
+			} catch (Exception e) {
+				/* No such element (Airplane) found */
+				airplane = null;
+				notFound = true; 
+			}
+			
+	
+		} while (notFound); // end while loop
+
+		return airplane; // Return the airplane that matches the model
+						 // Will return null if there's no match
+		
+	}
+	
 	/* Prints the airplane list */
 	public void printAirplaneList(){
 		System.out.println("Printing the Airplane XML data:");
