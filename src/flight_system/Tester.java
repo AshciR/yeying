@@ -1,12 +1,20 @@
 package flight_system;
 
+import java.io.IOException;
+
 import parsers.*;
 
 public class Tester {
 
 	public static void main(String[] args) {
-	
-		testAirportParserClass();
+		
+		/* This method needs a try block */
+		try {
+			testXMLGetter();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -24,6 +32,7 @@ public class Tester {
 		System.out.println(testLoc.getLongitude());
 	}
 	
+	@SuppressWarnings("unused")
 	private static void testAirportParserClass() {
 
 		System.out.println("\nAirplaneParser Tester");
@@ -121,4 +130,26 @@ public class Tester {
 		System.out.println();
 	}
 
+	private static void testXMLGetter() throws IOException {
+		
+		System.out.println("Testing XMLGetter Class");
+
+		XMLGetter test = new XMLGetter(); // create the test object
+		
+		System.out.println("\n"+ test.getAirportsXML()); // the XML String
+		System.out.println(test.toString()); // Print how many XMLs have been gotten
+		
+		/* Turns the XML String into an XML file */
+		java.io.FileWriter fw = new java.io.FileWriter("test-airports.xml");
+		fw.write(test.getAirportsXML());
+		fw.close();
+		
+		
+		System.out.println("\n"+test.getAirportsXML()); // the XML String
+		System.out.println(test.toString()); // 3 XMLs should have been gotten
+	
+	}
+		
+	
 }
+
