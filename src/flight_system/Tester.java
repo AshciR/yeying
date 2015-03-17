@@ -8,13 +8,7 @@ public class Tester {
 
 	public static void main(String[] args) {
 		
-		/* This method needs a try block */
-		try {
-			testXMLGetter();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		testFlightParserClass();
 		
 	}
 	
@@ -96,6 +90,16 @@ public class Tester {
 		
 	}
 	
+	private static void testFlightParserClass() {
+
+		System.out.println("\nFLightParser Tester");
+
+		/* Make an Flight Parser */
+		FlightParser aParse = new FlightParser();
+		aParse.parseFlightXML();  // Parses the XML
+	}
+
+	
 	@SuppressWarnings("unused")
 	private static void testAirPortClass(){
 		System.out.println("\nAirport Tester");
@@ -130,6 +134,7 @@ public class Tester {
 		System.out.println();
 	}
 
+	@SuppressWarnings("unused")
 	private static void testXMLGetter() throws IOException {
 		
 		System.out.println("Testing XMLGetter Class");
