@@ -92,7 +92,7 @@ public class Tester {
 	
 	private static void testFlightParserClass() {
 
-		System.out.println("\nFLightParser Tester");
+		System.out.println("FLightParser Tester\n");
 
 		/* Make an Flight Parser */
 		FlightParser aParse = new FlightParser();

@@ -124,73 +124,64 @@ public class FlightParser {
 				String flightTime = flight.getAttribute("FlightTime");
 				String flightNum = flight.getAttribute("Number");
 				
-				/* Contains the 1st Class & Coach seat nodes */
+				/* Contains the Flight Node children */
 				NodeList flightNodeChildren = flightNode.getChildNodes();
 				
 				/* -- Departure Data -- */
 				
-				/* 3rd child is the Departure Airport Text Node */
-				String depAirPortCode = flightNodeChildren.item(2).getTextContent();
+				/* Get the children of the departure node */
+				NodeList deptNodeChild = flightNodeChildren.item(1).getChildNodes();
 				
-				/* 5th child is the Departure Time Text Node */
-				String depTime = flightNodeChildren.item(4).getTextContent();
+				/* 2nd child is the Departure Airport Text Node */
+				String depAirPortCode = deptNodeChild.item(1).getTextContent();
+				
+				/* 4th child is the Departure Time Text Node */
+				String depTime = deptNodeChild.item(3).getTextContent();
 				
 				/* -------------------- */
 				
 				/* -- Arrival Data -- */
 				
-				/* 8th child is the Arrival Airport Text Node */
-				String arrAirPortCode = flightNodeChildren.item(7).getTextContent();
-				
-				/* 10th child is the Arrival Time Text Node */
-				String arrTime = flightNodeChildren.item(9).getTextContent();
-				
-				/* ------------------ */
-				
+				/* Get the children of the arrival node */
+				NodeList arrNodeChild = flightNodeChildren.item(3).getChildNodes();
+
+				/* 2nd child is the Departure Airport Text Node */
+				String arrAirPortCode = arrNodeChild.item(1).getTextContent();
+
+				/* 4th child is the Departure Time Text Node */
+				String arrTime = arrNodeChild.item(3).getTextContent();
+
+				/* ------------------ */ 
+	
 				/* -- Seating Data -- */
+			
+				/* Get the children of the seating node */
+				NodeList seatNodeChild = flightNodeChildren.item(5).getChildNodes();
 				
-				/* The 12th node is the First Class Element */
-				Element firstClassPrice = (Element) flightNodeChildren.item(11);
+				/* 2nd child is the First Class Node, which is an Element */
+				Element firstClassSeat = (Element) seatNodeChild.item(1);
 				
 				/* Get the Flight's First Class Seat Price */
-				String firstPrice = firstClassPrice.getAttribute("Price");
+				String firstPrice = firstClassSeat.getAttribute("Price");
 				
-				/* The 13th node is the number of seats available in First Class*/
-				String firstClassSeats = flightNodeChildren.item(12).getTextContent();
+				/* Get the number of seats available in First Class */
+				String firstClassSeats = seatNodeChild.item(1).getTextContent();
 				
-				/* The 14th node is the Coach Class Element */
-				Element coachClassPrice = (Element) flightNodeChildren.item(13);
+				/* 4th child is the Coach Class Node, which is an Element */
+				Element coachClassSeat = (Element) seatNodeChild.item(3);
 				
 				/* Get the Flight's Coach Class Seat Price */
-				String coachPrice = coachClassPrice.getAttribute("Price");
+				String coachPrice = coachClassSeat.getAttribute("Price");
 				
-				/* The 15th node is the number of seats available in Coach Class*/
-				String coachClassSeats = flightNodeChildren.item(14).getTextContent();
+				/* Get the number of seats available in First Class */
+				String coachClassSeats = seatNodeChild.item(3).getTextContent();
 				
 				/* ------------------- */
 				
-				/* Used to test if Parser Works */
-				System.out.println("FLight Plane: " + airplaneModel);
-				System.out.println("FLight Time: " + flightTime);
-				System.out.println("FLight Number: " + flightNum);
-				System.out.println();
-				
-				System.out.println("Departure Info");
-				System.out.println("Dept. Airport: " + depAirPortCode);
-				System.out.println("Dept. Time:" + depTime);
-				System.out.println();
-				
-				System.out.println("Arrival Info:");
-				System.out.println("Arrival Airport: " + arrAirPortCode);
-				System.out.println("Dept. Time: " + arrTime);
-				System.out.println();
-				
-				System.out.println("Seating Info:");
-				System.out.println("First Class Price: " + firstPrice);
-				System.out.println("First Class Seats: " + firstClassSeats);
-				System.out.println("Coach Class Price: " + coachPrice);
-				System.out.println("Coach Class Seats: " + coachClassSeats);
-				System.out.println();
+				/* Was used to test the method */
+				printFlights(airplaneModel, flightTime, flightNum, depAirPortCode, 
+							 depTime, arrAirPortCode, arrTime, firstPrice, 
+							 firstClassSeats, coachPrice, coachClassSeats);
 				
 				// TODO -- Make the Flight Object, when the Flight Class is done
 //				/* Adds the parsed airplane to the airplane list */
@@ -210,6 +201,35 @@ public class FlightParser {
 			e.printStackTrace();
 		}
 
+	}
+
+	private void printFlights(String airplaneModel, String flightTime,
+			String flightNum, String depAirPortCode, String depTime,
+			String arrAirPortCode, String arrTime, String firstPrice,
+			String firstClassSeats, String coachPrice, String coachClassSeats) {
+		
+		System.out.println("FLight Plane: " + airplaneModel);
+		System.out.println("FLight Time: " + flightTime);
+		System.out.println("FLight Number: " + flightNum);
+		System.out.println();
+
+		System.out.println("Departure Info");
+		System.out.println("Dept. Airport: " + depAirPortCode);
+		System.out.println("Dept. Time: " + depTime);
+		System.out.println();
+
+		System.out.println("Arrival Info:");
+		System.out.println("Arrival Airport: " + arrAirPortCode);
+		System.out.println("Dept. Time: " + arrTime);
+		System.out.println();
+
+		System.out.println("Seating Info:");
+		System.out.println("First Class Price: " + firstPrice);
+		System.out.println("First Class Seats: " + firstClassSeats);
+		System.out.println("Coach Class Price: " + coachPrice);
+		System.out.println("Coach Class Seats: " + coachClassSeats);
+		System.out.println();
+		System.out.println("-------------------");
 	}
 
 	// TODO -- Re-implement when ready.
