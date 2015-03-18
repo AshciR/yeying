@@ -29,14 +29,22 @@ public class AirportParser {
 	/* List to hold the airplanes parsed from the XML */
 	private ArrayList<Airport> airportList; 
 	
-	/**
-	 * @param the constructor creates an empty 
-	 *        list that is used to hold a the parsed airplanes
-	 */
-	public AirportParser() {
-		this.airportList = new ArrayList<Airport>();
-	}
+	private static AirportParser firstInstance = null;
 	
+	/* The private constructor makes a list of the Airplanes */
+	private AirportParser(){
+		this.airportList = new ArrayList<Airport>();
+	};
+	
+	/* Method to get the only instance of the class */
+	public static AirportParser getInstance(){
+		if(firstInstance == null){
+			firstInstance = new AirportParser();
+		}
+
+		return firstInstance;
+	}
+		
 	/* Returns a list of the parsed airplanes */
 	public ArrayList<Airport> getAirportList() {
 		return airportList;

@@ -30,12 +30,20 @@ public class AirplaneParser {
 	/* List to hold the airplanes parsed from the XML */
 	private ArrayList<Airplane> airplaneList; 
 	
-	/**
-	 * @param the constructor creates an empty 
-	 *        list that is used to hold a the parsed airplanes
-	 */
-	public AirplaneParser() {
+	private static AirplaneParser firstInstance = null;
+	
+	/* The private constructor makes a list of the Airplanes */
+	private AirplaneParser(){
 		this.airplaneList = new ArrayList<Airplane>();
+	};
+	
+	/* Method to get the only instance of the class */
+	public static AirplaneParser getInstance(){
+		if(firstInstance == null){
+			firstInstance = new AirplaneParser();
+		}
+
+		return firstInstance;
 	}
 	
 	/* Returns a list of the parsed airplanes */

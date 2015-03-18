@@ -32,7 +32,7 @@ public class Tester {
 		System.out.println("\nAirplaneParser Tester");
 
 		/* Make an Airplane Parser */
-		AirportParser aParse = new AirportParser();
+		AirportParser aParse = AirportParser.getInstance();
 		aParse.parseAirportXML();  // Parses the XML
 
 		/* Print the number of Airplanes */
@@ -68,7 +68,7 @@ public class Tester {
 		System.out.println("\nAirplaneParser Tester");
 		
 		/* Make an Airplane Parser */
-		AirplaneParser aParse = new AirplaneParser();
+		AirplaneParser aParse = AirplaneParser.getInstance();
 		aParse.parseAirplaneXML();  // Parses the XML
 		
 		/* Print the number of Airplanes */
