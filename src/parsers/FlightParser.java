@@ -136,18 +136,29 @@ public class FlightParser {
 				String depAirPortCode = deptNodeChild.item(1).getTextContent();
 				
 				/* 4th child is the Departure Time Text Node */
-				String depTime = deptNodeChild.item(3).getTextContent();
+				String depTimeNode = deptNodeChild.item(3).getTextContent();
 				
-				/* Array to hold the delimited departure time data */
-				String[] depTimeData = depTime.split(" ");
+				/* Array to hold the delimited departure time and date data */
+				String[] depTimeNodeData = depTimeNode.split(" ");
 				
 				/* Variables to hold the year, month, and day */
-				int dYear = Integer.parseInt(depTimeData[0]);
-				Month dMonth = Month.valueOf(depTimeData[1]);
-				int dDay = Integer.parseInt(depTimeData[2]);
+				int dYear = Integer.parseInt(depTimeNodeData[0]);
+				Month dMonth = Month.valueOf(depTimeNodeData[1]);
+				int dDay = Integer.parseInt(depTimeNodeData[2]);
 				
-				/* Making a date object */
+				/* Make the departure date object */
 				Date depDate = new Date(dMonth, dDay, dYear);
+				
+				/* Array to hold the delimited departure time data */
+				String[] timeDep = depTimeNodeData[3].split(":");
+				@SuppressWarnings("unused")
+				int dHour = Integer.parseInt(timeDep[0]);
+				@SuppressWarnings("unused")
+				int dMins = Integer.parseInt(timeDep[1]);
+				
+				/* Make the departure Time object */
+				// -- TODO -- 
+				// Time depTime = new Time(dHour, dMins);
 				
 				/* -------------------- */
 				
@@ -160,18 +171,29 @@ public class FlightParser {
 				String arrAirPortCode = arrNodeChild.item(1).getTextContent();
 
 				/* 4th child is the Departure Time Text Node */
-				String arrTime = arrNodeChild.item(3).getTextContent();
+				String arrTimeNode = arrNodeChild.item(3).getTextContent();
 				
 				/* Array to hold the delimited departure time data */
-				String[] arrTimeData = arrTime.split(" ");
+				String[] arrTimeNodeData = arrTimeNode.split(" ");
 				
 				/* Variables to hold the year, month, and day */
-				int arYear = Integer.parseInt(arrTimeData[0]);
-				Month arMonth = Month.valueOf(arrTimeData[1]);
-				int arDay = Integer.parseInt(arrTimeData[2]);
+				int arYear = Integer.parseInt(arrTimeNodeData[0]);
+				Month arMonth = Month.valueOf(arrTimeNodeData[1]);
+				int arDay = Integer.parseInt(arrTimeNodeData[2]);
 				
-				/* Making a date object */
+				/* Making the arrival date object */
 				Date arrDate = new Date(arMonth, arDay, arYear);
+				
+				/* Array to hold the delimited departure time data */
+				String[] timeArr = arrTimeNodeData[3].split(":");
+				@SuppressWarnings("unused")
+				int aHour = Integer.parseInt(timeArr[0]);
+				@SuppressWarnings("unused")
+				int aMins = Integer.parseInt(timeArr[1]);
+				
+				/* Make the departure Time object */
+				// -- TODO -- 
+				// Time depTime = new Time(aHour, aMins);
 
 				/* ------------------ */ 
 	
@@ -224,7 +246,8 @@ public class FlightParser {
 		}
 
 	}
-
+	
+	/* Prints the Flight information as String Data */
 	private void printFlights(String airplaneModel, String flightTime,
 			String flightNum, String depAirPortCode, Date depDate,
 			String arrAirPortCode, Date arrDate, String firstPrice,

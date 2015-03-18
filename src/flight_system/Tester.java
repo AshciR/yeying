@@ -8,8 +8,6 @@ public class Tester {
 
 	public static void main(String[] args) {
 
-		testFlightParserClass();
-
 	}
 	
 	@SuppressWarnings("unused")
@@ -90,6 +88,7 @@ public class Tester {
 		
 	}
 	
+	@SuppressWarnings("unused")
 	private static void testFlightParserClass() {
 
 		System.out.println("FLightParser Tester\n");
