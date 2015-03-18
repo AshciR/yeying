@@ -138,6 +138,17 @@ public class FlightParser {
 				/* 4th child is the Departure Time Text Node */
 				String depTime = deptNodeChild.item(3).getTextContent();
 				
+				/* Array to hold the delimited departure time data */
+				String[] depTimeData = depTime.split(" ");
+				
+				/* Variables to hold the year, month, and day */
+				int dYear = Integer.parseInt(depTimeData[0]);
+				Month dMonth = Month.valueOf(depTimeData[1]);
+				int dDay = Integer.parseInt(depTimeData[2]);
+				
+				/* Making a date object */
+				Date depDate = new Date(dMonth, dDay, dYear);
+				
 				/* -------------------- */
 				
 				/* -- Arrival Data -- */
@@ -150,6 +161,17 @@ public class FlightParser {
 
 				/* 4th child is the Departure Time Text Node */
 				String arrTime = arrNodeChild.item(3).getTextContent();
+				
+				/* Array to hold the delimited departure time data */
+				String[] arrTimeData = arrTime.split(" ");
+				
+				/* Variables to hold the year, month, and day */
+				int arYear = Integer.parseInt(arrTimeData[0]);
+				Month arMonth = Month.valueOf(arrTimeData[1]);
+				int arDay = Integer.parseInt(arrTimeData[2]);
+				
+				/* Making a date object */
+				Date arrDate = new Date(arMonth, arDay, arYear);
 
 				/* ------------------ */ 
 	
@@ -180,7 +202,7 @@ public class FlightParser {
 				
 				/* Was used to test the method */
 				printFlights(airplaneModel, flightTime, flightNum, depAirPortCode, 
-							 depTime, arrAirPortCode, arrTime, firstPrice, 
+							 depDate, arrAirPortCode, arrDate, firstPrice, 
 							 firstClassSeats, coachPrice, coachClassSeats);
 				
 				// TODO -- Make the Flight Object, when the Flight Class is done
@@ -204,8 +226,8 @@ public class FlightParser {
 	}
 
 	private void printFlights(String airplaneModel, String flightTime,
-			String flightNum, String depAirPortCode, String depTime,
-			String arrAirPortCode, String arrTime, String firstPrice,
+			String flightNum, String depAirPortCode, Date depDate,
+			String arrAirPortCode, Date arrDate, String firstPrice,
 			String firstClassSeats, String coachPrice, String coachClassSeats) {
 		
 		System.out.println("FLight Plane: " + airplaneModel);
@@ -215,12 +237,12 @@ public class FlightParser {
 
 		System.out.println("Departure Info");
 		System.out.println("Dept. Airport: " + depAirPortCode);
-		System.out.println("Dept. Time: " + depTime);
+		System.out.println("Dept. Date: " + depDate);
 		System.out.println();
 
 		System.out.println("Arrival Info:");
 		System.out.println("Arrival Airport: " + arrAirPortCode);
-		System.out.println("Dept. Time: " + arrTime);
+		System.out.println("Arrv. Date: " + arrDate);
 		System.out.println();
 
 		System.out.println("Seating Info:");
@@ -238,7 +260,7 @@ public class FlightParser {
 //		return "AirportParser extracted" + this.getNumOfAirports() + "airports from the XML";
 //	}
 
-	
+
 
 }
 
