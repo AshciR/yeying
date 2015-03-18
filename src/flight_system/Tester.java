@@ -7,19 +7,7 @@ import parsers.*;
 public class Tester {
 
 	public static void main(String[] args) {
-<<<<<<< HEAD
 		testDateClass();
-=======
-		
-		/* This method needs a try block */
-		try {
-			testXMLGetter();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	 
->>>>>>> c75cac1b5bd2e63ad2aff7504211e1c7158c014a
 	}
 	
 	@SuppressWarnings("unused")
