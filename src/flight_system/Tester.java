@@ -7,9 +7,9 @@ import parsers.*;
 public class Tester {
 
 	public static void main(String[] args) {
-		
+
 		testFlightParserClass();
-		
+
 	}
 	
 	@SuppressWarnings("unused")
@@ -155,6 +155,24 @@ public class Tester {
 	
 	}
 		
-	
+	@SuppressWarnings("unused")
+	private static void testDateClass(){
+		System.out.println("Testing Date Class");
+		
+		/* Making a Date object called test */
+		Date test = new Date(Month.November,21,1991);
+		
+		/* Printing the Date */
+		System.out.println(test.toString());
+		
+		/* Printing the month, day, and year of the object */
+		System.out.println("The Month of this Date object is£º" + test.getMonth());
+		System.out.println("The Day of this Date object is£º" + test.getDay());
+		System.out.println("The Year of this Date object is£º" + test.getYear());
+		
+		Date richardBday = new Date(Month.August,22,1990);
+		System.out.println("Richard is born in the month of: " + richardBday.getMonth());
+
+	}
 }
 
