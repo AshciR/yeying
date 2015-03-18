@@ -193,7 +193,7 @@ public class FlightParser {
 				
 				/* Make the departure Time object */
 				// -- TODO -- 
-				// Time depTime = new Time(aHour, aMins);
+				// Time arrTime = new Time(aHour, aMins);
 
 				/* ------------------ */ 
 	
