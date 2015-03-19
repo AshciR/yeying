@@ -7,7 +7,7 @@ import parsers.*;
 public class Tester {
 
 	public static void main(String[] args) {
-
+		
 	}
 	
 	@SuppressWarnings("unused")
@@ -98,7 +98,6 @@ public class Tester {
 		aParse.parseFlightXML();  // Parses the XML
 	}
 
-	
 	@SuppressWarnings("unused")
 	private static void testAirPortClass(){
 		System.out.println("\nAirport Tester");
