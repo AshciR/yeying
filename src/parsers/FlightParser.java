@@ -32,6 +32,9 @@ public class FlightParser {
 	/* Used hold the airplanes that were parsed from the XML */
 	private AirplaneParser airplanes;
 	
+	/* Used hold the airports that were parsed from the XML */
+	private AirportParser airports;
+	
 	/**
 	 * @param the constructor creates an empty 
 	 *        list that is used to hold a the parsed airplanes
@@ -40,64 +43,62 @@ public class FlightParser {
 		
 		 this.flightLegList = new ArrayList<FlightLeg>();
 		 this.airplanes = AirplaneParser.getInstance();
+		 this.airports = AirportParser.getInstance();
 		 
 	}
 	
-	// TODO
 	/* Returns a list of the parsed airplanes */
-//	public ArrayList<Airport> getFlightList() {
-//		return airportList;
-//	}
+	public ArrayList<FlightLeg> getFlightList() {
+		return flightLegList;
+	}
 	
-	// TODO
-//	/* Returns the number of airplanes in the list */
-//	public int getNumOfAirports() {
-//		return this.airportList.size();
-//	}
+	/* Returns the number of airplanes in the list */
+	public int getNumOfFlights() {
+		return this.flightLegList.size();
+	}
 	
-	// TODO
-//	/* Return the airport from the list that corresponds with the code */
-//	public Airport getAirport(String code){
-//
-//		boolean notFound = true;  // used determine if an airport was found 
-//		Airport airport = null; // holds the airport that matches the code
-//
-//		/* Iterator object for the airplane list */
-//		ListIterator<Airport> airportIterator = airportList.listIterator();
-//
-//		/* Search this list until the airplane with the model is found */
-//		do {
-//
-//			try {
-//				airport = airportIterator.next(); // get the next Airport in the list
-//				/* If the model matches, set the notFound flag to false */
-//				if (airport.getCode().equalsIgnoreCase(code)) {
-//					notFound = false; 
-//				}
-//			} catch (Exception e) {
-//				/* No such element (Airplane) found */
-//				airport = null;
-//				notFound = true; 
-//			}
-//
-//
-//		} while (notFound); // end while loop
-//
-//		return airport; // Return the airport that matches the code
-//						// Will return null if there's no match
-//
-//	}
+
+	/* Return the flight from the list that corresponds with the flight number */
+	public FlightLeg getFlight(int flightNum){
+
+		boolean notFound = true;  // used determine if a flight was found 
+		FlightLeg flight = null; // holds the flight that matches the number
+
+		/* Iterator object for the airplane list */
+		ListIterator<FlightLeg> flightIterator = flightLegList.listIterator();
+
+		/* Search this list until the airplane with the model is found */
+		do {
+
+			try {
+				flight = flightIterator.next(); // get the next flight in the list
+				/* If the flight number matches, set the notFound flag to false */
+				if (flight.getFlightNum() == flightNum) {
+					notFound = false; 
+				}
+			} catch (Exception e) {
+				/* No such element (Airplane) found */
+				flight = null;
+				notFound = true; 
+			}
+
+
+		} while (notFound); // end while loop
+
+		return flight; // Return the flight that matches the number
+						// Will return null if there's no match
+
+	}
 	
-	// TODO
-//	/* Prints the airplane list */
-//	public void printAirportList(){
-//		System.out.println("Printing the Airport XML data:");
-//		/* Print each Airplanes in the list */
-//		for (int i = 0; i < airportList.size(); i++) {
-//			System.out.println(this.airportList.get(i).toString());
-//		}
-//
-//	}
+	/* Prints the flight list */
+	public void printFlightList(){
+		System.out.println("Printing the Flight XML data:");
+		/* Print each flight in the list */
+		for (int i = 0; i < flightLegList.size(); i++) {
+			System.out.println(this.flightLegList.get(i).toString());
+		}
+
+	}
 
 	/* Static Method used to parse the airplane XML */
 	public void parseFlightXML() {
@@ -124,10 +125,17 @@ public class FlightParser {
 				/* I know this node is an element, so can cast it as such */
 				Element flight = (Element) flightNode;
 				
-				/* Get the Flight's Airplane, FLight Time, and Flight Number */
+				/* Get the Flight's Airplane*/
 				String airplaneModel = flight.getAttribute("Airplane");
+				Airplane airplane = airplanes.getAirplane(airplaneModel);
+				
+				/* Get the Flight's duration */ 
 				String flightTime = flight.getAttribute("FlightTime");
+				int flightDur = Integer.parseInt(flightTime);
+				
+				/* Get Flight Number */
 				String flightNum = flight.getAttribute("Number");
+				int fgtNum = Integer.parseInt(flightNum);
 				
 				/* Contains the Flight Node children */
 				NodeList flightNodeChildren = flightNode.getChildNodes();
@@ -139,6 +147,7 @@ public class FlightParser {
 				
 				/* 2nd child is the Departure Airport Text Node */
 				String depAirPortCode = deptNodeChild.item(1).getTextContent();
+				Airport depAirport = airports.getAirport(depAirPortCode);
 				
 				/* 4th child is the Departure Time Text Node */
 				String depTimeNode = deptNodeChild.item(3).getTextContent();
@@ -171,6 +180,7 @@ public class FlightParser {
 
 				/* 2nd child is the Departure Airport Text Node */
 				String arrAirPortCode = arrNodeChild.item(1).getTextContent();
+				Airport arrAirport = airports.getAirport(arrAirPortCode);
 
 				/* 4th child is the Departure Time Text Node */
 				String arrTimeNode = arrNodeChild.item(3).getTextContent();
@@ -210,6 +220,7 @@ public class FlightParser {
 				
 				/* Get the number of seats available in First Class */
 				String firstClassSeats = seatNodeChild.item(1).getTextContent();
+				int firstClassAvail = Integer.parseInt(firstClassSeats);
 				
 				/* 4th child is the Coach Class Node, which is an Element */
 				Element coachClassSeat = (Element) seatNodeChild.item(3);
@@ -220,21 +231,19 @@ public class FlightParser {
 				
 				/* Get the number of seats available in First Class */
 				String coachClassSeats = seatNodeChild.item(3).getTextContent();
-				
+				int coachClassAvail = Integer.parseInt(coachClassSeats);
+
 				/* ------------------- */
 				
-				
-				
-				/* Was used to test the method */
-				printFlights(airplaneModel, flightTime, flightNum, depAirPortCode, 
-							 depDate, arrAirPortCode, arrDate, firstPriceString, 
-							 firstClassSeats, coachPriceString, coachClassSeats);
-				
 				/* Makes the FlightLeg Object */
-				FlightLeg flightLeg = new FlightLeg(null, aMins, aMins, depTime, arrDate, null, depTime, arrDate, null, coachPrice, aMins, coachPrice, aMins)
-				
-				/* Adds the parsed airplane to the airplane list */
+				FlightLeg flightLeg = new FlightLeg(airplane, fgtNum, flightDur, 
+													depTime, depDate, depAirport, 
+													arrTime, arrDate, arrAirport, 
+													firstPrice, firstClassAvail, 
+													coachPrice, coachClassAvail);
 			
+				/* Adds the parsed airplane to the airplane list */
+				flightLegList.add(flightLeg);
 			}
 
 		/* Exceptions required by the Parser */	
@@ -253,6 +262,7 @@ public class FlightParser {
 	}
 	
 	/* Prints the Flight information as String Data */
+	@SuppressWarnings("unused")
 	private void printFlights(String airplaneModel, String flightTime,
 			String flightNum, String depAirPortCode, Date depDate,
 			String arrAirPortCode, Date arrDate, String firstPrice,
@@ -282,11 +292,10 @@ public class FlightParser {
 		System.out.println("-------------------");
 	}
 
-	// TODO -- Re-implement when ready.
-//	@Override
-//	public String toString() {
-//		return "AirportParser extracted" + this.getNumOfAirports() + "airports from the XML";
-//	}
+	@Override
+	public String toString() {
+		return "FlightParser extracted" + this.getNumOfFlights() + "flights from the XML";
+	}
 
 
 
