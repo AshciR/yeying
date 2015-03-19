@@ -7,7 +7,7 @@ import parsers.*;
 public class Tester {
 
 	public static void main(String[] args) {
-		
+		testFlightLegClass();
 	}
 	
 	@SuppressWarnings("unused")
@@ -175,7 +175,7 @@ public class Tester {
 	
 	@SuppressWarnings("unused")
 	private static void testTimeClass(){
-		System.out.println("Testing Time Class");
+		System.out.println("Testing Time Class\n");
 		
 		Time test = new Time(20,58);
 		
@@ -188,6 +188,36 @@ public class Tester {
 		System.out.println("The time in minutes is : "+test.getTimeInMinutes());
 		System.out.println("The hour in 12 hour format is : "+test.getHoursIn12());
 		System.out.println("The time is in AM : "+test.isAM());
+	}
+	
+	private static void testFlightLegClass(){
+		System.out.println("Testing Flight Leg Class\n");
+		
+		/* Make an airplane for the flight */
+		Airplane airplane = new Airplane("774", "Airbus", 20, 50);
+		
+		/* -- Departure Info -- */
+		Time dTime = new Time(20,00);
+		Date dDate = new Date(Month.March,18,2015);
+		
+		/* Location of the Departing Airport and Airport  */
+		Location dLoc = new Location(33.641045,-84.427764);
+		Airport dAirport = new Airport("BOS", "Boston Logan", dLoc);
+		
+		/* -- Arrival Info -- */
+		Time aTime = new Time(21,15);
+		Date aDate = new Date(Month.March,18,2015);
+		
+		/* Location of the Arriving Airport and Airport  */
+		Location aLoc = new Location(33.641045,-84.427764);
+		Airport aAirport = new Airport("JFK", "John F. Kennedy International", aLoc);
+		
+		FlightLeg test = new FlightLeg(airplane, 2000, 300, dTime, dDate, dAirport, 
+										aTime, aDate, aAirport, 50.00, 15, 25.00, 25);
+		
+		/* Printing the Flight */
+		System.out.println(test.toString());
+		
 	}
 }
 

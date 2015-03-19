@@ -27,7 +27,10 @@ import flight_system.*;
 public class FlightParser {
 	
 	/* List to hold the flights parsed from the XML */
-	// TODO private ArrayList<Airport> airportList; 
+	private ArrayList<FlightLeg> flightLegList;
+	
+	/* Used hold the airplanes that were parsed from the XML */
+	private AirplaneParser airplanes;
 	
 	/**
 	 * @param the constructor creates an empty 
@@ -35,7 +38,9 @@ public class FlightParser {
 	 */
 	public FlightParser() {
 		
-		// TODO this.airportList = new ArrayList<Airport>();
+		 this.flightLegList = new ArrayList<FlightLeg>();
+		 this.airplanes = AirplaneParser.getInstance();
+		 
 	}
 	
 	// TODO
@@ -151,14 +156,11 @@ public class FlightParser {
 				
 				/* Array to hold the delimited departure time data */
 				String[] timeDep = depTimeNodeData[3].split(":");
-				@SuppressWarnings("unused")
 				int dHour = Integer.parseInt(timeDep[0]);
-				@SuppressWarnings("unused")
 				int dMins = Integer.parseInt(timeDep[1]);
 				
 				/* Make the departure Time object */
-				// -- TODO -- 
-				// Time depTime = new Time(dHour, dMins);
+				  Time depTime = new Time(dHour, dMins);
 				
 				/* -------------------- */
 				
@@ -186,14 +188,11 @@ public class FlightParser {
 				
 				/* Array to hold the delimited departure time data */
 				String[] timeArr = arrTimeNodeData[3].split(":");
-				@SuppressWarnings("unused")
 				int aHour = Integer.parseInt(timeArr[0]);
-				@SuppressWarnings("unused")
 				int aMins = Integer.parseInt(timeArr[1]);
 				
-				/* Make the departure Time object */
-				// -- TODO -- 
-				// Time arrTime = new Time(aHour, aMins);
+				/* Make the arrival Time object */
+				Time arrTime = new Time(aHour, aMins);
 
 				/* ------------------ */ 
 	
@@ -206,7 +205,8 @@ public class FlightParser {
 				Element firstClassSeat = (Element) seatNodeChild.item(1);
 				
 				/* Get the Flight's First Class Seat Price */
-				String firstPrice = firstClassSeat.getAttribute("Price");
+				String firstPriceString = firstClassSeat.getAttribute("Price");
+				Double firstPrice = Double.parseDouble(firstPriceString);
 				
 				/* Get the number of seats available in First Class */
 				String firstClassSeats = seatNodeChild.item(1).getTextContent();
@@ -215,21 +215,26 @@ public class FlightParser {
 				Element coachClassSeat = (Element) seatNodeChild.item(3);
 				
 				/* Get the Flight's Coach Class Seat Price */
-				String coachPrice = coachClassSeat.getAttribute("Price");
+				String coachPriceString = coachClassSeat.getAttribute("Price");
+				Double coachPrice = Double.parseDouble(coachPriceString);
 				
 				/* Get the number of seats available in First Class */
 				String coachClassSeats = seatNodeChild.item(3).getTextContent();
 				
 				/* ------------------- */
 				
+				
+				
 				/* Was used to test the method */
 				printFlights(airplaneModel, flightTime, flightNum, depAirPortCode, 
-							 depDate, arrAirPortCode, arrDate, firstPrice, 
-							 firstClassSeats, coachPrice, coachClassSeats);
+							 depDate, arrAirPortCode, arrDate, firstPriceString, 
+							 firstClassSeats, coachPriceString, coachClassSeats);
 				
-				// TODO -- Make the Flight Object, when the Flight Class is done
-//				/* Adds the parsed airplane to the airplane list */
-//				airportList.add(new Airport(code, name, location));
+				/* Makes the FlightLeg Object */
+				FlightLeg flightLeg = new FlightLeg(null, aMins, aMins, depTime, arrDate, null, depTime, arrDate, null, coachPrice, aMins, coachPrice, aMins)
+				
+				/* Adds the parsed airplane to the airplane list */
+			
 			}
 
 		/* Exceptions required by the Parser */	
