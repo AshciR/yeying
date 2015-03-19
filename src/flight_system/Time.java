@@ -1,0 +1,47 @@
+/** Engineer: Daoheng Guo
+ * Date: March 18. 2015
+ * Description: Class used to represent time in hours and minutes
+ */
+package flight_system;
+
+public class Time {
+	private int hours;
+	private int minutes;
+	
+	public Time(int hours, int minutes) {
+		this.hours = hours;
+		this.minutes = minutes;
+	}
+
+	public int getHours() {
+		return hours;
+	}
+	
+	public int getMinutes() {
+		return minutes;
+	}
+	/* this function returns the time in minutes */
+	public int getTimeInMinutes(){
+		return hours*60+minutes;
+	}
+	
+	/* this function returns the hours in 12 hour format */
+	public int getHoursIn12(){
+		if(hours>12)
+		{
+			return hours-12;
+		}
+		else{
+			return hours;
+		}
+	}
+	/* this function returns true if it is AM */
+	public boolean isAM(){
+		return (hours < 12);
+	}
+	
+	@Override
+	public String toString() {
+		return "The Time is: "+ hours + ":" + minutes;
+	}
+}

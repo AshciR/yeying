@@ -7,7 +7,7 @@ import parsers.*;
 public class Tester {
 
 	public static void main(String[] args) {
-		testDateClass();
+		
 	}
 	
 	@SuppressWarnings("unused")
@@ -143,6 +143,7 @@ public class Tester {
 	
 	}
 		
+	@SuppressWarnings("unused")
 	private static void testDateClass(){
 		System.out.println("Testing Date Class");
 		
@@ -160,6 +161,23 @@ public class Tester {
 		Date richardBday = new Date(Month.August,22,1990);
 		System.out.println("Richard is born in the month of: " + richardBday.getMonth());
 
+	}
+	
+	@SuppressWarnings("unused")
+	private static void testTimeClass(){
+		System.out.println("Testing Time Class");
+		
+		Time test = new Time(20,58);
+		
+		/* Printing the Time */
+		System.out.println(test.toString());
+		
+		/* Printing the hours and minutes of the object */
+		System.out.println("The hour is : "+test.getHours());
+		System.out.println("The minutes are : "+test.getMinutes());
+		System.out.println("The time in minutes is : "+test.getTimeInMinutes());
+		System.out.println("The hour in 12 hour format is : "+test.getHoursIn12());
+		System.out.println("The time is in AM : "+test.isAM());
 	}
 }
 
