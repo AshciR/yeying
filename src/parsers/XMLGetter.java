@@ -23,7 +23,7 @@ public class XMLGetter {
 	
 	private static XMLGetter firstInstance = null;
 	
-	/* The private constructor makes a list of the Airplanes */
+	/* The private constructor */
 	private XMLGetter(){};
 	
 	/* Method to get the only instance of the class */
