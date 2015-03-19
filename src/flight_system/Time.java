@@ -42,6 +42,7 @@ public class Time {
 	
 	@Override
 	public String toString() {
-		return "The Time is: "+ hours + ":" + minutes;
+		/* Formats the time in HH:MM */
+		return "The Time is: "+ String.format("%02d", hours) + ":" + String.format("%02d", minutes);
 	}
 }

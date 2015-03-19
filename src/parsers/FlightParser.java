@@ -41,11 +41,16 @@ public class FlightParser {
 	 */
 	public FlightParser() {
 		
+		 /* Make an empty list to store the extracted flight legs */
 		 this.flightLegList = new ArrayList<FlightLeg>();
 		 
+		 /* Get the Airplane Parser object then parse then
+		  * XML to ensure you have the list of airplanes */
 		 this.airplanes = AirplaneParser.getInstance();
 		 this.airplanes.parseAirplaneXML();
 		 
+		 /* Get the Airport Parser object then parse then
+		  * XML to ensure you have the list of airplanes */
 		 this.airports = AirportParser.getInstance();
 		 this.airports.parseAirportXML();
 		 
@@ -61,7 +66,6 @@ public class FlightParser {
 		return this.flightLegList.size();
 	}
 	
-
 	/* Return the flight from the list that corresponds with the flight number */
 	public FlightLeg getFlight(int flightNum){
 
@@ -104,7 +108,7 @@ public class FlightParser {
 
 	}
 
-	/* Static Method used to parse the airplane XML */
+	/* Method used to parse the flight XML */
 	public void parseFlightXML() {
 
 		/* DOM Factory Builder */
