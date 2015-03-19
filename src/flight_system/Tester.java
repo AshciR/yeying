@@ -172,5 +172,22 @@ public class Tester {
 		System.out.println("Richard is born in the month of: " + richardBday.getMonth());
 
 	}
+	
+	@SuppressWarnings("unused")
+	private static void testTimeClass(){
+		System.out.println("Testing Time Class");
+		
+		Time test = new Time(20,58);
+		
+		/* Printing the Time */
+		System.out.println(test.toString());
+		
+		/* Printing the hours and minutes of the object */
+		System.out.println("The hour is : "+test.getHours());
+		System.out.println("The minutes are : "+test.getMinutes());
+		System.out.println("The time in minutes is : "+test.getTimeInMinutes());
+		System.out.println("The hour in 12 hour format is : "+test.getHoursIn12());
+		System.out.println("The time is in AM : "+test.isAM());
+	}
 }
 
