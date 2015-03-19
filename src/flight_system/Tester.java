@@ -7,7 +7,7 @@ import parsers.*;
 public class Tester {
 
 	public static void main(String[] args) {
-		
+
 	}
 	
 	@SuppressWarnings("unused")
@@ -160,7 +160,7 @@ public class Tester {
 		
 		System.out.println("Testing XMLGetter Class");
 
-		XMLGetter test = new XMLGetter(); // create the test object
+		XMLGetter test = XMLGetter.getInstance(); // create the test object
 		
 		System.out.println("\n"+ test.getAirportsXML()); // the XML String
 		System.out.println(test.toString()); // Print how many XMLs have been gotten

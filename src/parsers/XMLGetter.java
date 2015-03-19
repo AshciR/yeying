@@ -21,11 +21,20 @@ public class XMLGetter {
 	private int numXML; // Number of XMLs 
 	private String urlAddress = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem";
 	
-	/* Constructor */
-	public XMLGetter() {
-		
-	}
+	private static XMLGetter firstInstance = null;
 	
+	/* The private constructor makes a list of the Airplanes */
+	private XMLGetter(){};
+	
+	/* Method to get the only instance of the class */
+	public static XMLGetter getInstance(){
+		if(firstInstance == null){
+			firstInstance = new XMLGetter();
+		}
+
+		return firstInstance;
+	}
+		
 	/* Getter Functions*/
 	public String getTeamName() {
 		return teamName;
