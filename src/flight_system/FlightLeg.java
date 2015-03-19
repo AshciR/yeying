@@ -6,6 +6,9 @@
 
 package flight_system;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 public class FlightLeg {
 	
 	/* The Fields */
@@ -120,11 +123,16 @@ public class FlightLeg {
 
 	@Override
 	public String toString() {
+		
+		NumberFormat formatter = new DecimalFormat("#0.00");     
+		System.out.println(formatter.format(4.0));
+		
 		return "This flight leg number is: " + flightNum + " and the plane model is " + airplane.getModel() + ".\n" +
 			   "This flight leaves " + depatureAirport.getName() + " at " + departureTime.toString() + ".\n" +
 			   "It arrives at " + arrivalAirport.getName() + " at " + arrivalTime.toString() + ".\n" + 
 			   "First Class seats: " + firstClassSeatsAvail + " at $" + firstClassPrice + " per seat.\n" +
 			   "Coach Class seats: " + coachClassSeatsAvail + " at $" + coachClassPrice + " per seat.\n";
+		
 	}
 	
 	

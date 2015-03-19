@@ -7,7 +7,7 @@ import parsers.*;
 public class Tester {
 
 	public static void main(String[] args) {
-		testFlightLegClass();
+		
 	}
 	
 	@SuppressWarnings("unused")
@@ -61,6 +61,39 @@ public class Tester {
 	}
 	
 	@SuppressWarnings("unused")
+	private static void testFlightParserClass() {
+
+		System.out.println("\nFlightParser Tester");
+
+		/* Make an Flight Parser */
+		FlightParser fParse = new FlightParser();
+		fParse.parseFlightXML();  // Parses the XML
+
+		/* Print the number of Airplanes */
+		System.out.println("There are " + fParse.getNumOfFlights() + " flights.\n" );	
+
+		fParse.printFlightList(); // Prints the list of airports
+
+		System.out.println();
+		System.out.println("Looking for Flight with number '1781'\n");
+		System.out.println("Found it!: " + fParse.getFlight(1781).toString());
+
+		System.out.println();
+		System.out.println("Looking for Flight with number '1825'\n");
+		System.out.println("Found it!: " + fParse.getFlight(1825).toString());
+		
+		System.out.println();
+		System.out.println("Looking for Flight with number '1817'\n");
+		System.out.println("Found it!: " + fParse.getFlight(1817).toString());
+	
+		System.out.println();
+		System.out.println("Looking for Flight with number '9999'\n");
+		System.out.println("Found it!: " + fParse.getFlight(9999).toString());
+
+	}
+	
+	
+	@SuppressWarnings("unused")
 	private static void testAirplaneParserClass() {
 		
 		System.out.println("\nAirplaneParser Tester");
@@ -88,16 +121,6 @@ public class Tester {
 		
 	}
 	
-	@SuppressWarnings("unused")
-	private static void testFlightParserClass() {
-
-		System.out.println("FLightParser Tester\n");
-
-		/* Make an Flight Parser */
-		FlightParser aParse = new FlightParser();
-		aParse.parseFlightXML();  // Parses the XML
-	}
-
 	@SuppressWarnings("unused")
 	private static void testAirPortClass(){
 		System.out.println("\nAirport Tester");
@@ -190,6 +213,7 @@ public class Tester {
 		System.out.println("The time is in AM : "+test.isAM());
 	}
 	
+	@SuppressWarnings("unused")
 	private static void testFlightLegClass(){
 		System.out.println("Testing Flight Leg Class\n");
 		

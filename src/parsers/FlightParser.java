@@ -42,8 +42,12 @@ public class FlightParser {
 	public FlightParser() {
 		
 		 this.flightLegList = new ArrayList<FlightLeg>();
+		 
 		 this.airplanes = AirplaneParser.getInstance();
+		 this.airplanes.parseAirplaneXML();
+		 
 		 this.airports = AirportParser.getInstance();
+		 this.airports.parseAirportXML();
 		 
 	}
 	
@@ -216,6 +220,8 @@ public class FlightParser {
 				
 				/* Get the Flight's First Class Seat Price */
 				String firstPriceString = firstClassSeat.getAttribute("Price");
+				firstPriceString = firstPriceString.substring(1); // removes the $ sign
+				firstPriceString = firstPriceString.replace(",",""); // removes any ,
 				Double firstPrice = Double.parseDouble(firstPriceString);
 				
 				/* Get the number of seats available in First Class */
@@ -227,6 +233,8 @@ public class FlightParser {
 				
 				/* Get the Flight's Coach Class Seat Price */
 				String coachPriceString = coachClassSeat.getAttribute("Price");
+				coachPriceString = coachPriceString.substring(1); // removes the $ sign
+				coachPriceString = coachPriceString.replace(",",""); // removes any ,
 				Double coachPrice = Double.parseDouble(coachPriceString);
 				
 				/* Get the number of seats available in First Class */
