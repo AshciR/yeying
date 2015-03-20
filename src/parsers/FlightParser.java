@@ -85,9 +85,9 @@ public class FlightParser {
 					notFound = false; 
 				}
 			} catch (Exception e) {
-				/* No such element (Airplane) found */
+				/* No such element (Flight) found */
 				flight = null;
-				notFound = true; 
+				notFound = false; 
 			}
 
 

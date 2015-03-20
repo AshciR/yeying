@@ -61,10 +61,10 @@ public class AirportParser {
 		boolean notFound = true;  // used determine if an airport was found 
 		Airport airport = null; // holds the airport that matches the code
 
-		/* Iterator object for the airplane list */
+		/* Iterator object for the airport list */
 		ListIterator<Airport> airportIterator = airportList.listIterator();
 
-		/* Search this list until the airplane with the model is found */
+		/* Search this list until the airport with the code is found */
 		do {
 
 			try {
@@ -74,9 +74,9 @@ public class AirportParser {
 					notFound = false; 
 				}
 			} catch (Exception e) {
-				/* No such element (Airplane) found */
+				/* No such element (Airport) found */
 				airport = null;
-				notFound = true; 
+				notFound = false; 
 			}
 
 

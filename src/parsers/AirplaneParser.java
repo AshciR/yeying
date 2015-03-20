@@ -58,18 +58,18 @@ public class AirplaneParser {
 	
 	/* Return the airplane from the list that corresponds with the model number */
 	public Airplane getAirplane(String model){
-		
-		boolean notFound = true;  // used determine if a model was found 
-		Airplane airplane = null; // holds the airplane that matches the model
-		
+
+		boolean notFound = true;  // used determine if an airplane was found 
+		Airplane airplane = null; // holds the airplane that matches the code
+
 		/* Iterator object for the airplane list */
 		ListIterator<Airplane> airplaneIterator = airplaneList.listIterator();
-		
+
 		/* Search this list until the airplane with the model is found */
 		do {
 
 			try {
-				airplane = airplaneIterator.next(); // get the next Airplane in the list
+				airplane = airplaneIterator.next(); // get the next Airport in the list
 				/* If the model matches, set the notFound flag to false */
 				if (airplane.getModel().equalsIgnoreCase(model)) {
 					notFound = false; 
@@ -77,15 +77,15 @@ public class AirplaneParser {
 			} catch (Exception e) {
 				/* No such element (Airplane) found */
 				airplane = null;
-				notFound = true; 
+				notFound = false; 
 			}
-			
-	
+
+
 		} while (notFound); // end while loop
 
-		return airplane; // Return the airplane that matches the model
+		return airplane; // Return the airplane that matches the code
 						 // Will return null if there's no match
-		
+
 	}
 	
 	/* Prints the airplane list */

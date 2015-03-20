@@ -56,8 +56,12 @@ public class Tester {
 
 		System.out.println();
 		System.out.println("Looking for Airport with code 'XYZ'");
-		System.out.println("Found " + aParse.getAirport("XYZ").toString());
-
+		if ( aParse.getAirport("XYZ") != null ){
+			System.out.println("Found " + aParse.getAirport("XYZ").toString());
+		}
+		else{
+			System.out.println("Airport not Found.");
+		}	
 	}
 	
 	@SuppressWarnings("unused")
@@ -88,7 +92,12 @@ public class Tester {
 	
 		System.out.println();
 		System.out.println("Looking for Flight with number '9999'\n");
-		System.out.println("Found it!: " + fParse.getFlight(9999).toString());
+		if ( fParse.getFlight(9999) != null ){
+			System.out.println("Found " + fParse.getFlight(9999).toString());
+		}
+		else{
+			System.out.println("Flight not Found.");
+		}
 
 	}
 	
@@ -117,7 +126,12 @@ public class Tester {
 		
 		System.out.println();
 		System.out.println("Looking for Airplane Model 'ABC'");
-		System.out.println("Found " + aParse.getAirplane("ABC").toString());
+		if ( aParse.getAirplane("ABC") != null ){
+			System.out.println("Found " + aParse.getAirplane("ABC").toString());
+		}
+		else{
+			System.out.println("Airplane not Found.");
+		}
 		
 	}
 	
