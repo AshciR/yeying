@@ -175,14 +175,16 @@ public class Tester {
 
 	@SuppressWarnings("unused")
 	private static void testXMLGetter() throws IOException {
-		
+		Location testLoc = new Location(39.177641,-76.668446);
+		Airport depairport = new Airport("BOS","Logan",testLoc);
+		Date date = new Date(Month.May,10,2015);
 		System.out.println("Testing XMLGetter Class");
 
 		XMLGetter test = XMLGetter.getInstance(); // create the test object
 		
 		System.out.println("\n"+ test.getAirportsXML()); // the XML String for airports
 		System.out.println("\n"+ test.getAirplaneXML());// get the XML String for airplane
-		System.out.println("\n"+ test.getFlightsXML("departing","BOS", 5, 10, 2015));// the XML String for Flights
+		System.out.println("\n"+ test.getFlightsXML("departing",depairport,date));// the XML String for Flights
 		System.out.println(test.toString()); // Print how many XMLs have been gotten
 		
 		/* Turns the XML String into an XML file */
@@ -195,12 +197,12 @@ public class Tester {
 		fw1.close();
 		
 		java.io.FileWriter fw2 = new java.io.FileWriter("test-Flights.xml");
-		fw2.write(test.getFlightsXML("departing","BOS", 5, 10, 2015));
+		fw2.write(test.getFlightsXML("departing",depairport,date));
 		fw2.close();
 		
 		System.out.println("\n"+test.getAirportsXML()); // the XML String
 		System.out.println("\n"+test.getAirplaneXML());// the XML String for airplane
-		System.out.println("\n"+ test.getFlightsXML("departing","BOS", 5, 10, 2015));// the XML String for Flights
+		System.out.println("\n"+ test.getFlightsXML("departing",depairport,date));// the XML String for Flights
 		System.out.println(test.toString()); // 3 XMLs should have been gotten
 	
 	}

@@ -15,6 +15,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import flight_system.Airport;
 import flight_system.Date;
 import flight_system.Month;
 
@@ -176,7 +177,12 @@ public class XMLGetter {
 			return result.toString();
 	}
 
-	public  String getFlightsXML (String type, String code,  int month, int day, int year){
+	public  String getFlightsXML (String type, Airport airport, Date date){
+		String code = airport.getCode();
+		int year = date.getYear();
+		int day = date.getDay();
+		Month m = date.getMonth();
+		int month = m.ordinal() + 1;
 		URL url;
 		HttpURLConnection connection;
 		BufferedReader reader;
@@ -184,7 +190,7 @@ public class XMLGetter {
 		StringBuffer result = new StringBuffer();
 		
 		try{
-			url = new URL(urlAddress + "?team="+teamName+"&action=list&list_type="+type+"&airport=" + code + "&day=" + year + "_" + month + "_" + day);
+			url = new URL(urlAddress + "?team="+teamName+"&action=list&list_type="+type+"&airport=" + code + "&day=" + year + "_"+month+"_" + day);
 				
 			/* Open Connection and send GET request */
 			connection = (HttpURLConnection) url.openConnection();
@@ -234,8 +240,7 @@ public class XMLGetter {
 			catch(Exception e){
 				e.printStackTrace();
 			}
-			
-			
+
 			return result.toString();
 	}
 
