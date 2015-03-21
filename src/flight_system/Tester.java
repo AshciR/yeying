@@ -135,6 +135,10 @@ public class Tester {
 		
 	}
 	
+	
+	
+	
+	
 	@SuppressWarnings("unused")
 	private static void testAirPortClass(){
 		System.out.println("\nAirport Tester");
@@ -176,7 +180,9 @@ public class Tester {
 
 		XMLGetter test = XMLGetter.getInstance(); // create the test object
 		
-		System.out.println("\n"+ test.getAirportsXML()); // the XML String
+		System.out.println("\n"+ test.getAirportsXML()); // the XML String for airports
+		System.out.println("\n"+ test.getAirplaneXML());// get the XML String for airplane
+		System.out.println("\n"+ test.getFlightsXML("departing","BOS", 5, 10, 2015));// the XML String for Flights
 		System.out.println(test.toString()); // Print how many XMLs have been gotten
 		
 		/* Turns the XML String into an XML file */
@@ -184,8 +190,17 @@ public class Tester {
 		fw.write(test.getAirportsXML());
 		fw.close();
 		
+		java.io.FileWriter fw1 = new java.io.FileWriter("test-airplane.xml");
+		fw1.write(test.getAirplaneXML());
+		fw1.close();
+		
+		java.io.FileWriter fw2 = new java.io.FileWriter("test-Flights.xml");
+		fw2.write(test.getFlightsXML("departing","BOS", 5, 10, 2015));
+		fw2.close();
 		
 		System.out.println("\n"+test.getAirportsXML()); // the XML String
+		System.out.println("\n"+test.getAirplaneXML());// the XML String for airplane
+		System.out.println("\n"+ test.getFlightsXML("departing","BOS", 5, 10, 2015));// the XML String for Flights
 		System.out.println(test.toString()); // 3 XMLs should have been gotten
 	
 	}
