@@ -185,6 +185,7 @@ public class Tester {
 		System.out.println("\n"+ test.getAirportsXML()); // the XML String for airports
 		System.out.println("\n"+ test.getAirplaneXML());// get the XML String for airplane
 		System.out.println("\n"+ test.getFlightsXML("departing",depairport,date));// the XML String for Flights
+		System.out.println("\n"+ test.resetDB());// get the XML String for reset database
 		System.out.println(test.toString()); // Print how many XMLs have been gotten
 		
 		/* Turns the XML String into an XML file */
@@ -203,6 +204,7 @@ public class Tester {
 		System.out.println("\n"+test.getAirportsXML()); // the XML String
 		System.out.println("\n"+test.getAirplaneXML());// the XML String for airplane
 		System.out.println("\n"+ test.getFlightsXML("departing",depairport,date));// the XML String for Flights
+		System.out.println("\n"+ test.resetDB());// get the XML String for reset database
 		System.out.println(test.toString()); // 3 XMLs should have been gotten
 	
 	}
