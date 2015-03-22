@@ -70,70 +70,7 @@ public class XMLGetter {
 			/* If The connection was successful */
 			if((responseCode >= 200) && (responseCode <= 299)){
 				
-				System.out.println("Connection Sucessful!"); // Shows successful connection
-				
-				/* Setup the input stream */
-				InputStream inputStream = connection.getInputStream();
-				String encoding = connection.getContentEncoding();
-				encoding = (encoding == null ? "URF-8" : encoding);
-				
-				/* This code just copies the String from the Server */
-				reader = new BufferedReader(new InputStreamReader(inputStream));
-				while ((line = reader.readLine()) != null){
-					result.append(line);
-				}
-				reader.close();
-				
-				/* Increment XML Count by one */
-				this.numXML++; 
-				
-			}
-			/* Else the response was not valid */
-			else if (responseCode == 403){
-				System.out.println("Invalid team name!");
-			}
-			else if (responseCode == 400){
-				System.out.println("Missing or Invalid action");
-			}
-			else{
-				System.out.println("Unknown connection error");
-			}
-		}	
-			
-			/* Needs to catch these exceptions */
-			catch(IOException e){
-				e.printStackTrace();
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
-			
-			
-			return result.toString();
-	}
-
-	public  String resetDB (){
-		URL url;
-		HttpURLConnection connection;
-		BufferedReader reader;
-		String line;
-		StringBuffer result = new StringBuffer();
-		
-		try{
-			url = new URL(urlAddress + "?team=TeamYeYing&action=resetDB");
-				
-			/* Open Connection and send GET request */
-			connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("GET");
-			
-			/* The response code given by the server*/
-			int responseCode = connection.getResponseCode(); 
-			System.out.println("\nThe Response Code is: " + responseCode);
-			
-			/* If The connection was successful */
-			if((responseCode >= 200) && (responseCode <= 299)){
-				
-				System.out.println("Connection Sucessful!"); // Shows successful connection
+				System.out.println("Getting Airport Info..."); // Shows successful connection
 				
 				/* Setup the input stream */
 				InputStream inputStream = connection.getInputStream();
@@ -196,7 +133,7 @@ public class XMLGetter {
 			/* If The connection was successful */
 			if((responseCode >= 200) && (responseCode <= 299)){
 				
-				System.out.println("Connection Sucessful!"); // Shows successful connection
+				System.out.println("Getting Airplane Info..."); // Shows successful connection
 				
 				/* Setup the input stream */
 				InputStream inputStream = connection.getInputStream();
@@ -266,7 +203,7 @@ public class XMLGetter {
 			/* If The connection was successful */
 			if((responseCode >= 200) && (responseCode <= 299)){
 				
-				System.out.println("Connection Sucessful!"); // Shows successful connection
+				System.out.println("Getting Flight Info..."); // Shows successful connection
 				
 				/* Setup the input stream */
 				InputStream inputStream = connection.getInputStream();
@@ -306,7 +243,47 @@ public class XMLGetter {
 
 			return result.toString();
 	}
-
+	
+	public  void resetDB (){
+		URL url;
+		HttpURLConnection connection;
+		
+		try{
+			url = new URL(urlAddress + "?team=TeamYeYing&action=resetDB");
+				
+			/* Open Connection and send GET request */
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			
+			/* The response code given by the server*/
+			int responseCode = connection.getResponseCode(); 
+			System.out.println("\nThe Response Code is: " + responseCode);
+			
+			/* If The connection was successful */
+			if((responseCode >= 200) && (responseCode <= 299)){
+				System.out.println("Resetting the Database."); // Shows successful connection
+			}
+			/* Else the response was not valid */
+			else if (responseCode == 403){
+				System.out.println("Invalid team name!");
+			}
+			else if (responseCode == 400){
+				System.out.println("Missing or Invalid action");
+			}
+			else{
+				System.out.println("Unknown connection error");
+			}
+		}	
+			
+			/* Needs to catch these exceptions */
+			catch(IOException e){
+				e.printStackTrace();
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+			
+	}
 
 	public String toString() {
 		return "This is an XMLGetter that has the team name: " + teamName + " and it has gotten " + numXML + " XML file(s)";
