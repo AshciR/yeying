@@ -122,7 +122,7 @@ public class XMLGetter {
 		StringBuffer result = new StringBuffer();
 		
 		try{
-			url = new URL(urlAddress + "?team="+teamName+"&action=list&list_type=airplanes");
+			url = new URL(urlAddress + "?team="+ teamName + "&action=list&list_type=airplanes");
 				
 			/* Open Connection and send GET request */
 			connection = (HttpURLConnection) url.openConnection();
@@ -178,19 +178,21 @@ public class XMLGetter {
 	}
 
 	public  String getFlightsXML (String type, Airport airport, Date date){
-		String code = airport.getCode();
-		int year = date.getYear();
-		int day = date.getDay();
-		Month m = date.getMonth();
-		int month = m.ordinal() + 1;
 		URL url;
 		HttpURLConnection connection;
 		BufferedReader reader;
 		String line;
 		StringBuffer result = new StringBuffer();
 		
+		/* Variables used in the URL address */
+		String code = airport.getCode();
+		int year = date.getYear();
+		int day = date.getDay();
+		Month m = date.getMonth();
+		int month = m.ordinal() + 1;
+		
 		try{
-			url = new URL(urlAddress + "?team="+teamName+"&action=list&list_type="+type+"&airport=" + code + "&day=" + year + "_"+month+"_" + day);
+			url = new URL(urlAddress + "?team="+ teamName + "&action=list&list_type="+ type +"&airport=" + code + "&day=" + year + "_" + month + "_" + day);
 				
 			/* Open Connection and send GET request */
 			connection = (HttpURLConnection) url.openConnection();
