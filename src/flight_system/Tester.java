@@ -135,10 +135,6 @@ public class Tester {
 		
 	}
 	
-	
-	
-	
-	
 	@SuppressWarnings("unused")
 	private static void testAirPortClass(){
 		System.out.println("\nAirport Tester");
@@ -175,6 +171,8 @@ public class Tester {
 
 	@SuppressWarnings("unused")
 	private static void testXMLGetter() throws IOException {
+		
+		/* Builds the test data */
 		Location testLoc = new Location(39.177641,-76.668446);
 		Airport depairport = new Airport("BOS","Logan",testLoc);
 		Date date = new Date(Month.May,10,2015);
@@ -185,8 +183,9 @@ public class Tester {
 		System.out.println("\n"+ test.getAirportsXML()); // the XML String for airports
 		System.out.println("\n"+ test.getAirplaneXML());// get the XML String for airplane
 		System.out.println("\n"+ test.getFlightsXML("departing",depairport,date));// the XML String for Flights
-		System.out.println("\n"+ test.resetDB());// get the XML String for reset database
 		System.out.println(test.toString()); // Print how many XMLs have been gotten
+		
+		System.out.println("\n"+ test.resetDB());// test resetting database
 		
 		/* Turns the XML String into an XML file */
 		java.io.FileWriter fw = new java.io.FileWriter("test-airports.xml");
@@ -204,8 +203,8 @@ public class Tester {
 		System.out.println("\n"+test.getAirportsXML()); // the XML String
 		System.out.println("\n"+test.getAirplaneXML());// the XML String for airplane
 		System.out.println("\n"+ test.getFlightsXML("departing",depairport,date));// the XML String for Flights
-		System.out.println("\n"+ test.resetDB());// get the XML String for reset database
-		System.out.println(test.toString()); // 3 XMLs should have been gotten
+		System.out.println("\n"+ test.resetDB());// test resetting database
+		System.out.println(test.toString()); // 9 XMLs should have been gotten
 	
 	}
 		
@@ -220,9 +219,9 @@ public class Tester {
 		System.out.println(test.toString());
 		
 		/* Printing the month, day, and year of the object */
-		System.out.println("The Month of this Date object is£º" + test.getMonth());
-		System.out.println("The Day of this Date object is£º" + test.getDay());
-		System.out.println("The Year of this Date object is£º" + test.getYear());
+		System.out.println("The Month of this Date object isÂ£Âº" + test.getMonth());
+		System.out.println("The Day of this Date object isÂ£Âº" + test.getDay());
+		System.out.println("The Year of this Date object isÂ£Âº" + test.getYear());
 		
 		Date richardBday = new Date(Month.August,22,1990);
 		System.out.println("Richard is born in the month of: " + richardBday.getMonth());
