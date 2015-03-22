@@ -15,6 +15,9 @@ public class XMLPutter {
 	
 	private static XMLPutter firstInstance = null;
 	
+	/* The private constructor */
+	private XMLPutter(){};
+	
 	/* Method to get the only instance of the class */
 	public static XMLPutter getInstance(){
 		if(firstInstance == null){
