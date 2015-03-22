@@ -11,6 +11,7 @@ public class XMLPutter {
 	private String teamName = "TeamYeYing"; // Team Name
 	private int numXML; // Number of XMLs 
 	private String urlAddress = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem";
+	private int ticketsBought;
 	
 	private static XMLPutter firstInstance = null;
 	
@@ -34,6 +35,10 @@ public class XMLPutter {
 	public int getNumXML() {
 		return numXML;
 	}
+	
+	public int getTicketsBought() {
+		return ticketsBought;
+	}	
 	
 	/*Lock the Database*/
 	public boolean lockDB(){
@@ -190,6 +195,8 @@ public class XMLPutter {
 				
 				System.out.println(response.toString());
 				
+				ticketsBought++;
+				
 				return true;
 			}
 			/* Else the response was not valid */
@@ -220,6 +227,12 @@ public class XMLPutter {
 		}
 		
 	}
+
+	@Override
+	public String toString() {
+		return "This is an XMLPutter that has the team name: " + teamName + " and it has bought " + ticketsBought + " ticket(s)";
+	}
+	
 	
 	
 		
