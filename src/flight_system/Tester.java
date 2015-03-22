@@ -7,17 +7,18 @@ import parsers.*;
 public class Tester {
 
 	public static void main(String[] args) {
-<<<<<<< HEAD
 
-=======
 		System.out.println("Testing XMLPutter Class");
 
 		XMLPutter test = XMLPutter.getInstance(); // create the test object
-		boolean unlock=test.unlockDB();
-		if(unlock==true){
-			System.out.println("unlock test is successful!");
-		}
->>>>>>> 9ca17ad595cd43b25a2f6566ef996ce674aae916
+		
+		System.out.println(test.makeTicket(9999, true));
+		
+		//		boolean unlock=test.unlockDB();
+//		if(unlock==true){
+//			System.out.println("unlock test is successful!");
+//		}
+
 	}
 	
 	@SuppressWarnings("unused")

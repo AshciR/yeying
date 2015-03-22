@@ -1,10 +1,8 @@
 package parsers;
+
 import java.io.BufferedReader;
-
-import flight_system.*;
-
 import java.io.IOException;
-import java.io.InputStream;
+
 import java.io.InputStreamReader;
 import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
@@ -14,7 +12,6 @@ public class XMLPutter {
 	private String teamName = "TeamYeYing"; // Team Name
 	private int numXML; // Number of XMLs 
 	private String urlAddress = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem";
-	private FlightLeg flightleg;
 	
 	private static XMLPutter firstInstance = null;
 	
@@ -177,29 +174,31 @@ public class XMLPutter {
 		return true;
 	}
 	
-	/*make a ticket with the fight number */
-	public String makeTicket(int number){
-		 FlightParser flight=new FlightParser();
-		 flightleg=flight.getFlight(number);
-		 //int firstclassNum=flightleg.getAirplane().getFirstClassSeats();
-		 //int coachNum=flightleg.getAirplane().getCoachSeats();
-		 //String para="&flightData=<Flights><Flight number="+"\""+number+"\""+" seating="+"\""+"CoachSeat"+"\""+" /></Flights>";
+	/* Make a ticket with the fight number */
+	public String makeTicket(int number, boolean firstClass){
 		
-		 String para="&flightData=<Flights><Flight number="+"\""+number+"\""+" seating="+"\""+"FirstClass"+"\""+" />"
-		 +"<Flight number="+"\""+number+"\""+" seating="+"\""+"FirstClass"+"\""+" /></Flights>";
-		 return para;
-	}
-	
-	public void resetDB(){
+		/* Flight String looks like this. */
+		/*		 
+		<Flights>
+		   <Flight number=Ò1781Ó seating=ÒFirstClassÓ />
+		   <Flight number=Ò1782Ó seating=ÒFirstClassÓ />
+		</Flights>
+		*/
 		
+		String seat; // holds either First Class or Coach String
+		
+		/* Set the seat String */
+		if (firstClass) {
+			seat = "FirstClass";
+		}
+		else{
+			seat = "Coach";
+		}
+		
+		/* The ticket XML */
+		String ticket = "<Flights><Flight number="+"\""+ number +"\""+" seating="+"\""+seat+"\""+" /></Flights>";
+				 
+		 return ticket;
 	}
-	
-	public static void main(String[] args) throws IOException {
-		System.out.println("Testing XMLPutter Class");
-		XMLPutter test = XMLPutter.getInstance(); // create the test object
-//		test.lockDB();
-		test.unlockDB();
-//		
-		//test.buyTicket();	
-	}
+		
 }
