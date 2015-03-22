@@ -7,7 +7,7 @@ import parsers.*;
 public class Tester {
 
 	public static void main(String[] args) {
-		
+
 	}
 	
 	@SuppressWarnings("unused")
@@ -185,7 +185,7 @@ public class Tester {
 		System.out.println("\n"+ test.getFlightsXML("departing",depairport,date));// the XML String for Flights
 		System.out.println(test.toString()); // Print how many XMLs have been gotten
 		
-		System.out.println("\n"+ test.resetDB());// test resetting database
+		test.resetDB();// test resetting database
 		
 		/* Turns the XML String into an XML file */
 		java.io.FileWriter fw = new java.io.FileWriter("test-airports.xml");
@@ -203,7 +203,7 @@ public class Tester {
 		System.out.println("\n"+test.getAirportsXML()); // the XML String
 		System.out.println("\n"+test.getAirplaneXML());// the XML String for airplane
 		System.out.println("\n"+ test.getFlightsXML("departing",depairport,date));// the XML String for Flights
-		System.out.println("\n"+ test.resetDB());// test resetting database
+		test.resetDB();// test resetting database
 		System.out.println(test.toString()); // 9 XMLs should have been gotten
 	
 	}
