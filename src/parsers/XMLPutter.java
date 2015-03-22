@@ -134,8 +134,8 @@ public class XMLPutter {
 		/* Flight String looks like this. */
 		/*		 
 		<Flights>
-		   <Flight number=Ò1781Ó seating=ÒFirstClassÓ />
-		   <Flight number=Ò1782Ó seating=ÒFirstClassÓ />
+		   <Flight number=Ã’1781Ã“ seating=Ã’FirstClassÃ“ />
+		   <Flight number=Ã’1782Ã“ seating=Ã’FirstClassÃ“ />
 		</Flights>
 		*/
 		
@@ -203,7 +203,7 @@ public class XMLPutter {
 				System.out.println("Missing or Invalid action");
 				return false;
 			}
-			else if (responseCode == 4012){
+			else if (responseCode == 412){
 				System.out.println("Unsuccessful: Our team did not have the lock.");
 				return false;
 			}
