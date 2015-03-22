@@ -49,7 +49,7 @@ public class XMLPutter {
 			connection.setDoInput(true);
 			
 			DataOutputStream writer=new DataOutputStream(connection.getOutputStream());
-			writer.writeBytes( "team="+teamName+"&action=lockDB");
+			writer.writeBytes("team="+teamName+"&action=lockDB");
 			writer.flush();
 			writer.close();
 			
@@ -58,7 +58,7 @@ public class XMLPutter {
 			System.out.println("\nResponse Code:"+ responseCode);
 			
 			if((responseCode>=200)&&(responseCode<=299)){
-				System.out.println("lock the Database successfully!");
+				System.out.println("Locked the Database successfully!");
 				BufferedReader in=new BufferedReader(new InputStreamReader(connection.getInputStream()));
 				String line;
 				StringBuffer response=new StringBuffer();
@@ -89,7 +89,6 @@ public class XMLPutter {
 		HttpURLConnection connection;
 		
 		try{
-			//url = new URL(urlAddress+"?team="+teamName+"&action=unlockDB");
 			url = new URL(urlAddress);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
@@ -97,7 +96,7 @@ public class XMLPutter {
 			connection.setDoInput(true);
 			
 			DataOutputStream writer=new DataOutputStream(connection.getOutputStream());
-			writer.writeBytes( "team="+teamName+"&action=unlockDB");
+			writer.writeBytes("team="+teamName+"&action=unlockDB");
 			writer.flush();
 			writer.close();
 			
@@ -106,7 +105,7 @@ public class XMLPutter {
 			System.out.println("\nResponse Code:"+ responseCode);
 			
 			if((responseCode>=200)&&(responseCode<=299)){
-				System.out.println("unlock the Database successfully!");
+				System.out.println("Unlocked the Database successfully!");
 				BufferedReader in=new BufferedReader(new InputStreamReader(connection.getInputStream()));
 				String line;
 				StringBuffer response=new StringBuffer();
@@ -137,8 +136,8 @@ public class XMLPutter {
 		/* Flight String looks like this. */
 		/*		 
 		<Flights>
-		   <Flight number=Ò1781Ó seating=ÒFirstClassÓ />
-		   <Flight number=Ò1782Ó seating=ÒFirstClassÓ />
+		   <Flight number="1781" seating="FirstClass" />
+		   <Flight number="1782" seating="FirstClass" />
 		</Flights>
 		*/
 		
@@ -157,71 +156,6 @@ public class XMLPutter {
 				 
 		 return ticket;
 	}
-	
-	/*Reset the Database*/
-	public String resetDB(){
-		URL url;
-		HttpURLConnection connection;
-		BufferedReader reader;
-		String line;
-		StringBuffer result = new StringBuffer();
-		
-		try{
-			url = new URL(urlAddress + "?team="+teamName+"&action=resetDB");
-				
-			/* Open Connection and send GET request */
-			connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("GET");
-			
-			/* The response code given by the server*/
-			int responseCode = connection.getResponseCode(); 
-			System.out.println("\nThe Response Code is: " + responseCode);
-			
-			/* If The connection was successful */
-			if((responseCode >= 200) && (responseCode <= 299)){
-				
-				System.out.println("Reset the Database"); // Shows successful connection
-				
-				/* Setup the input stream */
-				InputStream inputStream = connection.getInputStream();
-				String encoding = connection.getContentEncoding();
-				encoding = (encoding == null ? "URF-8" : encoding);
-				
-				/* This code just copies the String from the Server */
-				reader = new BufferedReader(new InputStreamReader(inputStream));
-				while ((line = reader.readLine()) != null){
-					result.append(line);
-				}
-				reader.close();
-				
-				/* Increment XML Count by one */
-				this.numXML++; 
-				
-			}
-			/* Else the response was not valid */
-			else if (responseCode == 403){
-				System.out.println("Invalid team name!");
-			}
-			else if (responseCode == 400){
-				System.out.println("Missing or Invalid action");
-			}
-			else{
-				System.out.println("Unknown connection error");
-			}
-		}	
-			
-			/* Needs to catch these exceptions */
-			catch(IOException e){
-				e.printStackTrace();
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
-			
-			
-			return result.toString();
-	}
-	
 	
 	/* Buying a ticket */
 	public boolean buyTicket(String ticket){
