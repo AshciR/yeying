@@ -7,7 +7,13 @@ import parsers.*;
 public class Tester {
 
 	public static void main(String[] args) {
-		
+		System.out.println("Testing XMLPutter Class");
+
+		XMLPutter test = XMLPutter.getInstance(); // create the test object
+		boolean unlock=test.unlockDB();
+		if(unlock==true){
+			System.out.println("unlock test is successful!");
+		}
 	}
 	
 	@SuppressWarnings("unused")
@@ -257,5 +263,30 @@ public class Tester {
 		System.out.println(test.toString());
 		
 	}
+	
+private static void testXMLPutter() throws IOException {
+		
+		System.out.println("Testing XMLPutter Class");
+
+		XMLPutter test = XMLPutter.getInstance(); // create the test object
+		boolean unlock=test.unlockDB();
+		if(unlock==true){
+			System.out.println("unlock test is successful!");
+		}
+		
+//		System.out.println("\n"+ test.getAirportsXML()); // the XML String
+//		System.out.println(test.toString()); // Print how many XMLs have been gotten
+//		
+//		/* Turns the XML String into an XML file */
+//		java.io.FileWriter fw = new java.io.FileWriter("test-airports.xml");
+//		fw.write(test.getAirportsXML());
+//		fw.close();
+		
+		
+//		System.out.println("\n"+test.getAirportsXML()); // the XML String
+//		System.out.println(test.toString()); // 3 XMLs should have been gotten
+	
+	}
 }
+
 
