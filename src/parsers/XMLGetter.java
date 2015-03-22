@@ -49,7 +49,7 @@ public class XMLGetter {
 	}
 	
 	/* Returns the XML for the Airports */
-	public  String getAirportsXML (){
+	public String getAirportsXML (){
 		URL url;
 		HttpURLConnection connection;
 		BufferedReader reader;
@@ -244,24 +244,27 @@ public class XMLGetter {
 			return result.toString();
 	}
 	
-	public  void resetDB (){
+	/* Resets the Database */
+	public boolean resetDB(){
 		URL url;
 		HttpURLConnection connection;
-		
+		boolean wasReset = false; // Returns true if successful reset
+
 		try{
 			url = new URL(urlAddress + "?team=TeamYeYing&action=resetDB");
-				
+
 			/* Open Connection and send GET request */
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
-			
+
 			/* The response code given by the server*/
 			int responseCode = connection.getResponseCode(); 
 			System.out.println("\nThe Response Code is: " + responseCode);
-			
+
 			/* If The connection was successful */
 			if((responseCode >= 200) && (responseCode <= 299)){
 				System.out.println("Resetting the Database."); // Shows successful connection
+				wasReset = true;
 			}
 			/* Else the response was not valid */
 			else if (responseCode == 403){
@@ -274,15 +277,16 @@ public class XMLGetter {
 				System.out.println("Unknown connection error");
 			}
 		}	
-			
-			/* Needs to catch these exceptions */
-			catch(IOException e){
-				e.printStackTrace();
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
-			
+
+		/* Needs to catch these exceptions */
+		catch(IOException e){
+			e.printStackTrace();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return wasReset;
 	}
 
 	public String toString() {

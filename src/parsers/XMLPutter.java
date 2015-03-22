@@ -2,7 +2,6 @@ package parsers;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
@@ -164,10 +163,7 @@ public class XMLPutter {
 		
 		try{
 			url = new URL(urlAddress);
-			
-			/* Test to see the URL that gets produced */
-			System.out.println(url);
-			
+				
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
 			connection.setDoOutput(true);

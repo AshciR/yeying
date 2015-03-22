@@ -8,8 +8,6 @@ public class Tester {
 
 	public static void main(String[] args) throws IOException {
 
-		Tester test=new Tester();
-		test.testXMLPutter();
 
 	}
 	
@@ -103,7 +101,6 @@ public class Tester {
 		}
 
 	}
-	
 	
 	@SuppressWarnings("unused")
 	private static void testAirplaneParserClass() {
@@ -279,22 +276,33 @@ public class Tester {
 		
 	}
 	
-private static void testXMLPutter() throws IOException {
+@SuppressWarnings("unused")
+private static void testXMLPutter() {
 		
 	System.out.println("Testing XMLPutter Class");
+	
+	/* Reset the DB in before you purchase flight */
+	XMLGetter resetter = XMLGetter.getInstance();
+	resetter.resetDB();
 
 	XMLPutter test = XMLPutter.getInstance(); // create the test object
 	
-	String testTicket = test.makeTicket(1781, true);
+	/* Make a ticket for the test case */
+	String testTicket = test.makeTicket(1781, true); // Flight 1781 FirstClass
+	
+	System.out.println("\nThe ticket info is:");
 	System.out.println(testTicket);
+	
+	/* Lock the database before we purchase the ticket */
 	test.lockDB();
 	test.buyTicket(testTicket);
-	test.resetDB();
+	
+	/* Unlock after the purchase */
 	test.unlockDB();
 	
-	//		boolean unlock=test.unlockDB();
-//	if(unlock==true){
-//		System.out.println("unlock test is successful!");
+	/* Reset the DB to default state */
+	resetter.resetDB();
+	
 	}
 }
 
