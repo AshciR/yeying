@@ -12,7 +12,10 @@ public class Tester {
 
 		XMLPutter test = XMLPutter.getInstance(); // create the test object
 		
-		System.out.println(test.makeTicket(9999, true));
+		String testTicket = test.makeTicket(1781, true);
+		System.out.println(testTicket);
+		
+		test.buyTicket(testTicket);
 		
 		//		boolean unlock=test.unlockDB();
 //		if(unlock==true){

@@ -2,7 +2,6 @@ package parsers;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-
 import java.io.InputStreamReader;
 import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
@@ -129,54 +128,6 @@ public class XMLPutter {
 		return true;
 	}
 
-	public boolean buyTicket (){
-		URL url;
-		HttpURLConnection connection;
-		
-		try{
-			url = new URL(urlAddress+"?team="+teamName+"&action=buyTickets&flightData=<Flights><Flight number="+"\""+1781+"\""+" seating="+"\""+"FirstClass"+"\""+" />"
-					 +"<Flight number="+"\""+1782+"\""+" seating="+"\""+"FirstClass"+"\""+" /></Flights>");
-			
-			connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestMethod("POST");
-			connection.setDoOutput(true);
-			connection.setDoInput(true);
-			
-			DataOutputStream writer=new DataOutputStream(connection.getOutputStream());
-			writer.writeBytes("?team="+teamName+"&action=buyTickets&flightData=<Flights><Flight number="+"\""+1781+"\""+" seating="+"\""+"FirstClass"+"\""+" />"
-					 +"<Flight number="+"\""+1782+"\""+" seating="+"\""+"FirstClass"+"\""+" /></Flights>");
-			writer.flush();
-			writer.close();
-			//flightleg.getAirplane().firstClassSeatsInc(); //number of first class seats increases after buy a ticket
-			
-			int responseCode=connection.getResponseCode();
-			System.out.println("\nResponse Code:"+ responseCode);
-			
-			if((responseCode>=200)&&(responseCode<=299)){
-				System.out.println("buy ticket successfully!");
-				BufferedReader in=new BufferedReader(new InputStreamReader(connection.getInputStream()));
-				String line;
-				StringBuffer response=new StringBuffer();
-				
-				while((line=in.readLine())!=null){
-					response.append(line);
-				}
-				in.close();
-				
-				System.out.println(response.toString());
-			}
-		}
-		catch(IOException ex){
-			ex.printStackTrace();
-			return false;
-		}
-		catch(Exception ex){
-			ex.printStackTrace();
-			return false;
-		}
-		return true;
-	}
-	
 	/* Make a ticket with the fight number */
 	public String makeTicket(int number, boolean firstClass){
 		
@@ -203,5 +154,75 @@ public class XMLPutter {
 				 
 		 return ticket;
 	}
+	
+	/* Buying a ticket */
+	public boolean buyTicket(String ticket){
+		URL url;
+		HttpURLConnection connection;
+		
+		try{
+			url = new URL(urlAddress);
+			
+			/* Test to see the URL that gets produced */
+			System.out.println(url);
+			
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("POST");
+			connection.setDoOutput(true);
+			connection.setDoInput(true);
+			
+			DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
+			writer.writeBytes("team="+teamName+"&action=buyTickets&flightData="+ticket+"</Flights>");
+			writer.flush();
+			writer.close();
+			
+			int responseCode=connection.getResponseCode();
+			System.out.println("\nResponse Code: "+ responseCode);
+			
+			if((responseCode>=200)&&(responseCode<=299)){
+				System.out.println("The ticket was bought.");
+				BufferedReader in=new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				String line;
+				StringBuffer response=new StringBuffer();
+				
+				while((line=in.readLine())!=null){
+					response.append(line);
+				}
+				in.close();
+				
+				System.out.println(response.toString());
+				
+				return true;
+			}
+			/* Else the response was not valid */
+			else if (responseCode == 304){
+				System.out.println("Unsuccessful: Did not update the Database.");
+				return false;
+			}
+			else if (responseCode == 400){
+				System.out.println("Missing or Invalid action");
+				return false;
+			}
+			else if (responseCode == 4012){
+				System.out.println("Unsuccessful: Our team did not have the lock.");
+				return false;
+			}
+			else{
+				System.out.println("Unknown connection error");
+				return false;
+			}
+		}
+		catch(IOException ex){
+			ex.printStackTrace();
+			return false;
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+			return false;
+		}
+		
+	}
+	
+	
 		
 }
