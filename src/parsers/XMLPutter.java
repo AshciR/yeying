@@ -230,7 +230,7 @@ public class XMLPutter {
 
 	@Override
 	public String toString() {
-		return "This is an XMLPutter that has the team name: " + teamName + " and it has bought " + ticketsBought + " ticket(s)";
+		return "This is an XMLPutter that has the team name: " + teamName + " and it has bought " + ticketsBought + " ticket(s).";
 	}
 	
 	

@@ -8,7 +8,6 @@ public class Tester {
 
 	public static void main(String[] args) throws IOException {
 
-
 	}
 	
 	@SuppressWarnings("unused")
@@ -288,17 +287,25 @@ private static void testXMLPutter() {
 	XMLPutter test = XMLPutter.getInstance(); // create the test object
 	
 	/* Make a ticket for the test case */
-	String testTicket = test.makeTicket(1781, true); // Flight 1781 FirstClass
+	String testTicket1 = test.makeTicket(1781, true); // Flight 1781 FirstClass
+	String testTicket2 = test.makeTicket(1781, false); // Flight 1781 FirstClass
 	
-	System.out.println("\nThe ticket info is:");
-	System.out.println(testTicket);
+	System.out.println("\nTicket 1 info is:");
+	System.out.println(testTicket1);
 	
-	/* Lock the database before we purchase the ticket */
+	System.out.println("\nTicket 2 info is:");
+	System.out.println(testTicket2);
+	
+	/* Lock the database before we purchase the tickets */
 	test.lockDB();
-	test.buyTicket(testTicket);
+	test.buyTicket(testTicket1);
+	test.buyTicket(testTicket2);
 	
 	/* Unlock after the purchase */
 	test.unlockDB();
+	
+	/* Should Print the fact that 2 tickets were bought */
+	System.out.println(test.toString());
 	
 	/* Reset the DB to default state */
 	resetter.resetDB();
