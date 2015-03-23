@@ -2,6 +2,7 @@ package parsers;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
@@ -41,14 +42,14 @@ public class XMLPutter {
 		HttpURLConnection connection;
 		
 		try{
-			url = new URL(urlAddress+"?team="+teamName+"&action=lockDB");
+			url = new URL(urlAddress);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
 			connection.setDoOutput(true);
 			connection.setDoInput(true);
 			
 			DataOutputStream writer=new DataOutputStream(connection.getOutputStream());
-			writer.writeBytes( "?team="+teamName+"&action=lockDB");
+			writer.writeBytes( "team="+teamName+"&action=lockDB");
 			writer.flush();
 			writer.close();
 			
@@ -68,6 +69,7 @@ public class XMLPutter {
 				in.close();
 				
 				System.out.println(response.toString());
+				return true;
 			}
 		}
 		catch(IOException ex){
@@ -78,7 +80,7 @@ public class XMLPutter {
 			ex.printStackTrace();
 			return false;
 		}
-		return true;
+		return false;
 	}
 	
 	/*Unlock the Database*/
@@ -88,14 +90,14 @@ public class XMLPutter {
 		
 		try{
 			//url = new URL(urlAddress+"?team="+teamName+"&action=unlockDB");
-			url = new URL(urlAddress+"?team="+teamName+"&action=unlockDB");
+			url = new URL(urlAddress);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
 			connection.setDoOutput(true);
 			connection.setDoInput(true);
 			
 			DataOutputStream writer=new DataOutputStream(connection.getOutputStream());
-			//writer.writeBytes( "?team="+teamName+"&action=unlockDB");
+			writer.writeBytes( "team="+teamName+"&action=unlockDB");
 			writer.flush();
 			writer.close();
 			
@@ -115,6 +117,7 @@ public class XMLPutter {
 				in.close();
 				
 				System.out.println(response.toString());
+				return true;
 			}
 		}
 		catch(IOException ex){
@@ -125,7 +128,7 @@ public class XMLPutter {
 			ex.printStackTrace();
 			return false;
 		}
-		return true;
+		return false;
 	}
 
 	/* Make a ticket with the fight number */
@@ -155,6 +158,71 @@ public class XMLPutter {
 		 return ticket;
 	}
 	
+	/*Reset the Database*/
+	public String resetDB(){
+		URL url;
+		HttpURLConnection connection;
+		BufferedReader reader;
+		String line;
+		StringBuffer result = new StringBuffer();
+		
+		try{
+			url = new URL(urlAddress + "?team="+teamName+"&action=resetDB");
+				
+			/* Open Connection and send GET request */
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			
+			/* The response code given by the server*/
+			int responseCode = connection.getResponseCode(); 
+			System.out.println("\nThe Response Code is: " + responseCode);
+			
+			/* If The connection was successful */
+			if((responseCode >= 200) && (responseCode <= 299)){
+				
+				System.out.println("Reset the Database"); // Shows successful connection
+				
+				/* Setup the input stream */
+				InputStream inputStream = connection.getInputStream();
+				String encoding = connection.getContentEncoding();
+				encoding = (encoding == null ? "URF-8" : encoding);
+				
+				/* This code just copies the String from the Server */
+				reader = new BufferedReader(new InputStreamReader(inputStream));
+				while ((line = reader.readLine()) != null){
+					result.append(line);
+				}
+				reader.close();
+				
+				/* Increment XML Count by one */
+				this.numXML++; 
+				
+			}
+			/* Else the response was not valid */
+			else if (responseCode == 403){
+				System.out.println("Invalid team name!");
+			}
+			else if (responseCode == 400){
+				System.out.println("Missing or Invalid action");
+			}
+			else{
+				System.out.println("Unknown connection error");
+			}
+		}	
+			
+			/* Needs to catch these exceptions */
+			catch(IOException e){
+				e.printStackTrace();
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+			
+			
+			return result.toString();
+	}
+	
+	
 	/* Buying a ticket */
 	public boolean buyTicket(String ticket){
 		URL url;
@@ -172,7 +240,7 @@ public class XMLPutter {
 			connection.setDoInput(true);
 			
 			DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
-			writer.writeBytes("team="+teamName+"&action=buyTickets&flightData="+ticket+"</Flights>");
+			writer.writeBytes("team="+teamName+"&action=buyTickets&flightData="+ticket);
 			writer.flush();
 			writer.close();
 			
