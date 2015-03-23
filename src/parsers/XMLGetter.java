@@ -175,7 +175,7 @@ public class XMLGetter {
 			return result.toString();
 	}
 
-	public  String getFlightsXML (String type, Airport airport, Date date){
+	public  String getFlightsXML (boolean depart, Airport airport, Date date){
 		URL url;
 		HttpURLConnection connection;
 		BufferedReader reader;
@@ -188,6 +188,12 @@ public class XMLGetter {
 		int day = date.getDay();
 		Month m = date.getMonth();
 		int month = m.ordinal() + 1;
+		String type = "departing";
+		
+		/* If depart is not true, then set type to arriving */
+		if (!depart){
+			type = "arriving";
+		}
 		
 		try{
 			url = new URL(urlAddress + "?team="+ teamName + "&action=list&list_type="+ type +"&airport=" + code + "&day=" + year + "_" + month + "_" + day);

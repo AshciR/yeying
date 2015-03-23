@@ -8,6 +8,7 @@ public class Tester {
 
 	public static void main(String[] args) throws IOException {
 
+		
 	}
 	
 	@SuppressWarnings("unused")
@@ -181,7 +182,7 @@ public class Tester {
 		
 		System.out.println("\n"+ test.getAirportsXML()); // the XML String for airports
 		System.out.println("\n"+ test.getAirplaneXML());// get the XML String for airplane
-		System.out.println("\n"+ test.getFlightsXML("departing",depairport,date));// the XML String for Flights
+		System.out.println("\n"+ test.getFlightsXML(true,depairport,date));// the XML String for Flights
 		System.out.println(test.toString()); // Print how many XMLs have been gotten
 		
 		test.resetDB();// test resetting database
@@ -196,12 +197,12 @@ public class Tester {
 		fw1.close();
 		
 		java.io.FileWriter fw2 = new java.io.FileWriter("test-Flights.xml");
-		fw2.write(test.getFlightsXML("departing",depairport,date));
+		fw2.write(test.getFlightsXML(false,depairport,date));
 		fw2.close();
 		
 		System.out.println("\n"+test.getAirportsXML()); // the XML String
 		System.out.println("\n"+test.getAirplaneXML());// the XML String for airplane
-		System.out.println("\n"+ test.getFlightsXML("departing",depairport,date));// the XML String for Flights
+		System.out.println("\n"+ test.getFlightsXML(true,depairport,date));// the XML String for Flights
 		test.resetDB();// test resetting database
 		System.out.println(test.toString()); // 9 XMLs should have been gotten
 	
