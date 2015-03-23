@@ -5,24 +5,43 @@
 package flight_system;
 
 public class UserInfo {
-	private String departureAirport;
-	private String arrivalAirport;
+	private Airport departureAirport;
+	private Airport arrivalAirport;
 	private Date departureDate;
-	private boolean isFirstclass;
-	
-	public UserInfo(String departureAirport, String arrivalAirport,
-			Date departureDate, boolean isFirstclass) {
+	private boolean isFirstClass;
+
+	public UserInfo(Airport departureAirport, Airport arrivalAirport,
+			Date departureDate, boolean isFirstClass) {
 		this.departureAirport = departureAirport;
 		this.arrivalAirport = arrivalAirport;
 		this.departureDate =departureDate;
-		this.isFirstclass = isFirstclass;
+		this.isFirstClass = isFirstClass;
+	}
+	
+	/* Setter Methods */
+	public void setDepartureAirport(Airport departureAirport) {
+		this.departureAirport = departureAirport;
 	}
 
-	public String getDepartureAirport() {
+	public void setArrivalAirport(Airport arrivalAirport) {
+		this.arrivalAirport = arrivalAirport;
+	}
+
+	public void setDepartureDate(Date departureDate) {
+		this.departureDate = departureDate;
+	}
+
+	public void setIsFirstClass(boolean isFirstclass) {
+		this.isFirstClass = isFirstclass;
+	}
+
+
+	/* Getter Methods */
+	public Airport getDepartureAirport() {
 		return departureAirport;
 	}
 
-	public String getArrivalAirport() {
+	public Airport getArrivalAirport() {
 		return arrivalAirport;
 	}
 
@@ -30,16 +49,25 @@ public class UserInfo {
 		return departureDate;
 	}
 
-	public boolean isFirstclass() {
-		return isFirstclass;
+	public boolean getIsFirstClass() {
+		return isFirstClass;
 	}
 
 	@Override
 	public String toString() {
-		return "UserInfo [departureAirport=" + departureAirport
-				+ ", arrivalAirport=" + arrivalAirport + ", departureDate="
-				+ departureDate + ", isFirstclass=" + isFirstclass + "]";
+
+		String seatlevel;
+
+		if(isFirstClass){
+			seatlevel="first class";
+		}
+		else{
+			seatlevel="coach";
+		}
+
+		return "This User will be leaving from "+departureAirport.getName()+", and arrives at " + arrivalAirport.getName() + " on "
+		+ departureDate + ". The seat for this user is a " + seatlevel + " seat.";
 	}
-	
-	
+
+
 }

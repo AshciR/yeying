@@ -8,7 +8,7 @@ public class Tester {
 
 	public static void main(String[] args) throws IOException {
 
-		
+		testUserInfo() ;
 	}
 	
 	@SuppressWarnings("unused")
@@ -312,6 +312,34 @@ private static void testXMLPutter() {
 	resetter.resetDB();
 	
 	}
+private static void testUserInfo() {
+	System.out.println("Testing userinfo class");
+	
+	Location departureLoc = new Location(33.641045,-84.427764);
+	Location arrivalLoc = new Location(61.176033,-149.990079);
+	
+	Airport departureAirport=new Airport("BOS", "Boston Logan", departureLoc);
+	Airport arrivalAirport=new Airport("ANC", "Ted Stevens Anchorage International Airport", arrivalLoc);
+	Airport departureAirport1=new Airport("ANC", "Ted Stevens Anchorage International Airport", departureLoc);
+	Airport arrivalAirport1=new Airport("BOS", "Boston Logan", arrivalLoc);
+	
+	Date departureDate=new Date(Month.April,26,2015);
+	
+	UserInfo user=new UserInfo(departureAirport,arrivalAirport,departureDate,true);
+	
+	System.out.println(user.getDepartureAirport());
+	System.out.println(user.getArrivalAirport());
+	System.out.println(user.getDepartureDate());
+	System.out.println(user.getIsFirstClass());
+	System.out.println(user.toString());
+	
+	
+	user.setDepartureAirport(departureAirport1);
+	user.setArrivalAirport(arrivalAirport1);
+	user.setDepartureDate(departureDate);
+	user.setIsFirstClass(false);
+	System.out.println(user.toString());
+}
 }
 
 
