@@ -11,6 +11,7 @@ public class XMLPutter {
 	private String teamName = "TeamYeYing"; // Team Name
 	private int numXML; // Number of XMLs 
 	private String urlAddress = "http://cs509.cs.wpi.edu:8181/CS509.server/ReservationSystem";
+	private int ticketsBought;
 	
 	private static XMLPutter firstInstance = null;
 	
@@ -35,20 +36,24 @@ public class XMLPutter {
 		return numXML;
 	}
 	
+	public int getTicketsBought() {
+		return ticketsBought;
+	}	
+	
 	/*Lock the Database*/
 	public boolean lockDB(){
 		URL url;
 		HttpURLConnection connection;
 		
 		try{
-			url = new URL(urlAddress+"?team="+teamName+"&action=lockDB");
+			url = new URL(urlAddress);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
 			connection.setDoOutput(true);
 			connection.setDoInput(true);
 			
 			DataOutputStream writer=new DataOutputStream(connection.getOutputStream());
-			writer.writeBytes( "?team="+teamName+"&action=lockDB");
+			writer.writeBytes("team="+teamName+"&action=lockDB");
 			writer.flush();
 			writer.close();
 			
@@ -57,7 +62,7 @@ public class XMLPutter {
 			System.out.println("\nResponse Code:"+ responseCode);
 			
 			if((responseCode>=200)&&(responseCode<=299)){
-				System.out.println("lock the Database successfully!");
+				System.out.println("Locked the Database successfully!");
 				BufferedReader in=new BufferedReader(new InputStreamReader(connection.getInputStream()));
 				String line;
 				StringBuffer response=new StringBuffer();
@@ -68,6 +73,7 @@ public class XMLPutter {
 				in.close();
 				
 				System.out.println(response.toString());
+				return true;
 			}
 		}
 		catch(IOException ex){
@@ -78,7 +84,7 @@ public class XMLPutter {
 			ex.printStackTrace();
 			return false;
 		}
-		return true;
+		return false;
 	}
 	
 	/*Unlock the Database*/
@@ -87,15 +93,14 @@ public class XMLPutter {
 		HttpURLConnection connection;
 		
 		try{
-			//url = new URL(urlAddress+"?team="+teamName+"&action=unlockDB");
-			url = new URL(urlAddress+"?team="+teamName+"&action=unlockDB");
+			url = new URL(urlAddress);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
 			connection.setDoOutput(true);
 			connection.setDoInput(true);
 			
 			DataOutputStream writer=new DataOutputStream(connection.getOutputStream());
-			//writer.writeBytes( "?team="+teamName+"&action=unlockDB");
+			writer.writeBytes("team="+teamName+"&action=unlockDB");
 			writer.flush();
 			writer.close();
 			
@@ -104,7 +109,7 @@ public class XMLPutter {
 			System.out.println("\nResponse Code:"+ responseCode);
 			
 			if((responseCode>=200)&&(responseCode<=299)){
-				System.out.println("unlock the Database successfully!");
+				System.out.println("Unlocked the Database successfully!");
 				BufferedReader in=new BufferedReader(new InputStreamReader(connection.getInputStream()));
 				String line;
 				StringBuffer response=new StringBuffer();
@@ -115,6 +120,7 @@ public class XMLPutter {
 				in.close();
 				
 				System.out.println(response.toString());
+				return true;
 			}
 		}
 		catch(IOException ex){
@@ -125,7 +131,7 @@ public class XMLPutter {
 			ex.printStackTrace();
 			return false;
 		}
-		return true;
+		return false;
 	}
 
 	/* Make a ticket with the fight number */
@@ -134,8 +140,8 @@ public class XMLPutter {
 		/* Flight String looks like this. */
 		/*		 
 		<Flights>
-		   <Flight number=Ò1781Ó seating=ÒFirstClassÓ />
-		   <Flight number=Ò1782Ó seating=ÒFirstClassÓ />
+		   <Flight number="1781" seating="FirstClass" />
+		   <Flight number="1782" seating="FirstClass" />
 		</Flights>
 		*/
 		
@@ -162,17 +168,14 @@ public class XMLPutter {
 		
 		try{
 			url = new URL(urlAddress);
-			
-			/* Test to see the URL that gets produced */
-			System.out.println(url);
-			
+				
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
 			connection.setDoOutput(true);
 			connection.setDoInput(true);
 			
 			DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
-			writer.writeBytes("team="+teamName+"&action=buyTickets&flightData="+ticket+"</Flights>");
+			writer.writeBytes("team="+teamName+"&action=buyTickets&flightData="+ticket);
 			writer.flush();
 			writer.close();
 			
@@ -191,6 +194,8 @@ public class XMLPutter {
 				in.close();
 				
 				System.out.println(response.toString());
+				
+				ticketsBought++;
 				
 				return true;
 			}
@@ -222,6 +227,12 @@ public class XMLPutter {
 		}
 		
 	}
+
+	@Override
+	public String toString() {
+		return "This is an XMLPutter that has the team name: " + teamName + " and it has bought " + ticketsBought + " ticket(s).";
+	}
+	
 	
 	
 		

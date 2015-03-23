@@ -6,22 +6,9 @@ import parsers.*;
 
 public class Tester {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 
-		System.out.println("Testing XMLPutter Class");
-
-		XMLPutter test = XMLPutter.getInstance(); // create the test object
 		
-		String testTicket = test.makeTicket(1781, true);
-		System.out.println(testTicket);
-		
-		test.buyTicket(testTicket);
-		
-		//		boolean unlock=test.unlockDB();
-//		if(unlock==true){
-//			System.out.println("unlock test is successful!");
-//		}
-
 	}
 	
 	@SuppressWarnings("unused")
@@ -115,7 +102,6 @@ public class Tester {
 
 	}
 	
-	
 	@SuppressWarnings("unused")
 	private static void testAirplaneParserClass() {
 		
@@ -196,7 +182,7 @@ public class Tester {
 		
 		System.out.println("\n"+ test.getAirportsXML()); // the XML String for airports
 		System.out.println("\n"+ test.getAirplaneXML());// get the XML String for airplane
-		System.out.println("\n"+ test.getFlightsXML("departing",depairport,date));// the XML String for Flights
+		System.out.println("\n"+ test.getFlightsXML(true,depairport,date));// the XML String for Flights
 		System.out.println(test.toString()); // Print how many XMLs have been gotten
 		
 		test.resetDB();// test resetting database
@@ -211,12 +197,12 @@ public class Tester {
 		fw1.close();
 		
 		java.io.FileWriter fw2 = new java.io.FileWriter("test-Flights.xml");
-		fw2.write(test.getFlightsXML("departing",depairport,date));
+		fw2.write(test.getFlightsXML(false,depairport,date));
 		fw2.close();
 		
 		System.out.println("\n"+test.getAirportsXML()); // the XML String
 		System.out.println("\n"+test.getAirplaneXML());// the XML String for airplane
-		System.out.println("\n"+ test.getFlightsXML("departing",depairport,date));// the XML String for Flights
+		System.out.println("\n"+ test.getFlightsXML(true,depairport,date));// the XML String for Flights
 		test.resetDB();// test resetting database
 		System.out.println(test.toString()); // 9 XMLs should have been gotten
 	
@@ -290,27 +276,40 @@ public class Tester {
 		
 	}
 	
-private static void testXMLPutter() throws IOException {
+@SuppressWarnings("unused")
+private static void testXMLPutter() {
 		
-		System.out.println("Testing XMLPutter Class");
+	System.out.println("Testing XMLPutter Class");
+	
+	/* Reset the DB in before you purchase flight */
+	XMLGetter resetter = XMLGetter.getInstance();
+	resetter.resetDB();
 
-		XMLPutter test = XMLPutter.getInstance(); // create the test object
-		boolean unlock=test.unlockDB();
-		if(unlock==true){
-			System.out.println("unlock test is successful!");
-		}
-		
-//		System.out.println("\n"+ test.getAirportsXML()); // the XML String
-//		System.out.println(test.toString()); // Print how many XMLs have been gotten
-//		
-//		/* Turns the XML String into an XML file */
-//		java.io.FileWriter fw = new java.io.FileWriter("test-airports.xml");
-//		fw.write(test.getAirportsXML());
-//		fw.close();
-		
-		
-//		System.out.println("\n"+test.getAirportsXML()); // the XML String
-//		System.out.println(test.toString()); // 3 XMLs should have been gotten
+	XMLPutter test = XMLPutter.getInstance(); // create the test object
+	
+	/* Make a ticket for the test case */
+	String testTicket1 = test.makeTicket(1781, true); // Flight 1781 FirstClass
+	String testTicket2 = test.makeTicket(1781, false); // Flight 1781 FirstClass
+	
+	System.out.println("\nTicket 1 info is:");
+	System.out.println(testTicket1);
+	
+	System.out.println("\nTicket 2 info is:");
+	System.out.println(testTicket2);
+	
+	/* Lock the database before we purchase the tickets */
+	test.lockDB();
+	test.buyTicket(testTicket1);
+	test.buyTicket(testTicket2);
+	
+	/* Unlock after the purchase */
+	test.unlockDB();
+	
+	/* Should Print the fact that 2 tickets were bought */
+	System.out.println(test.toString());
+	
+	/* Reset the DB to default state */
+	resetter.resetDB();
 	
 	}
 }

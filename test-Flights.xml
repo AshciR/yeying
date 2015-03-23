@@ -1,1 +1,619 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Flights><Flight Airplane="A340" FlightTime="137" Number="1781"><Departure><Code>BOS</Code><Time>2015 May 10 00:07 GMT</Time></Departure><Arrival><Code>MEM</Code><Time>2015 May 10 02:24 GMT</Time></Arrival><Seating><FirstClass Price="$323.25">28</FirstClass><Coach Price="$38.60">23</Coach></Seating></Flight><Flight Airplane="747" FlightTime="102" Number="1782"><Departure><Code>BOS</Code><Time>2015 May 10 00:27 GMT</Time></Departure><Arrival><Code>IND</Code><Time>2015 May 10 02:09 GMT</Time></Arrival><Seating><FirstClass Price="$62.31">63</FirstClass><Coach Price="$19.32">391</Coach></Seating></Flight><Flight Airplane="777" FlightTime="261" Number="1783"><Departure><Code>BOS</Code><Time>2015 May 10 00:43 GMT</Time></Departure><Arrival><Code>SLC</Code><Time>2015 May 10 05:04 GMT</Time></Arrival><Seating><FirstClass Price="$250.65">29</FirstClass><Coach Price="$49.50">201</Coach></Seating></Flight><Flight Airplane="A330" FlightTime="228" Number="1784"><Departure><Code>BOS</Code><Time>2015 May 10 00:49 GMT</Time></Departure><Arrival><Code>MEM</Code><Time>2015 May 10 04:37 GMT</Time></Arrival><Seating><FirstClass Price="$410.47">15</FirstClass><Coach Price="$45.97">205</Coach></Seating></Flight><Flight Airplane="737" FlightTime="423" Number="1785"><Departure><Code>BOS</Code><Time>2015 May 10 01:14 GMT</Time></Departure><Arrival><Code>SNA</Code><Time>2015 May 10 08:17 GMT</Time></Arrival><Seating><FirstClass Price="$1,143.72">6</FirstClass><Coach Price="$320.24">29</Coach></Seating></Flight><Flight Airplane="A320" FlightTime="408" Number="1786"><Departure><Code>BOS</Code><Time>2015 May 10 01:34 GMT</Time></Departure><Arrival><Code>SFO</Code><Time>2015 May 10 08:22 GMT</Time></Arrival><Seating><FirstClass Price="$2,572.91">5</FirstClass><Coach Price="$248.99">108</Coach></Seating></Flight><Flight Airplane="A320" FlightTime="94" Number="1787"><Departure><Code>BOS</Code><Time>2015 May 10 02:33 GMT</Time></Departure><Arrival><Code>CLT</Code><Time>2015 May 10 04:07 GMT</Time></Arrival><Seating><FirstClass Price="$593.40">9</FirstClass><Coach Price="$57.43">29</Coach></Seating></Flight><Flight Airplane="737" FlightTime="428" Number="1788"><Departure><Code>BOS</Code><Time>2015 May 10 03:22 GMT</Time></Departure><Arrival><Code>ANC</Code><Time>2015 May 10 10:30 GMT</Time></Arrival><Seating><FirstClass Price="$1,157.48">11</FirstClass><Coach Price="$324.09">87</Coach></Seating></Flight><Flight Airplane="747" FlightTime="860" Number="1789"><Departure><Code>BOS</Code><Time>2015 May 10 03:34 GMT</Time></Departure><Arrival><Code>BDL</Code><Time>2015 May 10 17:54 GMT</Time></Arrival><Seating><FirstClass Price="$525.09">118</FirstClass><Coach Price="$162.78">185</Coach></Seating></Flight><Flight Airplane="767" FlightTime="81" Number="1790"><Departure><Code>BOS</Code><Time>2015 May 10 03:55 GMT</Time></Departure><Arrival><Code>PIT</Code><Time>2015 May 10 05:16 GMT</Time></Arrival><Seating><FirstClass Price="$58.94">22</FirstClass><Coach Price="$30.65">9</Coach></Seating></Flight><Flight Airplane="A340" FlightTime="1206" Number="1791"><Departure><Code>BOS</Code><Time>2015 May 10 04:05 GMT</Time></Departure><Arrival><Code>BDL</Code><Time>2015 May 11 00:11 GMT</Time></Arrival><Seating><FirstClass Price="$2,853.87">17</FirstClass><Coach Price="$340.76">100</Coach></Seating></Flight><Flight Airplane="757" FlightTime="180" Number="1792"><Departure><Code>BOS</Code><Time>2015 May 10 04:37 GMT</Time></Departure><Arrival><Code>BNA</Code><Time>2015 May 10 07:37 GMT</Time></Arrival><Seating><FirstClass Price="$425.62">0</FirstClass><Coach Price="$80.12">140</Coach></Seating></Flight><Flight Airplane="A310" FlightTime="182" Number="1793"><Departure><Code>BOS</Code><Time>2015 May 10 05:41 GMT</Time></Departure><Arrival><Code>TPA</Code><Time>2015 May 10 08:43 GMT</Time></Arrival><Seating><FirstClass Price="$573.91">10</FirstClass><Coach Price="$68.87">197</Coach></Seating></Flight><Flight Airplane="A380" FlightTime="137" Number="1794"><Departure><Code>BOS</Code><Time>2015 May 10 06:50 GMT</Time></Departure><Arrival><Code>MDW</Code><Time>2015 May 10 09:07 GMT</Time></Arrival><Seating><FirstClass Price="$81.24">127</FirstClass><Coach Price="$24.35">194</Coach></Seating></Flight><Flight Airplane="A320" FlightTime="277" Number="1795"><Departure><Code>BOS</Code><Time>2015 May 10 07:48 GMT</Time></Departure><Arrival><Code>SLC</Code><Time>2015 May 10 12:25 GMT</Time></Arrival><Seating><FirstClass Price="$1,748.00">6</FirstClass><Coach Price="$169.16">84</Coach></Seating></Flight><Flight Airplane="767" FlightTime="69" Number="1796"><Departure><Code>BOS</Code><Time>2015 May 10 08:19 GMT</Time></Departure><Arrival><Code>DCA</Code><Time>2015 May 10 09:28 GMT</Time></Arrival><Seating><FirstClass Price="$50.54">42</FirstClass><Coach Price="$26.28">179</Coach></Seating></Flight><Flight Airplane="747" FlightTime="146" Number="1797"><Departure><Code>BOS</Code><Time>2015 May 10 08:39 GMT</Time></Departure><Arrival><Code>MEM</Code><Time>2015 May 10 11:05 GMT</Time></Arrival><Seating><FirstClass Price="$89.12">50</FirstClass><Coach Price="$27.63">364</Coach></Seating></Flight><Flight Airplane="A310" FlightTime="50" Number="1798"><Departure><Code>BOS</Code><Time>2015 May 10 08:55 GMT</Time></Departure><Arrival><Code>IAD</Code><Time>2015 May 10 09:45 GMT</Time></Arrival><Seating><FirstClass Price="$158.90">5</FirstClass><Coach Price="$19.07">92</Coach></Seating></Flight><Flight Airplane="717" FlightTime="485" Number="1799"><Departure><Code>BOS</Code><Time>2015 May 10 09:36 GMT</Time></Departure><Arrival><Code>PDX</Code><Time>2015 May 10 17:41 GMT</Time></Arrival><Seating><FirstClass Price="$1,530.66">18</FirstClass><Coach Price="$448.00">78</Coach></Seating></Flight><Flight Airplane="A320" FlightTime="85" Number="1800"><Departure><Code>BOS</Code><Time>2015 May 10 10:12 GMT</Time></Departure><Arrival><Code>RDU</Code><Time>2015 May 10 11:37 GMT</Time></Arrival><Seating><FirstClass Price="$536.54">5</FirstClass><Coach Price="$51.92">13</Coach></Seating></Flight><Flight Airplane="A320" FlightTime="244" Number="1801"><Departure><Code>BOS</Code><Time>2015 May 10 10:19 GMT</Time></Departure><Arrival><Code>SAT</Code><Time>2015 May 10 14:23 GMT</Time></Arrival><Seating><FirstClass Price="$1,541.17">6</FirstClass><Coach Price="$149.15">77</Coach></Seating></Flight><Flight Airplane="A320" FlightTime="290" Number="1802"><Departure><Code>BOS</Code><Time>2015 May 10 10:57 GMT</Time></Departure><Arrival><Code>SAT</Code><Time>2015 May 10 15:47 GMT</Time></Arrival><Seating><FirstClass Price="$1,833.32">2</FirstClass><Coach Price="$177.42">22</Coach></Seating></Flight><Flight Airplane="A330" FlightTime="195" Number="1803"><Departure><Code>BOS</Code><Time>2015 May 10 11:55 GMT</Time></Departure><Arrival><Code>IAH</Code><Time>2015 May 10 15:10 GMT</Time></Arrival><Seating><FirstClass Price="$352.23">23</FirstClass><Coach Price="$39.45">211</Coach></Seating></Flight><Flight Airplane="757" FlightTime="561" Number="1804"><Departure><Code>BOS</Code><Time>2015 May 10 13:01 GMT</Time></Departure><Arrival><Code>ANC</Code><Time>2015 May 10 22:22 GMT</Time></Arrival><Seating><FirstClass Price="$1,327.01">16</FirstClass><Coach Price="$249.79">114</Coach></Seating></Flight><Flight Airplane="A310" FlightTime="35" Number="1805"><Departure><Code>BOS</Code><Time>2015 May 10 13:07 GMT</Time></Departure><Arrival><Code>PHL</Code><Time>2015 May 10 13:42 GMT</Time></Arrival><Seating><FirstClass Price="$111.39">20</FirstClass><Coach Price="$13.37">15</Coach></Seating></Flight><Flight Airplane="717" FlightTime="426" Number="1806"><Departure><Code>BOS</Code><Time>2015 May 10 13:21 GMT</Time></Departure><Arrival><Code>LAX</Code><Time>2015 May 10 20:27 GMT</Time></Arrival><Seating><FirstClass Price="$1,344.14">13</FirstClass><Coach Price="$393.41">52</Coach></Seating></Flight><Flight Airplane="777" FlightTime="91" Number="1807"><Departure><Code>BOS</Code><Time>2015 May 10 13:28 GMT</Time></Departure><Arrival><Code>CVG</Code><Time>2015 May 10 14:59 GMT</Time></Arrival><Seating><FirstClass Price="$86.81">48</FirstClass><Coach Price="$17.15">378</Coach></Seating></Flight><Flight Airplane="777" FlightTime="501" Number="1808"><Departure><Code>BOS</Code><Time>2015 May 10 14:09 GMT</Time></Departure><Arrival><Code>SFO</Code><Time>2015 May 10 22:30 GMT</Time></Arrival><Seating><FirstClass Price="$480.36">44</FirstClass><Coach Price="$94.87">285</Coach></Seating></Flight><Flight Airplane="777" FlightTime="219" Number="1809"><Departure><Code>BOS</Code><Time>2015 May 10 14:26 GMT</Time></Departure><Arrival><Code>RSW</Code><Time>2015 May 10 18:05 GMT</Time></Arrival><Seating><FirstClass Price="$209.82">17</FirstClass><Coach Price="$41.44">20</Coach></Seating></Flight><Flight Airplane="767" FlightTime="145" Number="1810"><Departure><Code>BOS</Code><Time>2015 May 10 14:41 GMT</Time></Departure><Arrival><Code>ORD</Code><Time>2015 May 10 17:06 GMT</Time></Arrival><Seating><FirstClass Price="$105.76">1</FirstClass><Coach Price="$55.00">193</Coach></Seating></Flight><Flight Airplane="737" FlightTime="135" Number="1811"><Departure><Code>BOS</Code><Time>2015 May 10 15:16 GMT</Time></Departure><Arrival><Code>ATL</Code><Time>2015 May 10 17:31 GMT</Time></Arrival><Seating><FirstClass Price="$366.08">25</FirstClass><Coach Price="$102.50">70</Coach></Seating></Flight><Flight Airplane="747" FlightTime="212" Number="1812"><Departure><Code>BOS</Code><Time>2015 May 10 15:51 GMT</Time></Departure><Arrival><Code>MSY</Code><Time>2015 May 10 19:23 GMT</Time></Arrival><Seating><FirstClass Price="$129.80">30</FirstClass><Coach Price="$40.24">392</Coach></Seating></Flight><Flight Airplane="777" FlightTime="110" Number="1813"><Departure><Code>BOS</Code><Time>2015 May 10 16:44 GMT</Time></Departure><Arrival><Code>CLT</Code><Time>2015 May 10 18:34 GMT</Time></Arrival><Seating><FirstClass Price="$105.88">71</FirstClass><Coach Price="$20.91">272</Coach></Seating></Flight><Flight Airplane="A340" FlightTime="169" Number="1814"><Departure><Code>BOS</Code><Time>2015 May 10 17:56 GMT</Time></Departure><Arrival><Code>STL</Code><Time>2015 May 10 20:45 GMT</Time></Arrival><Seating><FirstClass Price="$399.66">6</FirstClass><Coach Price="$47.72">244</Coach></Seating></Flight><Flight Airplane="777" FlightTime="1285" Number="1815"><Departure><Code>BOS</Code><Time>2015 May 10 18:53 GMT</Time></Departure><Arrival><Code>LAS</Code><Time>2015 May 11 16:18 GMT</Time></Arrival><Seating><FirstClass Price="$1,231.86">70</FirstClass><Coach Price="$243.29">330</Coach></Seating></Flight><Flight Airplane="747" FlightTime="26" Number="1816"><Departure><Code>BOS</Code><Time>2015 May 10 20:00 GMT</Time></Departure><Arrival><Code>LGA</Code><Time>2015 May 10 20:26 GMT</Time></Arrival><Seating><FirstClass Price="$15.76">47</FirstClass><Coach Price="$4.88">94</Coach></Seating></Flight><Flight Airplane="A380" FlightTime="175" Number="1817"><Departure><Code>BOS</Code><Time>2015 May 10 20:10 GMT</Time></Departure><Arrival><Code>STL</Code><Time>2015 May 10 23:05 GMT</Time></Arrival><Seating><FirstClass Price="$103.83">59</FirstClass><Coach Price="$31.13">235</Coach></Seating></Flight><Flight Airplane="767" FlightTime="66" Number="1818"><Departure><Code>BOS</Code><Time>2015 May 10 20:21 GMT</Time></Departure><Arrival><Code>DCA</Code><Time>2015 May 10 21:27 GMT</Time></Arrival><Seating><FirstClass Price="$47.90">33</FirstClass><Coach Price="$24.91">79</Coach></Seating></Flight><Flight Airplane="A320" FlightTime="170" Number="1819"><Departure><Code>BOS</Code><Time>2015 May 10 20:29 GMT</Time></Departure><Arrival><Code>MEM</Code><Time>2015 May 10 23:19 GMT</Time></Arrival><Seating><FirstClass Price="$1,074.81">11</FirstClass><Coach Price="$104.01">90</Coach></Seating></Flight><Flight Airplane="A330" FlightTime="164" Number="1820"><Departure><Code>BOS</Code><Time>2015 May 10 20:56 GMT</Time></Departure><Arrival><Code>BNA</Code><Time>2015 May 10 23:40 GMT</Time></Arrival><Seating><FirstClass Price="$296.00">40</FirstClass><Coach Price="$33.15">314</Coach></Seating></Flight><Flight Airplane="767" FlightTime="125" Number="1821"><Departure><Code>BOS</Code><Time>2015 May 10 21:01 GMT</Time></Departure><Arrival><Code>CLT</Code><Time>2015 May 10 23:06 GMT</Time></Arrival><Seating><FirstClass Price="$90.77">62</FirstClass><Coach Price="$47.20">128</Coach></Seating></Flight><Flight Airplane="717" FlightTime="328" Number="1822"><Departure><Code>BOS</Code><Time>2015 May 10 21:14 GMT</Time></Departure><Arrival><Code>SJC</Code><Time>2015 May 11 02:42 GMT</Time></Arrival><Seating><FirstClass Price="$1,036.49">9</FirstClass><Coach Price="$303.36">69</Coach></Seating></Flight><Flight Airplane="A340" FlightTime="178" Number="1823"><Departure><Code>BOS</Code><Time>2015 May 10 21:37 GMT</Time></Departure><Arrival><Code>ATL</Code><Time>2015 May 11 00:35 GMT</Time></Arrival><Seating><FirstClass Price="$420.73">23</FirstClass><Coach Price="$50.24">49</Coach></Seating></Flight><Flight Airplane="777" FlightTime="102" Number="1824"><Departure><Code>BOS</Code><Time>2015 May 10 22:35 GMT</Time></Departure><Arrival><Code>CVG</Code><Time>2015 May 11 00:17 GMT</Time></Arrival><Seating><FirstClass Price="$98.06">46</FirstClass><Coach Price="$19.37">79</Coach></Seating></Flight><Flight Airplane="717" FlightTime="171" Number="1825"><Departure><Code>BOS</Code><Time>2015 May 10 23:20 GMT</Time></Departure><Arrival><Code>TPA</Code><Time>2015 May 11 02:11 GMT</Time></Arrival><Seating><FirstClass Price="$538.13">19</FirstClass><Coach Price="$157.50">29</Coach></Seating></Flight></Flights>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Flights>
+	<Flight Airplane="767" FlightTime="140" Number="0107">
+		<Departure>
+			<Code>ATL</Code>
+			<Time>2015 May 10 07:12 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 09:32 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$101.97">102</FirstClass>
+			<Coach Price="$53.02">200</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="A320" FlightTime="435" Number="0526">
+		<Departure>
+			<Code>ANC</Code>
+			<Time>2015 May 10 05:29 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 12:44 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$2,747.24">10</FirstClass>
+			<Coach Price="$265.86">46</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="747" FlightTime="1336" Number="0906">
+		<Departure>
+			<Code>AUS</Code>
+			<Time>2015 May 09 07:39 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 05:55 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$816.19">109</FirstClass>
+			<Coach Price="$253.02">381</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="737" FlightTime="945" Number="0922">
+		<Departure>
+			<Code>AUS</Code>
+			<Time>2015 May 09 15:05 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 06:50 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$2,556.45">7</FirstClass>
+			<Coach Price="$715.81">70</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="767" FlightTime="51" Number="1407">
+		<Departure>
+			<Code>BWI</Code>
+			<Time>2015 May 10 19:17 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 20:08 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$36.98">42</FirstClass>
+			<Coach Price="$19.23">107</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="767" FlightTime="100" Number="2211">
+		<Departure>
+			<Code>CLT</Code>
+			<Time>2015 May 10 07:27 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 09:07 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$72.53">28</FirstClass>
+			<Coach Price="$37.72">199</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="A340" FlightTime="114" Number="2614">
+		<Departure>
+			<Code>MDW</Code>
+			<Time>2015 May 10 07:58 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 09:52 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$269.60">9</FirstClass>
+			<Coach Price="$32.19">117</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="757" FlightTime="115" Number="3010">
+		<Departure>
+			<Code>ORD</Code>
+			<Time>2015 May 10 11:30 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 13:25 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$271.48">8</FirstClass>
+			<Coach Price="$51.10">128</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="767" FlightTime="141" Number="3025">
+		<Departure>
+			<Code>ORD</Code>
+			<Time>2015 May 10 20:18 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 22:39 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$102.88">46</FirstClass>
+			<Coach Price="$53.50">93</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="767" FlightTime="104" Number="3395">
+		<Departure>
+			<Code>CVG</Code>
+			<Time>2015 May 10 03:45 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 05:29 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$75.87">102</FirstClass>
+			<Coach Price="$39.45">183</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="737" FlightTime="89" Number="4233">
+		<Departure>
+			<Code>CMH</Code>
+			<Time>2015 May 10 08:21 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 09:50 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$241.95">24</FirstClass>
+			<Coach Price="$67.75">48</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="777" FlightTime="83" Number="4241">
+		<Departure>
+			<Code>CMH</Code>
+			<Time>2015 May 10 13:52 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 15:15 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$79.79">49</FirstClass>
+			<Coach Price="$15.76">115</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="717" FlightTime="304" Number="4623">
+		<Departure>
+			<Code>DFW</Code>
+			<Time>2015 May 09 20:49 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 01:53 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$958.52">15</FirstClass>
+			<Coach Price="$280.54">33</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="A320" FlightTime="80" Number="5457">
+		<Departure>
+			<Code>DTW</Code>
+			<Time>2015 May 10 04:16 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 05:36 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$502.06">12</FirstClass>
+			<Coach Price="$48.59">108</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="A380" FlightTime="90" Number="5467">
+		<Departure>
+			<Code>DTW</Code>
+			<Time>2015 May 10 08:31 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 10:01 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$53.47">79</FirstClass>
+			<Coach Price="$16.03">177</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="A340" FlightTime="79" Number="5471">
+		<Departure>
+			<Code>DTW</Code>
+			<Time>2015 May 10 11:13 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 12:32 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$187.48">12</FirstClass>
+			<Coach Price="$22.39">139</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="767" FlightTime="168" Number="5853">
+		<Departure>
+			<Code>FLL</Code>
+			<Time>2015 May 10 00:08 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 02:56 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$122.50">69</FirstClass>
+			<Coach Price="$63.70">176</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="A320" FlightTime="172" Number="6299">
+		<Departure>
+			<Code>RSW</Code>
+			<Time>2015 May 10 15:26 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 18:18 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$1,086.69">2</FirstClass>
+			<Coach Price="$105.16">105</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="A340" FlightTime="848" Number="6673">
+		<Departure>
+			<Code>BDL</Code>
+			<Time>2015 May 09 21:45 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 11:53 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$2,006.83">26</FirstClass>
+			<Coach Price="$239.62">26</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="A310" FlightTime="222" Number="7888">
+		<Departure>
+			<Code>HOU</Code>
+			<Time>2015 May 09 21:13 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 00:55 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$701.18">24</FirstClass>
+			<Coach Price="$84.14">38</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="717" FlightTime="239" Number="7898">
+		<Departure>
+			<Code>HOU</Code>
+			<Time>2015 May 10 03:03 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 07:02 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$755.12">2</FirstClass>
+			<Coach Price="$221.01">40</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="717" FlightTime="212" Number="7901">
+		<Departure>
+			<Code>HOU</Code>
+			<Time>2015 May 10 05:03 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 08:35 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$670.29">15</FirstClass>
+			<Coach Price="$196.18">76</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="747" FlightTime="226" Number="7912">
+		<Departure>
+			<Code>HOU</Code>
+			<Time>2015 May 10 11:28 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 15:14 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$137.94">58</FirstClass>
+			<Coach Price="$42.76">28</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="717" FlightTime="135" Number="8317">
+		<Departure>
+			<Code>IND</Code>
+			<Time>2015 May 10 06:10 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 08:25 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$425.68">11</FirstClass>
+			<Coach Price="$124.59">30</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="757" FlightTime="148" Number="8323">
+		<Departure>
+			<Code>IND</Code>
+			<Time>2015 May 10 09:47 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 12:15 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$351.19">2</FirstClass>
+			<Coach Price="$66.11">4</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="A320" FlightTime="181" Number="8723">
+		<Departure>
+			<Code>MCI</Code>
+			<Time>2015 May 10 12:11 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 15:12 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$1,143.50">7</FirstClass>
+			<Coach Price="$110.66">51</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="717" FlightTime="917" Number="9085">
+		<Departure>
+			<Code>LAS</Code>
+			<Time>2015 May 09 12:40 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 03:57 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$2,895.08">10</FirstClass>
+			<Coach Price="$847.34">63</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="717" FlightTime="159" Number="10319">
+		<Departure>
+			<Code>MIA</Code>
+			<Time>2015 May 10 04:05 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 06:44 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$502.32">10</FirstClass>
+			<Coach Price="$147.02">79</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="757" FlightTime="133" Number="11140">
+		<Departure>
+			<Code>BNA</Code>
+			<Time>2015 May 10 01:34 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 03:47 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$315.20">20</FirstClass>
+			<Coach Price="$59.33">5</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="A310" FlightTime="217" Number="11586">
+		<Departure>
+			<Code>MSY</Code>
+			<Time>2015 May 10 18:33 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 22:10 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$684.83">16</FirstClass>
+			<Coach Price="$82.18">51</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="A340" FlightTime="31" Number="11990">
+		<Departure>
+			<Code>JFK</Code>
+			<Time>2015 May 10 19:35 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 20:06 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$73.58">11</FirstClass>
+			<Coach Price="$8.79">83</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="A310" FlightTime="25" Number="12376">
+		<Departure>
+			<Code>LGA</Code>
+			<Time>2015 May 10 03:56 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 04:21 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$78.12">6</FirstClass>
+			<Coach Price="$9.37">33</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="737" FlightTime="344" Number="13172">
+		<Departure>
+			<Code>OAK</Code>
+			<Time>2015 May 10 01:32 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 07:16 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$929.93">20</FirstClass>
+			<Coach Price="$260.38">59</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="A310" FlightTime="344" Number="14811">
+		<Departure>
+			<Code>PHX</Code>
+			<Time>2015 May 10 16:22 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 22:06 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$1,086.49">23</FirstClass>
+			<Coach Price="$130.38">112</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="A340" FlightTime="268" Number="17194">
+		<Departure>
+			<Code>SAT</Code>
+			<Time>2015 May 09 21:47 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 02:15 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$635.15">17</FirstClass>
+			<Coach Price="$75.84">164</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="A310" FlightTime="240" Number="17233">
+		<Departure>
+			<Code>SAT</Code>
+			<Time>2015 May 10 19:04 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 23:04 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$758.33">1</FirstClass>
+			<Coach Price="$91.00">152</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="777" FlightTime="318" Number="17605">
+		<Departure>
+			<Code>SAN</Code>
+			<Time>2015 May 10 02:06 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 07:24 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$305.01">67</FirstClass>
+			<Coach Price="$60.24">307</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="A330" FlightTime="367" Number="18023">
+		<Departure>
+			<Code>SFO</Code>
+			<Time>2015 May 10 16:29 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 22:36 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$661.77">10</FirstClass>
+			<Coach Price="$74.12">50</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="A380" FlightTime="438" Number="18801">
+		<Departure>
+			<Code>SNA</Code>
+			<Time>2015 May 10 02:43 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 10:01 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$259.38">109</FirstClass>
+			<Coach Price="$77.75">303</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="747" FlightTime="354" Number="18827">
+		<Departure>
+			<Code>SNA</Code>
+			<Time>2015 May 10 17:29 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 23:23 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$216.40">68</FirstClass>
+			<Coach Price="$67.08">280</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="747" FlightTime="360" Number="19213">
+		<Departure>
+			<Code>SEA</Code>
+			<Time>2015 May 10 02:26 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 08:26 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$219.82">15</FirstClass>
+			<Coach Price="$68.14">68</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="767" FlightTime="145" Number="20033">
+		<Departure>
+			<Code>TPA</Code>
+			<Time>2015 May 09 23:41 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 02:06 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$105.47">78</FirstClass>
+			<Coach Price="$54.84">129</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="A330" FlightTime="67" Number="20866">
+		<Departure>
+			<Code>DCA</Code>
+			<Time>2015 May 10 07:50 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 08:57 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$119.93">14</FirstClass>
+			<Coach Price="$13.43">267</Coach>
+		</Seating>
+	</Flight>
+	<Flight Airplane="A330" FlightTime="59" Number="20870">
+		<Departure>
+			<Code>DCA</Code>
+			<Time>2015 May 10 10:58 GMT</Time>
+		</Departure>
+		<Arrival>
+			<Code>BOS</Code>
+			<Time>2015 May 10 11:57 GMT</Time>
+		</Arrival>
+		<Seating>
+			<FirstClass Price="$106.61">34</FirstClass>
+			<Coach Price="$11.94">10</Coach>
+		</Seating>
+	</Flight>
+</Flights>

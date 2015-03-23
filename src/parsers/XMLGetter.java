@@ -49,7 +49,7 @@ public class XMLGetter {
 	}
 	
 	/* Returns the XML for the Airports */
-	public  String getAirportsXML (){
+	public String getAirportsXML (){
 		URL url;
 		HttpURLConnection connection;
 		BufferedReader reader;
@@ -175,7 +175,7 @@ public class XMLGetter {
 			return result.toString();
 	}
 
-	public  String getFlightsXML (String type, Airport airport, Date date){
+	public  String getFlightsXML (boolean depart, Airport airport, Date date){
 		URL url;
 		HttpURLConnection connection;
 		BufferedReader reader;
@@ -188,6 +188,12 @@ public class XMLGetter {
 		int day = date.getDay();
 		Month m = date.getMonth();
 		int month = m.ordinal() + 1;
+		String type = "departing";
+		
+		/* If depart is not true, then set type to arriving */
+		if (!depart){
+			type = "arriving";
+		}
 		
 		try{
 			url = new URL(urlAddress + "?team="+ teamName + "&action=list&list_type="+ type +"&airport=" + code + "&day=" + year + "_" + month + "_" + day);
@@ -244,24 +250,27 @@ public class XMLGetter {
 			return result.toString();
 	}
 	
-	public  void resetDB (){
+	/* Resets the Database */
+	public boolean resetDB(){
 		URL url;
 		HttpURLConnection connection;
-		
+		boolean wasReset = false; // Returns true if successful reset
+
 		try{
 			url = new URL(urlAddress + "?team=TeamYeYing&action=resetDB");
-				
+
 			/* Open Connection and send GET request */
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("GET");
-			
+
 			/* The response code given by the server*/
 			int responseCode = connection.getResponseCode(); 
 			System.out.println("\nThe Response Code is: " + responseCode);
-			
+
 			/* If The connection was successful */
 			if((responseCode >= 200) && (responseCode <= 299)){
 				System.out.println("Resetting the Database."); // Shows successful connection
+				wasReset = true;
 			}
 			/* Else the response was not valid */
 			else if (responseCode == 403){
@@ -274,15 +283,16 @@ public class XMLGetter {
 				System.out.println("Unknown connection error");
 			}
 		}	
-			
-			/* Needs to catch these exceptions */
-			catch(IOException e){
-				e.printStackTrace();
-			}
-			catch(Exception e){
-				e.printStackTrace();
-			}
-			
+
+		/* Needs to catch these exceptions */
+		catch(IOException e){
+			e.printStackTrace();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		return wasReset;
 	}
 
 	public String toString() {
