@@ -8,7 +8,7 @@ public class Tester {
 
 	public static void main(String[] args) throws IOException {
 
-		testUserInfo() ;
+		testXMLGetter();
 	}
 	
 	@SuppressWarnings("unused")
@@ -188,11 +188,11 @@ public class Tester {
 		test.resetDB();// test resetting database
 		
 		/* Turns the XML String into an XML file */
-		java.io.FileWriter fw = new java.io.FileWriter("test-airports.xml");
+		java.io.FileWriter fw = new java.io.FileWriter("airports.xml");
 		fw.write(test.getAirportsXML());
 		fw.close();
 		
-		java.io.FileWriter fw1 = new java.io.FileWriter("test-airplane.xml");
+		java.io.FileWriter fw1 = new java.io.FileWriter("airplanes.xml");
 		fw1.write(test.getAirplaneXML());
 		fw1.close();
 		
