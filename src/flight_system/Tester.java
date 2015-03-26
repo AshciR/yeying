@@ -1,36 +1,16 @@
 package flight_system;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import parsers.*;
 
 public class Tester {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 
 		Prototype proto = new Prototype();
 		proto.run();
-		
-//		XMLGetter testGet = XMLGetter.getInstance();
-////		
-//		String xmlFile = testGet.getAirplaneXML();
-////		String xmlFile2 = testGet.getAirportsXML();
-////		
-//		AirplaneParser aParse = AirplaneParser.getInstance();
-//		aParse.parseAirplaneXML(xmlFile);
-////		
-////		AirportParser aParse2 = AirportParser.getInstance();
-////		aParse2.parseAirportXML(xmlFile2);
-//		
-//		ArrayList<Airplane> testList = new ArrayList<Airplane>();
-//		testList = aParse.getAirplaneList();
-//
-//		//		ArrayList<Airport> testList = new ArrayList<Airport>();
-////		testList = aParse2.getAirportList();
-//		
-//		System.out.println("Airport List size is: " + testList.size());
-		
+				
 	}
 	
 	@SuppressWarnings("unused")
@@ -94,7 +74,7 @@ public class Tester {
 
 		/* Make an Flight Parser */
 		FlightParser fParse = new FlightParser("placeHolder", "placeHolder");
-		fParse.parseFlightXML();  // Parses the XML
+		fParse.parseFlightXML(null);  // Parses the XML
 
 		/* Print the number of Airplanes */
 		System.out.println("There are " + fParse.getNumOfFlights() + " flights.\n" );	
@@ -315,6 +295,7 @@ private static void testXMLPutter() {
 	resetter.resetDB();
 	
 	}
+@SuppressWarnings("unused")
 private static void testUserInfo() {
 	System.out.println("Testing userinfo class");
 	

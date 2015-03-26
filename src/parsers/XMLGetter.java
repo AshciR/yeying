@@ -65,7 +65,7 @@ public class XMLGetter {
 			
 			/* The response code given by the server*/
 			int responseCode = connection.getResponseCode(); 
-			System.out.println("\nThe Response Code is: " + responseCode);
+			//System.out.println("\nThe Response Code is: " + responseCode);
 			
 			/* If The connection was successful */
 			if((responseCode >= 200) && (responseCode <= 299)){
@@ -128,7 +128,7 @@ public class XMLGetter {
 			
 			/* The response code given by the server*/
 			int responseCode = connection.getResponseCode(); 
-			System.out.println("\nThe Response Code is: " + responseCode);
+			//System.out.println("\nThe Response Code is: " + responseCode);
 			
 			/* If The connection was successful */
 			if((responseCode >= 200) && (responseCode <= 299)){
@@ -204,7 +204,7 @@ public class XMLGetter {
 			
 			/* The response code given by the server*/
 			int responseCode = connection.getResponseCode(); 
-			System.out.println("\nThe Response Code is: " + responseCode);
+			//System.out.println("\nThe Response Code is: " + responseCode);
 			
 			/* If The connection was successful */
 			if((responseCode >= 200) && (responseCode <= 299)){
