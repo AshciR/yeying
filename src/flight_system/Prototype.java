@@ -68,16 +68,26 @@ public class Prototype {
 			
 			case BuyFlights:
 				
-				int fltNum = getFltNum(); // the flight number the user wants to buy
+				/* Get the number for the flight the user wants to buy */
+				int fltNum = getFltNum(); 
 				System.out.println("The Flight number is " + fltNum);
 				
-				
-				
-				
-				this.state = State.FinishState;
+				/* Try to purchase the flight */
+				if (buyFlt(fltNum)){
+					
+					/* Show that the flight info has be updated */
+					showUpdated(fltNum);
+					
+					this.state = State.FinishState; // if purchased, go to finish state
+					
+				}
+				else{
+					this.state = State.ShowFlights; // if you couldn't purchase
+													// show the user the info again
+				}
 				
 				break;
-
+				
 			case FinishState:
 				
 				/* Asks if the user is finished */
@@ -90,6 +100,62 @@ public class Prototype {
 			
 		} while (userContinue == true);
 
+	}
+
+	private void showUpdated(int fltNum) {
+		
+		/* Get the flight info again */
+		getFlights();
+		
+		System.out.println("\nThe Updated Flight info for flight " + fltNum +" is.");
+		
+		/* Search the flights leaving the dept. airport */
+		for (FlightLeg flight : flightList) {
+			
+			/* Print the flight that matches the one the user bought */
+			if(flight.getFlightNum() == fltNum){
+				System.out.println(flight);
+			}
+		}
+		
+	}
+
+	private boolean buyFlt(int fltNum) {
+		
+		boolean successBuy = false;
+		
+		/* Get the XML Putter Instance */
+		XMLPutter dbPutter = XMLPutter.getInstance();
+		
+		/* Holds whether the user wants first class or not */
+		boolean firstClass = this.userInfo.getIsFirstClass();
+		
+		/* Make the ticket */
+		String ticket = dbPutter.makeTicket(fltNum, firstClass);
+		
+		/* Try to lock the database before we purchase the tickets */
+		if (dbPutter.lockDB()){
+			
+			/* Buy the ticket */
+			dbPutter.buyTicket(ticket);
+			
+			/* Unlock after the purchase */
+			dbPutter.unlockDB();
+			
+			System.out.println("The ticket for your flight: " + fltNum + " was bought.");
+			
+			successBuy = true;
+		}
+		/* Another agency is using the DB */
+		else {
+			System.out.println("I'm sorry, the ticket could not be bought"
+					+ "at this point in time, try in a few minutes later");
+			
+			successBuy = false;
+		}
+		
+		return successBuy;
+		
 	}
 
 	private int getFltNum() {
@@ -164,6 +230,12 @@ public class Prototype {
 			else if (ans.startsWith("N")) {
 				System.out.print("\nThank you for using our system!\n"
 						+ "Goodbye!");
+				
+				/* Reset our DB to the original state */
+				
+				/* The only DB Getter Object */
+				XMLGetter dbGetter = XMLGetter.getInstance();
+				dbGetter.resetDB();
 				
 				ansValid = true;
 				userContinue = false;
