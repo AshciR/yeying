@@ -11,7 +11,7 @@ public class Prototype {
 	private enum State{GetUserInfo, ShowFlights, BuyFlights}; 
 	private ArrayList<Airport> airportList;
 	private ArrayList<Airplane> airplaneList;
-	private ArrayList<FlightLeg> flightList;
+	private ArrayList<FlightLeg> flightList, showFlightList;
 	private State state;
 	private UserInfo userInfo;
 	
@@ -43,7 +43,13 @@ public class Prototype {
 			
 			case ShowFlights:
 				
+				/* Gets the flights from the DB */
+				getFlights();
+				
+				/* Shows the user the flight(s) if available */
 				showFlights();
+				
+				userContinue = false;
 				
 				break;
 			case BuyFlights:
@@ -57,6 +63,40 @@ public class Prototype {
 	}
 
 	private void showFlights() {
+		
+		String arrAirportCode = userInfo.getArrivalAirport().getCode();
+		System.out.println("User Arrive Airport: " + arrAirportCode);
+		
+		/* Check all the departure flights */
+		for (FlightLeg flight : flightList) {
+			
+			/* Arrival airport code */
+			String flightArrCode = flight.getArrivalAirport().getCode();
+			System.out.println("Checking Arrive Airport: " + flightArrCode);
+			
+			try {
+				/* If the code matches, add to list */
+				if (arrAirportCode.equalsIgnoreCase(flightArrCode)){
+					System.out.println("FLIGHT MATCHES!");
+					showFlightList.add(flight); // Should add flight, but doesn't
+				}
+			} catch (NullPointerException e) {
+				System.out.println("No Flights");
+			}
+        }
+		
+//		try {
+//			/* Print the flights */
+//			for (FlightLeg flight : showFlightList) {
+//				System.out.println(flight);
+//			}
+//		} catch (NullPointerException e) {
+//			System.out.println("No Flights");
+//		}
+		
+	}
+
+	private void getFlights() {
 		
 		/* The only DB Getter Object */
 		XMLGetter dbGetter = XMLGetter.getInstance();
@@ -75,8 +115,6 @@ public class Prototype {
 		
 		/* Holds the list of flights */
 		flightList = fParse.getFlightList();
-		
-		System.out.println("The Number of flights are: " + flightList.size());
 		
 	}
 
@@ -98,8 +136,8 @@ public class Prototype {
 		
 		do {
 			/* Get the Depart Airport from the user */
-			System.out.print("\nWhat is your Departure Airport? ");
-			String depAirportStr = userInput.nextLine(); // -- RESUME AFTER DINNER!
+			System.out.print("\nWhat is your Departure Airport? \n");
+			String depAirportStr = userInput.nextLine(); 
 			
 			/* Create the departure Airport object */
 			depAirport = portParser.getAirport(depAirportStr);
@@ -117,7 +155,7 @@ public class Prototype {
 		do {
 			
 			/* Get the Arrival Airport from the user */
-			System.out.print("\nWhat is your Arrival Airport? ");
+			System.out.print("\nWhat is your Arrival Airport? \n");
 			String arrAirportStr = userInput.nextLine();
 			
 			/* Create the departure Airport object */
@@ -143,7 +181,7 @@ public class Prototype {
 		
 		do {
 			/* Get the Departure Day */
-			System.out.print("\nWhat day do you want to leave? ");
+			System.out.print("\nWhat day do you want to leave? \n");
 			String dayStr = userInput.nextLine();
 			
 			try {
@@ -170,7 +208,7 @@ public class Prototype {
 		
 		do {
 			/* Ask if they want First Class */
-			System.out.print("\nDo you want first class? (Y/N) ");
+			System.out.print("\nDo you want first class? (Y/N) \n");
 			String classType = userInput.nextLine();
 			classType = classType.toUpperCase();
 			
