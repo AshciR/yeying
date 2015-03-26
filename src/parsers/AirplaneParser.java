@@ -10,6 +10,7 @@
 package parsers;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
@@ -21,6 +22,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import flight_system.Airplane;
@@ -99,7 +101,7 @@ public class AirplaneParser {
 	}
 
 	/* Static Method used to parse the airplane XML */
-	public void parseAirplaneXML() {
+	public void parseAirplaneXML(String xmlSource) {
 
 		/* DOM Factory Builder */
 		DocumentBuilderFactory dom_fac = DocumentBuilderFactory.newInstance();
@@ -108,8 +110,8 @@ public class AirplaneParser {
 			/* Builds the doc object that contains the 
 			 * tree structure of the XML file */
 			DocumentBuilder builder = dom_fac.newDocumentBuilder();
-			Document doc = builder.parse("airplanes.xml"); // This is the root node
-
+			Document doc = builder.parse(new InputSource(new StringReader(xmlSource))); // This is the root node
+			
 			/* Contains a list of all the airplanes from the Airplanes XML */
 			NodeList airplaneNodeList = doc.getElementsByTagName("Airplane");
 
@@ -129,10 +131,10 @@ public class AirplaneParser {
 				NodeList airplaneNodeChildren = airplaneNode.getChildNodes();
 
 				/* 2nd child is the First Class Seat Node */
-				String firstClassSeats = airplaneNodeChildren.item(1).getTextContent();
+				String firstClassSeats = airplaneNodeChildren.item(0).getTextContent();
 				
 				/* 4th child is the Coach Seat Node */
-				String coachSeats = airplaneNodeChildren.item(3).getTextContent();
+				String coachSeats = airplaneNodeChildren.item(1).getTextContent();
 				
 				/* Adds the parsed airplane to the airplane list */
 				airplaneList.add(new Airplane(model, 

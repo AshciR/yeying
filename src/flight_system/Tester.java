@@ -1,6 +1,7 @@
 package flight_system;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import parsers.*;
 
@@ -8,7 +9,28 @@ public class Tester {
 
 	public static void main(String[] args) throws IOException {
 
-		testXMLGetter();
+		Prototype proto = new Prototype();
+		proto.run();
+		
+//		XMLGetter testGet = XMLGetter.getInstance();
+////		
+//		String xmlFile = testGet.getAirplaneXML();
+////		String xmlFile2 = testGet.getAirportsXML();
+////		
+//		AirplaneParser aParse = AirplaneParser.getInstance();
+//		aParse.parseAirplaneXML(xmlFile);
+////		
+////		AirportParser aParse2 = AirportParser.getInstance();
+////		aParse2.parseAirportXML(xmlFile2);
+//		
+//		ArrayList<Airplane> testList = new ArrayList<Airplane>();
+//		testList = aParse.getAirplaneList();
+//
+//		//		ArrayList<Airport> testList = new ArrayList<Airport>();
+////		testList = aParse2.getAirportList();
+//		
+//		System.out.println("Airport List size is: " + testList.size());
+		
 	}
 	
 	@SuppressWarnings("unused")
@@ -32,7 +54,7 @@ public class Tester {
 
 		/* Make an Airplane Parser */
 		AirportParser aParse = AirportParser.getInstance();
-		aParse.parseAirportXML();  // Parses the XML
+		aParse.parseAirportXML("placeHolder");  // Parses the XML
 
 		/* Print the number of Airplanes */
 		System.out.println("There are " + aParse.getNumOfAirports() + " airports.\n" );	
@@ -71,7 +93,7 @@ public class Tester {
 		System.out.println("\nFlightParser Tester");
 
 		/* Make an Flight Parser */
-		FlightParser fParse = new FlightParser();
+		FlightParser fParse = new FlightParser("placeHolder", "placeHolder");
 		fParse.parseFlightXML();  // Parses the XML
 
 		/* Print the number of Airplanes */
@@ -109,7 +131,7 @@ public class Tester {
 		
 		/* Make an Airplane Parser */
 		AirplaneParser aParse = AirplaneParser.getInstance();
-		aParse.parseAirplaneXML();  // Parses the XML
+		aParse.parseAirplaneXML("placeHolder");  // Parses the XML
 		
 		/* Print the number of Airplanes */
 		System.out.println("There are " + aParse.getNumOfAirplanes() + " airplanes.\n" );	
@@ -186,25 +208,6 @@ public class Tester {
 		System.out.println(test.toString()); // Print how many XMLs have been gotten
 		
 		test.resetDB();// test resetting database
-		
-		/* Turns the XML String into an XML file */
-		java.io.FileWriter fw = new java.io.FileWriter("airports.xml");
-		fw.write(test.getAirportsXML());
-		fw.close();
-		
-		java.io.FileWriter fw1 = new java.io.FileWriter("airplanes.xml");
-		fw1.write(test.getAirplaneXML());
-		fw1.close();
-		
-		java.io.FileWriter fw2 = new java.io.FileWriter("test-Flights.xml");
-		fw2.write(test.getFlightsXML(false,depairport,date));
-		fw2.close();
-		
-		System.out.println("\n"+test.getAirportsXML()); // the XML String
-		System.out.println("\n"+test.getAirplaneXML());// the XML String for airplane
-		System.out.println("\n"+ test.getFlightsXML(true,depairport,date));// the XML String for Flights
-		test.resetDB();// test resetting database
-		System.out.println(test.toString()); // 9 XMLs should have been gotten
 	
 	}
 		

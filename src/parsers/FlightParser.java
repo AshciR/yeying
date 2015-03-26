@@ -39,7 +39,7 @@ public class FlightParser {
 	 * @param the constructor creates an empty 
 	 *        list that is used to hold a the parsed airplanes
 	 */
-	public FlightParser() {
+	public FlightParser(String planeXML, String portXML) {
 		
 		 /* Make an empty list to store the extracted flight legs */
 		 this.flightLegList = new ArrayList<FlightLeg>();
@@ -47,12 +47,12 @@ public class FlightParser {
 		 /* Get the Airplane Parser object then parse then
 		  * XML to ensure you have the list of airplanes */
 		 this.airplanes = AirplaneParser.getInstance();
-		 this.airplanes.parseAirplaneXML();
+		 this.airplanes.parseAirplaneXML(planeXML);
 		 
 		 /* Get the Airport Parser object then parse then
 		  * XML to ensure you have the list of airplanes */
 		 this.airports = AirportParser.getInstance();
-		 this.airports.parseAirportXML();
+		 this.airports.parseAirportXML(portXML);
 		 
 	}
 	
