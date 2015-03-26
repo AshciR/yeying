@@ -11,15 +11,15 @@ public class Prototype {
 	private enum State{GetUserInfo, ShowFlights, BuyFlights}; 
 	private ArrayList<Airport> airportList;
 	private ArrayList<Airplane> airplaneList;
+	private ArrayList<FlightLeg> flightList;
 	private State state;
+	private UserInfo userInfo;
 	
 	/* The constructor */
 	public Prototype(){};
 	
 	/* Method that runs the prototype */
 	public void run(){
-		
-		UserInfo userInfo;
 		
 		/* Initialize System */
 		initSys(); 
@@ -28,7 +28,7 @@ public class Prototype {
 		this.state = State.GetUserInfo;
 		
 		/* Determines whether the user wants to continue */
-		boolean userContinue = false; 
+		boolean userContinue = true; 
 		
 		do {
 			switch (state) {
@@ -42,6 +42,9 @@ public class Prototype {
 				break;
 			
 			case ShowFlights:
+				
+				showFlights();
+				
 				break;
 			case BuyFlights:
 				break;
@@ -50,6 +53,30 @@ public class Prototype {
 				break;
 			}
 		} while (userContinue  == true);
+		
+	}
+
+	private void showFlights() {
+		
+		/* The only DB Getter Object */
+		XMLGetter dbGetter = XMLGetter.getInstance();
+		
+		/* Gets the flight XML String */
+		String flightInfo = dbGetter.getFlightsXML(true, userInfo.getDepartureAirport(), 
+				userInfo.getDepartureDate());
+		
+		/* Get the XML data from DB again */
+		String planeXML = dbGetter.getAirplaneXML();
+		String portXML = dbGetter.getAirportsXML();
+		
+		/* Parses the Flight Info */
+		FlightParser fParse = new FlightParser(planeXML, portXML);
+		fParse.parseFlightXML(flightInfo);
+		
+		/* Holds the list of flights */
+		flightList = fParse.getFlightList();
+		
+		System.out.println("The Number of flights are: " + flightList.size());
 		
 	}
 
