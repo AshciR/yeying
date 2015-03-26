@@ -54,9 +54,6 @@ public class Prototype {
 
 				/* Updates the user's info */
 				askUserForInfo();
-
-				/* Go to Show Flights State */
-				state = State.ShowFlights;
 				break;
 
 			case ShowFlights:
@@ -211,7 +208,7 @@ public class Prototype {
 
 		do {
 			/* Get the Depart Airport from the user */
-			System.out.print("\nWhat is your Departure Airport? ");
+			System.out.print("\nWhat is the code for your Departure Airport? ");
 			String depAirportStr = userInput.nextLine();
 
 			/* Create the departure Airport object */
@@ -230,7 +227,7 @@ public class Prototype {
 		do {
 
 			/* Get the Arrival Airport from the user */
-			System.out.print("\nWhat is your Arrival Airport? ");
+			System.out.print("\nWhat is the code for your Arrival Airport? ");
 			String arrAirportStr = userInput.nextLine();
 
 			/* Create the departure Airport object */
@@ -281,7 +278,7 @@ public class Prototype {
 
 		do {
 			/* Ask if they want First Class */
-			System.out.print("\nDo you want first class? (Y/N) ");
+			System.out.print("\nDo you want first class? (Y/N) \n");
 			String classType = userInput.nextLine();
 			classType = classType.toUpperCase();
 
@@ -305,6 +302,9 @@ public class Prototype {
 		userInfo.setDepartureAirport(depAirport);
 		userInfo.setDepartureDate(depDate);
 		userInfo.setIsFirstClass(seat);
+		
+		/* Go to Show Flights State */
+		state = State.ShowFlights;
 		
 	}
 
