@@ -68,7 +68,12 @@ public class Prototype {
 			
 			case BuyFlights:
 				
-				System.out.println("In the buy flights state.");
+				int fltNum = getFltNum(); // the flight number the user wants to buy
+				System.out.println("The Flight number is " + fltNum);
+				
+				
+				
+				
 				this.state = State.FinishState;
 				
 				break;
@@ -85,6 +90,52 @@ public class Prototype {
 			
 		} while (userContinue == true);
 
+	}
+
+	private int getFltNum() {
+		
+		/* Scanner object */
+		Scanner userInput = new Scanner(System.in);
+		
+		/* Holds the user flight number */
+		int fltNum = 0;
+
+		/* Holds whether User input an available flight */
+		boolean validFlight = false;
+
+		do {
+			/* Get the Flight Number */
+			System.out.print("\nPlease enter the number for the flight you wish to purchase ");
+			String fltNumStr = userInput.nextLine();
+	
+			try {
+				fltNum = Integer.parseInt(fltNumStr);
+				
+				/* Check each to see if the flight number is in the list */
+				for (FlightLeg flight : showFlightList) { 
+
+					if(flight.getFlightNum() == fltNum){
+						validFlight = true;
+						break; // exit for loop
+					}
+					else{
+						validFlight = false;
+					}
+
+				}
+
+				/* Not a valid flight, so inform the user */
+				if (!validFlight) {
+					System.out.println("That is not an available flight.");
+				}
+
+			} catch (NumberFormatException e) {
+				System.out.println("That is not a number!");
+			}
+
+		} while (!validFlight);
+		
+		return fltNum;
 	}
 
 	private boolean finishSys() {
