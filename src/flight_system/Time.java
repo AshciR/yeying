@@ -8,9 +8,20 @@ public class Time {
 	private int hours;
 	private int minutes;
 	
+	
 	public Time(int hours, int minutes) {
 		this.hours = hours;
 		this.minutes = minutes;
+	}
+	
+	public int convertLocalTime(Location location){
+		int raw_offset;
+		
+	}
+	
+    public Time getLocalTime(Time time,Location location){
+    	Time localTime;
+		return localTime;
 	}
 
 	public int getHours() {

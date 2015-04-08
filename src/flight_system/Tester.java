@@ -8,8 +8,9 @@ public class Tester {
 
 	public static void main(String[] args) {
 
-		Prototype proto = new Prototype();
-		proto.run();
+		
+		testLocationClass();
+		
 				
 	}
 	
@@ -182,6 +183,7 @@ public class Tester {
 
 		XMLGetter test = XMLGetter.getInstance(); // create the test object
 		
+		System.out.println("\n"+ test.getTimeZoneXML(testLoc));
 		System.out.println("\n"+ test.getAirportsXML()); // the XML String for airports
 		System.out.println("\n"+ test.getAirplaneXML());// get the XML String for airplane
 		System.out.println("\n"+ test.getFlightsXML(true,depairport,date));// the XML String for Flights
