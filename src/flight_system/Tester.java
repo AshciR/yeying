@@ -9,8 +9,7 @@ public class Tester {
 	public static void main(String[] args) {
 
 		
-		testLocationClass();
-		
+		testTimeClass();
 				
 	}
 	
@@ -217,8 +216,11 @@ public class Tester {
 	private static void testTimeClass(){
 		System.out.println("Testing Time Class\n");
 		
-		Time test = new Time(20,58);
-		
+		Time test = new Time(21,00);
+		Location bos = new Location(42.365855,-71.009624);
+		Location yin = new Location(38.4667,106.2667);
+		Time localTest = Time.getLocalTime(test,bos );
+		Time localTest1 = Time.getLocalTime(test, yin);
 		/* Printing the Time */
 		System.out.println(test.toString());
 		
@@ -228,6 +230,8 @@ public class Tester {
 		System.out.println("The time in minutes is : "+test.getTimeInMinutes());
 		System.out.println("The hour in 12 hour format is : "+test.getHoursIn12());
 		System.out.println("The time is in AM : "+test.isAM());
+		System.out.println("The local time is in AM: "+localTest.isAM());
+		System.out.println("The local time is in AM: "+localTest1.isAM());
 	}
 	
 	@SuppressWarnings("unused")

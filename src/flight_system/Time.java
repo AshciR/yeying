@@ -14,14 +14,10 @@ public class Time {
 		this.minutes = minutes;
 	}
 	
-	public int convertLocalTime(Location location){
-		int raw_offset;
-		
-	}
 	
-    public Time getLocalTime(Time time,Location location){
-    	Time localTime;
-		return localTime;
+    public static Time getLocalTime(Time time, Location location){
+    	int localHours = (time.getHours() + (int)location.getTimeZoneOffset()/3600)%24;
+        return  new Time(localHours,time.getMinutes() );
 	}
 
 	public int getHours() {
