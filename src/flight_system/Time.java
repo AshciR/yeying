@@ -16,10 +16,10 @@ public class Time {
 		this.minutes = minutes;
 	}
 	
-	
-    public static Time getLocalTime(Time time, Location location){
-    	int localHours = (time.getHours() + (int)location.getTimeZoneOffset()/3600)%24;
-        return  new Time(localHours,time.getMinutes() );
+	/* Returns a Time Object with the local time that was given */
+	public static Time getLocalTime(Time time, Location location) {
+		int localHours = (time.getHours() + (int) location.getTimeZoneOffset() / 3600) % 24;
+		return new Time(localHours, time.getMinutes());
 	}
 
 	public int getHours() {

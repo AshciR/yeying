@@ -302,16 +302,20 @@ public class XMLGetter {
 	 */
 	public String getTimeZoneXML (Location location){
 		URL url;
+		
+		/* Data needed by the Google API */
 		double latitude = location.getLatitude();
 		double longitude = location.getLongitude();
-		//This is the date of May 8th 2015 at 00:00 GMT
-		int timeStamp = 1431043200;
+		int timeStamp = 1431043200; //This is the date of May 8th 2015 at 00:00 GMT
+		
 		HttpURLConnection connection;
 		BufferedReader reader;
 		String line;
 		StringBuffer result = new StringBuffer();
 		
 		try{
+			
+			/* Google's TimeZone API */
 			url = new URL("https://maps.googleapis.com/maps/api/timezone/xml?location="+latitude+","+longitude+"&timestamp="+timeStamp);
 				
 			/* Open Connection and send GET request */
