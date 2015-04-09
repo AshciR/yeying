@@ -3,6 +3,10 @@
  *  Description: Class responsible for holding the location of an object.
  *  			 Contains the latitude and longitude of a location, in 
  *  			 addition to a method to determine it's time zone.
+ *  Updated at April 8. 2015 by Jianan Ou and Richard Walder
+ *  Description: Implemented the determineTimeZone method, now this class can analyze
+ *               the time zone information come from server and return the raw offset
+ *               information according to the time zone.
  */
 
 package flight_system;
