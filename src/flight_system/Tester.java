@@ -7,7 +7,7 @@ import parsers.*;
 public class Tester {
 
 	public static void main(String[] args) {
-
+		
 	}
 
 	@SuppressWarnings("unused")
@@ -135,15 +135,24 @@ public class Tester {
 	}
 
 	@SuppressWarnings("unused")
-	private static void testAirPortClass() {
+	private static void testAirportClass() {
 		System.out.println("\nAirport Tester");
 
-		Location testLoc = new Location(33.641045, -84.427764);
+		Location bosLoc = new Location(42.365855, -71.009624);
+		Location atlLoc = new Location(33.641045, -84.427764);
 
 		/* Testing the Airport Class */
-		Airport airport = new Airport("BOS", "Boston Logan", testLoc);
+		Airport bosAirport = new Airport("BOS", "Boston Logan", bosLoc);
+		Airport atlAirport = new Airport("ATL", "Hartsfield Jackson", atlLoc);
 
-		System.out.println(airport.toString());
+		System.out.println(bosAirport.toString());
+		
+		/* Test the Airport comparison Method */
+		System.out.println("Is " + bosAirport.getName() + " the same as " +
+				bosAirport.getName() + "? " + bosAirport.isSameAirport(bosAirport));
+		
+		System.out.println("Is " + atlAirport.getName() + " the same as " +
+				bosAirport.getName() + "? " + atlAirport.isSameAirport(bosAirport));
 
 	}
 
