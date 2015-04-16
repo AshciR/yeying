@@ -1,5 +1,7 @@
 package flight_system;
 
+import graph.GraphTester;
+
 import java.io.IOException;
 
 import parsers.*;
@@ -7,7 +9,7 @@ import parsers.*;
 public class Tester {
 
 	public static void main(String[] args) {
-		
+		GraphTester.testGraph();
 	}
 
 	@SuppressWarnings("unused")
