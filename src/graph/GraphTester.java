@@ -9,6 +9,8 @@ public class GraphTester {
 	public static void testGraph(){
 		Graph graph = new SingleGraph("Tutorial 1");
 		
+		Graph graph2 = new MultiGraph("MultiGraph Example"); 
+				
 		graph.addNode("A");
 		graph.addNode("B");
 		graph.addNode("C");
