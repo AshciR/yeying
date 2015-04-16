@@ -1,4 +1,6 @@
 package graph;
+import java.util.Iterator;
+
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.*;
 
@@ -66,11 +68,13 @@ public class GraphTester {
 		System.out.println("The flight time is : " + flight2002.getAttribute("depTime"));
 		System.out.println("Is this edge directed? " + flight2002.isDirected());
 		
-		System.out.println("BOS -> ATL? : " + bos.hasEdgeFrom(jfk)); // BOS -> ATL No!
-		System.out.println("BOS -> JFK? : " + bos.hasEdgeFrom(atl)); // BOS -> JFK Yes!
+		System.out.println("BOS -> JFK? : " + bos.hasEdgeToward(jfk)); // BOS -> JFK Yes!
+		System.out.println("BOS -> ATL? : " + bos.hasEdgeToward(atl)); // BOS -> ATL No!
 		
+		/* Testing hasRoute */
+		System.out.println("Theres a route between " + bos + " and " + bos + ": " + hasRoute(bos,bos));
 		System.out.println("Theres a route between " + bos + " and " + atl + ": " + hasRoute(bos,atl)); 
-		
+		System.out.println("Theres a route between " + atl + " and " + mia + ": " + hasRoute(atl,mia));
 		graph.display();
 
 	}
@@ -78,8 +82,22 @@ public class GraphTester {
 	/* Check if there's a route */
 	private static boolean hasRoute(Node depNode, Node arrNode){
 		
-		System.out.println("Arrive same as depart " + depNode.equals(arrNode));
-		return true;
+		/* If Arrival same as Depart */
+		if (depNode.equals(arrNode)) {
+			System.out.println("Arrive same as depart "
+					+ depNode.equals(arrNode));
+			return true;
+		}
+		
+		/* Checks if there's a direct Flight */
+		else if (depNode.hasEdgeToward(arrNode)) {
+			System.out.println("This is a direct flight");
+			return true;
+			
+		}
+		
+		System.out.println("No flight available");
+		return false;
 		
 	}
 	
