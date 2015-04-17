@@ -11,30 +11,7 @@ public class GraphTester {
 	
 	public static void testGraph(){
 		
-		Graph graph = new MultiGraph("Test Flights");
-		
-		/* Allow easy creation of edges */
-		graph.setAutoCreate(true);
-		
-		/* Making Graph */
-		graph.addNode("BOS");
-		graph.addNode("JFK");
-		graph.addNode("ATL");
-		graph.addNode("MIA");
-		graph.addNode("SFO");
-		graph.addNode("KGN");
-		
-		graph.addEdge("1000", "BOS", "JFK", true);
-		graph.addEdge("1001", "BOS", "SFO", true);
-				
-		graph.addEdge("2000", "JFK", "ATL", true);
-		graph.addEdge("2001", "JFK", "ATL", true);
-		
-		graph.addEdge("3001", "ATL", "JFK", true);
-		graph.addEdge("3000", "ATL", "BOS", true);
-		graph.addEdge("3002", "ATL", "MIA", true);
-		
-		graph.addEdge("4000", "MIA", "KGN", true);
+		Graph graph = makeGraph();
 		
 		/* Nodes */
 		Node bos = graph.getNode("BOS");
@@ -90,7 +67,6 @@ public class GraphTester {
 		System.out.println("There's a route between " + sfo + " and " + bos + ": " + hasRoute(sfo,bos,0)+"\n");
 		System.out.println("There's a route between " + jfk + " and " + kgn + ": " + hasRoute(jfk,kgn,0)+"\n");
 		System.out.println("There's a route between " + kgn + " and " + sfo + ": " + hasRoute(kgn,sfo,0)+"\n");
-		//graph.display();
 
 	}
 	
@@ -140,4 +116,36 @@ public class GraphTester {
 		return found;
 	}
 	
+	private static Graph makeGraph(){
+		Graph graph = new MultiGraph("Test Flights");
+
+		/* Allow easy creation of edges */
+		graph.setAutoCreate(true);
+
+		/* Making Graph */
+		graph.addNode("BOS");
+		graph.addNode("JFK");
+		graph.addNode("ATL");
+		graph.addNode("MIA");
+		graph.addNode("SFO");
+		graph.addNode("KGN");
+		
+		graph.addEdge("1000", "BOS", "JFK", true);
+		graph.addEdge("1001", "BOS", "SFO", true);
+
+		graph.addEdge("2000", "JFK", "ATL", true);
+		graph.addEdge("2001", "JFK", "ATL", true);
+
+		graph.addEdge("3001", "ATL", "JFK", true);
+		graph.addEdge("3000", "ATL", "BOS", true);
+		graph.addEdge("3002", "ATL", "MIA", true);
+
+		graph.addEdge("4000", "MIA", "KGN", true);
+		
+		return graph;
+
+	}
+
 }
+
+
