@@ -93,7 +93,7 @@ public class Flight
 	public Time getLayoverTime(UserInfo userInfo)
 	{
 		System.out.println("Please enter the number of transform station you want to check: ");
-		Scanner.in = new Scanner(System.in);
+		Scanner in = new Scanner(System.in);
 		int num = in.nextInt();
 		
 		/*if(flightList.size() < 3)
