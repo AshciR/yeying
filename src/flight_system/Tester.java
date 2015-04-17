@@ -6,8 +6,9 @@ import parsers.*;
 
 public class Tester {
 
-	public static void main(String[] args) {
-
+	public static void main(String[] args) 
+	{
+		testFlight();
 	}
 
 	@SuppressWarnings("unused")
@@ -354,5 +355,24 @@ public class Tester {
 		user.setDepartureDate(departureDate);
 		user.setIsFirstClass(false);
 		System.out.println(user.toString());
+	}
+	
+	private static void testFlight()
+	{
+		System.out.println("Testing Flight class");
+		Flight f = new Flight();
+		Location bl = new Location(42.365855, -71.009624);
+		Location ml = new Location(35.042345, -89.979216);
+		Airport da = new Airport("BOS", "Logan International", bl);
+		Airport aa = new Airport("MEM", "Memphis International", ml);
+		Date dd = new Date(Month.May, 10, 2015);
+		//Date ad = new Date(May, 10, 2015);
+		UserInfo u = new UserInfo(da, aa, dd, true);
+		
+		System.out.println(f.getTotalTime(u));
+		System.out.println(f.getTotalCost(u));
+		System.out.println(f.getNumOfConnection());
+		System.out.println(f.gettotalLayoverTime(u));
+		System.out.println(f.getLayoverTime(u));
 	}
 }
