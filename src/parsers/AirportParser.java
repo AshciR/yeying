@@ -99,7 +99,13 @@ public class AirportParser {
 		}
 
 	}
-
+	
+	/* Returns true if the list is populated */
+	public boolean hasAirportList(){
+		return (this.airportList.size() != 0);
+		
+	}
+	
 	/* Static Method used to parse the airplane XML */
 	public void parseAirportXML(String xmlSource) {
 
