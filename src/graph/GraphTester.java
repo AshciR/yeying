@@ -16,7 +16,7 @@ public class GraphTester {
 		/* Allow easy creation of edges */
 		graph.setAutoCreate(true);
 		
-		/* Makes Graph */
+		/* Making Graph */
 		graph.addNode("BOS");
 		graph.addNode("JFK");
 		graph.addNode("ATL");
@@ -26,7 +26,7 @@ public class GraphTester {
 		
 		graph.addEdge("1000", "BOS", "JFK", true);
 		graph.addEdge("1001", "BOS", "SFO", true);
-		
+				
 		graph.addEdge("2000", "JFK", "ATL", true);
 		graph.addEdge("2001", "JFK", "ATL", true);
 		
@@ -46,13 +46,13 @@ public class GraphTester {
 		
 		/* Edges */
 		Edge flight1000 = graph.getEdge("1000");
-		flight1000.addAttribute("depTime", "12:00");
+		flight1000.addAttribute("depTime", 12);
 		
 		Edge flight2000 = graph.getEdge("2000");
-		flight2000.addAttribute("depTime", "13:00");
+		flight2000.addAttribute("depTime", 13);
 		
 		Edge flight2001 = graph.getEdge("2001");
-		flight2001.addAttribute("depTime", "14:00");
+		flight2001.addAttribute("depTime", 14);
 		
 		Edge flight2002 = graph.getEdge("3000");
 		flight2002.addAttribute("depTime", "15:00");
@@ -94,7 +94,7 @@ public class GraphTester {
 
 	}
 	
-	/* Attempt at finding route, using edges alone */
+	/* Determines if there's a route between two nodes, maximum of 2 connections  */
 	private static boolean hasRoute(Node depNode, Node arrNode, int con){
 		
 		Node nextConNode; // holds the next node for the recursion

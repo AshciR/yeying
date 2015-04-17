@@ -18,22 +18,27 @@ public class Tester {
 		System.out.println("\nLocation Tester");
 
 		/* Make a test location */
-		Location testLoc = new Location(33.641045, -84.427764);
-
+		Location testLoc = new Location(33.641045, -84.427764);	
+		Location testLoc1 = new Location(40.000158, -82.887198);
+				
 		/* Print the object */
 		System.out.println(testLoc.toString());
 		System.out.println(testLoc.getLatitude());
 		System.out.println(testLoc.getLongitude());
+		
+		System.out.println(testLoc1.toString());
 	}
 
 	@SuppressWarnings("unused")
 	private static void testAirportParserClass() {
 
 		System.out.println("\nAirplaneParser Tester");
-
+		
+		XMLGetter getter = XMLGetter.getInstance(); // create the test object
+				
 		/* Make an Airplane Parser */
 		AirportParser aParse = AirportParser.getInstance();
-		aParse.parseAirportXML("placeHolder"); // Parses the XML
+		aParse.parseAirportXML(getter.getAirportsXML()); // Parses the XML
 
 		/* Print the number of Airplanes */
 		System.out.println("There are " + aParse.getNumOfAirports()
