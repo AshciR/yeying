@@ -5,10 +5,24 @@ import java.util.Iterator;
 import org.graphstream.graph.*;
 import org.graphstream.graph.implementations.*;
 
+import flight_system.Date;
+import flight_system.Month;
+
 public class GraphTester {
 
 	private GraphTester(){};
 	
+	/* Test Graph With Actual Data */
+	public static void testFlightGraph(){
+		
+		Date date = new Date(Month.May, 10, 2015);
+		
+		FlightGraph test = new FlightGraph(date);
+		
+		test.displayGraph();
+	}
+	
+	/* Test small made-up graph */
 	public static void testGraph(){
 		
 		Graph graph = makeGraph();
@@ -116,6 +130,7 @@ public class GraphTester {
 		return found;
 	}
 	
+	/* Makes the graph for the small made-up graph */
 	private static Graph makeGraph(){
 		Graph graph = new MultiGraph("Test Flights");
 

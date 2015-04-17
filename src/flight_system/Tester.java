@@ -9,7 +9,7 @@ import parsers.*;
 public class Tester {
 
 	public static void main(String[] args) {
-		GraphTester.testGraph();
+		GraphTester.testFlightGraph();
 	}
 
 	@SuppressWarnings("unused")
