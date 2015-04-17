@@ -32,16 +32,6 @@ public class Tester {
 	@SuppressWarnings("unused")
 	private static void testAirportParserClass() {
 
-<<<<<<< HEAD
-		System.out.println("\nAirplaneParser Tester");
-		
-		XMLGetter getter = XMLGetter.getInstance(); // create the test object
-				
-		/* Make an Airplane Parser */
-		AirportParser aParse = AirportParser.getInstance();
-		aParse.parseAirportXML(getter.getAirportsXML()); // Parses the XML
-
-=======
 		System.out.println("\nAirportParser Tester");
 		
 		XMLGetter getter = XMLGetter.getInstance();
@@ -55,7 +45,6 @@ public class Tester {
 		
 		System.out.println("Does this have the airports yet? " + aParse.hasAirportList());
 		
->>>>>>> dev
 		/* Print the number of Airplanes */
 		System.out.println("There are " + aParse.getNumOfAirports()
 				+ " airports.\n");
