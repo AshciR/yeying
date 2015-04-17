@@ -40,7 +40,16 @@ public class Location {
 	public Location(double latitude, double longitude) {
 		this.latitude = latitude;
 		this.longitude = longitude;
-		determineTimeZone();
+		
+		/* Have to sleep in order to avoid the Google API Limit */
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		determineTimeZone(); 
 	}
 	
 	/* Getters */

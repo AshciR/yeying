@@ -28,10 +28,12 @@ public class Tester {
 	private static void testAirportParserClass() {
 
 		System.out.println("\nAirplaneParser Tester");
-
+		
+		XMLGetter getter = XMLGetter.getInstance();
+		
 		/* Make an Airplane Parser */
 		AirportParser aParse = AirportParser.getInstance();
-		aParse.parseAirportXML("placeHolder"); // Parses the XML
+		aParse.parseAirportXML(getter.getAirportsXML()); // Parses the XML
 
 		/* Print the number of Airplanes */
 		System.out.println("There are " + aParse.getNumOfAirports()
