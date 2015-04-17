@@ -52,6 +52,30 @@ public class Location {
 		determineTimeZone(); // Get the Time Zone from Google
 	}
 	
+	/* Constructor for making a Location w/o getting the TimeZone info */
+	public Location(double latitude, double longitude, boolean getZone) {
+
+		if(getZone){
+			this.latitude = latitude;
+			this.longitude = longitude;
+
+			/* Have to sleep in order to avoid the Google API Limit */
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			determineTimeZone(); // Get the Time Zone from Google
+		}
+		else{
+			this.latitude = latitude;
+			this.longitude = longitude;	
+		}
+
+	}
+	
 	/* Getters */
 	public double getLatitude() {
 		return latitude;
