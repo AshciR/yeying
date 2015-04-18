@@ -37,8 +37,23 @@ public class GraphTester {
 	
 	/* Test the Graph Engine with actual data */
 	public void testGraphEngine(){
-		//GraphMaker test = new GraphMaker(date);
 		
+		GraphMaker maker = new GraphMaker(date);
+		FlightGraph engine = new GraphEngine(maker.getGraph());
+				
+		System.out.println("Node for the 1st Airport is: " + ((GraphEngine) engine).getNode(this.airports.get(0)));
+		
+		/* Flight from BOS -> SFO */
+		System.out.println("There is a flight from BOS to SFO: " + engine.hasDirectFlight(airports.get(0), airports.get(4))); 
+		
+		/* Flight from BOS -> ATL */
+		System.out.println("There is a flight between BOS to ATL: " + engine.hasRoute(airports.get(0), airports.get(2)));
+	
+		/* Flight from BOS -> ATL -> JFK */
+		System.out.println("There is a flight between BOS to JFK: " + engine.hasRoute(airports.get(0), airports.get(1)));
+		
+		/* Flight from BOS -> MIA */
+		System.out.println("There is a flight between BOS to MIA: " + engine.hasRoute(airports.get(0), airports.get(3)));
 	}
 	
 	/* Test small made-up graph */

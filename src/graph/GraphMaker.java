@@ -2,6 +2,7 @@ package graph;
 
 import java.util.Iterator;
 
+import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.MultiGraph;
@@ -84,7 +85,16 @@ public class GraphMaker {
 			
 			/* Add all the edges (departing flights) */
 			for (FlightLeg flight : fParser.getFlightList()){
+				
+				/* Add the flight as an edge to the graph */
 				graph.addEdge(Integer.toString(flight.getFlightNum()), airportCode, flight.getArrivalAirport().getCode(), true);
+				
+				/* Get the edge that was just added */
+				Edge edge = graph.getEdge(Integer.toString(flight.getFlightNum()));
+				
+				/* Add the attribute to the edge */
+				edge.addAttribute("fltInfo", flight);
+			
 			}
 			
 			/* Clean the list */
