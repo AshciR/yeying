@@ -15,6 +15,6 @@ Flight infomation is stored on a virtual machine based on WPI campus, and this s
 # Dependencies:
 
 - Java 1.6 or higher is needed to use this system
-- You need to download the gs-core-1.2.jar and gs-algo-1.2.jar files in order to run
+- You need to download the gs-core-1.2.jar and gs-algo-1.2.jar files and place them within the lib folder in order to run
 
 The jar files are available from http://graphstream-project.org/download/
