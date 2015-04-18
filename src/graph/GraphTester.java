@@ -20,21 +20,29 @@ public class GraphTester {
 	private Date date;
 	private ArrayList<Airport> airports;
 	
+	/* Constructor */
 	public GraphTester(){
 		this.airplane = new Airplane("774", "Airbus", 20, 50);
-		this.date = new Date(Month.March, 10, 2015);
+		this.date = new Date(Month.May, 10, 2015);
 		this.airports = new ArrayList<Airport>();
 		makeTestAiports();
 	};
 	
-	/* Test Graph With Actual Data */
-	public void testFlightGraph(){
-		FlightGraph test = new FlightGraph(date);
-		test.displayGraph();
+	/* Test GraphMaker With Actual Data */
+	public void testGraphMaker(){
+		GraphMaker test = new GraphMaker(date);
+		System.out.println("This graph has " + test.getGraph().getEdgeCount() + " edges.");
+		System.out.println("This graph has " + test.getGraph().getNodeCount() + " nodes.");
 	}
-
+	
+	/* Test the Graph Engine with actual data */
+	public void testGraphEngine(){
+		//GraphMaker test = new GraphMaker(date);
+		
+	}
+	
 	/* Test small made-up graph */
-	public void testGraph(){
+ 	public void testGraph(){
 		
 		ArrayList<Edge> edgeList = new ArrayList<Edge>();
 		
@@ -62,21 +70,21 @@ public class GraphTester {
 		System.out.println("BOS -> ATL? : " + bos.hasEdgeToward(atl)); // BOS -> ATL No!
 				
 		/* Testing hasRoute */
-		System.out.println("--------");
-//		testHasRoute(bos, atl); 
-//		testHasRoute(atl, mia);
-//		testHasRoute(bos, mia);		
-//		testHasRoute(bos, kgn);
-//		testHasRoute(sfo, bos);
-//		testHasRoute(jfk, kgn);
-//		testHasRoute(kgn, sfo);
+		System.out.println("Testing hasRoute--------");
+		testHasRoute(bos, atl); 
+		testHasRoute(atl, mia);
+		testHasRoute(bos, mia);		
 		
+		/* Testing timeHasRoute */
+		System.out.println("Testing timeHasRoute--------");
 		testTimeRoute(bos, jfk); // True - Direct Flight
 		testTimeRoute(bos, atl); // True - 1 connection	
 		testTimeRoute(bos, mia); // True - 2 connections 
 		testTimeRoute(atl, sfo); // False - 1 connection, but leaves too early
 		testTimeRoute(bos, kgn); // False - 3 connections
 		testTimeRoute(mia, sfo); // False - MIA -> ATL -> BOS -/> SFO
+		testTimeRoute(kgn, mia); // False - KGN -> BOS -> JFK -> ATL -> MIA too many stops
+		testTimeRoute(kgn, atl); // True - KGN -> BOS -> JFK -> ATL
 	}
 
 	private void testTimeRoute(Node dep, Node arr) {
@@ -155,6 +163,10 @@ public class GraphTester {
 		
 		Time d4001 = new Time(9, 00);
 		Time a4001 = new Time(9, 30);
+		
+		// KGN
+		Time d5000 = new Time(9, 00);
+		Time a5000 = new Time(9, 59);
 	
 		/* Making the Flight Legs */
 		FlightLeg f1000 = new FlightLeg(airplane, 1000, 30, d1000, date,
@@ -183,6 +195,9 @@ public class GraphTester {
 		
 		FlightLeg f4001 = new FlightLeg(airplane, 4001, 30, d4001, date,
 				airports.get(3), a4001, date, airports.get(2), 50.00, 15, 25.00, 25);
+		
+		FlightLeg f5000 = new FlightLeg(airplane, 5001, 30, d5000, date,
+				airports.get(5), a5000, date, airports.get(0), 50.00, 15, 25.00, 25);
 		
 		/* Edges */
 		Edge flight1000 = graph.getEdge("1000");
@@ -221,6 +236,10 @@ public class GraphTester {
 		flight4001.addAttribute("fltInfo", f4001);
 		edgeList.add(flight4001);
 		
+		Edge flight5000 = graph.getEdge("5000");
+		flight5000.addAttribute("fltInfo", f5000);
+		edgeList.add(flight5000);
+		
 		return edgeList;
 	}
 
@@ -258,6 +277,8 @@ public class GraphTester {
 
 		graph.addEdge("4000", "MIA", "KGN", true);
 		graph.addEdge("4001", "MIA", "ATL", true);
+		
+		graph.addEdge("5000", "KGN", "BOS", true);
 			
 		return graph;
 

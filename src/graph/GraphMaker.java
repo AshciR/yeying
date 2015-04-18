@@ -11,12 +11,12 @@ import parsers.FlightParser;
 import parsers.XMLGetter;
 import flight_system.*;
 
-public class FlightGraph {
+public class GraphMaker {
 	
 	private Date date;
 	private Graph graph;
 	
-	public FlightGraph(Date date) {
+	public GraphMaker(Date date) {
 		this.date = date;
 		
 		/* Graph Identifier */
@@ -46,7 +46,8 @@ public class FlightGraph {
 	public void displayGraph(){
 		this.graph.display();
 	}
-
+	
+	
 	private void makeGraph(){
 		
 		/* XML Getter Singleton */
@@ -92,7 +93,6 @@ public class FlightGraph {
 		}
 	}
 
-	
 	/* Adds the Airport Nodes to the graph */
 	private void addNodes(AirportParser portParser, XMLGetter getter) {
 		
