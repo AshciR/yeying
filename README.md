@@ -2,6 +2,7 @@
 The design project for CS509 at Worcester Polytechnic Institute 
 
 Professor: Blake Nelson
+
 Team Members: 
 - Daoheng Guo
 - Jianan Ou
