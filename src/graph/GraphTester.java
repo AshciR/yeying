@@ -321,9 +321,7 @@ public class GraphTester {
 			
 			/* Checks if there's a direct Flight from the current node */
 			if (depNode.hasEdgeToward(arrNode)) {
-	
 				found = true;
-	
 			}
 			/* No direct connection from the current node */
 			else{
@@ -335,14 +333,14 @@ public class GraphTester {
 				while (depFlights.hasNext()){
 					
 					/* The current edge (departing flight) info */
-					Edge nextEdge = depFlights.next();
-					FlightLeg depFltsInfo = nextEdge.getAttribute("fltInfo");
+					Edge depFltEdge = depFlights.next();
+					FlightLeg depFltsInfo = depFltEdge.getAttribute("fltInfo");
 					
 					/* Current Edge's arrival time (in minutes) */
 					int currEdgeTime = depFltsInfo.getArrivalTime().getTimeInMinutes();
 					
 					/* The next potential Node */
-					nextConNode = nextEdge.getTargetNode();
+					nextConNode = depFltEdge.getTargetNode();
 					
 					/* Get an iterator for the Next Node's departing flights */
 					Iterator<Edge> nxtDepFlights = nextConNode.getLeavingEdgeIterator();
@@ -350,9 +348,10 @@ public class GraphTester {
 					while(nxtDepFlights.hasNext()){
 						
 						Edge conFlt2nd = nxtDepFlights.next(); // the potential 2nd flight
+						Node conNode2nd = conFlt2nd.getTargetNode(); // potential 2nd port
 						
 						/* If edge's target node is where we want to go */
-						if(conFlt2nd.getTargetNode().equals(arrNode)){
+						if(conNode2nd.equals(arrNode)){
 							
 							FlightLeg fltInfo = conFlt2nd.getAttribute("fltInfo"); // get the flight info
 							
