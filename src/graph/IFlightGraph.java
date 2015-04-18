@@ -2,7 +2,7 @@ package graph;
 
 import flight_system.Airport;
 
-public interface FlightGraph {
+public interface IFlightGraph {
 	
 	/* Tells if there's a direct flight */
 	public boolean hasDirectFlight(Airport depPort, Airport arrPort);

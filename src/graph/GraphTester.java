@@ -39,7 +39,7 @@ public class GraphTester {
 	public void testGraphEngine(){
 		
 		GraphMaker maker = new GraphMaker(date);
-		FlightGraph engine = new GraphEngine(maker.getGraph());
+		IFlightGraph engine = new GraphEngine(maker.getGraph());
 				
 		System.out.println("Node for the 1st Airport is: " + ((GraphEngine) engine).getNode(this.airports.get(0)));
 		

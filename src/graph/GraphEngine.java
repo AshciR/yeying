@@ -7,7 +7,7 @@ import org.graphstream.graph.*;
 import flight_system.Airport;
 import flight_system.FlightLeg;
 
-public class GraphEngine implements FlightGraph{
+public class GraphEngine implements IFlightGraph{
 	
 	Graph flightGraph;
 
