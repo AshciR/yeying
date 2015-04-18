@@ -63,7 +63,7 @@ public class GraphTester {
 				
 		/* Testing hasRoute */
 		System.out.println("--------");
-		testHasRoute(bos, atl); 
+//		testHasRoute(bos, atl); 
 //		testHasRoute(atl, mia);
 //		testHasRoute(bos, mia);		
 //		testHasRoute(bos, kgn);
@@ -71,11 +71,12 @@ public class GraphTester {
 //		testHasRoute(jfk, kgn);
 //		testHasRoute(kgn, sfo);
 		
-//		testTimeRoute(bos, jfk); // True - Direct Flight
-//		testTimeRoute(bos, atl); // True - 1 connection	
-//		testTimeRoute(bos, mia); // True - 2 connections
+		testTimeRoute(bos, jfk); // True - Direct Flight
+		testTimeRoute(bos, atl); // True - 1 connection	
+		testTimeRoute(bos, mia); // True - 2 connections *Giving False for some reason*
 		testTimeRoute(atl, sfo); // False - 1 connection, but leaves too early
-//		testTimeRoute(mia, atl); // False - No flights
+		testTimeRoute(bos, kgn); // False - 3 connections
+		testTimeRoute(mia, sfo); // False - MIA -> ATL -> BOS -/> SFO
 	}
 
 	private void testTimeRoute(Node dep, Node arr) {
@@ -151,6 +152,9 @@ public class GraphTester {
 		// MIA
 		Time d4000 = new Time(13, 00);
 		Time a4000 = new Time(14, 00);
+		
+		Time d4001 = new Time(9, 00);
+		Time a4001 = new Time(9, 30);
 	
 		/* Making the Flight Legs */
 		FlightLeg f1000 = new FlightLeg(airplane, 1000, 30, d1000, date,
@@ -176,6 +180,9 @@ public class GraphTester {
 		
 		FlightLeg f4000 = new FlightLeg(airplane, 4000, 60, d4000, date,
 				airports.get(3), a4000, date, airports.get(5), 50.00, 15, 25.00, 25);
+		
+		FlightLeg f4001 = new FlightLeg(airplane, 4001, 30, d4001, date,
+				airports.get(3), a4001, date, airports.get(2), 50.00, 15, 25.00, 25);
 		
 		/* Edges */
 		Edge flight1000 = graph.getEdge("1000");
@@ -209,6 +216,10 @@ public class GraphTester {
 		Edge flight4000 = graph.getEdge("4000");
 		flight4000.addAttribute("fltInfo", f4000);
 		edgeList.add(flight4000);
+		
+		Edge flight4001 = graph.getEdge("4001");
+		flight4001.addAttribute("fltInfo", f4001);
+		edgeList.add(flight4001);
 		
 		return edgeList;
 	}
@@ -246,6 +257,7 @@ public class GraphTester {
 		graph.addEdge("3002", "ATL", "MIA", true);
 
 		graph.addEdge("4000", "MIA", "KGN", true);
+		graph.addEdge("4001", "MIA", "ATL", true);
 			
 		return graph;
 
@@ -302,7 +314,7 @@ public class GraphTester {
 		
 		Node nextConNode; // holds the next node for the recursion
 		boolean found = false; // holds the result
-		boolean timeFound = false; // true if the next departs after the previous reaches 
+		//boolean timeFound = false; // true if the next departs after the previous reaches 
 		
 		/* If less than 2 connections so far */
 		if (con < 3){
@@ -319,15 +331,15 @@ public class GraphTester {
 				/* Get an iterator for the departing flights */
 				Iterator<Edge> depFlights = depNode.getLeavingEdgeIterator();
 				
-				/* The current edge (departing flight) info */
-				Edge nextEdge = depFlights.next();
-				FlightLeg depFltsInfo = nextEdge.getAttribute("fltInfo");
-				
-				/* Current Edge's arrival time (in minutes) */
-				int currEdgeTime = depFltsInfo.getArrivalTime().getTimeInMinutes();
-				
 				/* While there are still flights to search */
-				while (depFlights.hasNext() && !timeFound){
+				while (depFlights.hasNext()){
+					
+					/* The current edge (departing flight) info */
+					Edge nextEdge = depFlights.next();
+					FlightLeg depFltsInfo = nextEdge.getAttribute("fltInfo");
+					
+					/* Current Edge's arrival time (in minutes) */
+					int currEdgeTime = depFltsInfo.getArrivalTime().getTimeInMinutes();
 					
 					/* The next potential Node */
 					nextConNode = nextEdge.getTargetNode();
@@ -347,21 +359,23 @@ public class GraphTester {
 							/* If the 2nd flight leaves after the 1st one arrives */
 							if (fltInfo.getDepartureTime().getTimeInMinutes() > currEdgeTime){
 								found = true;
-								timeFound = false;
 								break; // stop checking for routes
 							}
 							
 						}
+						else{
+							/* Recursive call to search for connections */
+							if (timeHasRoute(depNode, arrNode, con + 1)){
+								found = true;
+								break;
+							}
+						}
 			
-					}
-				
-					/* Recursive call to search for connections */
-					if (timeHasRoute(nextConNode, arrNode, con + 1)){
-						found = true;
-						break; // found a route, stop searching
 					}
 					
 				}
+				
+				// Recursive WAS HERE before!
 				
 			}
 			
