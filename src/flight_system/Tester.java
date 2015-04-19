@@ -372,6 +372,7 @@ public class Tester {
 	
 	private static void testFlight()
 	{
+		//give the information of first flight
 		System.out.println("Testing Flight class");
 		Airplane plane1 = new Airplane(A340, Airbus, 32, 268);
 		Time dt1 = new Time(11, 13);
@@ -383,6 +384,8 @@ public class Tester {
 		Airport da1 = new Airport("DTW", "Detroit Metropolitan Wayne County Airport", dl1);
 		Airport aa1 = new Airport("BOS", "Logan International", al1);
 		
+		
+		//give the information of second flight
 		Airplane plane2 = new Airplane(A320, Airbus, 12, 124);
 		Time dt2 = new Time(20, 29);
 		Time at2 = new Time(23, 19);
