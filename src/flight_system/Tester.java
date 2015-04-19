@@ -1,14 +1,27 @@
 package flight_system;
 
 import java.io.IOException;
+import java.util.Scanner;
 
 import parsers.*;
 
 public class Tester {
 
+	private static final String A340 = null;
+	private static final String Airbus = null;
+	private static final String A320 = null;
+
 	public static void main(String[] args) 
 	{
+		int yn = 0;
+		do
+		{
 		testFlight();
+		System.out.println("Continue? (1/0)");
+		Scanner in = new Scanner(System.in);
+		yn = in.nextInt();
+		}
+		while(yn == 1);
 	}
 
 	@SuppressWarnings("unused")
@@ -360,19 +373,36 @@ public class Tester {
 	private static void testFlight()
 	{
 		System.out.println("Testing Flight class");
-		Flight f = new Flight();
-		Location bl = new Location(42.365855, -71.009624);
-		Location ml = new Location(35.042345, -89.979216);
-		Airport da = new Airport("BOS", "Logan International", bl);
-		Airport aa = new Airport("MEM", "Memphis International", ml);
-		Date dd = new Date(Month.May, 10, 2015);
-		//Date ad = new Date(May, 10, 2015);
-		UserInfo u = new UserInfo(da, aa, dd, true);
+		Airplane plane1 = new Airplane(A340, Airbus, 32, 268);
+		Time dt1 = new Time(11, 13);
+		Time at1 = new Time(12, 32);
+		Date dd1 = new Date(Month.May, 10, 2015);
+		Date ad1 = new Date(Month.May, 10, 2015);
+		Location dl1 = new Location(42.216446, -83.355427);
+		Location al1 = new Location(42.365855, -71.009624);
+		Airport da1 = new Airport("DTW", "Detroit Metropolitan Wayne County Airport", dl1);
+		Airport aa1 = new Airport("BOS", "Logan International", al1);
 		
-		System.out.println(f.getTotalTime(u));
-		System.out.println(f.getTotalCost(u));
-		System.out.println(f.getNumOfConnection());
-		System.out.println(f.gettotalLayoverTime(u));
-		System.out.println(f.getLayoverTime(u));
+		Airplane plane2 = new Airplane(A320, Airbus, 12, 124);
+		Time dt2 = new Time(20, 29);
+		Time at2 = new Time(23, 19);
+		Date dd2 = new Date(Month.May, 10, 2015);
+		Date ad2 = new Date(Month.May, 10, 2015);
+		Location dl2 = new Location(42.365855, -71.009624);
+		Location al2 = new Location(35.042345, -89.979216);
+		Airport da2 = new Airport("BOS", "Logan International", dl2);
+		Airport aa2 = new Airport("MEM", "Memphis International", al2);
+
+		FlightLeg f1ight1 = new FlightLeg(plane1, 2614, 79, dt1, dd1, da1, at1, ad1, aa1, 323.25, 28,	38.60, 23);
+		FlightLeg f1ight2 = new FlightLeg(plane2, 0526, 170, dt2, dd2, da2, at2, ad2, aa2, 323.25, 28,	38.60, 23);
+		Flight f = new Flight(f1ight1, f1ight2);
+		UserInfo u = new UserInfo(da1, aa1, dd1, true);
+		
+		
+		System.out.println("The total travel time is: " + f.getTotalTime());
+		System.out.println("The total cost of travel is: " + f.getTotalCost(u));
+		System.out.println("The number of transit airport are: " + f.getNumOfConnection());
+		System.out.println("The total layover time is: " + f.gettotalLayoverTime());
+		System.out.println("The layover time of this transit airport is: " + f.getLayoverTime());
 	}
 }
