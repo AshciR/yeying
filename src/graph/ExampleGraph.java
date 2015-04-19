@@ -1,8 +1,10 @@
 package graph;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Map.Entry;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
@@ -80,10 +82,11 @@ public class ExampleGraph {
 		/* Should be two flights */
 		routes = getRoutes(bos, atl);
 		
-		/* Print Routes */
 		for (LinkedList<Edge> route : routes){
 			System.out.println(route);
 		}
+		
+	
 	}
 	
 	/* Make the test airports */
@@ -483,16 +486,16 @@ public class ExampleGraph {
 	}
 	
 	/* Returns all the routes from a departure node to an arrival node */
-	private ArrayList< LinkedList<Edge> > getRoutes(Node depNode, Node arrNode){
+	private ArrayList<LinkedList<Edge>> getRoutes(Node depNode, Node arrNode){
 		
-		/* Contains the list of Routes */
-		ArrayList< LinkedList<Edge> > routes = new ArrayList< LinkedList<Edge> >(); 
-		
-		/* Holds the connecting edges */
-		LinkedList<Edge> routeEdges = new LinkedList<Edge>();
+		/* Map to hold the routes */
+		ArrayList<LinkedList<Edge>> routes = new ArrayList<LinkedList<Edge>>();
 		
 		/* Holds the number of connections so far */
 		int conn = 0;
+		
+		/* Holds the number of routes found so far */
+		int routeCount = 0;
 		
 		/* If there's a route, then let's get the routes */
 		if(timeHasRoute(depNode, arrNode, conn, null)){
@@ -512,9 +515,12 @@ public class ExampleGraph {
 				 * it's a direct flight. So add it to the route list */
 				if (landNode.equals(arrNode)){
 					
-					routeEdges.clear();
+					/* Holds the connecting edges */
+					LinkedList<Edge> routeEdges = new LinkedList<Edge>();
+					
 					routeEdges.add(depFlt); // add the edge
-					routes.add(routeEdges); // add the route
+					routes.add(routeEdges);
+					routeCount++;
 					
 				}
 				/* Let's check if the next node connects to the destination */
@@ -524,8 +530,6 @@ public class ExampleGraph {
 					
 					/* Check the next node to see if there's a route from there */
 					if(timeHasRoute(landNode, arrNode, conn, depFlt)){
-						
-						routeEdges.add(depFlt); // add the edge
 						
 						/* Get all the flights leaving that node */
 						Iterator<Edge> landNodeFlts = landNode.getLeavingEdgeIterator();
@@ -540,12 +544,14 @@ public class ExampleGraph {
 							 * it's a one connection flight. So add it to the route list */
 							if (landNode2nd.equals(arrNode)){
 								 
-								routeEdges.clear();
+								/* Holds the connecting edges */
+								LinkedList<Edge> routeEdges = new LinkedList<Edge>();
+								
 								routeEdges.add(depFlt); // add the edge
 								routeEdges.add(flight2nd); // add the edge
 								
-								routes.add(routeEdges); // add the route
-							
+								routes.add(routeEdges);
+								routeCount++;
 
 							}
 							/* Lets see if the next node connects to the destination */
@@ -554,8 +560,6 @@ public class ExampleGraph {
 								
 								/* Check the next node to see if there's a route from there */
 								if(timeHasRoute(landNode2nd, arrNode, conn, depFlt)){
-									
-									routeEdges.add(flight2nd); // add the edge
 									
 									/* Get all the flights leaving that node */
 									Iterator<Edge> landNode2ndFlts = landNode2nd.getLeavingEdgeIterator();
@@ -568,10 +572,17 @@ public class ExampleGraph {
 										/* If this flight lands at the destination, 
 										 * it's a one connection flight. So add it to the route list */
 										if (landNode3rd.equals(arrNode)){
+												
+											/* Holds the connecting edges */
+											LinkedList<Edge> routeEdges = new LinkedList<Edge>();
 											
+											routeEdges.add(depFlt); // add the edge
+											routeEdges.add(flight2nd); // add the edge
 											routeEdges.add(flight3rd); // add the edge
-											routes.add(routeEdges); // add the route
-											//routeEdges.removeLast(); 
+											
+											routes.add(routeEdges);
+											routeCount++;
+											
 										}
 										
 									} // 2nd flights
