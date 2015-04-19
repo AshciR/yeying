@@ -2,6 +2,7 @@ package graph;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
@@ -34,6 +35,7 @@ public class ExampleGraph {
  	public void testGraph(){
 		
 		ArrayList<Edge> edgeList = new ArrayList<Edge>();
+		ArrayList<LinkedList<Edge>> routes = new ArrayList<LinkedList<Edge>>();
 		
 		/* Make the graph */
 		graph = makeGraph();
@@ -54,26 +56,34 @@ public class ExampleGraph {
 			printEdge(edge);
 		}
 		
-		/* Testing hasEdgeToward() */
-		System.out.println("BOS -> JFK? : " + bos.hasEdgeToward(jfk)); // BOS -> JFK Yes!
-		System.out.println("BOS -> ATL? : " + bos.hasEdgeToward(atl)); // BOS -> ATL No!
-				
-		/* Testing hasRoute */
-		System.out.println("\n------- Testing hasRoute --------");
-		testHasRoute(bos, atl); 
-		testHasRoute(atl, mia);
-		testHasRoute(bos, mia);		
+//		/* Testing hasEdgeToward() */
+//		System.out.println("BOS -> JFK? : " + bos.hasEdgeToward(jfk)); // BOS -> JFK Yes!
+//		System.out.println("BOS -> ATL? : " + bos.hasEdgeToward(atl)); // BOS -> ATL No!
+//				
+//		/* Testing hasRoute */
+//		System.out.println("\n------- Testing hasRoute --------");
+//		testHasRoute(bos, atl); 
+//		testHasRoute(atl, mia);
+//		testHasRoute(bos, mia);		
+//		
+//		/* Testing timeHasRoute */
+//		System.out.println("\n------- Testing timeHasRoute --------");
+//		testTimeRoute(bos, jfk); // True - Direct Flight
+//		testTimeRoute(bos, atl); // True - 1 connection	
+//		testTimeRoute(bos, mia); // True - 2 connections 
+//		testTimeRoute(atl, sfo); // False - 1 connection, but leaves too early
+//		testTimeRoute(bos, kgn); // False - 3 connections
+//		testTimeRoute(mia, sfo); // False - MIA -> ATL -> BOS -/> SFO
+//		testTimeRoute(kgn, mia); // False - KGN -> BOS -> JFK -> ATL -> MIA too many stops
+//		testTimeRoute(kgn, atl); // True - KGN -> BOS -> JFK -> ATL
 		
-		/* Testing timeHasRoute */
-		System.out.println("\n------- Testing timeHasRoute --------");
-		testTimeRoute(bos, jfk); // True - Direct Flight
-		testTimeRoute(bos, atl); // True - 1 connection	
-		testTimeRoute(bos, mia); // True - 2 connections 
-		testTimeRoute(atl, sfo); // False - 1 connection, but leaves too early
-		testTimeRoute(bos, kgn); // False - 3 connections
-		testTimeRoute(mia, sfo); // False - MIA -> ATL -> BOS -/> SFO
-		testTimeRoute(kgn, mia); // False - KGN -> BOS -> JFK -> ATL -> MIA too many stops
-		testTimeRoute(kgn, atl); // True - KGN -> BOS -> JFK -> ATL
+		/* Should be two flights */
+		routes = getRoutes(bos, atl);
+		
+		/* Print Routes */
+		for (LinkedList<Edge> route : routes){
+			System.out.println(route);
+		}
 	}
 	
 	/* Make the test airports */
@@ -143,185 +153,15 @@ public class ExampleGraph {
 
 	}
 
-	/* Determines if there's a route between two nodes, maximum of 2 connections */
-	private boolean simpleHasRoute(Node depNode, Node arrNode, int con) {
-
-		Node nextConNode; // holds the next node for the recursion
-		boolean found = false; // holds the result
-
-		/* If less than 2 connections so far */
-		if (con < 3) {
-
-			/* Checks if there's a direct Flight from the current node */
-			if (depNode.hasEdgeToward(arrNode)) {
-
-				found = true;
-
-			}
-			/* No direct connection from the current node */
-			else {
-
-				/* Get an iterator for the departing flights */
-				Iterator<Edge> depFlights = depNode.getLeavingEdgeIterator();
-
-				/* While there are still flights to search */
-				while (depFlights.hasNext()) {
-					nextConNode = depFlights.next().getTargetNode();
-
-					/* Recursive call to search for connections */
-					if (simpleHasRoute(nextConNode, arrNode, con + 1)) {
-						found = true;
-						break; // found a route, stop searching
-					}
-					;
-
-				}
-
-			}
-
-		}
-		/* Exceeded two connections, so return false */
-		else {
-			found = false;
-		}
-
-		/* Return the result */
-		return found;
+	private void testTimeRoute(Node dep, Node arr) {
+		System.out.println("There's a route between " + dep + " and " + arr
+				+ ": " + timeHasRoute(dep, arr, 0, null));
+	
 	}
 
-	/* Determines if there's a route between two nodes, maximum of 2 connections */
-	private boolean timeHasRoute(Node depNode, Node arrNode, int con,
-			Edge conEdge) {
-
-		int maxCon = 3; // maximum (3-1) connections
-
-		Node nextConNode; // holds the next node for the recursion
-		boolean found = false; // holds the result
-		FlightLeg conEdgeInfo = null;
-
-		/* If the there's a connecting edge, get the info */
-		if (conEdge != null) {
-			conEdgeInfo = conEdge.getAttribute("fltInfo");
-		}
-
-		/* Get an iterator for the node's departing flights */
-		Iterator<Edge> depFlights = depNode.getLeavingEdgeIterator();
-
-		/* If less than 2 connections so far */
-		if (con < maxCon) {
-
-			/* Checks if there's a direct Flight from the current node */
-			if (depNode.hasEdgeToward(arrNode)) {
-
-				/*
-				 * If connecting edge is null, this means that this is the 1st
-				 * check
-				 */
-				if (conEdge == null) {
-					found = true;
-				}
-				/*
-				 * Have to check if the connecting edge arrival time is before
-				 * the next potential edge depart time
-				 */
-				else {
-
-					/* Check the next flight leaving this node */
-					while (depFlights.hasNext()) {
-						Edge nxtFlt = depFlights.next();
-						FlightLeg nxtFltInfo = nxtFlt.getAttribute("fltInfo");
-
-						/*
-						 * Does this flight leave after the previous one
-						 * arrives?
-						 */
-						if (nxtFltInfo.getDepartureTime().getTimeInMinutes() > conEdgeInfo
-								.getArrivalTime().getTimeInMinutes()) {
-							found = true;
-							break;
-						}
-
-					}
-
-				}
-
-			}
-			/* No direct connection from the current node */
-			else {
-
-				/* While the departing node still has flights to search */
-				while (depFlights.hasNext() && !found) {
-
-					/* The current edge (departing flight) info */
-					Edge depFltEdge = depFlights.next();
-					FlightLeg depFltsInfo = depFltEdge.getAttribute("fltInfo");
-
-					/* The next potential Node */
-					nextConNode = depFltEdge.getTargetNode();
-
-					/*
-					 * Get an iterator for the potential node's departing
-					 * flights
-					 */
-					Iterator<Edge> nxtDepFlights = nextConNode
-							.getLeavingEdgeIterator();
-
-					while (nxtDepFlights.hasNext()) {
-
-						Edge conFlt2nd = nxtDepFlights.next(); // the potential
-																// 2nd flight
-						FlightLeg conFlt2ndInfo = conFlt2nd
-								.getAttribute("fltInfo"); // get the flight info
-															// of the potential
-															// 2nd flight
-
-						/*
-						 * If the next connecting edge leaves after the previous
-						 * edges arrives then it is possible that the edge will
-						 * get us to our final destination
-						 */
-						if (conFlt2ndInfo.getDepartureTime().getTimeInMinutes() > depFltsInfo
-								.getArrivalTime().getTimeInMinutes()) {
-
-							con++; // add one to the connections
-
-							/*
-							 * If the potential flight lands at our final
-							 * destination, then we have found the route
-							 */
-							if (conFlt2nd.getTargetNode().equals(arrNode)
-									&& (con < (maxCon - 1))) {
-								found = true;
-								break; // stop checking for routes
-							}
-							/*
-							 * Check to see if where that flight lands, has a
-							 * connection to the final destination
-							 */
-							else {
-								if (timeHasRoute(conFlt2nd.getTargetNode(),
-										arrNode, con, conFlt2nd)) {
-									found = true;
-									break;
-								}
-							}
-
-						}
-
-					} // end while for next node's departing flights
-
-				} // end while for current node's departing flights
-
-			} // end if for no direct flight
-
-		}
-		/* Exceeded two connections, so return false */
-		else {
-			found = false;
-		}
-
-		/* Return the result */
-		return found;
+	private void testHasRoute(Node dep, Node arr) {
+		System.out.println("There's a route between " + dep + " and " + arr
+				+ ": " + simpleHasRoute(dep, arr, 0));
 	}
 
 	private void printEdge(Edge edge) {
@@ -461,15 +301,297 @@ public class ExampleGraph {
 		return edgeList;
 	}
 
-	private void testTimeRoute(Node dep, Node arr) {
-		System.out.println("There's a route between " + dep + " and " + arr
-				+ ": " + timeHasRoute(dep, arr, 0, null));
-
+	/* Determines if there's a route between two nodes, maximum of 2 connections */
+	private boolean simpleHasRoute(Node depNode, Node arrNode, int con) {
+	
+		Node nextConNode; // holds the next node for the recursion
+		boolean found = false; // holds the result
+	
+		/* If less than 2 connections so far */
+		if (con < 3) {
+	
+			/* Checks if there's a direct Flight from the current node */
+			if (depNode.hasEdgeToward(arrNode)) {
+	
+				found = true;
+	
+			}
+			/* No direct connection from the current node */
+			else {
+	
+				/* Get an iterator for the departing flights */
+				Iterator<Edge> depFlights = depNode.getLeavingEdgeIterator();
+	
+				/* While there are still flights to search */
+				while (depFlights.hasNext()) {
+					nextConNode = depFlights.next().getTargetNode();
+	
+					/* Recursive call to search for connections */
+					if (simpleHasRoute(nextConNode, arrNode, con + 1)) {
+						found = true;
+						break; // found a route, stop searching
+					}
+					;
+	
+				}
+	
+			}
+	
+		}
+		/* Exceeded two connections, so return false */
+		else {
+			found = false;
+		}
+	
+		/* Return the result */
+		return found;
 	}
 
-	private void testHasRoute(Node dep, Node arr) {
-		System.out.println("There's a route between " + dep + " and " + arr
-				+ ": " + simpleHasRoute(dep, arr, 0));
+	/* Determines if there's a route between two nodes, maximum of 2 connections */
+	private boolean timeHasRoute(Node depNode, Node arrNode, int con,
+			Edge conEdge) {
+	
+		int maxCon = 3; // maximum (3-1) connections
+	
+		Node nextConNode; // holds the next node for the recursion
+		boolean found = false; // holds the result
+		FlightLeg conEdgeInfo = null;
+	
+		/* If the there's a connecting edge, get the info */
+		if (conEdge != null) {
+			conEdgeInfo = conEdge.getAttribute("fltInfo");
+		}
+	
+		/* Get an iterator for the node's departing flights */
+		Iterator<Edge> depFlights = depNode.getLeavingEdgeIterator();
+	
+		/* If less than 2 connections so far */
+		if (con < maxCon) {
+	
+			/* Checks if there's a direct Flight from the current node */
+			if (depNode.hasEdgeToward(arrNode)) {
+	
+				/*
+				 * If connecting edge is null, this means that this is the 1st
+				 * check
+				 */
+				if (conEdge == null) {
+					found = true;
+				}
+				/*
+				 * Have to check if the connecting edge arrival time is before
+				 * the next potential edge depart time
+				 */
+				else {
+	
+					/* Check the next flight leaving this node */
+					while (depFlights.hasNext()) {
+						Edge nxtFlt = depFlights.next();
+						FlightLeg nxtFltInfo = nxtFlt.getAttribute("fltInfo");
+	
+						/*
+						 * Does this flight leave after the previous one
+						 * arrives?
+						 */
+						if (nxtFltInfo.getDepartureTime().getTimeInMinutes() > conEdgeInfo
+								.getArrivalTime().getTimeInMinutes()) {
+							found = true;
+							break;
+						}
+	
+					}
+	
+				}
+	
+			}
+			/* No direct connection from the current node */
+			else {
+	
+				/* While the departing node still has flights to search */
+				while (depFlights.hasNext() && !found) {
+	
+					/* The current edge (departing flight) info */
+					Edge depFltEdge = depFlights.next();
+					FlightLeg depFltsInfo = depFltEdge.getAttribute("fltInfo");
+	
+					/* The next potential Node */
+					nextConNode = depFltEdge.getTargetNode();
+	
+					/*
+					 * Get an iterator for the potential node's departing
+					 * flights
+					 */
+					Iterator<Edge> nxtDepFlights = nextConNode
+							.getLeavingEdgeIterator();
+	
+					while (nxtDepFlights.hasNext()) {
+	
+						Edge conFlt2nd = nxtDepFlights.next(); // the potential
+																// 2nd flight
+						FlightLeg conFlt2ndInfo = conFlt2nd
+								.getAttribute("fltInfo"); // get the flight info
+															// of the potential
+															// 2nd flight
+	
+						/*
+						 * If the next connecting edge leaves after the previous
+						 * edges arrives then it is possible that the edge will
+						 * get us to our final destination
+						 */
+						if (conFlt2ndInfo.getDepartureTime().getTimeInMinutes() > depFltsInfo
+								.getArrivalTime().getTimeInMinutes()) {
+	
+							con++; // add one to the connections
+	
+							/*
+							 * If the potential flight lands at our final
+							 * destination, then we have found the route
+							 */
+							if (conFlt2nd.getTargetNode().equals(arrNode)
+									&& (con < (maxCon - 1))) {
+								found = true;
+								break; // stop checking for routes
+							}
+							/*
+							 * Check to see if where that flight lands, has a
+							 * connection to the final destination
+							 */
+							else {
+								if (timeHasRoute(conFlt2nd.getTargetNode(),
+										arrNode, con, conFlt2nd)) {
+									found = true;
+									break;
+								}
+							}
+	
+						}
+	
+					} // end while for next node's departing flights
+	
+				} // end while for current node's departing flights
+	
+			} // end if for no direct flight
+	
+		}
+		/* Exceeded two connections, so return false */
+		else {
+			found = false;
+		}
+	
+		/* Return the result */
+		return found;
 	}
+	
+	/* Returns all the routes from a departure node to an arrival node */
+	private ArrayList< LinkedList<Edge> > getRoutes(Node depNode, Node arrNode){
+		
+		/* Contains the list of Routes */
+		ArrayList< LinkedList<Edge> > routes = new ArrayList< LinkedList<Edge> >(); 
+		
+		/* Holds the connecting edges */
+		LinkedList<Edge> routeEdges = new LinkedList<Edge>();
+		
+		/* Holds the number of connections so far */
+		int conn = 0;
+		
+		/* If there's a route, then let's get the routes */
+		if(timeHasRoute(depNode, arrNode, conn, null)){
+			
+			/* Get the flights leaving the departure node  */
+			Iterator<Edge> depFlights = depNode.getLeavingEdgeIterator();
+			
+			while(depFlights.hasNext()){
+				
+				/* Current departing flight from the list */
+				Edge depFlt = depFlights.next();
+				
+				/* The port that you would land at */
+				Node landNode = depFlt.getTargetNode();
+				
+				/* If this flight lands at the destination, 
+				 * it's a direct flight. So add it to the route list */
+				if (landNode.equals(arrNode)){
+					
+					routeEdges.clear();
+					routeEdges.add(depFlt); // add the edge
+					routes.add(routeEdges); // add the route
+					
+				}
+				/* Let's check if the next node connects to the destination */
+				else{
+					
+					conn++; // increase the number of connections
+					
+					/* Check the next node to see if there's a route from there */
+					if(timeHasRoute(landNode, arrNode, conn, depFlt)){
+						
+						routeEdges.add(depFlt); // add the edge
+						
+						/* Get all the flights leaving that node */
+						Iterator<Edge> landNodeFlts = landNode.getLeavingEdgeIterator();
+						
+						/* Check all the flights leaving the 1st connection */
+						while(landNodeFlts.hasNext()){
+							
+							Edge flight2nd = landNodeFlts.next();
+							Node landNode2nd = flight2nd.getTargetNode();
+							
+							/* If this flight lands at the destination, 
+							 * it's a one connection flight. So add it to the route list */
+							if (landNode2nd.equals(arrNode)){
+								 
+								routeEdges.clear();
+								routeEdges.add(depFlt); // add the edge
+								routeEdges.add(flight2nd); // add the edge
+								
+								routes.add(routeEdges); // add the route
+							
 
+							}
+							/* Lets see if the next node connects to the destination */
+							else{
+								conn++;
+								
+								/* Check the next node to see if there's a route from there */
+								if(timeHasRoute(landNode2nd, arrNode, conn, depFlt)){
+									
+									routeEdges.add(flight2nd); // add the edge
+									
+									/* Get all the flights leaving that node */
+									Iterator<Edge> landNode2ndFlts = landNode2nd.getLeavingEdgeIterator();
+									
+									/* Check all the flights leaving the 1st connection */
+									while(landNode2ndFlts.hasNext()){
+										Edge flight3rd = landNode2ndFlts.next();
+										Node landNode3rd = flight3rd.getTargetNode();
+										
+										/* If this flight lands at the destination, 
+										 * it's a one connection flight. So add it to the route list */
+										if (landNode3rd.equals(arrNode)){
+											
+											routeEdges.add(flight3rd); // add the edge
+											routes.add(routeEdges); // add the route
+											//routeEdges.removeLast(); 
+										}
+										
+									} // 2nd flights
+									
+								} // if 2nd node has route
+								
+							}
+							
+						}
+						
+					} // if there's a route from the 1st connection to the final
+					
+				}
+				
+			}
+			
+		}
+		
+		return routes;
+		
+	}
+	
 }
