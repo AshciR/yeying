@@ -422,40 +422,34 @@ public class ExampleGraph {
 			else {
 	
 				/* While the departing node still has flights to search */
-				while (depFlights.hasNext() ) {
+				while (depFlights.hasNext()) {
 	
 					/* The current edge (departing flight) info */
 					Edge depFltEdge = depFlights.next();
 					FlightLeg depFltsInfo = depFltEdge.getAttribute("fltInfo");
-	
-					Node nextConNode; // holds the next node for the recursion					
-					
+		
 					/* The next potential Node */
-					nextConNode = depFltEdge.getTargetNode();
+					Node nextConNode = depFltEdge.getTargetNode();
 	
 					/*
 					 * Get an iterator for the potential node's departing
 					 * flights
 					 */
-					Iterator<Edge> nxtDepFlights = nextConNode
-							.getLeavingEdgeIterator();
+					Iterator<Edge> nxtDepFlights = nextConNode.getLeavingEdgeIterator();
 	
 					while (nxtDepFlights.hasNext()) {
 	
-						Edge conFlt2nd = nxtDepFlights.next(); // the potential
-																// 2nd flight
-						FlightLeg conFlt2ndInfo = conFlt2nd
-								.getAttribute("fltInfo"); // get the flight info
-															// of the potential
-															// 2nd flight
-	
+						Edge conFlt2nd = nxtDepFlights.next(); // the potential 2nd flight
+						
+						/* Get the flight info of the next potential flight */
+						FlightLeg conFlt2ndInfo = conFlt2nd.getAttribute("fltInfo"); 
+															
 						/*
 						 * If the next connecting edge leaves after the previous
 						 * edges arrives then it is possible that the edge will
 						 * get us to our final destination
 						 */
-						if (conFlt2ndInfo.getDepartureTime().getTimeInMinutes() > depFltsInfo
-								.getArrivalTime().getTimeInMinutes()) {
+						if (conFlt2ndInfo.getDepartureTime().getTimeInMinutes() > depFltsInfo.getArrivalTime().getTimeInMinutes()) {
 	
 							con++; // add one to the connections
 	
@@ -463,8 +457,7 @@ public class ExampleGraph {
 							 * If the potential flight lands at our final
 							 * destination, then we have found the route
 							 */
-							if (conFlt2nd.getTargetNode().equals(arrNode)
-									&& (con < (maxCon - 1))) {
+							if (conFlt2nd.getTargetNode().equals(arrNode) && (con < (maxCon - 1))) {
 								found = true;
 								break; // stop checking for routes
 							}
@@ -473,8 +466,7 @@ public class ExampleGraph {
 							 * connection to the final destination
 							 */
 							else {
-								if (timeHasRoute(conFlt2nd.getTargetNode(),
-										arrNode, con, conFlt2nd)) {
+								if (timeHasRoute(conFlt2nd.getTargetNode(), arrNode, con, conFlt2nd)) {
 									found = true;
 									break;
 								}
