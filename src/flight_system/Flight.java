@@ -100,12 +100,9 @@ public class Flight
 	}
 
 
-	public Time getLayoverTime()
+	public Time getLayoverTime(int layoverIndex)
 	{
-		//make a scanner to let user to choose which connection they want to check
-		System.out.println("Please enter the serie number of the transit airport you want to check: ");
-		Scanner in = new Scanner(System.in);
-		int num = in.nextInt();
+		int num = layoverIndex;
 		
 		//give the return value of exception
 		if(num == 0)
@@ -113,9 +110,8 @@ public class Flight
 			Time zero = new Time(0, 0);
 			return zero;
 		}
-		
 		//calculate the layover time
-		if(num > 0 && num < flightList.size())
+		else (num > 0 && num < flightList.size())
 		{
 			Date transferADate = flightList.get(num).getArrivalDate();
 			Date transferDDate = flightList.get(num + 1).getDepartureDate();
@@ -137,17 +133,10 @@ public class Flight
 			return layoverTime;
 		}
 		
-		//give the return value of exception
-		else 
-		{
-			System.out.println("Please enter the correct number of transit airport.");
-			Time zero = new Time(0, 0);
-			return zero;
-		}
 		
 	}
 
-	public String toString(UserInfo userInfo)
+	public String toString()
 	{
 		return "The total time is: " + this.getTotalTime() + "./n"+
 			   "The total cost is: " + this.getTotalCost(true) + "./n"+
