@@ -56,17 +56,19 @@ public class Flight
 		return totalTime;
 	}
 
-	public double getTotalCost(UserInfo userInfo)
+	public double getTotalCost(boolean isFirstClass)
 	{	
 		double totalCost = 0;
 		int i;
 		for(i = 0; i < this.flightList.size(); i++)
 		{	//judge if the ticket is first class or coach lass
-			if(userInfo.getIsFirstClass())
+			if(isFirstClass)
 			{
 				totalCost = totalCost + this.flightList.get(i).getFirstClassPrice();
 			}
-			else totalCost = totalCost + this.flightList.get(i).getCoachClassPrice();
+			else{
+				totalCost = totalCost + this.flightList.get(i).getCoachClassPrice();
+			}
 		}
 		return totalCost;
 	}
@@ -80,7 +82,7 @@ public class Flight
 	public Time gettotalLayoverTime()
 	{
 		//transform the hours and minutes into minutes
-		int totoalLayoverMinutes = (this.getTotalTime().getHours() * 60) + this.getTotalTime().getMinutes();
+		int totoalLayoverMinutes = (this.getTotalTime().getTimeInMinutes());
 		
 		//print the duration of each flight leg into minutes
 		for (int i = 0; i < this.flightList.size(); i++)
@@ -115,10 +117,10 @@ public class Flight
 		//calculate the layover time
 		if(num > 0 && num < flightList.size())
 		{
-			Date transferADate = flightList.get(num - 1).getArrivalDate();
-			Date transferDDate = flightList.get(num).getDepartureDate();
-			Time AtransferTime = flightList.get(num - 1).getArrivalTime();
-			Time transferTimeD = flightList.get(num).getDepartureTime();
+			Date transferADate = flightList.get(num).getArrivalDate();
+			Date transferDDate = flightList.get(num + 1).getDepartureDate();
+			Time AtransferTime = flightList.get(num).getArrivalTime();
+			Time transferTimeD = flightList.get(num + 1).getDepartureTime();
 		
 			int transferDays = transferDDate.getDay() - transferADate.getDay();
 			int transferHours = transferTimeD.getHours() - AtransferTime.getHours();
@@ -148,7 +150,7 @@ public class Flight
 	public String toString(UserInfo userInfo)
 	{
 		return "The total time is: " + this.getTotalTime() + "./n"+
-			   "The total cost is: " + this.getTotalCost(userInfo) + "./n"+
+			   "The total cost is: " + this.getTotalCost(true) + "./n"+
 			   "The number of connection are: " + this.getNumOfConnection() + "./n"+
 			   "The total layover time is : " + this.gettotalLayoverTime() + "./n"+
 			   "The layover time is : " + this.getLayoverTime() + "./n";
