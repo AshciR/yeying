@@ -363,18 +363,13 @@ public class ExampleGraph {
 	}
 
 	/* Determines if there's a route between two nodes, maximum of 2 connections */
-	private boolean timeHasRoute(Node depNode, Node arrNode, int con, Edge conEdge ) {
+	private boolean timeHasRoute(Node depNode, Node arrNode, int con, Edge conEdge) {
 		
 		//ArrayList<Node> visited;
 		
 		int maxCon = 3; // maximum 2 connections
 		boolean found = false; // holds the result
 		FlightLeg conEdgeInfo = null;
-	
-		/* If the there's a connecting edge, get the info */
-		if (conEdge != null) {
-			conEdgeInfo = conEdge.getAttribute("fltInfo");
-		}
 	
 		/* If less than 2 connections so far */
 		if (con < maxCon) {
@@ -397,12 +392,17 @@ public class ExampleGraph {
 				 * the next potential edge depart time
 				 */
 				else {
-	
+					
+					/* There's a connecting edge, get the info */
+					if (conEdge != null) {
+						conEdgeInfo = conEdge.getAttribute("fltInfo");
+					}
+					
 					/* Check the next flight leaving this node */
 					while (depFlights.hasNext()) {
 						Edge nxtFlt = depFlights.next();
 						FlightLeg nxtFltInfo = nxtFlt.getAttribute("fltInfo");
-	
+							
 						/*
 						 * Does this flight leave after the previous one
 						 * arrives?
@@ -412,16 +412,17 @@ public class ExampleGraph {
 							break;
 						}
 	
-					}
+					} // end while depFlights
 	
-				}
+				} // end if has connecting edges
 	
-			}
+			} // end if has a direct flight
+			
 			/* No direct connection from the current node */
 			else {
 	
 				/* While the departing node still has flights to search */
-				while (depFlights.hasNext() && !found) {
+				while (depFlights.hasNext() ) {
 	
 					/* The current edge (departing flight) info */
 					Edge depFltEdge = depFlights.next();
