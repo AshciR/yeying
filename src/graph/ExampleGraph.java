@@ -67,27 +67,31 @@ public class ExampleGraph {
 //		testHasRoute(bos, atl); 
 //		testHasRoute(atl, mia);
 //		testHasRoute(bos, mia);		
-//		
-//		/* Testing timeHasRoute */
-		System.out.println("\n------- Testing timeHasRoute --------");
-		testTimeRoute(bos, jfk); // True - Direct Flight
-		testTimeRoute(bos, atl); // True - 1 connection	
-		testTimeRoute(bos, mia); // True - 2 connections 
-		testTimeRoute(atl, sfo); // False - 1 connection, but leaves too early
-		testTimeRoute(bos, kgn); // False - 3 connections
-		testTimeRoute(mia, sfo); // False - MIA -> ATL -> BOS -/> SFO
-		testTimeRoute(kgn, mia); // False - KGN -> BOS -> JFK -> ATL -> MIA too many stops
-		testTimeRoute(kgn, atl); // True - KGN -> BOS -> JFK -> ATL
-		testTimeRoute(jfk, mia); // True - JFK -> ATL -> MIA
+
+		/* Testing timeHasRoute */
+//		System.out.println("\n------- Testing timeHasRoute --------");
+//		testTimeRoute(bos, jfk); // True - Direct Flight
+//		testTimeRoute(bos, atl); // True - 1 connection	
+//		testTimeRoute(bos, mia); // True - 2 connections 
+//		testTimeRoute(atl, sfo); // False - 1 connection, but leaves too early
+//		testTimeRoute(bos, kgn); // False - 3 connections
+//		testTimeRoute(mia, sfo); // False - MIA -> ATL -> BOS -/> SFO
+//		testTimeRoute(kgn, mia); // False - KGN -> BOS -> JFK -> ATL -> MIA too many stops
+//		testTimeRoute(kgn, atl); // True - KGN -> BOS -> JFK -> ATL
+//		testTimeRoute(jfk, mia); // True - JFK -> ATL -> MIA
 		
-//		/* Should be two flights */
-//		routes = getRoutes(bos, mia);
-//		
-//		for (LinkedList<Edge> route : routes){
-//			System.out.println(route);
-//		}
-//		
-//	
+//		routes = getRoutesRec(bos, jfk);
+//		routes = getRoutesRec(jfk, atl);
+//		routes = getRoutesRec(bos, atl);
+		
+		/* Should be two flights */
+		routes = getRoutesRec(atl, mia);
+		
+		for (LinkedList<Edge> route : routes){
+			System.out.println(route);
+		}
+		
+	
 	}
 	
 	/* Make the test airports */
@@ -532,26 +536,58 @@ public class ExampleGraph {
 		/* Map to hold the routes */
 		ArrayList<LinkedList<Edge>> routes = new ArrayList<LinkedList<Edge>>();
 		
-		/* Flights leaving the departure node */
-		Iterator<Edge> depFlts = depNode.iterator();
-		
-		/* Check all the flights leaving the departure node */
-		while (depFlts.hasNext()){
+		/* If there's a route from the departure to destination */
+		if (timeHasRoute(depNode, arrNode, 0, null, new ArrayList<Node>())){
 			
-			/* If there's a route from the departure to destination */
-			if (timeHasRoute(depNode, arrNode, 0, null)){
+			/* Flights leaving the departure node */
+			Iterator<Edge> depFlts = depNode.getEachLeavingEdge().iterator();
 				
-				Edge flight = depFlts.next(); // flight we are currently checking 
+			/* Check all the flights leaving the departure node */
+			while (depFlts.hasNext()){
 				
-				/* Get the edges that gets to the location */
-				LinkedList<Edge> edges = getEdges(flight, arrNode, 0);
-				
-				
+					Edge flight = depFlts.next(); // flight we are currently checking 
+					
+					/* If the flight lands at our final destination, 
+					 * then it is a route */
+					if(flight.getTargetNode().equals(arrNode)){
+						
+						/* Make a linked list, and add the flight */
+						LinkedList<Edge> edges = new LinkedList<Edge>(); 
+						edges.add(flight);
+						
+						/* Add the route */
+						routes.add(edges);
+						
+					}
+					/* the flight doesn't land at our final destination
+					 * but we still know there's a route, so lets check the 
+					 * connecting node's flights */
+					else{
+										
+						/* Get back list of the connecting routes */
+						ArrayList<LinkedList<Edge>> connRoutes = getRoutesRec(flight.getTargetNode(), arrNode);
+						
+						/* Add all the edges to this edge */
+						for(LinkedList<Edge> route : connRoutes){
+							
+							for(Edge conRoute: route){
+								
+								/* We know that the 1st connecting flight 
+								 * is part of the chain */
+								LinkedList<Edge> edges = new LinkedList<Edge>(); 
+								
+								edges.add(flight);
+								edges.add(conRoute);
+								routes.add(edges);
+								
+							}
+							
+						}
+						
+					}
 				
 			}
-			
 		}
-		
 		
 		return routes;
 		
