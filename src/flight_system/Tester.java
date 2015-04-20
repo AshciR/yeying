@@ -1,18 +1,13 @@
 package flight_system;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 import parsers.*;
 
 public class Tester {
 
-	private static final String A340 = null;
-	private static final String Airbus = null;
-	private static final String A320 = null;
-
 	public static void main(String[] args) {
-		
+		testFlightClass();
 	}
 
 	@SuppressWarnings("unused")
@@ -377,53 +372,59 @@ public class Tester {
 		System.out.println(user.toString());
 	}
 	
-	private static void testFlight()
+	@SuppressWarnings("unused")
+	private static void testFlightClass()
 	{
-		//give the information of first flight
-		System.out.println("Testing Flight class");
-		Airplane plane1 = new Airplane(A340, Airbus, 32, 268);
-		Time dt1 = new Time(11, 13);
-		Time at1 = new Time(12, 32);
-		Date dd1 = new Date(Month.May, 10, 2015);
-		Date ad1 = new Date(Month.May, 10, 2015);
+		
+		System.out.println("Testing Flight class\n");
+		
+		Date date = new Date(Month.May, 10, 2015);
+		
+		/* First flight info */
+		Airplane plane1 = new Airplane("A340", "Airbus", 32, 268);
+		Time dt1 = new Time(11, 00);
+		Time at1 = new Time(12, 00);
 		Location dl1 = new Location(42.216446, -83.355427);
 		Location al1 = new Location(42.365855, -71.009624);
 		Airport da1 = new Airport("DTW", "Detroit Metropolitan Wayne County Airport", dl1);
 		Airport aa1 = new Airport("BOS", "Logan International", al1);
-		
-		
-		//give the information of second flight
-		Airplane plane2 = new Airplane(A320, Airbus, 12, 124);
-		Time dt2 = new Time(20, 29);
-		Time at2 = new Time(23, 19);
-		Date dd2 = new Date(Month.May, 10, 2015);
-		Date ad2 = new Date(Month.May, 10, 2015);
+				
+		/* Second flight info */
+		Airplane plane2 = new Airplane("A320", "Airbus", 12, 124);
+		Time dt2 = new Time(13, 00);
+		Time at2 = new Time(14, 30);
 		Location dl2 = new Location(42.365855, -71.009624);
 		Location al2 = new Location(35.042345, -89.979216);
 		Airport da2 = new Airport("BOS", "Logan International", dl2);
 		Airport aa2 = new Airport("MEM", "Memphis International", al2);
 		
-		Airplane plane3 = new Airplane(A320, Airbus, 12, 124);
-		Time dt3 = new Time(23, 29);
-		Time at3 = new Time(23, 59);
-		Date dd3= new Date(Month.May, 10, 2015);
-		Date ad3= new Date(Month.May, 10, 2015);
+		Airplane plane3 = new Airplane("A320", "Airbus", 12, 124);
+		Time dt3 = new Time(15, 00);
+		Time at3 = new Time(16, 00);
 		Location dl3= new Location(42.365855, -71.009624);
 		Location al3= new Location(35.042345, -89.979216);
-		Airport da3= new Airport("BOS", "Logan International", dl3);
-		Airport aa3 = new Airport("MEM", "Memphis International", al3);
+		Airport da3= new Airport("MEM", "Memphis International", dl3);
+		Airport aa3 = new Airport("SFO", "San Fransisco International", al3);
 
-		FlightLeg f1ight1 = new FlightLeg(plane1, 2614, 79, dt1, dd1, da1, at1, ad1, aa1, 323.25, 28,	38.60, 23);
-		FlightLeg f1ight2 = new FlightLeg(plane2, 0526, 170, dt2, dd2, da2, at2, ad2, aa2, 323.25, 28,	38.60, 23);
-		FlightLeg f1ight3 = new FlightLeg(plane3, 0526, 30, dt3, dd3, da3, at3, ad3, aa3, 323.25, 28,	38.60, 23);
-		Flight f = new Flight(f1ight1, f1ight2, f1ight3);
+		FlightLeg flight1 = new FlightLeg(plane1, 2000, (at1.getTimeInMinutes() - dt1.getTimeInMinutes()) , dt1, date, da1, at1, date, aa1, 100.00, 20,	33.33, 23);
+		FlightLeg flight2 = new FlightLeg(plane2, 3000, (at2.getTimeInMinutes() - dt2.getTimeInMinutes()), dt2, date, da2, at2, date, aa2, 150.00, 20, 50.00, 23);
+		FlightLeg flight3 = new FlightLeg(plane3, 4000, (at3.getTimeInMinutes() - dt3.getTimeInMinutes()), dt3, date, da3, at3, date, aa3, 200.00, 20,	66.66, 23);
 		
-		System.out.println("The total travel time is: " + f.getTotalTime());
-		System.out.println("The total cost of First Class travel is: " + f.getTotalCost(true));
-		System.out.println("The total cost of Coach travel is: " + f.getTotalCost(false));
-		System.out.println("The number of transit airport are: " + f.getNumOfConnection());
-		System.out.println("The total layover time is: " + f.getTotalLayoverTime());
-		System.out.println("The layover time of this transit airport is: " + f.getLayoverTime(0));
+		/* Make the flights */
+		Flight f1 = new Flight(flight1);
+		Flight f2 = new Flight(flight2, flight3);
+		Flight f3 = new Flight(flight1, flight2, flight3);
+		
+		System.out.println("\nThe flight leg info is:\n");
+		System.out.println(flight1);
+		System.out.println(flight2);
+		System.out.println(flight3);
+		
+		/* Print the flights */
+		System.out.println(f1+"\n");
+		System.out.println(f2+"\n");
+		System.out.println(f3+"\n");
+		
 	}
 	
 	
