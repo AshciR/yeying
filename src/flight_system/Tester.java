@@ -379,6 +379,7 @@ public class Tester {
 	
 	private static void testFlight()
 	{
+		//give the information of first flight
 		System.out.println("Testing Flight class");
 		Airplane plane1 = new Airplane(A340, Airbus, 32, 268);
 		Time dt1 = new Time(11, 13);
@@ -390,6 +391,8 @@ public class Tester {
 		Airport da1 = new Airport("DTW", "Detroit Metropolitan Wayne County Airport", dl1);
 		Airport aa1 = new Airport("BOS", "Logan International", al1);
 		
+		
+		//give the information of second flight
 		Airplane plane2 = new Airplane(A320, Airbus, 12, 124);
 		Time dt2 = new Time(20, 29);
 		Time at2 = new Time(23, 19);
@@ -399,15 +402,25 @@ public class Tester {
 		Location al2 = new Location(35.042345, -89.979216);
 		Airport da2 = new Airport("BOS", "Logan International", dl2);
 		Airport aa2 = new Airport("MEM", "Memphis International", al2);
+		
+		Airplane plane3 = new Airplane(A320, Airbus, 12, 124);
+		Time dt3 = new Time(23, 29);
+		Time at3 = new Time(23, 59);
+		Date dd3= new Date(Month.May, 10, 2015);
+		Date ad3= new Date(Month.May, 10, 2015);
+		Location dl3= new Location(42.365855, -71.009624);
+		Location al3= new Location(35.042345, -89.979216);
+		Airport da3= new Airport("BOS", "Logan International", dl3);
+		Airport aa3 = new Airport("MEM", "Memphis International", al3);
 
 		FlightLeg f1ight1 = new FlightLeg(plane1, 2614, 79, dt1, dd1, da1, at1, ad1, aa1, 323.25, 28,	38.60, 23);
 		FlightLeg f1ight2 = new FlightLeg(plane2, 0526, 170, dt2, dd2, da2, at2, ad2, aa2, 323.25, 28,	38.60, 23);
-		Flight f = new Flight(f1ight1, f1ight2);
-		UserInfo u = new UserInfo(da1, aa1, dd1, true);
-		
+		FlightLeg f1ight3 = new FlightLeg(plane3, 0526, 30, dt3, dd3, da3, at3, ad3, aa3, 323.25, 28,	38.60, 23);
+		Flight f = new Flight(f1ight1, f1ight2, f1ight3);
 		
 		System.out.println("The total travel time is: " + f.getTotalTime());
-		System.out.println("The total cost of travel is: " + f.getTotalCost(u));
+		System.out.println("The total cost of First Class travel is: " + f.getTotalCost(true));
+		System.out.println("The total cost of Coach travel is: " + f.getTotalCost(false));
 		System.out.println("The number of transit airport are: " + f.getNumOfConnection());
 		System.out.println("The total layover time is: " + f.gettotalLayoverTime());
 		System.out.println("The layover time of this transit airport is: " + f.getLayoverTime());
