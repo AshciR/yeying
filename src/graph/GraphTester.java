@@ -15,6 +15,7 @@ public class GraphTester {
 		GraphMaker test = new GraphMaker(new Date(Month.May, 10, 2015));
 		System.out.println("This graph has " + test.getGraph().getEdgeCount() + " edges.");
 		System.out.println("This graph has " + test.getGraph().getNodeCount() + " nodes.");
+		test.displayGraph();
 	}
 	
 	/* Test the Graph Engine with actual data */
