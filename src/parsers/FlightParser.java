@@ -9,6 +9,7 @@
 package parsers;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
@@ -20,6 +21,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import flight_system.*;
@@ -39,7 +41,7 @@ public class FlightParser {
 	 * @param the constructor creates an empty 
 	 *        list that is used to hold a the parsed airplanes
 	 */
-	public FlightParser() {
+	public FlightParser(String planeXML, String portXML) {
 		
 		 /* Make an empty list to store the extracted flight legs */
 		 this.flightLegList = new ArrayList<FlightLeg>();
@@ -47,12 +49,12 @@ public class FlightParser {
 		 /* Get the Airplane Parser object then parse then
 		  * XML to ensure you have the list of airplanes */
 		 this.airplanes = AirplaneParser.getInstance();
-		 this.airplanes.parseAirplaneXML();
+		 this.airplanes.parseAirplaneXML(planeXML);
 		 
 		 /* Get the Airport Parser object then parse then
 		  * XML to ensure you have the list of airplanes */
 		 this.airports = AirportParser.getInstance();
-		 this.airports.parseAirportXML();
+		 this.airports.parseAirportXML(portXML);
 		 
 	}
 	
@@ -109,7 +111,7 @@ public class FlightParser {
 	}
 
 	/* Method used to parse the flight XML */
-	public void parseFlightXML() {
+	public void parseFlightXML(String xmlSource) {
 
 		/* DOM Factory Builder */
 		DocumentBuilderFactory dom_fac = DocumentBuilderFactory.newInstance();
@@ -120,7 +122,7 @@ public class FlightParser {
 			DocumentBuilder builder = dom_fac.newDocumentBuilder();
 			
 			/* This is the root node */
-			Document doc = builder.parse("flights_d_bos_2015_05_10.xml"); 
+			Document doc = builder.parse(new InputSource(new StringReader(xmlSource))); 
 
 			/* Contains a list of all the flights from the Flight XML */
 			NodeList flightNodeList = doc.getElementsByTagName("Flight");
@@ -151,14 +153,14 @@ public class FlightParser {
 				/* -- Departure Data -- */
 				
 				/* Get the children of the departure node */
-				NodeList deptNodeChild = flightNodeChildren.item(1).getChildNodes();
+				NodeList deptNodeChild = flightNodeChildren.item(0).getChildNodes();
 				
-				/* 2nd child is the Departure Airport Text Node */
-				String depAirPortCode = deptNodeChild.item(1).getTextContent();
+				/* 1st child is the Departure Airport Text Node */
+				String depAirPortCode = deptNodeChild.item(0).getTextContent();
 				Airport depAirport = airports.getAirport(depAirPortCode);
 				
-				/* 4th child is the Departure Time Text Node */
-				String depTimeNode = deptNodeChild.item(3).getTextContent();
+				/* 2nd child is the Departure Time Text Node */
+				String depTimeNode = deptNodeChild.item(1).getTextContent();
 				
 				/* Array to hold the delimited departure time and date data */
 				String[] depTimeNodeData = depTimeNode.split(" ");
@@ -184,14 +186,14 @@ public class FlightParser {
 				/* -- Arrival Data -- */
 				
 				/* Get the children of the arrival node */
-				NodeList arrNodeChild = flightNodeChildren.item(3).getChildNodes();
+				NodeList arrNodeChild = flightNodeChildren.item(1).getChildNodes();
 
 				/* 2nd child is the Departure Airport Text Node */
-				String arrAirPortCode = arrNodeChild.item(1).getTextContent();
+				String arrAirPortCode = arrNodeChild.item(0).getTextContent();
 				Airport arrAirport = airports.getAirport(arrAirPortCode);
 
 				/* 4th child is the Departure Time Text Node */
-				String arrTimeNode = arrNodeChild.item(3).getTextContent();
+				String arrTimeNode = arrNodeChild.item(1).getTextContent();
 				
 				/* Array to hold the delimited departure time data */
 				String[] arrTimeNodeData = arrTimeNode.split(" ");
@@ -217,10 +219,10 @@ public class FlightParser {
 				/* -- Seating Data -- */
 			
 				/* Get the children of the seating node */
-				NodeList seatNodeChild = flightNodeChildren.item(5).getChildNodes();
+				NodeList seatNodeChild = flightNodeChildren.item(2).getChildNodes();
 				
-				/* 2nd child is the First Class Node, which is an Element */
-				Element firstClassSeat = (Element) seatNodeChild.item(1);
+				/* 1st child is the First Class Node, which is an Element */
+				Element firstClassSeat = (Element) seatNodeChild.item(0);
 				
 				/* Get the Flight's First Class Seat Price */
 				String firstPriceString = firstClassSeat.getAttribute("Price");
@@ -229,11 +231,11 @@ public class FlightParser {
 				Double firstPrice = Double.parseDouble(firstPriceString);
 				
 				/* Get the number of seats available in First Class */
-				String firstClassSeats = seatNodeChild.item(1).getTextContent();
+				String firstClassSeats = seatNodeChild.item(0).getTextContent();
 				int firstClassAvail = Integer.parseInt(firstClassSeats);
 				
-				/* 4th child is the Coach Class Node, which is an Element */
-				Element coachClassSeat = (Element) seatNodeChild.item(3);
+				/* 2nd child is the Coach Class Node, which is an Element */
+				Element coachClassSeat = (Element) seatNodeChild.item(1);
 				
 				/* Get the Flight's Coach Class Seat Price */
 				String coachPriceString = coachClassSeat.getAttribute("Price");
@@ -242,7 +244,7 @@ public class FlightParser {
 				Double coachPrice = Double.parseDouble(coachPriceString);
 				
 				/* Get the number of seats available in First Class */
-				String coachClassSeats = seatNodeChild.item(3).getTextContent();
+				String coachClassSeats = seatNodeChild.item(1).getTextContent();
 				int coachClassAvail = Integer.parseInt(coachClassSeats);
 
 				/* ------------------- */

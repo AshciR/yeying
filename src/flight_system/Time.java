@@ -1,6 +1,8 @@
 /** Engineer: Daoheng Guo
  * Date: March 18. 2015
  * Description: Class used to represent time in hours and minutes
+ * Updated at April 8. 2015 by Jianan Ou and Richard Walker
+ * Description: Now this class can return the local time, not only the GMT time.
  */
 package flight_system;
 
@@ -8,9 +10,16 @@ public class Time {
 	private int hours;
 	private int minutes;
 	
+	
 	public Time(int hours, int minutes) {
 		this.hours = hours;
 		this.minutes = minutes;
+	}
+	
+	/* Returns a Time Object with the local time that was given */
+	public static Time getLocalTime(Time time, Location location) {
+		int localHours = (time.getHours() + (int) location.getTimeZoneOffset() / 3600) % 24;
+		return new Time(localHours, time.getMinutes());
 	}
 
 	public int getHours() {
