@@ -36,7 +36,7 @@ public class FlightFilter {
 	public Flight minLayover(){
 		Flight minLayover = flightList.get(0);
 		for(Flight flight : flightList){
-			if(flight.gettotalLayoverTime().getTimeInMinutes()<minLayover.gettotalLayoverTime().getTimeInMinutes())
+			if(flight.getTotalLayoverTime().getTimeInMinutes()<minLayover.getTotalLayoverTime().getTimeInMinutes())
 				minLayover=flight;
 		}
 		return minLayover;
@@ -106,7 +106,7 @@ public class FlightFilter {
 		ArrayList<Integer> flightLayoverList = new ArrayList<Integer>();
 
 		for(Flight flight : flightList){
-			flightLayoverList.add(flight.gettotalLayoverTime().getTimeInMinutes());
+			flightLayoverList.add(flight.getTotalLayoverTime().getTimeInMinutes());
 		}
 
 		Collections.sort(flightLayoverList); //ascending order
@@ -119,7 +119,7 @@ public class FlightFilter {
 		for(Integer layover : flightLayoverList){
 
 			for(Flight flight : flightList){
-				if (layover == flight.getLayoverTime().getTimeInMinutes()){
+				if (layover == flight.getTotalLayoverTime().getTimeInMinutes()){
 					sortedFlights.add(flight);
 				}
 			}

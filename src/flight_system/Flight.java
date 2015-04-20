@@ -79,7 +79,7 @@ public class Flight
 		return numOfConnection;
 	}
 	
-	public Time gettotalLayoverTime()
+	public Time getTotalLayoverTime()
 	{
 		//transform the hours and minutes into minutes
 		int totoalLayoverMinutes = (this.getTotalTime().getTimeInMinutes());
@@ -102,21 +102,20 @@ public class Flight
 
 	public Time getLayoverTime(int layoverIndex)
 	{
-		int num = layoverIndex;
 		
 		//give the return value of exception
-		if(num == 0)
+		if(layoverIndex == 0)
 		{
 			Time zero = new Time(0, 0);
 			return zero;
 		}
 		//calculate the layover time
-		else (num > 0 && num < flightList.size())
+		else 
 		{
-			Date transferADate = flightList.get(num).getArrivalDate();
-			Date transferDDate = flightList.get(num + 1).getDepartureDate();
-			Time AtransferTime = flightList.get(num).getArrivalTime();
-			Time transferTimeD = flightList.get(num + 1).getDepartureTime();
+			Date transferADate = flightList.get(layoverIndex).getArrivalDate();
+			Date transferDDate = flightList.get(layoverIndex + 1).getDepartureDate();
+			Time AtransferTime = flightList.get(layoverIndex).getArrivalTime();
+			Time transferTimeD = flightList.get(layoverIndex + 1).getDepartureTime();
 		
 			int transferDays = transferDDate.getDay() - transferADate.getDay();
 			int transferHours = transferTimeD.getHours() - AtransferTime.getHours();
@@ -141,7 +140,7 @@ public class Flight
 		return "The total time is: " + this.getTotalTime() + "./n"+
 			   "The total cost is: " + this.getTotalCost(true) + "./n"+
 			   "The number of connection are: " + this.getNumOfConnection() + "./n"+
-			   "The total layover time is : " + this.gettotalLayoverTime() + "./n"+
-			   "The layover time is : " + this.getLayoverTime() + "./n";
+			   "The total layover time is : " + this.getTotalLayoverTime() + "./n"+
+			   "The layover time is for first connection : " + this.getLayoverTime(0) + "./n";
 	}
 }

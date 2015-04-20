@@ -422,7 +422,9 @@ public class Tester {
 		System.out.println("The total cost of First Class travel is: " + f.getTotalCost(true));
 		System.out.println("The total cost of Coach travel is: " + f.getTotalCost(false));
 		System.out.println("The number of transit airport are: " + f.getNumOfConnection());
-		System.out.println("The total layover time is: " + f.gettotalLayoverTime());
-		System.out.println("The layover time of this transit airport is: " + f.getLayoverTime());
+		System.out.println("The total layover time is: " + f.getTotalLayoverTime());
+		System.out.println("The layover time of this transit airport is: " + f.getLayoverTime(0));
 	}
+	
+	
 }
