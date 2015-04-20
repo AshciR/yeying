@@ -295,7 +295,11 @@ public class XMLGetter {
 		
 		return wasReset;
 	}
-	
+	/**
+	 * This method can get the time zone info from google server
+	 * @param location
+	 * @return XML string which include time zone info
+	 */
 	public String getTimeZoneXML (Location location){
 		URL url;
 		

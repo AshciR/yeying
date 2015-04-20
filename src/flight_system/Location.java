@@ -3,6 +3,10 @@
  *  Description: Class responsible for holding the location of an object.
  *  			 Contains the latitude and longitude of a location, in 
  *  			 addition to a method to determine it's time zone.
+ *  Updated at April 8. 2015 by Jianan Ou and Richard Walker
+ *  Description: Implemented the determineTimeZone method, now this class can analyze
+ *               the time zone information come from server and return the raw offset
+ *               information according to the time zone.
  */
 
 package flight_system;
@@ -36,7 +40,20 @@ public class Location {
 	public Location(double latitude, double longitude) {
 		this.latitude = latitude;
 		this.longitude = longitude;
+<<<<<<< HEAD
 		//determineTimeZone();
+=======
+		
+		/* Have to sleep in order to avoid the Google API Limit */
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		determineTimeZone(); 
+>>>>>>> 6985f5a096fa18852eed658021d2548067821344
 	}
 	
 	/* Getters */

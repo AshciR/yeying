@@ -1,6 +1,8 @@
 /** Engineer: Daoheng Guo
  * Date: March 18. 2015
  * Description: Class used to represent time in hours and minutes
+ * Updated at April 8. 2015 by Jianan Ou and Richard Walker
+ * Description: Now this class can return the local time, not only the GMT time.
  */
 package flight_system;
 

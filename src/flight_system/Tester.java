@@ -11,17 +11,8 @@ public class Tester {
 	private static final String Airbus = null;
 	private static final String A320 = null;
 
-	public static void main(String[] args) 
-	{
-		int yn = 0;
-		do
-		{
-		testFlight();
-		System.out.println("Continue? (1/0)");
-		Scanner in = new Scanner(System.in);
-		yn = in.nextInt();
-		}
-		while(yn == 1);
+	public static void main(String[] args) {
+		
 	}
 
 	@SuppressWarnings("unused")
@@ -41,12 +32,19 @@ public class Tester {
 	@SuppressWarnings("unused")
 	private static void testAirportParserClass() {
 
-		System.out.println("\nAirplaneParser Tester");
-
+		System.out.println("\nAirportParser Tester");
+		
+		XMLGetter getter = XMLGetter.getInstance();
+		
 		/* Make an Airplane Parser */
 		AirportParser aParse = AirportParser.getInstance();
-		aParse.parseAirportXML("placeHolder"); // Parses the XML
-
+		
+		System.out.println("Does this have the airports yet? " + aParse.hasAirportList());
+		
+		aParse.parseAirportXML(getter.getAirportsXML()); // Parses the XML
+		
+		System.out.println("Does this have the airports yet? " + aParse.hasAirportList());
+		
 		/* Print the number of Airplanes */
 		System.out.println("There are " + aParse.getNumOfAirports()
 				+ " airports.\n");
@@ -149,15 +147,24 @@ public class Tester {
 	}
 
 	@SuppressWarnings("unused")
-	private static void testAirPortClass() {
+	private static void testAirportClass() {
 		System.out.println("\nAirport Tester");
 
-		Location testLoc = new Location(33.641045, -84.427764);
+		Location bosLoc = new Location(42.365855, -71.009624);
+		Location atlLoc = new Location(33.641045, -84.427764);
 
 		/* Testing the Airport Class */
-		Airport airport = new Airport("BOS", "Boston Logan", testLoc);
+		Airport bosAirport = new Airport("BOS", "Boston Logan", bosLoc);
+		Airport atlAirport = new Airport("ATL", "Hartsfield Jackson", atlLoc);
 
-		System.out.println(airport.toString());
+		System.out.println(bosAirport.toString());
+		
+		/* Test the Airport comparison Method */
+		System.out.println("Is " + bosAirport.getName() + " the same as " +
+				bosAirport.getName() + "? " + bosAirport.isSameAirport(bosAirport));
+		
+		System.out.println("Is " + atlAirport.getName() + " the same as " +
+				bosAirport.getName() + "? " + atlAirport.isSameAirport(bosAirport));
 
 	}
 

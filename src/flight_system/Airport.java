@@ -37,7 +37,12 @@ public class Airport {
 	public Location getLocation() {
 		return location;
 	}
-
+	
+	/* If the airport codes are the same, then they're the same airport */
+	public boolean isSameAirport(Airport compAirport){
+		return (this.code.equalsIgnoreCase(compAirport.code));
+	}
+	
 	@Override
 	public String toString() {
 		return "Airport [code=" + code + ", name=" + name + ", location="
