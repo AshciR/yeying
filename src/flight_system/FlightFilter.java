@@ -1,163 +1,169 @@
 package flight_system;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class FlightFilter {
-	private ArrayList<Flight> flightFilter;
+	private ArrayList<Flight> flightList;
 
 	public FlightFilter(){
-		this.flightFilter =  new ArrayList<Flight>();
+		this.flightList =  new ArrayList<Flight>();
 	}
 	
 	public void addFlight(Flight flight){
-		this.flightFilter.add(flight);
+		this.flightList.add(flight);
 	}
 	
-	public Flight cheapestFlight(){
-		Filght cheapestFlight=new Flight();
-		for (int i=0;i<Flight.length();i++){
-			if(Flight[i].totalCostFlight()<cheapestFlight.totalCostFlight())
-				cheapestFlight=Flight[i];
+	public Flight cheapestFlight(boolean isFirstClass){
+		
+		Flight cheapestFlight = flightList.get(0);
+		for(Flight flight : flightList){
+			if(flight.getTotalCost(isFirstClass)<cheapestFlight.getTotalCost(isFirstClass))
+				cheapestFlight=flight;
 		}
 		return cheapestFlight;
 	}
 	
 	public Flight shortestFlightTime(){
-		Filght shortestFlightTime=new Flight();
-		for (int i=0;i<Flight.length();i++){
-			if(Flight[i].totalTimeFlight()>shortestFlightTime.totalTimeFlight())
-				shortestFlightTime=Flight[i];
+		Flight shortestFlight = flightList.get(0);
+		for(Flight flight : flightList){
+			if(flight.getTotalTime().getTimeInMinutes()<shortestFlight.getTotalTime().getTimeInMinutes())
+				shortestFlight=flight;
 		}
-		return shortestFlightTime;
+		return shortestFlight;
 	}
 
 	public Flight minLayover(){
-		Filght minLayover=new Flight();
-		for (int i=0;i<Flight.length();i++){
-			if(Flight[i].totalLayoverTime()<minLayover.totalLayoverTime())
-				minLayover=Flight[i];
+		Flight minLayover = flightList.get(0);
+		for(Flight flight : flightList){
+			if(flight.gettotalLayoverTime().getTimeInMinutes()<minLayover.gettotalLayoverTime().getTimeInMinutes())
+				minLayover=flight;
 		}
 		return minLayover;
 	}
 	
-	public Flight minConnections(){
-		Filght minConnections=new Flight();
-		for (int i=0;i<Flight.length();i++){
-			if(Flight[i].numOfConnection()<minConnections.numOfConnection())
-				minConnections=Flight[i];
+	public ArrayList<Flight> sortPrice(boolean ascending, boolean isFirstClass){
+		ArrayList<Flight> sortedFlights=new ArrayList<Flight>();
+
+		ArrayList<Double> flightPriceList = new ArrayList<Double>();
+
+		for(Flight flight : flightList){
+			flightPriceList.add(flight.getTotalCost(isFirstClass));
 		}
-		return minConnections;
-	}
-	
-	public boolean sortcheap(){
-		Flight temp=new Flight();
-		for (int i=0;i<Flight.length()-1;i++)
-			for (int j=i+1;j<Flight.length();j++)
-			{
-				if(Flight[i].totalCostFlight()>Flight[j].totalCostFlight())
-				{
-					temp=Flight[i];
-					Flight[i]=Flight[j];
-					Flight[j]=temp;
+
+		Collections.sort(flightPriceList); //ascending order
+		
+		/* If not ascending order, reverse the list */
+		if (!ascending){
+			Collections.reverse(flightPriceList);
+		}
+
+		for(Double price : flightPriceList){
+
+			for(Flight flight : flightList){
+				if (price == flight.getTotalCost(isFirstClass)){
+
+					sortedFlights.add(flight);
 				}
 			}
-		boolean k=true;
-		for (int i=0;i<Flight.length()-1;i++)
-		{
-			for (int j=i+1;j<Flight.length();j++)
-			if(Flight[i].totalCostFlight()<Flight[j].totalCostFlight())
-			{
-				k=false;
-			    break;
-		    }
 		}
-		return k;
+
+		return sortedFlights;
 	}
 	
-	public boolean sortshortest(){
-		Flight temp=new Flight();
-		for (int i=0;i<Flight.length()-1;i++)
-			for (int j=i+1;j<Flight.length();j++)
-			{
-				if(Flight[i].totalTimeFlight()>Flight[j].totalTimeFlight())
-				{
-					temp=Flight[i];
-					Flight[i]=Flight[j];
-					Flight[j]=temp;
+	public ArrayList<Flight> sortTime(boolean ascending){
+		ArrayList<Flight> sortedFlights=new ArrayList<Flight>();
+
+		ArrayList<Integer> flightTimeList = new ArrayList<Integer>();
+
+		for(Flight flight : flightList){
+			flightTimeList.add(flight.getTotalTime().getTimeInMinutes());
+		}
+
+		Collections.sort(flightTimeList); //ascending order
+		
+		/* If not ascending order, reverse the list */
+		if (!ascending){
+			Collections.reverse(flightTimeList);
+		}
+
+		for(Integer time : flightTimeList){
+
+			for(Flight flight : flightList){
+				if (time == flight.getTotalTime().getTimeInMinutes()){
+
+					sortedFlights.add(flight);
 				}
 			}
-		boolean k=true;
-		for (int i=0;i<Flight.length()-1;i++)
-		{
-			for (int j=i+1;j<Flight.length();j++)
-			if(Flight[i].totalTimeFlight()<Flight[j].totalTimeFlight())
-			{
-				k=false;
-			    break;
-		    }
 		}
-			return k;
+
+		return sortedFlights;
 	}
 	
-	public boolean sortLayover(){
-		Flight temp=new Flight();
-		for (int i=0;i<Flight.length()-1;i++)
-			for (int j=i+1;j<Flight.length();j++)
-			{
-				if(Flight[i].totalLayoverTime()>Flight[j].totalLayoverTime())
-				{
-					temp=Flight[i];
-					Flight[i]=Flight[j];
-					Flight[j]=temp;
+	public ArrayList<Flight> sortLayover(boolean ascending){
+		ArrayList<Flight> sortedFlights=new ArrayList<Flight>();
+
+		ArrayList<Integer> flightLayoverList = new ArrayList<Integer>();
+
+		for(Flight flight : flightList){
+			flightLayoverList.add(flight.gettotalLayoverTime().getTimeInMinutes());
+		}
+
+		Collections.sort(flightLayoverList); //ascending order
+		
+		/* If not ascending order, reverse the list */
+		if (!ascending){
+			Collections.reverse(flightLayoverList);
+		}
+
+		for(Integer layover : flightLayoverList){
+
+			for(Flight flight : flightList){
+				if (layover == flight.getLayoverTime().getTimeInMinutes()){
+					sortedFlights.add(flight);
 				}
 			}
-		boolean k=true;
-		for (int i=0;i<Flight.length()-1;i++)
-		{
-			for (int j=i+1;j<Flight.length();j++)
-			if(Flight[i].totalLayoverTime()<Flight[j].totalLayoverTime())
-			{
-				k=false;
-			    break;
-		    }
 		}
-			return k;
+
+		return sortedFlights;
 	}
 	
-	public boolean sortConnect(){
-		Flight temp=new Flight();
-		for (int i=0;i<Flight.length()-1;i++)
-			for (int j=i+1;j<Flight.length();j++)
-			{
-				if(Flight[i].numOfConnection()>Flight[j].numOfConnection())
-				{
-					temp=Flight[i];
-					Flight[i]=Flight[j];
-					Flight[j]=temp;
+	public ArrayList<Flight> sortConnect(boolean ascending){
+		ArrayList<Flight> sortedFlights=new ArrayList<Flight>();
+
+		ArrayList<Integer> flightConnectList = new ArrayList<Integer>();
+
+		for(Flight flight : flightList){
+			flightConnectList.add(flight.getNumOfConnection());
+		}
+
+		Collections.sort(flightConnectList); //ascending order
+		
+		/* If not ascending order, reverse the list */
+		if (!ascending){
+			Collections.reverse(flightConnectList);
+		}
+
+		for(Integer connect : flightConnectList){
+
+			for(Flight flight : flightList){
+				if (connect == flight.getNumOfConnection()){
+					sortedFlights.add(flight);
 				}
 			}
-		boolean k=true;
-		for (int i=0;i<Flight.length()-1;i++)
-		{
-			for (int j=i+1;j<Flight.length();j++)
-			if(Flight[i].numOfConnection()<Flight[j].numOfConnection())
-			{
-				k=false;
-			    break;
-		    }
 		}
-			return k;
+
+		return sortedFlights;
 	}
 	
 	@Override
 	public String toString() {
-		return "the cheapest flight is: "+cheapestFlight+".\n"+
-				"the shortest flight time is: "+shortestFlightTime+".\n"+
-				"the minimum Layover is: "+minLayover+".\n"+
-				"the minimum connections are: "+minConnections+".\n"+
-				"FlightFilter [sortcheap()=" + sortcheap() + ", sortshortest()="
-				+ sortshortest() + ", sortLayover()=" + sortLayover()
-				+ ", sortConnect()=" + sortConnect() + "]";
+		return "the cheapest flight is: "+cheapestFlight(true)+".\n"+
+				"the shortest flight time is: "+shortestFlightTime()+".\n"+
+				"the minimum Layover is: "+minLayover()+".\n"+
+				"FlightFilter [sortcheap()=" + sortPrice(true,true) + ", sortshortest()="
+				+ sortTime(true) + ", sortLayover()=" + sortLayover(true)
+				+ ", sortConnect()=" + sortConnect(true) + "]";
 	}
 	
 }
