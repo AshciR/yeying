@@ -78,6 +78,7 @@ public class ExampleGraph {
 		testTimeRoute(mia, sfo); // False - MIA -> ATL -> BOS -/> SFO
 		testTimeRoute(kgn, mia); // False - KGN -> BOS -> JFK -> ATL -> MIA too many stops
 		testTimeRoute(kgn, atl); // True - KGN -> BOS -> JFK -> ATL
+		testTimeRoute(jfk, mia); // True - JFK -> ATL -> MIA
 		
 //		/* Should be two flights */
 //		routes = getRoutes(bos, mia);
@@ -159,7 +160,7 @@ public class ExampleGraph {
 
 	private void testTimeRoute(Node dep, Node arr) {
 		System.out.println("There's a route between " + dep + " and " + arr
-				+ ": " + timeHasRoute(dep, arr, 0, null));
+				+ ": " + timeHasRoute(dep, arr, 0, null, new ArrayList<Node>() ));
 	
 	}
 
@@ -363,16 +364,25 @@ public class ExampleGraph {
 	}
 
 	/* Determines if there's a route between two nodes, maximum of 2 connections */
-	private boolean timeHasRoute(Node depNode, Node arrNode, int con, Edge conEdge) {
-		
-		//ArrayList<Node> visited;
+	private boolean timeHasRoute(Node depNode, Node arrNode, int con, Edge conEdge, ArrayList<Node> visited) {
 		
 		int maxCon = 3; // maximum 2 connections
 		boolean found = false; // holds the result
 		FlightLeg conEdgeInfo = null;
-	
+		
+		/* If we've been to this node already, we no it's not a route */
+		if (visited.contains(depNode) ){
+			
+			/* If this is a connection check, add this departing node to visited list */
+			if (!(conEdge == null)){
+				visited.add(depNode);
+			}
+			
+			return false;
+		}
+		
 		/* If less than 2 connections so far */
-		if (con < maxCon) {
+		else if (con < maxCon) {
 			
 			/* Get an iterator for the node's departing flights */
 			Iterator<Edge> depFlights = depNode.getLeavingEdgeIterator();
@@ -381,8 +391,8 @@ public class ExampleGraph {
 			if (depNode.hasEdgeToward(arrNode)) {
 	
 				/*
-				 * If connecting edge is null, this means that this is the 1st
-				 * check
+				 * If connecting edge is null, this means 
+				 * that this is the 1st check
 				 */
 				if (conEdge == null) {
 					found = true;
@@ -400,14 +410,18 @@ public class ExampleGraph {
 					
 					/* Check the next flight leaving this node */
 					while (depFlights.hasNext()) {
+						
+						/* Get the next flight that leaves node */
 						Edge nxtFlt = depFlights.next();
 						FlightLeg nxtFltInfo = nxtFlt.getAttribute("fltInfo");
-							
+						
+						boolean beenHere = visited.contains(nxtFlt.getTargetNode());
+						
 						/*
 						 * Does this flight leave after the previous one
-						 * arrives?
+						 * arrives, and it doesn't land where we have passed through already
 						 */
-						if (nxtFltInfo.getDepartureTime().getTimeInMinutes() > conEdgeInfo.getArrivalTime().getTimeInMinutes()) {
+						if (nxtFltInfo.getDepartureTime().getTimeInMinutes() > conEdgeInfo.getArrivalTime().getTimeInMinutes() && !beenHere){
 							found = true;
 							break;
 						}
@@ -420,64 +434,86 @@ public class ExampleGraph {
 			
 			/* No direct connection from the current node */
 			else {
-	
+				
 				/* While the departing node still has flights to search */
-				while (depFlights.hasNext()) {
-	
+				while (depFlights.hasNext() && !found) {
+					
 					/* The current edge (departing flight) info */
 					Edge depFltEdge = depFlights.next();
 					FlightLeg depFltsInfo = depFltEdge.getAttribute("fltInfo");
-		
+					
 					/* The next potential Node */
 					Node nextConNode = depFltEdge.getTargetNode();
-	
+					
 					/*
 					 * Get an iterator for the potential node's departing
 					 * flights
 					 */
 					Iterator<Edge> nxtDepFlights = nextConNode.getLeavingEdgeIterator();
-	
+					
+					/* While the 1st connection has flights to check, and doesn't
+					 * land at the airport we're trying to leave from
+					 */
 					while (nxtDepFlights.hasNext()) {
-	
+						
 						Edge conFlt2nd = nxtDepFlights.next(); // the potential 2nd flight
 						
-						/* Get the flight info of the next potential flight */
-						FlightLeg conFlt2ndInfo = conFlt2nd.getAttribute("fltInfo"); 
-															
-						/*
-						 * If the next connecting edge leaves after the previous
-						 * edges arrives then it is possible that the edge will
-						 * get us to our final destination
-						 */
-						if (conFlt2ndInfo.getDepartureTime().getTimeInMinutes() > depFltsInfo.getArrivalTime().getTimeInMinutes()) {
-	
-							con++; // add one to the connections
-	
+						if( !(conFlt2nd.getTargetNode().equals(depNode)) ){
+							/* Get the flight info of the next potential flight */
+							FlightLeg conFlt2ndInfo = conFlt2nd.getAttribute("fltInfo"); 
+																
 							/*
-							 * If the potential flight lands at our final
-							 * destination, then we have found the route
+							 * If the next connecting edge leaves after the previous
+							 * edges arrives then it is possible that the edge will
+							 * get us to our final destination
 							 */
-							if (conFlt2nd.getTargetNode().equals(arrNode) && (con < (maxCon - 1))) {
-								found = true;
-								break; // stop checking for routes
-							}
-							/*
-							 * Check to see if where that flight lands, has a
-							 * connection to the final destination
-							 */
-							else {
-								if (timeHasRoute(conFlt2nd.getTargetNode(), arrNode, con, conFlt2nd)) {
+							if (conFlt2ndInfo.getDepartureTime().getTimeInMinutes() > depFltsInfo.getArrivalTime().getTimeInMinutes()) {
+		
+								con++; // add one to the connections
+								
+								/* Where the connecting flight lands */
+								Node conFltLand = conFlt2nd.getTargetNode(); 
+								
+								/*
+								 * If the potential flight lands at our final
+								 * destination, then we have found the route
+								 */
+								if (conFltLand.equals(arrNode) && (con < (maxCon - 1))) {
 									found = true;
-									break;
+									break; // stop checking for routes
 								}
+								/*
+								 * Check to see if where that flight lands, has a
+								 * connection to the final destination
+								 */
+								else {
+									
+									/* Add the port where the 1st flight landed, to the visited list */
+									visited.add(nextConNode);
+									
+									if (timeHasRoute(conFltLand, arrNode, con, conFlt2nd, visited)) {
+										found = true;
+										break;
+									}
+									
+									
+								}
+		
 							}
-	
-						}
-	
+						
+						} // end if the connection doesn't land where we started from
+					
 					} // end while for next node's departing flights
-	
+						
+					/* We checked the node where the first flight would
+					 * have landed, but it doesn't contain a connection to
+					 * the final destination, so add it to the list of nodes 
+					 * we already visited */
+					visited.add(nextConNode);	
+					
 				} // end while for current node's departing flights
-	
+				
+			
 			} // end if for no direct flight
 	
 		}
