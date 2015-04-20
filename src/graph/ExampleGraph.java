@@ -1,11 +1,7 @@
 package graph;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Map.Entry;
-
 import org.graphstream.graph.Edge;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
@@ -37,7 +33,6 @@ public class ExampleGraph {
  	public void testGraph(){
 		
 		ArrayList<Edge> edgeList = new ArrayList<Edge>();
-		ArrayList<LinkedList<Edge>> routes = new ArrayList<LinkedList<Edge>>();
 		
 		/* Make the graph */
 		graph = makeGraph();
@@ -58,40 +53,28 @@ public class ExampleGraph {
 			printEdge(edge);
 		}
 		
-//		/* Testing hasEdgeToward() */
-//		System.out.println("BOS -> JFK? : " + bos.hasEdgeToward(jfk)); // BOS -> JFK Yes!
-//		System.out.println("BOS -> ATL? : " + bos.hasEdgeToward(atl)); // BOS -> ATL No!
-//				
-//		/* Testing hasRoute */
-//		System.out.println("\n------- Testing hasRoute --------");
-//		testHasRoute(bos, atl); 
-//		testHasRoute(atl, mia);
-//		testHasRoute(bos, mia);		
+		/* Testing hasEdgeToward() */
+		System.out.println("BOS -> JFK? : " + bos.hasEdgeToward(jfk)); // BOS -> JFK Yes!
+		System.out.println("BOS -> ATL? : " + bos.hasEdgeToward(atl)); // BOS -> ATL No!
+				
+		/* Testing hasRoute */
+		System.out.println("\n------- Testing hasRoute --------");
+		testHasRoute(bos, atl); 
+		testHasRoute(atl, mia);
+		testHasRoute(bos, mia);		
 
 		/* Testing timeHasRoute */
-//		System.out.println("\n------- Testing timeHasRoute --------");
-//		testTimeRoute(bos, jfk); // True - Direct Flight
-//		testTimeRoute(bos, atl); // True - 1 connection	
-//		testTimeRoute(bos, mia); // True - 2 connections 
-//		testTimeRoute(atl, sfo); // False - 1 connection, but leaves too early
-//		testTimeRoute(bos, kgn); // False - 3 connections
-//		testTimeRoute(mia, sfo); // False - MIA -> ATL -> BOS -/> SFO
-//		testTimeRoute(kgn, mia); // False - KGN -> BOS -> JFK -> ATL -> MIA too many stops
-//		testTimeRoute(kgn, atl); // True - KGN -> BOS -> JFK -> ATL
-//		testTimeRoute(jfk, mia); // True - JFK -> ATL -> MIA
-		
-//		routes = getRoutesRec(bos, jfk);
-//		routes = getRoutesRec(jfk, atl);
-//		routes = getRoutesRec(bos, atl);
-		
-		/* Should be two flights */
-		routes = getRoutesRec(atl, mia);
-		
-		for (LinkedList<Edge> route : routes){
-			System.out.println(route);
-		}
-		
-	
+		System.out.println("\n------- Testing timeHasRoute --------");
+		testTimeRoute(bos, jfk); // True - Direct Flight
+		testTimeRoute(bos, atl); // True - 1 connection	
+		testTimeRoute(bos, mia); // True - 2 connections 
+		testTimeRoute(atl, sfo); // False - 1 connection, but leaves too early
+		testTimeRoute(bos, kgn); // False - 3 connections
+		testTimeRoute(mia, sfo); // False - MIA -> ATL -> BOS -/> SFO
+		testTimeRoute(kgn, mia); // False - KGN -> BOS -> JFK -> ATL -> MIA too many stops
+		testTimeRoute(kgn, atl); // True - KGN -> BOS -> JFK -> ATL
+		testTimeRoute(jfk, mia); // True - JFK -> ATL -> MIA
+			
 	}
 	
 	/* Make the test airports */
@@ -529,257 +512,5 @@ public class ExampleGraph {
 		/* Return the result */
 		return found;
 	}
-	
-	/* Returns all the routes from a departure node to an arrival node */
-	private ArrayList<LinkedList<Edge>> getRoutesRec(Node depNode, Node arrNode){
 		
-		/* Map to hold the routes */
-		ArrayList<LinkedList<Edge>> routes = new ArrayList<LinkedList<Edge>>();
-		
-		/* If there's a route from the departure to destination */
-		if (timeHasRoute(depNode, arrNode, 0, null, new ArrayList<Node>())){
-			
-			/* Flights leaving the departure node */
-			Iterator<Edge> depFlts = depNode.getEachLeavingEdge().iterator();
-				
-			/* Check all the flights leaving the departure node */
-			while (depFlts.hasNext()){
-				
-					Edge flight = depFlts.next(); // flight we are currently checking 
-					
-					/* If the flight lands at our final destination, 
-					 * then it is a route */
-					if(flight.getTargetNode().equals(arrNode)){
-						
-						/* Make a linked list, and add the flight */
-						LinkedList<Edge> edges = new LinkedList<Edge>(); 
-						edges.add(flight);
-						
-						/* Add the route */
-						routes.add(edges);
-						
-					}
-					/* the flight doesn't land at our final destination
-					 * but we still know there's a route, so lets check the 
-					 * connecting node's flights */
-					else{
-										
-						/* Get back list of the connecting routes */
-						ArrayList<LinkedList<Edge>> connRoutes = getRoutesRec(flight.getTargetNode(), arrNode);
-						
-						/* Add all the edges to this edge */
-						for(LinkedList<Edge> route : connRoutes){
-							
-							for(Edge conRoute: route){
-								
-								/* We know that the 1st connecting flight 
-								 * is part of the chain */
-								LinkedList<Edge> edges = new LinkedList<Edge>(); 
-								
-								edges.add(flight);
-								edges.add(conRoute);
-								routes.add(edges);
-								
-							}
-							
-						}
-						
-					}
-				
-			}
-		}
-		
-		return routes;
-		
-	}
-	
-	
-	private LinkedList<Edge> getEdges(Edge flight, Node arrNode, int con) {
-		
-		int maxCon = 3; // maximum connections allowed
-		LinkedList<Edge> routeEdges = new LinkedList<Edge>();
-		
-		/* If we're less than 2 connections */
-		if (con < maxCon){
-			
-			/* If the edge lands at our final destination */
-			if(flight.getTargetNode().equals(arrNode)){	
-				
-				routeEdges.add(flight); // add the edge
-				
-			}
-			/* Go to the connection airport and get the 
-			 * routes that get you there */
-			else{
-				getRoutesRec(flight.getTargetNode(), arrNode);
-			}
-			
-		}
-		
-		return routeEdges;
-		
-		
-	}
-
-	private LinkedList<Edge> getEdges(Node depNode, Node arrNode, int con, Edge conEdge){
-		
-		int maxCon = 3; // maximum 2 connections
-		
-		FlightLeg conEdgeInfo = null; // connecting flight info
-		
-		/* If the there's a connecting edge, get the info */
-		if (conEdge != null) {
-			conEdgeInfo = conEdge.getAttribute("fltInfo");
-		}
-	
-		
-		/* If less than 2 connections so far */
-		if (con < maxCon) {
-			
-			/* If the departure has a flight that lands 
-			 * at the target destination */
-			if (depNode.hasEdgeToward(arrNode)){
-				
-//				depNode.getEdgeToward(arg0)
-//				
-//				LinkedList<Edge> routeEdges = new LinkedList<Edge>();
-//				routeEdges.add(flight); // add the edge
-//				
-//			}
-//			
-//
-//			/* If this flight lands where we want to go
-//			 * then it's a direct flight */
-//			if (flight.getTargetNode().equals(arrNode)){
-
-				
-
-			}
-
-
-		}
-		
-		return null;
-		
-	}
-	
-	/* Returns all the routes from a departure node to an arrival node */
-	private ArrayList<LinkedList<Edge>> getRoutes(Node depNode, Node arrNode){
-		
-		/* Map to hold the routes */
-		ArrayList<LinkedList<Edge>> routes = new ArrayList<LinkedList<Edge>>();
-		
-		/* Holds the number of connections so far */
-		int conn = 0;
-		
-		/* If there's a route, then let's get the routes */
-		if(timeHasRoute(depNode, arrNode, conn, null)){
-			
-			/* Get the flights leaving the departure node  */
-			Iterator<Edge> depFlights = depNode.getLeavingEdgeIterator();
-			
-			while(depFlights.hasNext()){
-				
-				/* Current departing flight from the list */
-				Edge depFlt = depFlights.next();
-				FlightLeg depFltInfo = depFlt.getAttribute("fltInfo");
-				
-				/* The port that you would land at */
-				Node landNode = depFlt.getTargetNode();
-				
-				/* If this flight lands at the destination, 
-				 * it's a direct flight. So add it to the route list */
-				if (landNode.equals(arrNode)){
-					
-					/* Holds the connecting edges */
-					LinkedList<Edge> routeEdges = new LinkedList<Edge>();
-					
-					routeEdges.add(depFlt); // add the edge
-					routes.add(routeEdges);
-					
-				}
-				/* Let's check if the next node connects to the destination */
-				else{
-					
-					conn++; // increase the number of connections
-					
-					/* Check the next node to see if there's a route from there */
-					if(timeHasRoute(landNode, arrNode, conn, depFlt)){
-						
-						/* Get all the flights leaving that node */
-						Iterator<Edge> landNodeFlts = landNode.getLeavingEdgeIterator();
-						
-						/* Check all the flights leaving the 1st connection */
-						while(landNodeFlts.hasNext()){
-							
-							Edge flight2nd = landNodeFlts.next();
-							FlightLeg flight2ndInfo = flight2nd.getAttribute("fltInfo");
-														
-							Node landNode2nd = flight2nd.getTargetNode();
-							
-							/* If this flight lands at the destination, 
-							 * it's a one connection flight. So add it to the route list */
-							if (landNode2nd.equals(arrNode)){
-								 
-								/* Holds the connecting edges */
-								LinkedList<Edge> routeEdges = new LinkedList<Edge>();
-								
-								routeEdges.add(depFlt); // add the edge
-								routeEdges.add(flight2nd); // add the edge
-								
-								routes.add(routeEdges);
-							
-
-							}
-							/* Lets see if the next node connects to the destination */
-							else{
-								conn++;
-								
-								/* Check the next node to see if there's a route from there */
-								if(timeHasRoute(landNode2nd, arrNode, conn, depFlt)){
-									
-									/* Get all the flights leaving that node */
-									Iterator<Edge> landNode2ndFlts = landNode2nd.getLeavingEdgeIterator();
-									
-									/* Check all the flights leaving the 1st connection */
-									while(landNode2ndFlts.hasNext()){
-										Edge flight3rd = landNode2ndFlts.next();
-										Node landNode3rd = flight3rd.getTargetNode();
-										
-										/* If this flight lands at the destination, 
-										 * it's a one connection flight. So add it to the route list */
-										if (landNode3rd.equals(arrNode)){
-												
-											/* Holds the connecting edges */
-											LinkedList<Edge> routeEdges = new LinkedList<Edge>();
-											
-											routeEdges.add(depFlt); // add the edge
-											routeEdges.add(flight2nd); // add the edge
-											routeEdges.add(flight3rd); // add the edge
-											
-											routes.add(routeEdges);
-									
-											
-										}
-										
-									} // 2nd flights
-									
-								} // if 2nd node has route
-								
-							}
-							
-						}
-						
-					} // if there's a route from the 1st connection to the final
-					
-				}
-				
-			}
-			
-		}
-		
-		return routes;
-		
-	}
-	
 }
