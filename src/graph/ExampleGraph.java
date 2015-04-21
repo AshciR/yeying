@@ -80,7 +80,7 @@ public class ExampleGraph {
 //		testTimeRoute(kgn, atl); // True - KGN -> BOS -> JFK -> ATL
 //		testTimeRoute(jfk, mia); // True - JFK -> ATL -> MIA
 				
-//		routes = getRoutes(jfk, atl); // It returns 2 flights
+		routes = getRoutes(jfk, mia); // It returns 2 flights
 	
 		for (LinkedList<Edge> route : routes){
 			System.out.println(route);
@@ -552,6 +552,31 @@ public class ExampleGraph {
 				
 				/* Add the current route to the routes list */
 				routes.add(currentRoute);
+				
+			}
+			/* There are no direct flights, 
+			 * so let's check for connections */
+			else{
+				
+				/* Store all the routes from the connection airport */
+				ArrayList<LinkedList<Edge>> returnedRoutes = getRoutes(flight.getTargetNode(), arrNode);
+				
+				for( LinkedList<Edge> route : returnedRoutes){
+						
+					/* Add the route from the connecting flight to the original route */
+					route.addFirst(flight);
+					
+					/* Make a linked list to store the route */
+					LinkedList<Edge> addedRoute = new LinkedList<Edge>();
+					
+					/* Make the new Linked List */
+					addedRoute = route;
+					
+					/* Add the concatenated route to the routes list */
+					routes.add(addedRoute);
+					
+				
+				}
 				
 			}
 		
