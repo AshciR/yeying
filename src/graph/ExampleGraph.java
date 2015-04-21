@@ -526,7 +526,7 @@ public class ExampleGraph {
 	}
 	
 	private ArrayList<LinkedList<Edge>> getRoutes(Node depNode, Node arrNode){
-		
+			
 		/* List to hold all the routes */
 		ArrayList<LinkedList<Edge>> routes = new ArrayList<LinkedList<Edge>>();
 		
