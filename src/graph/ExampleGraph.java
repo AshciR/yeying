@@ -80,7 +80,7 @@ public class ExampleGraph {
 //		testTimeRoute(kgn, atl); // True - KGN -> BOS -> JFK -> ATL
 //		testTimeRoute(jfk, mia); // True - JFK -> ATL -> MIA
 				
-		routes = getRoutes(jfk, mia); // It returns 2 flights
+		routes = getRoutes(jfk, kgn, new ArrayList<Node>(), jfk); // It returns 2 flights
 	
 		for (LinkedList<Edge> route : routes){
 			System.out.println(route);
@@ -525,13 +525,16 @@ public class ExampleGraph {
 		return found;
 	}
 	
-	private ArrayList<LinkedList<Edge>> getRoutes(Node depNode, Node arrNode){
-			
+	private ArrayList<LinkedList<Edge>> getRoutes(Node depNode, Node arrNode, ArrayList<Node> visited, Node originDepNode){
+		
 		/* List to hold all the routes */
 		ArrayList<LinkedList<Edge>> routes = new ArrayList<LinkedList<Edge>>();
 		
 		/* Get a list of all the flights leaving the departure airport */
 		Iterator<Edge> depNodeFlights = depNode.getEachLeavingEdge().iterator();
+		
+		/* Add this departure node to the visited list */
+		visited.add(depNode);
 		
 		/* While there are flights left to check from 
 		 * the departing airport */
@@ -540,42 +543,55 @@ public class ExampleGraph {
 			/* Get the next flight that leaves this airport */
 			Edge flight = depNodeFlights.next();
 			
-			/* If this flight lands at the our final
-			 * destination, then we know it is a route */
-			if(flight.getTargetNode().equals(arrNode)){
-				
-				/* Make a linked list to store the route */
-				LinkedList<Edge> currentRoute = new LinkedList<Edge>();
-				
-				/* Add the flight to the current route */
-				currentRoute.add(flight);
-				
-				/* Add the current route to the routes list */
-				routes.add(currentRoute);
-				
+			/* Making sure that original departure you get */
+			if (originDepNode.equals(flight.getSourceNode())){
+				visited.clear();
+				visited.add(originDepNode);
 			}
-			/* There are no direct flights, 
-			 * so let's check for connections */
-			else{
+			
+			/* If where you would land is not in the places
+			 * that were checked before */
+			if(!visited.contains(flight.getTargetNode())){
 				
-				/* Store all the routes from the connection airport */
-				ArrayList<LinkedList<Edge>> returnedRoutes = getRoutes(flight.getTargetNode(), arrNode);
-				
-				for( LinkedList<Edge> route : returnedRoutes){
-						
-					/* Add the route from the connecting flight to the original route */
-					route.addFirst(flight);
+				/* If this flight lands at the our final
+				 * destination, then we know it is a route */
+				if(flight.getTargetNode().equals(arrNode)){
 					
 					/* Make a linked list to store the route */
-					LinkedList<Edge> addedRoute = new LinkedList<Edge>();
+					LinkedList<Edge> currentRoute = new LinkedList<Edge>();
 					
-					/* Make the new Linked List */
-					addedRoute = route;
+					/* Add the flight to the current route */
+					currentRoute.add(flight);
 					
-					/* Add the concatenated route to the routes list */
-					routes.add(addedRoute);
+					/* Add the current route to the routes list */
+					routes.add(currentRoute);
 					
-				
+					
+				}
+				/* There are no direct flights, 
+				 * so let's check for connections */
+				else{
+					
+					/* Store all the routes from the connection airport */
+					ArrayList<LinkedList<Edge>> returnedRoutes = getRoutes(flight.getTargetNode(), arrNode, visited, originDepNode);
+					
+					for( LinkedList<Edge> route : returnedRoutes){
+							
+						/* Add the route from the connecting flight to the original route */
+						route.addFirst(flight);
+						
+						/* Make a linked list to store the route */
+						LinkedList<Edge> addedRoute = new LinkedList<Edge>();
+						
+						/* Make the new Linked List */
+						addedRoute = route;
+						
+						/* Add the concatenated route to the routes list */
+						routes.add(addedRoute);
+						
+					
+					}
+					
 				}
 				
 			}
