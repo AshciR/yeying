@@ -23,8 +23,8 @@ import flight_system.Airplane;
  * <p>
  * This class uses the Singleton Pattern, thus, only one instance of it is allowed
  * as any point in time. The parser object also allows a client to get a copy of 
- * a list of all the airplanes that were parsed. Also, provides a method for 
- * getting an airplane based on its model.  
+ * a list that contains of the airplanes that were parsed. Also, the
+ * object provides a method for getting an airplane based on its model.  
  * 				
  * @author Richard Walker
  * @see parsers.XMLGetter#getAirplaneXML() 
@@ -65,7 +65,7 @@ public class AirplaneParser {
 	}
 	
 	/** 
-	 * Used to get the the size of the airport list.			
+	 * Gets the the size of the airport list.			
 	 * @return the number of airplanes that were parsed.
 	 */
 	/* Returns the number of airplanes in the list */
