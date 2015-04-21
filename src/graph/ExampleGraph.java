@@ -80,7 +80,7 @@ public class ExampleGraph {
 //		testTimeRoute(kgn, atl); // True - KGN -> BOS -> JFK -> ATL
 //		testTimeRoute(jfk, mia); // True - JFK -> ATL -> MIA
 				
-		routes = getRoutes(jfk, kgn, new ArrayList<Node>(), jfk); // It returns 2 flights
+		routes = getRoutes(mia, sfo, new ArrayList<Node>(), mia); // It returns 2 flights
 	
 		for (LinkedList<Edge> route : routes){
 			System.out.println(route);
@@ -532,10 +532,7 @@ public class ExampleGraph {
 		
 		/* Get a list of all the flights leaving the departure airport */
 		Iterator<Edge> depNodeFlights = depNode.getEachLeavingEdge().iterator();
-		
-		/* Add this departure node to the visited list */
-		visited.add(depNode);
-		
+				
 		/* While there are flights left to check from 
 		 * the departing airport */
 		while(depNodeFlights.hasNext()){
@@ -571,6 +568,9 @@ public class ExampleGraph {
 				/* There are no direct flights, 
 				 * so let's check for connections */
 				else{
+					
+					/* Add this departure node to the visited list */
+					visited.add(depNode);
 					
 					/* Store all the routes from the connection airport */
 					ArrayList<LinkedList<Edge>> returnedRoutes = getRoutes(flight.getTargetNode(), arrNode, visited, originDepNode);
