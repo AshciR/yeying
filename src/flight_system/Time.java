@@ -11,7 +11,7 @@ package flight_system;
  *  
  */
 
-public class Time {
+public class Time implements Comparable<Time>{
 	private int hours;
 	private int minutes;
 	
@@ -71,8 +71,27 @@ public class Time {
 		return (hours < 12);
 	}
 	
-	
-	
+	/**
+	 * Compares a given time object to this time object. 
+	 * <p>
+	 * If the this object is bigger, then the result will be a positive integer,
+	 * if smaller, the result will be a negative integer, and if
+	 * they are the same, the result will be 0.
+	 * <p>
+	 * @param time the other time object to be compared to this time object. 
+	 * @return a +ive or -ive integer, or 0.  
+	 */
+	@Override
+	public int compareTo(Time compareTime) {
+		
+		int compareTimeInMins = compareTime.getTimeInMinutes(); 
+		 
+		/* ascending order, b/c this if this time is > the compared time
+		 * the result will be a positive number */
+		return getTimeInMinutes() - compareTimeInMins;
+ 
+	}
+
 	@Override
 	public String toString() {
 		/* Formats the time in HH:MM */
