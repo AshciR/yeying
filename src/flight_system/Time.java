@@ -1,10 +1,15 @@
-/** Engineer: Daoheng Guo
- * Date: March 18. 2015
- * Description: Class used to represent time in hours and minutes
- * Updated at April 8. 2015 by Jianan Ou and Richard Walker
- * Description: Now this class can return the local time, not only the GMT time.
- */
 package flight_system;
+
+/** 
+ * Class used to represent time in hours and minutes.
+ * <p>
+ * The class can either represent the time as GMT time or Local Time.
+ * 
+ * @author Daoheng Guo
+ * @author Jianan Ou
+ * @author Richard Walker
+ *  
+ */
 
 public class Time {
 	private int hours;
@@ -21,7 +26,24 @@ public class Time {
 		int localHours = (time.getHours() + (int) location.getTimeZoneOffset() / 3600) % 24;
 		return new Time(localHours, time.getMinutes());
 	}
-
+	
+	/**
+	 * Returns a given time object as the 12-hour time.
+	 * <p>
+	 * Note: The time object that is returned doesn't specify whether
+	 * the time is AM or PM. It is up to the client to gather that information
+	 * from the original Time object.
+	 * <p>
+	 * @param time the time object to be converted from 24-hour format
+	 * 		  to a 12-hour format. 
+	 * @return the given time in a 12-hour format.  
+	 */
+	public static Time get12HourTime(Time time){
+		
+		return new Time(time.getHoursIn12(), time.getMinutes());
+		
+	}
+	
 	public int getHours() {
 		return hours;
 	}
@@ -48,6 +70,8 @@ public class Time {
 	public boolean isAM(){
 		return (hours < 12);
 	}
+	
+	
 	
 	@Override
 	public String toString() {
