@@ -1,6 +1,8 @@
 package flight_system;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import parsers.*;
 
@@ -242,6 +244,16 @@ public class Tester {
 		System.out.println("Testing Time Class\n");
 		
 		Time test = new Time(21, 00); // 21:00 GMT
+		Time test2 = new Time(18, 00); // 18:00 GMT
+		Time test3 = new Time(12, 00); // 12:00 GMT
+		Time test4 = new Time(15, 00); // 15:00 GMT
+		
+		/* Make a list of the test times */
+		ArrayList<Time> testList =  new ArrayList<Time>();
+		testList.add(test);
+		testList.add(test2);
+		testList.add(test3);
+		testList.add(test4);
 		
 		Location bos = new Location(42.365855, -71.009624); // Boston, MA
 		Location yin = new Location(38.4667, 106.2667); // Yinchuan, China
@@ -264,8 +276,23 @@ public class Tester {
 				+ test.getHoursIn12());
 		
 		System.out.println("The time is in AM : " + test.isAM());
+		
+		/* Testing the local time methods */
 		System.out.println("The local time is in AM: " + localBos.isAM());
 		System.out.println("The local time is in AM: " + localYin.isAM());
+		
+		/* Testing the compare method */
+		System.out.println("Is " + test + " after " + test2 +"? " + (test.compareTo(test2) > 0));
+		System.out.println("Is " + test2 + " after " + test +"? " + (test2.compareTo(test) > 0));
+		System.out.println("Is " + test + " the same " + test +"? " + (test.compareTo(test) == 0));
+		
+		/* Testing the 24-Hour to 12-Hour converter */
+		System.out.println(test + " in 12-hour time is " + Time.get12HourTime(test));
+		
+		/* Testing if if the Time class can be sorted */
+		System.out.println(testList); // before sort
+		Collections.sort(testList);   // sort in ascending order
+		System.out.println(testList); // after sort
 	}
 
 	@SuppressWarnings("unused")
