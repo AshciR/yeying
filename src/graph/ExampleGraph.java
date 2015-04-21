@@ -528,5 +528,37 @@ public class ExampleGraph {
 		return found;
 	}
 	
-	
+	private void getRoutes(Node depNode, Node arrNode){
+		
+		/* List to hold all the routes */
+		ArrayList<LinkedList<Edge>> routes = new ArrayList<LinkedList<Edge>>();
+		
+		/* Get a list of all the flights leaving the departure airport */
+		Iterator<Edge> depNodeFlights = depNode.getEachLeavingEdge().iterator();
+		
+		/* While there are flights left to check from 
+		 * the departing airport */
+		while(depNodeFlights.hasNext()){
+			
+			/* Get the next flight that leaves this airport */
+			Edge flight = depNodeFlights.next();
+			
+			/* If this flight lands at the our final
+			 * destination, then we know it is a route */
+			if(flight.getTargetNode().equals(arrNode)){
+				
+				/* Make a linked list to store the route */
+				LinkedList<Edge> currentRoute = new LinkedList<Edge>();
+				
+				/* Add the flight to the current route */
+				currentRoute.add(flight);
+				
+				/* Add the current route to the routes list */
+				routes.add(currentRoute);
+				
+			}
+		
+		}
+		
+	}
 }
