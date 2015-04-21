@@ -30,6 +30,7 @@ public class Airport {
 	 * @see parsers.XMLGetter#getAirportsXML()
 	 * @see flight_system.Location
 	 */
+	
 	public Airport(String code, String name, Location location) {
 		this.code = code;
 		this.name = name;
