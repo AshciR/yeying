@@ -17,6 +17,7 @@ import java.net.URL;
 
 import flight_system.Airport;
 import flight_system.Date;
+import flight_system.Location;
 import flight_system.Month;
 
 
@@ -293,6 +294,75 @@ public class XMLGetter {
 		}
 		
 		return wasReset;
+	}
+	/**
+	 * This method can get the time zone info from google server
+	 * @param location
+	 * @return XML string which include time zone info
+	 */
+	public String getTimeZoneXML (Location location){
+		URL url;
+		
+		/* Data needed by the Google API */
+		double latitude = location.getLatitude();
+		double longitude = location.getLongitude();
+		int timeStamp = 1431043200; //This is the date of May 8th 2015 at 00:00 GMT
+		
+		HttpURLConnection connection;
+		BufferedReader reader;
+		String line;
+		StringBuffer result = new StringBuffer();
+		
+		try{
+			
+			/* Google's TimeZone API */
+			url = new URL("https://maps.googleapis.com/maps/api/timezone/xml?location="+latitude+","+longitude+"&timestamp="+timeStamp);
+				
+			/* Open Connection and send GET request */
+			connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			
+			/* The response code given by the server*/
+			int responseCode = connection.getResponseCode(); 
+			//System.out.println("\nThe Response Code is: " + responseCode);
+			
+			/* If The connection was successful */
+			if((responseCode >= 200) && (responseCode <= 299)){
+				
+				System.out.println("Getting TimeZone Info..."); // Shows successful connection
+				
+				/* Setup the input stream */
+				InputStream inputStream = connection.getInputStream();
+				String encoding = connection.getContentEncoding();
+				encoding = (encoding == null ? "URF-8" : encoding);
+				
+				/* This code just copies the String from the Server */
+				reader = new BufferedReader(new InputStreamReader(inputStream));
+				while ((line = reader.readLine()) != null){
+					result.append(line);
+				}
+				reader.close();
+				
+				/* Increment XML Count by one */
+				this.numXML++; 
+				
+			}
+			/* Else the response was not valid */
+			else{
+				System.out.println("Some error occured");
+			}
+		}	
+			
+			/* Needs to catch these exceptions */
+			catch(IOException e){
+				e.printStackTrace();
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+			
+			
+			return result.toString();
 	}
 
 	public String toString() {

@@ -1,18 +1,49 @@
-/** Engineer: Daoheng Guo
- * Date: March 18. 2015
- * Description: Class used to represent time in hours and minutes
- */
 package flight_system;
 
-public class Time {
+/** 
+ * Class used to represent time in hours and minutes.
+ * <p>
+ * The class can either represent the time as GMT time or Local Time.
+ * 
+ * @author Daoheng Guo
+ * @author Jianan Ou
+ * @author Richard Walker
+ *  
+ */
+
+public class Time implements Comparable<Time>{
 	private int hours;
 	private int minutes;
+	
 	
 	public Time(int hours, int minutes) {
 		this.hours = hours;
 		this.minutes = minutes;
 	}
-
+	
+	/* Returns a Time Object with the local time that was given */
+	public static Time getLocalTime(Time time, Location location) {
+		int localHours = (time.getHours() + (int) location.getTimeZoneOffset() / 3600) % 24;
+		return new Time(localHours, time.getMinutes());
+	}
+	
+	/**
+	 * Returns a given time object as the 12-hour time.
+	 * <p>
+	 * Note: The time object that is returned doesn't specify whether
+	 * the time is AM or PM. It is up to the client to gather that information
+	 * from the original Time object.
+	 * <p>
+	 * @param time the time object to be converted from 24-hour format
+	 * 		  to a 12-hour format. 
+	 * @return the given time in a 12-hour format.  
+	 */
+	public static Time get12HourTime(Time time){
+		
+		return new Time(time.getHoursIn12(), time.getMinutes());
+		
+	}
+	
 	public int getHours() {
 		return hours;
 	}
@@ -40,6 +71,27 @@ public class Time {
 		return (hours < 12);
 	}
 	
+	/**
+	 * Compares a given time object to this time object. 
+	 * <p>
+	 * If the this object is bigger, then the result will be a positive integer,
+	 * if smaller, the result will be a negative integer, and if
+	 * they are the same, the result will be 0.
+	 * <p>
+	 * @param time the other time object to be compared to this time object. 
+	 * @return a +ive or -ive integer, or 0.  
+	 */
+	@Override
+	public int compareTo(Time compareTime) {
+		
+		int compareTimeInMins = compareTime.getTimeInMinutes(); 
+		 
+		/* ascending order, b/c this if this time is > the compared time
+		 * the result will be a positive number */
+		return getTimeInMinutes() - compareTimeInMins;
+ 
+	}
+
 	@Override
 	public String toString() {
 		/* Formats the time in HH:MM */
