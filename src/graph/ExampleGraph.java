@@ -79,11 +79,8 @@ public class ExampleGraph {
 //		testTimeRoute(kgn, mia); // False - KGN -> BOS -> JFK -> ATL -> MIA too many stops
 //		testTimeRoute(kgn, atl); // True - KGN -> BOS -> JFK -> ATL
 //		testTimeRoute(jfk, mia); // True - JFK -> ATL -> MIA
-		
-//		routes = getRoutesRec(bos, jfk);
-//		routes = getRoutesRec(jfk, atl);
-//		routes = getRoutesRec(bos, atl);
-		
+				
+//		routes = getRoutes(jfk, atl); // It returns 2 flights
 	
 		for (LinkedList<Edge> route : routes){
 			System.out.println(route);
@@ -528,7 +525,7 @@ public class ExampleGraph {
 		return found;
 	}
 	
-	private void getRoutes(Node depNode, Node arrNode){
+	private ArrayList<LinkedList<Edge>> getRoutes(Node depNode, Node arrNode){
 		
 		/* List to hold all the routes */
 		ArrayList<LinkedList<Edge>> routes = new ArrayList<LinkedList<Edge>>();
@@ -559,6 +556,8 @@ public class ExampleGraph {
 			}
 		
 		}
+		
+		return routes;
 		
 	}
 }
