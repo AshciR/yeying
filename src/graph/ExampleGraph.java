@@ -58,35 +58,34 @@ public class ExampleGraph {
 		}
 
 		 /* Testing hasRoute */
-//		 System.out.println("\n------- Testing hasRoute --------");
-//		 testHasRoute(bos, atl);
-//		 testHasRoute(atl, mia);
-//		 testHasRoute(bos, mia);
+		 System.out.println("\n------- Testing hasRoute --------");
+		 testHasRoute(bos, atl);
+		 testHasRoute(atl, mia);
+		 testHasRoute(bos, mia);
 
 		/* Testing timeHasRoute */
-//		 System.out.println("\n------- Testing timeHasRoute --------");
-//		 testTimeRoute(bos, jfk); // True - Direct Flight
-//		 testTimeRoute(bos, atl); // True - 1 connection
-//		 testTimeRoute(bos, mia); // True - 2 connections
-//		 testTimeRoute(atl, sfo); // False - 1 connection, but leaves too early
-//		 testTimeRoute(bos, kgn); // False - 3 connections
-//		 testTimeRoute(mia, sfo); // False - MIA -> ATL -> BOS -/> SFO
-//		 testTimeRoute(kgn, mia); // False - KGN -> BOS -> JFK -> ATL -> MIA
-//		 too many stops
-//		 testTimeRoute(kgn, atl); // True - KGN -> BOS -> JFK -> ATL
-//		 testTimeRoute(jfk, mia); // True - JFK -> ATL -> MIA
+		 System.out.println("\n------- Testing timeHasRoute --------");
+		 testTimeRoute(bos, jfk); // True - Direct Flight
+		 testTimeRoute(bos, atl); // True - 1 connection
+		 testTimeRoute(bos, mia); // True - 2 connections
+		 testTimeRoute(atl, sfo); // False - 1 connection, but leaves too early
+		 testTimeRoute(bos, kgn); // False - 3 connections
+		 testTimeRoute(mia, sfo); // False - MIA -> ATL -> BOS -/> SFO
+		 testTimeRoute(kgn, mia); // False - KGN -> BOS -> JFK -> ATL -> MIA too many stops
+		 testTimeRoute(kgn, atl); // True - KGN -> BOS -> JFK -> ATL
+		 testTimeRoute(jfk, mia); // True - JFK -> ATL -> MIA
 		
 		/* Testing getRoutes */
-//		routes = getRoutes(bos, atl, new ArrayList<Node>(), bos, 0);
-//		routes = getRoutes(atl, bos, new ArrayList<Node>(), atl, 0);
-//		routes = getRoutes(kgn, atl, new ArrayList<Node>(), atl, 0);
-//		routes = getRoutes(jfk, mia, new ArrayList<Node>(), jfk, 0);
-//		routes = getRoutes(mia, sfo, new ArrayList<Node>(), mia, 0);
-//		routes = getRoutes(atl, sfo, new ArrayList<Node>(), atl, 0);
+		routes = getRoutes(bos, atl, new ArrayList<Node>(), bos, 0);
+		routes = getRoutes(atl, bos, new ArrayList<Node>(), atl, 0);
+		routes = getRoutes(kgn, atl, new ArrayList<Node>(), atl, 0);
+		routes = getRoutes(jfk, mia, new ArrayList<Node>(), jfk, 0);
+		routes = getRoutes(mia, sfo, new ArrayList<Node>(), mia, 0);
+		routes = getRoutes(atl, sfo, new ArrayList<Node>(), atl, 0);
 		routes = getRoutes(bos, mia, new ArrayList<Node>(), bos, 0);
-//		routes = getRoutes(jfk, sfo, new ArrayList<Node>(), jfk, 0); // need to work on this one
+		routes = getRoutes(jfk, sfo, new ArrayList<Node>(), jfk, 0); // need to work on this one
 
-
+		/* Print all the possible routes */
 		System.out.println("---- Testing getRoutes Method: ----");
 		for (LinkedList<Edge> route : routes) {
 			System.out.println(route);
@@ -169,14 +168,12 @@ public class ExampleGraph {
 	}
 	
 	/* Tests the timeHasRoute method */
-	@SuppressWarnings("unused")
 	private void testTimeRoute(Node dep, Node arr) {
 		System.out.println("There's a route between "+ dep + " and " + arr + ": " + timeHasRoute(dep, arr, 0, null, new ArrayList<Node>()));
 
 	}
 	
 	/* Tests the hasRoute method */
-	@SuppressWarnings("unused")
 	private void testHasRoute(Node dep, Node arr) {
 		System.out.println("There's a route between " + dep + " and " + arr + ": " + simpleHasRoute(dep, arr, 0));
 	}

@@ -11,10 +11,15 @@ import parsers.*;
 public class Tester {
 
 	public static void main(String[] args) {
+		
+	}
+	
+	@SuppressWarnings("unused")
+	private static void graphTester(){
 		GraphTester test = new GraphTester();
 		test.testGraphEngine();
 	}
-
+	
 	@SuppressWarnings("unused")
 	private static void testLocationClass() {
 
