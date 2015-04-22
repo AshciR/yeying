@@ -1,6 +1,7 @@
 package graph;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -483,8 +484,7 @@ public class ExampleGraph {
 
 						if (!(conFlt2nd.getTargetNode().equals(depNode))) {
 							/* Get the flight info of the next potential flight */
-							FlightLeg conFlt2ndInfo = conFlt2nd
-									.getAttribute("fltInfo");
+							FlightLeg conFlt2ndInfo = conFlt2nd.getAttribute("fltInfo");
 
 							/*
 							 * If the next connecting edge leaves after the
@@ -558,6 +558,7 @@ public class ExampleGraph {
 		return found;
 	}
 	
+	/* Returns all the possible routes from one airport to another */
 	private ArrayList<LinkedList<Edge>> getRoutes(Node depNode, Node arrNode, ArrayList<Node> visited, Node originDepNode, int depth) {
 
 		/* List to hold all the routes */
@@ -582,7 +583,7 @@ public class ExampleGraph {
 
 				/* Get the next flight that leaves this airport */
 				Edge flight = depNodeFlights.next();
-
+				
 				/* Making sure that original departure not the starting node */
 				if (originDepNode.equals(flight.getSourceNode())) {
 					visited.clear();
@@ -660,5 +661,47 @@ public class ExampleGraph {
 		}
 		
 	}
+	
+	private ArrayList<LinkedList<Edge>> routeFilter(ArrayList<LinkedList<Edge>> routes){
+		
+		ArrayList<LinkedList<Edge>> filteredRoutes = new ArrayList<LinkedList<Edge>>();
+			
+		/* Go through all the routes in the list */
+		for (LinkedList<Edge> route : routes){
+			
+			/* If the route is not valid, 
+			 * remove it from the list */
+			if ( isRouteValid(route) ){
+				filteredRoutes.add(route);
+			}
+			
+		}
+		
+		/* Return the new filtered list */
+		return filteredRoutes;
+		
+	}
 
+	private boolean isRouteValid(LinkedList<Edge> route) {
+
+		
+		for (int i = 0; i < route.size(); i++) {
+			
+			/* Get the flights' info */
+			Edge flightLeg = route.get(i);
+			FlightLeg fltInfo = flightLeg.getAttribute("fltInfo");
+			Time fltInfoTime = fltInfo.getArrivalTime();
+			
+			Edge flightLegNxt = route.get(i+1);
+			FlightLeg fltNxtInfo = flightLegNxt.getAttribute("fltInfo");
+			
+			
+			
+			
+		}
+		return false;
+
+
+	}
+	
 }
