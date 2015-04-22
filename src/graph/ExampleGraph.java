@@ -83,10 +83,12 @@ public class ExampleGraph {
 		// testTimeRoute(kgn, atl); // True - KGN -> BOS -> JFK -> ATL
 //		 testTimeRoute(jfk, mia); // True - JFK -> ATL -> MIA
 		
-		/* It returns 2 flights */
-		//routes = getRoutes(jfk, sfo, new ArrayList<Node>(), jfk, 0);
-		routes = getRoutes(atl, bos, new ArrayList<Node>(), atl, 0);
-
+		/* Testing getRoutes */
+		
+		//routes = getRoutes(jfk, sfo, new ArrayList<Node>(), jfk, 0); // It returns 2 flights 
+		//routes = getRoutes(atl, bos, new ArrayList<Node>(), atl, 0);
+		routes = getRoutes(jfk, sfo, new ArrayList<Node>(), jfk, 0);
+		
 		for (LinkedList<Edge> route : routes) {
 			System.out.println(route);
 		}
@@ -154,7 +156,8 @@ public class ExampleGraph {
 
 		graph.addEdge("4000", "MIA", "KGN", true);
 		graph.addEdge("4001", "MIA", "ATL", true);
-
+		graph.addEdge("4002", "MIA", "SFO", true);
+		
 		graph.addEdge("5000", "KGN", "BOS", true);
 
 		return graph;
@@ -162,28 +165,19 @@ public class ExampleGraph {
 	}
 
 	private void testTimeRoute(Node dep, Node arr) {
-		System.out
-				.println("There's a route between "
-						+ dep
-						+ " and "
-						+ arr
-						+ ": "
-						+ timeHasRoute(dep, arr, 0, null, new ArrayList<Node>()));
+		System.out.println("There's a route between "+ dep + " and " + arr + ": " + timeHasRoute(dep, arr, 0, null, new ArrayList<Node>()));
 
 	}
 
 	private void testHasRoute(Node dep, Node arr) {
-		System.out.println("There's a route between " + dep + " and " + arr
-				+ ": " + simpleHasRoute(dep, arr, 0));
+		System.out.println("There's a route between " + dep + " and " + arr + ": " + simpleHasRoute(dep, arr, 0));
 	}
 
 	private void printEdge(Edge edge) {
 		System.out.println("Is this edge directed? " + edge.isDirected());
 		System.out.println("The flight number is: " + edge.getId());
-		System.out.println("The flight has : " + edge.getAttributeCount()
-				+ " attribute");
-		System.out.println("The flight time is : "
-				+ edge.getAttribute("fltInfo"));
+		System.out.println("The flight has : " + edge.getAttributeCount() + " attribute");
+		System.out.println("The flight time is : " + edge.getAttribute("fltInfo"));
 	}
 
 	private ArrayList<Edge> addTestEdges(Graph graph) {
@@ -227,6 +221,9 @@ public class ExampleGraph {
 
 		Time d4001 = new Time(9, 00);
 		Time a4001 = new Time(9, 30);
+		
+		Time d4002 = new Time(12, 00);
+		Time a4002 = new Time(15, 00);
 
 		// KGN
 		Time d5000 = new Time(9, 00);
@@ -272,7 +269,11 @@ public class ExampleGraph {
 		FlightLeg f4001 = new FlightLeg(airplane, 4001, 30, d4001, date,
 				airports.get(3), a4001, date, airports.get(2), 50.00, 15,
 				25.00, 25);
-
+		
+		FlightLeg f4002 = new FlightLeg(airplane, 4002, 360, d4002, date,
+				airports.get(3), a4001, date, airports.get(4), 50.00, 15,
+				25.00, 25);
+		
 		FlightLeg f5000 = new FlightLeg(airplane, 5001, 30, d5000, date,
 				airports.get(5), a5000, date, airports.get(0), 50.00, 15,
 				25.00, 25);
@@ -317,6 +318,10 @@ public class ExampleGraph {
 		Edge flight4001 = graph.getEdge("4001");
 		flight4001.addAttribute("fltInfo", f4001);
 		edgeList.add(flight4001);
+		
+		Edge flight4002 = graph.getEdge("4002");
+		flight4002.addAttribute("fltInfo", f4002);
+		edgeList.add(flight4002);
 
 		Edge flight5000 = graph.getEdge("5000");
 		flight5000.addAttribute("fltInfo", f5000);
