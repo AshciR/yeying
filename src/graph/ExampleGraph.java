@@ -1,7 +1,6 @@
 package graph;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -31,7 +30,7 @@ public class ExampleGraph {
 		this.date = new Date(Month.May, 10, 2015);
 		this.airports = makeTestAiports();
 	};
-
+		
 	/* Test small made-up graph */
 	public void testGraph() {
 
@@ -58,29 +57,23 @@ public class ExampleGraph {
 			printEdge(edge);
 		}
 
-		// /* Testing hasEdgeToward() */
-		// System.out.println("BOS -> JFK? : " + bos.hasEdgeToward(jfk)); // BOS
-		// -> JFK Yes!
-		// System.out.println("BOS -> ATL? : " + bos.hasEdgeToward(atl)); // BOS
-		// -> ATL No!
-		//
-		// /* Testing hasRoute */
-		// System.out.println("\n------- Testing hasRoute --------");
-		// testHasRoute(bos, atl);
-		// testHasRoute(atl, mia);
-		// testHasRoute(bos, mia);
+		 /* Testing hasRoute */
+//		 System.out.println("\n------- Testing hasRoute --------");
+//		 testHasRoute(bos, atl);
+//		 testHasRoute(atl, mia);
+//		 testHasRoute(bos, mia);
 
 		/* Testing timeHasRoute */
-		// System.out.println("\n------- Testing timeHasRoute --------");
-		// testTimeRoute(bos, jfk); // True - Direct Flight
-		// testTimeRoute(bos, atl); // True - 1 connection
-		// testTimeRoute(bos, mia); // True - 2 connections
-		// testTimeRoute(atl, sfo); // False - 1 connection, but leaves too early
-		// testTimeRoute(bos, kgn); // False - 3 connections
-		// testTimeRoute(mia, sfo); // False - MIA -> ATL -> BOS -/> SFO
-		// testTimeRoute(kgn, mia); // False - KGN -> BOS -> JFK -> ATL -> MIA
-		// too many stops
-		// testTimeRoute(kgn, atl); // True - KGN -> BOS -> JFK -> ATL
+//		 System.out.println("\n------- Testing timeHasRoute --------");
+//		 testTimeRoute(bos, jfk); // True - Direct Flight
+//		 testTimeRoute(bos, atl); // True - 1 connection
+//		 testTimeRoute(bos, mia); // True - 2 connections
+//		 testTimeRoute(atl, sfo); // False - 1 connection, but leaves too early
+//		 testTimeRoute(bos, kgn); // False - 3 connections
+//		 testTimeRoute(mia, sfo); // False - MIA -> ATL -> BOS -/> SFO
+//		 testTimeRoute(kgn, mia); // False - KGN -> BOS -> JFK -> ATL -> MIA
+//		 too many stops
+//		 testTimeRoute(kgn, atl); // True - KGN -> BOS -> JFK -> ATL
 //		 testTimeRoute(jfk, mia); // True - JFK -> ATL -> MIA
 		
 		/* Testing getRoutes */
@@ -88,8 +81,8 @@ public class ExampleGraph {
 //		routes = getRoutes(atl, bos, new ArrayList<Node>(), atl, 0);
 //		routes = getRoutes(kgn, atl, new ArrayList<Node>(), atl, 0);
 //		routes = getRoutes(jfk, mia, new ArrayList<Node>(), jfk, 0);
-		routes = getRoutes(mia, sfo, new ArrayList<Node>(), mia, 0);
-//		routes = getRoutes(jfk, sfo, new ArrayList<Node>(), jfk, 0); // need to work on this one
+//		routes = getRoutes(mia, sfo, new ArrayList<Node>(), mia, 0);
+		routes = getRoutes(jfk, sfo, new ArrayList<Node>(), jfk, 0); // need to work on this one
 
 
 		System.out.println("---- Testing getRoutes Method: ----");
@@ -175,16 +168,21 @@ public class ExampleGraph {
 		return graph;
 
 	}
-
+	
+	/* Tests the timeHasRoute method */
+	@SuppressWarnings("unused")
 	private void testTimeRoute(Node dep, Node arr) {
 		System.out.println("There's a route between "+ dep + " and " + arr + ": " + timeHasRoute(dep, arr, 0, null, new ArrayList<Node>()));
 
 	}
-
+	
+	/* Tests the hasRoute method */
+	@SuppressWarnings("unused")
 	private void testHasRoute(Node dep, Node arr) {
 		System.out.println("There's a route between " + dep + " and " + arr + ": " + simpleHasRoute(dep, arr, 0));
 	}
-
+	
+	/* Prints the information about an edge */
 	private void printEdge(Edge edge) {
 		System.out.println("Is this edge directed? " + edge.isDirected());
 		System.out.println("The flight number is: " + edge.getId());
@@ -192,6 +190,7 @@ public class ExampleGraph {
 		System.out.println("The flight time is : " + edge.getAttribute("fltInfo"));
 	}
 
+	/* Adds the edges to the test graph */
 	private ArrayList<Edge> addTestEdges(Graph graph) {
 
 		/* Holds the list of edges to be returned */
@@ -674,6 +673,8 @@ public class ExampleGraph {
 		
 	}
 	
+	/* Returns a new list routes, that contain only routes that are 
+	 * chronologically possible */
 	private ArrayList<LinkedList<Edge>> routeFilter(ArrayList<LinkedList<Edge>> routes){
 		
 		ArrayList<LinkedList<Edge>> filteredRoutes = new ArrayList<LinkedList<Edge>>();
