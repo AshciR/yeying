@@ -20,11 +20,6 @@ public class GraphEngine implements IFlightGraph{
 		this.flightGraph = flightGraph;
 	} 
 		
-	/* Get the node corresponding to an airport */
-	public Node getNode(Airport airport){
-		return this.flightGraph.getNode(airport.getCode());
-	}
-	
 	/* Tells if there's a direct flight */
 	public boolean hasDirectFlight(Airport depPort, Airport arrPort){
 		
@@ -49,7 +44,7 @@ public class GraphEngine implements IFlightGraph{
 		
 	}
 	
-	public ArrayList<LinkedList<Edge>> getRoutes(Airport depPort, Airport arrPort, int maxFlights, boolean filterDir){
+	public ArrayList<LinkedList<Edge>> getRoutes(Airport depPort, Airport arrPort, int maxFlights){
 		
 		/* Convert Airports to Nodes */
 		Node depNode = getNode(depPort);
@@ -61,8 +56,33 @@ public class GraphEngine implements IFlightGraph{
 		/* Call the private method */
 		routes = getRoutes(depNode, arrNode, new ArrayList<Node>(), depNode, 0);
 		
-		/* Filter out the invalid flights*/
-		routes = routeFilter(routes, maxFlights, filterDir);
+		/* Filter out the flights based on max flights, but not by a general direction*/
+		routes = routeFilter(routes, maxFlights, false);
+		
+		return routes;
+		
+	}
+	
+	/* Get the node corresponding to an airport */
+	public Node getNode(Airport airport){
+		return this.flightGraph.getNode(airport.getCode());
+	}
+
+	/* Gets all the routes in a general direction */
+	public ArrayList<LinkedList<Edge>> getRoutesDir(Airport depPort, Airport arrPort, int maxFlights){
+		
+		/* Convert Airports to Nodes */
+		Node depNode = getNode(depPort);
+		Node arrNode = getNode(arrPort);
+		
+		/* The list of routes to be returned */
+		ArrayList<LinkedList<Edge>> routes = new ArrayList<LinkedList<Edge>>();
+		
+		/* Call the private method */
+		routes = getRoutes(depNode, arrNode, new ArrayList<Node>(), depNode, 0);
+		
+		/* Filter out the flights based on max flights, and direction */
+		routes = routeFilter(routes, maxFlights, true);
 		
 		return routes;
 		

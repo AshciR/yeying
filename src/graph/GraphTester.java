@@ -28,9 +28,9 @@ public class GraphTester {
 		ArrayList<Airport> airports = ExampleGraph.makeTestAiports(); 
 		
 		GraphMaker maker = new GraphMaker(new Date(Month.May, 10, 2015));
-		IFlightGraph engine = new GraphEngine(maker.getGraph());
+		GraphEngine engine = new GraphEngine(maker.getGraph());
 				
-		System.out.println("Node for the 1st Airport is: " + ((GraphEngine) engine).getNode(airports.get(0)));
+		System.out.println("Node for the 1st Airport is: " + engine.getNode(airports.get(0)));
 		
 		/* Flight from BOS -> SFO */
 		System.out.println("There is a flight from BOS to SFO: " + engine.hasDirectFlight(airports.get(0), airports.get(4))); 
@@ -45,7 +45,7 @@ public class GraphTester {
 		System.out.println("There is a flight between BOS to MIA: " + engine.hasRoute(airports.get(0), airports.get(3)));
 		
 		/* Get all the flights from BOS to SFO with maximum of 3 flights, regardless of direction */
-		ArrayList<LinkedList<Edge>> flights = engine.getRoutes(airports.get(2), airports.get(0), 3, false);
+		ArrayList<LinkedList<Edge>> flights = engine.getRoutes(airports.get(2), airports.get(0), 3);
 		
 		System.out.println("\nThere are " + flights.size() + " flights.");
 		
@@ -56,7 +56,7 @@ public class GraphTester {
 		}
 		
 		/* Get all the flights from BOS to SFO with maximum of 3 flights in a general direction */
-		ArrayList<LinkedList<Edge>> flightsDir = engine.getRoutes(airports.get(2), airports.get(0), 3, true);
+		ArrayList<LinkedList<Edge>> flightsDir = engine.getRoutesDir(airports.get(2), airports.get(0), 3);
 		
 		System.out.println("\nThere are " + flightsDir.size() + " flights in a general direction.");
 		
