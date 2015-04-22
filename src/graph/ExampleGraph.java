@@ -84,12 +84,24 @@ public class ExampleGraph {
 //		 testTimeRoute(jfk, mia); // True - JFK -> ATL -> MIA
 		
 		/* Testing getRoutes */
-		
-		//routes = getRoutes(jfk, sfo, new ArrayList<Node>(), jfk, 0); // It returns 2 flights 
-		//routes = getRoutes(atl, bos, new ArrayList<Node>(), atl, 0);
-		routes = getRoutes(jfk, sfo, new ArrayList<Node>(), jfk, 0);
-		
+//		routes = getRoutes(bos, atl, new ArrayList<Node>(), bos, 0);
+//		routes = getRoutes(atl, bos, new ArrayList<Node>(), atl, 0);
+//		routes = getRoutes(kgn, atl, new ArrayList<Node>(), atl, 0);
+//		routes = getRoutes(jfk, mia, new ArrayList<Node>(), jfk, 0);
+		routes = getRoutes(mia, sfo, new ArrayList<Node>(), mia, 0);
+//		routes = getRoutes(jfk, sfo, new ArrayList<Node>(), jfk, 0); // need to work on this one
+
+
+		System.out.println("---- Testing getRoutes Method: ----");
 		for (LinkedList<Edge> route : routes) {
+			System.out.println(route);
+		}
+		
+		/* Testing the Flight Filter */
+		ArrayList<LinkedList<Edge>> filteredRoutes = routeFilter(routes);
+		
+		System.out.println("\n---- Testing filteredRoutes Method: ----");
+		for (LinkedList<Edge> route : filteredRoutes) {
 			System.out.println(route);
 		}
 
@@ -681,27 +693,42 @@ public class ExampleGraph {
 		return filteredRoutes;
 		
 	}
-
+	
+	/* Returns true if the flights in the route are in 
+	 * chronological order */
 	private boolean isRouteValid(LinkedList<Edge> route) {
 
-		
-		for (int i = 0; i < route.size(); i++) {
-			
-			/* Get the flights' info */
-			Edge flightLeg = route.get(i);
-			FlightLeg fltInfo = flightLeg.getAttribute("fltInfo");
-			Time fltInfoTime = fltInfo.getArrivalTime();
-			
-			Edge flightLegNxt = route.get(i+1);
-			FlightLeg fltNxtInfo = flightLegNxt.getAttribute("fltInfo");
-			
-			
-			
-			
+		/* If the route size is 1, i.e. it 
+		 * is a direct flight, return true */
+		if(route.size() == 1 ){
+			return true;
 		}
-		return false;
-
-
+		/* Check if the connections are in chronological order */
+		else{
+			
+			/* Go through the linked list */
+			for (int i = 0; i < (route.size() - 1); i++) {
+				
+				/* Get the flights' info */
+				Edge flightLeg = route.get(i);
+				FlightLeg fltInfo = flightLeg.getAttribute("fltInfo");
+				Time fltInfoTime = fltInfo.getArrivalTime();
+				
+				Edge flightLegNxt = route.get(i+1);
+				FlightLeg fltNxtInfo = flightLegNxt.getAttribute("fltInfo");
+				Time fltNxtInfoTime = fltNxtInfo.getDepartureTime();
+				
+				/* If this flight arrives after the next flight leaves */
+				if(fltInfoTime.compareTo(fltNxtInfoTime) >= 0){
+					return false;
+				}
+		
+			}
+			
+			/* The flights are in chronological order */
+			return true;
+		}
+		
 	}
 	
 }
