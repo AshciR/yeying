@@ -108,29 +108,26 @@ public class ExampleGraph {
 		/* Clean the list before you make it */
 		airports.clear();
 
-		/* Using just one location for all the airports */
-		Location loc = new Location(33.641045, -84.427764, false);
-
-		Airport bosPort = new Airport("BOS", "Boston Logan", loc);
+		Airport bosPort = new Airport("BOS", "Boston Logan", new Location(42.365855, -71.009624, false));
 		airports.add(bosPort);
 
-		Airport jfkPort = new Airport("JFK", "John F. Kennedy", loc);
+		Airport jfkPort = new Airport("JFK", "John F. Kennedy", new Location(40.641519, -73.77816, false));
 		airports.add(jfkPort);
 
-		Airport atlPort = new Airport("ATL", "Hartsfield Jackson", loc);
+		Airport atlPort = new Airport("ATL", "Hartsfield Jackson", new Location(33.641045, -84.427764, false));
 		airports.add(atlPort);
 
-		Airport miaPort = new Airport("MIA", "Miami", loc);
+		Airport miaPort = new Airport("MIA", "Miami", new Location(25.796131, -80.287014, false));
 		airports.add(miaPort);
 
-		Airport sfoPort = new Airport("SFO", "San Francisco", loc);
+		Airport sfoPort = new Airport("SFO", "San Francisco", new Location(37.621598, -122.37903, false));
 		airports.add(sfoPort);
-
-		Airport kgnPort = new Airport("KGN", "Norman Manley", loc);
+		
+		Airport kgnPort = new Airport("KGN", "Norman Manley", new Location(17.9356, -76.7875, false));
 		airports.add(kgnPort);
 
 		return airports;
-
+			
 	}
 
 	/* Makes the graph for the small made-up graph */

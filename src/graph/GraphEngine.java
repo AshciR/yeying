@@ -348,8 +348,14 @@ public class GraphEngine implements IFlightGraph{
 			if (filterDir){
 				
 				/* If the route is valid, add it to the filtered list */
-				if ( isRouteLengthValid(route, maxFlights) && isRouteDirValid(route) ){
-					filteredRoutes.add(route);
+				if ( isRouteLengthValid(route, maxFlights) ){
+					
+					/* Is the route in a general direction */
+					if (isRouteDirValid(route)){
+						filteredRoutes.add(route);
+					}
+					
+					
 				}
 				
 			}
@@ -363,8 +369,6 @@ public class GraphEngine implements IFlightGraph{
 				
 			}
 			
-	
-			
 		}
 		
 		/* Return the new filtered list */
@@ -372,6 +376,12 @@ public class GraphEngine implements IFlightGraph{
 		
 	}
 	
+	/* Wrapper used for testing */
+	public void testDirValid(LinkedList<Edge> route){
+		isRouteDirValid(route);
+	}
+	
+	/* Is the route going in a general direction? */
 	private boolean isRouteDirValid(LinkedList<Edge> route) {
 		
 		/* If the route size is 1, i.e. it 
@@ -400,10 +410,10 @@ public class GraphEngine implements IFlightGraph{
 				
 				Edge flightLegNxt = route.get(i+1);
 				FlightLeg fltNxtInfo = flightLegNxt.getAttribute("fltInfo");
-				Location arrPortLoc = fltNxtInfo.getArrivalAirport().getLocation();
+				Location arrPortLoc = fltNxtInfo.getDepatureAirport().getLocation();
 				
 				/* If not going in the right direction */
-				if ( !( isRightLongDir(depLocation, arrLocation, depPortLoc, arrPortLoc) &&
+				if ( ( isRightLongDir(depLocation, arrLocation, depPortLoc, arrPortLoc) &&
 					 isRightLatDir(depLocation, arrLocation, depPortLoc, arrPortLoc)) ){	
 					return false;
 				}
@@ -417,7 +427,8 @@ public class GraphEngine implements IFlightGraph{
 		
 
 	}
-
+	
+	/* Going in the correct Latitude direction? */
 	private boolean isRightLatDir(Location depLocation, Location arrLocation,Location depPortLoc, Location arrPortLoc) {
 		
 		/* Check if we're heading south */
@@ -448,6 +459,7 @@ public class GraphEngine implements IFlightGraph{
 		}
 	}
 	
+	/* Going in the correct Longitude direction? */
 	private boolean isRightLongDir(Location depLocation, Location arrLocation,Location depPortLoc, Location arrPortLoc) {
 		
 		/* Check if we're heading east */
