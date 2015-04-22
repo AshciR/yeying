@@ -12,11 +12,28 @@ import parsers.FlightParser;
 import parsers.XMLGetter;
 import flight_system.*;
 
+/** 
+ * Class used to make flight graph based on flight data from the database.
+ * <p>
+ * @see parsers.XMLGetter#getAirportsXML()
+ * @see parsers.XMLGetter#getFlightsXML(boolean, Airport, Date)
+ * 
+ * @author Richard Walker
+ */
 public class GraphMaker {
 	
 	private Date date;
 	private Graph graph;
 	
+	/**
+	 * Makes a flight graph for a specific date. 
+	 * <p>
+	 * The graph will be populated with all the departing flights from all the airports
+	 * in the database.
+	 * 
+	 * @param date the date for which the graph should be made.
+	 * @see flight_system.Date
+	 */
 	public GraphMaker(Date date) {
 		this.date = date;
 		
@@ -33,22 +50,36 @@ public class GraphMaker {
 		
 	}
 	
-	
+	/**
+	 * Get the date for which the graph was made. 
+	 * <p>
+	 * @return date the date for which the graph was made.
+	 * @see flight_system.Date
+	 */
 	/* Getters */
 	public Date getDate() {
 		return date;
 	}
-
+	
+	/**
+	 * Get the the flight graph that was made. 
+	 * <p>
+	 * @return the flight graph that was made. 
+	 */
 	public Graph getGraph() {
 		return graph;
 	}
 	
+	/**
+	 * Used to display the the flight graph that was made. 
+	 * <p> 
+	 */
 	/* Show the graph */
 	public void displayGraph(){
 		this.graph.display();
 	}
 	
-	
+	/* Makes the graph by using the XML getters */
 	private void makeGraph(){
 		
 		/* XML Getter Singleton */

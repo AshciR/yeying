@@ -12,15 +12,39 @@ import flight_system.FlightLeg;
 import flight_system.Location;
 import flight_system.Time;
 
+/** 
+ * Class used to get flight and routes information from the flight graph.
+ * <p>
+ * Provides methods for finding direct fights, finding out if there is
+ * a route between airports, and getting all the routes from an airport. 
+ * 
+ * @author Richard Walker
+ */
 public class GraphEngine implements IFlightGraph{
 	
 	Graph flightGraph;
-
+	
+	/**
+	 * Makes an engine that will operate on a specific graph.
+	 * <p>
+	 *
+	 * @param flightGraph the graph that will be analyzed.
+	 * @see graph.GraphMaker
+	 */
 	/* Constructor */
 	public GraphEngine(Graph flightGraph) {
 		this.flightGraph = flightGraph;
 	} 
 		
+	/**
+	 * Tells you if there is a direct route between two airports.
+	 * <p>
+	 *
+	 * @param depPort the departure airport
+	 * @param arrPort the arrival airport
+	 * @return true if there is a direct flight
+	 * @see flight_system.Airport
+	 */
 	/* Tells if there's a direct flight */
 	public boolean hasDirectFlight(Airport depPort, Airport arrPort){
 		
@@ -32,19 +56,65 @@ public class GraphEngine implements IFlightGraph{
 		
 	}
 	
-	/* The interface for the engine to tell if there's a route 
-	 * between two airport */
+	/**
+	 * Tells you if there is a route between two airports.
+	 * <p>
+	 * Note: This method assumes a maximum of 3 flights (2 connections).
+	 * 
+	 * @param depPort the departure airport
+	 * @param arrPort the arrival airport
+	 * @return true if there is a route
+	 * @see flight_system.Airport
+	 */
+	/* The interface for the engine to tell if there's a route between two airport */
 	public boolean hasRoute(Airport depPort, Airport arrPort){
+				
+		/* Assume a maximum of 3 flights */
+		int maxFlights = 3;
 		
-		/* Convert Airports to Nodes */
-		Node depNode = getNode(depPort);
-		Node arrNode = getNode(arrPort);
+		/* Get all the routes */
+		ArrayList<LinkedList<Edge>> routes = getRoutes(depPort, arrPort, maxFlights);
 		
-		/* Call the private helper function */
-		return timeHasRoute(depNode, arrNode, 0, null, new ArrayList<Node>());
+		/* If the route list is not empty, then there are flights */
+		return (!routes.isEmpty());
 		
 	}
 	
+	/**
+	 * Tells you if there is a route in a general direction between two airports.
+	 * <p>
+	 * Note: This method assumes a maximum of 3 flights (2 connections).
+	 * 
+	 * @param depPort the departure airport
+	 * @param arrPort the arrival airport
+	 * @return true if there is a route in a general direction
+	 * @see flight_system.Airport
+	 */
+	/* The interface for the engine to tell if there's a route between two airport */
+	public boolean hasRouteDirection(Airport depPort, Airport arrPort){
+				
+		/* Assume a maximum of 3 flights */
+		int maxFlights = 3;
+		
+		/* Get all the routes */
+		ArrayList<LinkedList<Edge>> routes = getRoutesDir(depPort, arrPort, maxFlights);
+		
+		/* If the route list is not empty, then there are flights */
+		return (!routes.isEmpty());
+		
+	}
+	
+	/**
+	 * Gets all the routes between two airports, 
+	 * with a provided number of flights.
+	 * <p>
+	 * You must specify the maximum of flights the route can have. 
+	 * 
+	 * @param depPort the departure airport
+	 * @param arrPort the arrival airport
+	 * @param maxFlights the maximum number of flights the route can have
+	 * @return a list of all the possible routes
+	 */
 	public ArrayList<LinkedList<Edge>> getRoutes(Airport depPort, Airport arrPort, int maxFlights){
 		
 		/* Convert Airports to Nodes */
@@ -64,6 +134,21 @@ public class GraphEngine implements IFlightGraph{
 		
 	}
 	
+	/**
+	 * Gets all the routes in a general direction between two airports, 
+	 * with a provided number of flights. You must specify the maximum of flights the route can have. 
+	 * <p>
+	 * The routes returned will be heading towards the final destination
+	 * in some logical manner. 
+	 * <p>
+	 * E.g. ORD (Chicago) -> SFO (San Fransico) would 
+	 * go in a western direction. 
+	 * 
+	 * @param depPort the departure airport
+	 * @param arrPort the arrival airport
+	 * @param maxFlights the maximum number of flights the route can have
+	 * @return a list of all the possible routes in that general direction.
+	 */
 	/* Gets all the routes in a general direction */
 	public ArrayList<LinkedList<Edge>> getRoutesDir(Airport depPort, Airport arrPort, int maxFlights){
 		
@@ -83,13 +168,21 @@ public class GraphEngine implements IFlightGraph{
 		return routes;
 		
 	}
-
+	/**
+	 * Used to get the node on the graph that is represented by the airport.
+	 * <p>
+	 * Only really useful within the graph package for testing.
+	 * 
+	 * @param airport
+	 * @return the node on the graph that is associated with the airport
+	 */
 	/* Get the node corresponding to an airport */
-	public Node getNode(Airport airport){
+	protected Node getNode(Airport airport){
 		return this.flightGraph.getNode(airport.getCode());
 	}
 
 	/* Determines if there's a route between two nodes, maximum of 2 connections */
+	@SuppressWarnings("unused")
 	private boolean timeHasRoute(Node depNode, Node arrNode, int con, Edge conEdge, ArrayList<Node> visited) {
 		
 		int maxCon = 3; // maximum 2 connections
@@ -514,7 +607,7 @@ public class GraphEngine implements IFlightGraph{
 		if(route.size() == 1 ){
 			return true;
 		}
-		/* If the route has more than 3 flights,
+		/* If the route has more than maximum number of flights,
 		 * i.e more than 2 connections, then it's not valid
 		 */
 		else if (route.size() > maxFlights){
