@@ -82,12 +82,19 @@ public class ExampleGraph {
 //		routes = getRoutes(kgn, atl, new ArrayList<Node>(), atl, 0);
 //		routes = getRoutes(jfk, mia, new ArrayList<Node>(), jfk, 0);
 //		routes = getRoutes(mia, sfo, new ArrayList<Node>(), mia, 0);
-		routes = getRoutes(jfk, sfo, new ArrayList<Node>(), jfk, 0); // need to work on this one
+//		routes = getRoutes(atl, sfo, new ArrayList<Node>(), atl, 0);
+//		routes = getRoutes(jfk, sfo, new ArrayList<Node>(), jfk, 0); // need to work on this one
 
 
 		System.out.println("---- Testing getRoutes Method: ----");
 		for (LinkedList<Edge> route : routes) {
 			System.out.println(route);
+		}
+		
+		/* Testing Direction Filter */
+		GraphEngine engine = new GraphEngine(graph);		
+		for (LinkedList<Edge> route : routes){
+			engine.testDirValid(route);
 		}
 		
 		/* Testing the Flight Filter */

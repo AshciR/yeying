@@ -68,6 +68,11 @@ public class GraphEngine implements IFlightGraph{
 		
 	}
 	
+	/* Wrapper used for testing */
+	public void testDirValid(LinkedList<Edge> route){
+		isRouteDirValid(route);
+	}
+
 	/* Determines if there's a route between two nodes, maximum of 2 connections */
 	private boolean timeHasRoute(Node depNode, Node arrNode, int con, Edge conEdge, ArrayList<Node> visited) {
 		
@@ -376,11 +381,6 @@ public class GraphEngine implements IFlightGraph{
 		
 	}
 	
-	/* Wrapper used for testing */
-	public void testDirValid(LinkedList<Edge> route){
-		isRouteDirValid(route);
-	}
-	
 	/* Is the route going in a general direction? */
 	private boolean isRouteDirValid(LinkedList<Edge> route) {
 		
@@ -413,8 +413,7 @@ public class GraphEngine implements IFlightGraph{
 				Location arrPortLoc = fltNxtInfo.getDepatureAirport().getLocation();
 				
 				/* If not going in the right direction */
-				if ( ( isRightLongDir(depLocation, arrLocation, depPortLoc, arrPortLoc) &&
-					 isRightLatDir(depLocation, arrLocation, depPortLoc, arrPortLoc)) ){	
+				if ( ( isRightLongDir(depLocation, arrLocation, depPortLoc, arrPortLoc) && isRightLatDir(depLocation, arrLocation, depPortLoc, arrPortLoc)) ){	
 					return false;
 				}
 								
@@ -462,7 +461,7 @@ public class GraphEngine implements IFlightGraph{
 	/* Going in the correct Longitude direction? */
 	private boolean isRightLongDir(Location depLocation, Location arrLocation,Location depPortLoc, Location arrPortLoc) {
 		
-		/* Check if we're heading east */
+		/* Check if we're heading west */
 		if (arrLocation.getLongitude() <= depLocation.getLongitude()){
 
 			/* If the arriving airport is more west than departing airport 
