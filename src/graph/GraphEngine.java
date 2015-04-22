@@ -465,8 +465,9 @@ public class GraphEngine implements IFlightGraph{
 			/* If filter by direction is true */
 			if (filterDir){
 				
-				/* If the route is valid, add it to the filtered list */
-				if ( isRouteLengthValid(route, maxFlights) && isSeatAvail(route,isFirstClass) ){
+				/* If the route is in chronological order and 
+				 * all the flights have available seats */
+				if ( isRouteTimeValid(route, maxFlights) && isSeatAvail(route,isFirstClass) ){
 					
 					/* Is the route in a general direction */
 					if (isRouteDirValid(route)){
@@ -481,7 +482,7 @@ public class GraphEngine implements IFlightGraph{
 			else{
 				
 				/* If the route is valid, add it to the filtered list */
-				if ( isRouteLengthValid(route, maxFlights)){
+				if ( isRouteTimeValid(route, maxFlights)){
 					filteredRoutes.add(route);
 				}
 				
@@ -494,9 +495,9 @@ public class GraphEngine implements IFlightGraph{
 		
 	}
 	
-	/* Returns true if the flights in the route are in 
-	 * chronological order */
-	private boolean isRouteLengthValid(LinkedList<Edge> route, int maxFlights) {
+	/* Returns true if the route is less than than maximum allowed flights 
+	 * and if in the route are in chronological order */
+	private boolean isRouteTimeValid(LinkedList<Edge> route, int maxFlights) {
 	
 		/* If the route size is 1, i.e. it 
 		 * is a direct flight, return true */
@@ -667,6 +668,7 @@ public class GraphEngine implements IFlightGraph{
 		}
 	}
 	
+	/* Checks if all the flights have available seats */
 	private boolean isSeatAvail(LinkedList<Edge> route, boolean isFirstClass){
 		
 		for (Edge flight : route){

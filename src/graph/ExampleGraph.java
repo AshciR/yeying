@@ -91,8 +91,10 @@ public class ExampleGraph {
 			System.out.println(route);
 		}
 	
-		/* Testing the Flight Filter, (filters by chronological order */
-		ArrayList<LinkedList<Edge>> filteredRoutes = routeFilter(routes);
+		/* Testing the Flight Filter, (filters by chronological order and if the flight is 1st class) */
+		
+		/* Flight 2001 has no available coach seats */
+		ArrayList<LinkedList<Edge>> filteredRoutes = routeFilter(routes, false);
 		
 		System.out.println("\n---- Testing filteredRoutes Method: ----");
 		for (LinkedList<Edge> route : filteredRoutes) {
@@ -249,10 +251,10 @@ public class ExampleGraph {
 				airports.get(1), a2000, date, airports.get(2), 50.00, 15,
 				25.00, 25);
 		
-		/* f2001 now departs on the next day */
+		/* f2001 now departs on the next day, and has no available coach seats */
 		FlightLeg f2001 = new FlightLeg(airplane, 2001, 60, d2001, new Date(Month.May, 11, 2015),
 				airports.get(1), a2001, date, airports.get(2), 50.00, 15,
-				25.00, 25);
+				25.00, 50);
 
 		FlightLeg f3000 = new FlightLeg(airplane, 3000, 60, d3000, date,
 				airports.get(2), a3000, date, airports.get(0), 50.00, 15,
@@ -670,18 +672,18 @@ public class ExampleGraph {
 		
 	}
 	
-	/* Returns a new list routes, that contain only routes that are 
-	 * chronologically possible */
-	private ArrayList<LinkedList<Edge>> routeFilter(ArrayList<LinkedList<Edge>> routes){
+	/* Returns a new list routes, that contain only routes that have seats and 
+	 * are chronologically possible */
+	private ArrayList<LinkedList<Edge>> routeFilter(ArrayList<LinkedList<Edge>> routes, boolean isFirstClass){
 		
 		ArrayList<LinkedList<Edge>> filteredRoutes = new ArrayList<LinkedList<Edge>>();
 			
 		/* Go through all the routes in the list */
 		for (LinkedList<Edge> route : routes){
 			
-			/* If the route is not valid, 
-			 * remove it from the list */
-			if ( isRouteValid(route) ){
+			/* If the route is in chronological order
+			 * and the all the flights in the route has available seats */ 
+			if ( isRouteTimeValid(route) && isSeatAvail(route, isFirstClass) ){
 				filteredRoutes.add(route);
 			}
 			
@@ -692,9 +694,55 @@ public class ExampleGraph {
 		
 	}
 	
-	/* Returns true if the flights in the route are in 
-	 * chronological order */
-	private boolean isRouteValid(LinkedList<Edge> route) {
+	/* Checks if all the flights have available seats */
+	private boolean isSeatAvail(LinkedList<Edge> route, boolean isFirstClass){
+		
+		for (Edge flight : route){
+			
+			FlightLeg flightInfo = flight.getAttribute("fltInfo");
+			
+			/* Check the first class seats */
+			if(isFirstClass){
+				
+				/*number of occupied seats */
+				int occupied = flightInfo.getFirstClassSeats(); 
+				
+				/* number of seats on the plane */
+				int seatsOnPlane = flightInfo.getAirplane().getFirstClassSeats();
+				
+				/* If all the seats on the plane are taken
+				 * this flight can't be booked */
+				if(occupied >= seatsOnPlane){
+					return false;
+				}
+				
+			}
+			/* Check the coach seats */
+			else{
+				
+				/*number of occupied seats */
+				int occupied = flightInfo.getCoachClassSeats(); 
+				
+				/* number of seats on the plane */
+				int seatsOnPlane = flightInfo.getAirplane().getCoachSeats();
+				
+				/* If all the seats on the plane are taken
+				 * this flight can't be booked */
+				if(occupied >= seatsOnPlane){
+					return false;
+				}
+				
+			}		
+		}
+		
+		/* If it made it through the for loop, 
+		 * then it means all the flights are valid */
+		return true;	
+	}
+	
+	/* Returns true if the route is less than than maximum allowed flights 
+	 * and if in the route are in chronological order */
+	private boolean isRouteTimeValid(LinkedList<Edge> route) {
 
 		/* If the route size is 1, i.e. it 
 		 * is a direct flight, return true */
