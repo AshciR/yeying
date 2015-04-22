@@ -1,6 +1,10 @@
 package graph;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+
+import org.graphstream.graph.Edge;
+
 import flight_system.*;
 
 public class GraphTester {
@@ -39,6 +43,17 @@ public class GraphTester {
 		
 		/* Flight from BOS -> MIA */
 		System.out.println("There is a flight between BOS to MIA: " + engine.hasRoute(airports.get(0), airports.get(3)));
+		
+		/* Get all the flights from BOS to SFO with maximum of 3 flights */
+		ArrayList<LinkedList<Edge>> flights = engine.getRoutes(airports.get(0), airports.get(4), 2);
+		
+		System.out.println("\nThere are " + flights.size() + " flights.\n");
+		
+		/* Print the flights */
+		for (LinkedList<Edge> flight : flights){
+			System.out.println(flight); 
+		}
+		
 	}
 	
 	/* Test the small example graph */

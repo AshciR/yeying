@@ -2,11 +2,13 @@ package graph;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 import org.graphstream.graph.*;
 
 import flight_system.Airport;
 import flight_system.FlightLeg;
+import flight_system.Time;
 
 public class GraphEngine implements IFlightGraph{
 	
@@ -43,6 +45,25 @@ public class GraphEngine implements IFlightGraph{
 		
 		/* Call the private helper function */
 		return timeHasRoute(depNode, arrNode, 0, null, new ArrayList<Node>());
+		
+	}
+	
+	public ArrayList<LinkedList<Edge>> getRoutes(Airport depPort, Airport arrPort, int maxFlights){
+		
+		/* Convert Airports to Nodes */
+		Node depNode = getNode(depPort);
+		Node arrNode = getNode(arrPort);
+		
+		/* The list of routes to be returned */
+		ArrayList<LinkedList<Edge>> routes = new ArrayList<LinkedList<Edge>>();
+		
+		/* Call the private method */
+		routes = getRoutes(depNode, arrNode, new ArrayList<Node>(), depNode, 0);
+		
+		/* Filter out the invalid flights*/
+		routes = routeFilter(routes, maxFlights);
+		
+		return routes;
 		
 	}
 	
@@ -208,4 +229,175 @@ public class GraphEngine implements IFlightGraph{
 		/* Return the result */
 		return found;
 	}	
+
+	/* Returns all the possible routes from one airport to another */
+	private ArrayList<LinkedList<Edge>> getRoutes(Node depNode, Node arrNode, ArrayList<Node> visited, Node originDepNode, int depth) {
+
+		/* List to hold all the routes */
+		ArrayList<LinkedList<Edge>> routes = new ArrayList<LinkedList<Edge>>();
+
+		/* If > 3, then too many connections,
+		 * return an empty route list */
+		if (depth > 3){
+			return routes;
+		}
+		/* We haven't exceeded the maximum connections yet, 
+		 * keep searching */
+		else{
+			
+			/* Get a list of all the flights leaving the departure airport */
+			Iterator<Edge> depNodeFlights = depNode.getEachLeavingEdge().iterator();
+
+			/*
+			 * While there are flights left to check from the departing airport
+			 */
+			while (depNodeFlights.hasNext()) {
+
+				/* Get the next flight that leaves this airport */
+				Edge flight = depNodeFlights.next();
+				
+				/* Making sure that original departure not the starting node */
+				if (originDepNode.equals(flight.getSourceNode())) {
+					visited.clear();
+					visited.add(originDepNode);
+				}
+
+				/*
+				 * If where you would land is not in the places that were checked
+				 * before
+				 */
+				if (!visited.contains(flight.getTargetNode())) {
+
+					/*
+					 * If this flight lands at the our final destination, then we
+					 * know it is a route
+					 */
+					if (flight.getTargetNode().equals(arrNode)) {
+
+						/* Make a linked list to store the route */
+						LinkedList<Edge> currentRoute = new LinkedList<Edge>();
+
+						/* Add the flight to the current route */
+						currentRoute.add(flight);
+
+						/* Add the current route to the routes list */
+						routes.add(currentRoute);
+
+					}
+					/*
+					 * There are no direct flights, so let's check for connections
+					 */
+					else {
+
+						/* Increase the number of connections we have
+						 * gone to so far by 1. */
+						depth++;
+						
+						/* Add this departure node to the visited list */
+						visited.add(depNode);
+
+						/* Store all the routes from the connection airport */
+						ArrayList<LinkedList<Edge>> returnedRoutes = getRoutes(flight.getTargetNode(), arrNode, visited, originDepNode, depth);
+
+						for (LinkedList<Edge> route : returnedRoutes) {
+
+							/*
+							 * Add the route from the connecting flight to the
+							 * original route
+							 */
+							route.addFirst(flight);
+
+							/* Make a linked list to store the route */
+							LinkedList<Edge> addedRoute = new LinkedList<Edge>();
+
+							/* Make the new Linked List */
+							addedRoute = route;
+
+							/* Add the concatenated route to the routes list */
+							routes.add(addedRoute);
+
+						}
+
+					}
+					
+					/* Once we find our destination, we have to set
+					 * depth back to 0 for the next depth search for flight */
+					depth = 0;
+					
+				}
+
+			}
+
+			return routes;
+			
+		}
+		
+	}
+	
+	/* Returns a new list routes, that contain only routes that are 
+	 * chronologically possible */
+	private ArrayList<LinkedList<Edge>> routeFilter(ArrayList<LinkedList<Edge>> routes, int maxFlights){
+		
+		ArrayList<LinkedList<Edge>> filteredRoutes = new ArrayList<LinkedList<Edge>>();
+			
+		/* Go through all the routes in the list */
+		for (LinkedList<Edge> route : routes){
+			
+			/* If the route is not valid, 
+			 * remove it from the list */
+			if ( isRouteValid(route, maxFlights) ){
+				filteredRoutes.add(route);
+			}
+			
+		}
+		
+		/* Return the new filtered list */
+		return filteredRoutes;
+		
+	}
+	
+	/* Returns true if the flights in the route are in 
+	 * chronological order */
+	private boolean isRouteValid(LinkedList<Edge> route, int maxFlights) {
+
+		/* If the route size is 1, i.e. it 
+		 * is a direct flight, return true */
+		if(route.size() == 1 ){
+			return true;
+		}
+		/* If the route has more than 3 flights,
+		 * i.e more than 2 connections, then it's not valid
+		 */
+		else if (route.size() > maxFlights){
+			return false;
+		}
+		/* Check if the connections are in chronological order */
+		else{
+			
+			/* Go through the linked list */
+			for (int i = 0; i < (route.size() - 1); i++) {
+				
+				/* Get the flights' info */
+				Edge flightLeg = route.get(i);
+				FlightLeg fltInfo = flightLeg.getAttribute("fltInfo");
+				Time fltInfoTime = fltInfo.getArrivalTime();
+				
+				Edge flightLegNxt = route.get(i+1);
+				FlightLeg fltNxtInfo = flightLegNxt.getAttribute("fltInfo");
+				Time fltNxtInfoTime = fltNxtInfo.getDepartureTime();
+				
+				/* If this flight arrives after the next flight leaves */
+				if(fltInfoTime.compareTo(fltNxtInfoTime) >= 0){
+					return false;
+				}
+		
+			}
+			
+			/* The flights are in chronological order */
+			return true;
+		}
+		
+	}
+	
+	
 }
