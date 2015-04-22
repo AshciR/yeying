@@ -16,6 +16,6 @@ public interface IFlightGraph {
 	public boolean hasRoute(Airport depPort, Airport arrPort);
 	
 	/* Gets all the routes between two airports */
-	public ArrayList<LinkedList<Edge>> getRoutes(Airport depPort, Airport arrPort, int maxFlights);
+	public ArrayList<LinkedList<Edge>> getRoutes(Airport depPort, Airport arrPort, int maxFlights, boolean filterDir);
 	
 }

@@ -8,6 +8,7 @@ import org.graphstream.graph.*;
 
 import flight_system.Airport;
 import flight_system.FlightLeg;
+import flight_system.Location;
 import flight_system.Time;
 
 public class GraphEngine implements IFlightGraph{
@@ -48,7 +49,7 @@ public class GraphEngine implements IFlightGraph{
 		
 	}
 	
-	public ArrayList<LinkedList<Edge>> getRoutes(Airport depPort, Airport arrPort, int maxFlights){
+	public ArrayList<LinkedList<Edge>> getRoutes(Airport depPort, Airport arrPort, int maxFlights, boolean filterDir){
 		
 		/* Convert Airports to Nodes */
 		Node depNode = getNode(depPort);
@@ -61,7 +62,7 @@ public class GraphEngine implements IFlightGraph{
 		routes = getRoutes(depNode, arrNode, new ArrayList<Node>(), depNode, 0);
 		
 		/* Filter out the invalid flights*/
-		routes = routeFilter(routes, maxFlights);
+		routes = routeFilter(routes, maxFlights, filterDir);
 		
 		return routes;
 		
@@ -336,18 +337,33 @@ public class GraphEngine implements IFlightGraph{
 	
 	/* Returns a new list routes, that contain only routes that are 
 	 * chronologically possible */
-	private ArrayList<LinkedList<Edge>> routeFilter(ArrayList<LinkedList<Edge>> routes, int maxFlights){
+	private ArrayList<LinkedList<Edge>> routeFilter(ArrayList<LinkedList<Edge>> routes, int maxFlights, boolean filterDir){
 		
 		ArrayList<LinkedList<Edge>> filteredRoutes = new ArrayList<LinkedList<Edge>>();
 			
 		/* Go through all the routes in the list */
 		for (LinkedList<Edge> route : routes){
 			
-			/* If the route is not valid, 
-			 * remove it from the list */
-			if ( isRouteValid(route, maxFlights) ){
-				filteredRoutes.add(route);
+			/* If filter by direction is true */
+			if (filterDir){
+				
+				/* If the route is valid, add it to the filtered list */
+				if ( isRouteLengthValid(route, maxFlights) && isRouteDirValid(route) ){
+					filteredRoutes.add(route);
+				}
+				
 			}
+			/* If filter by direction is false */
+			else{
+				
+				/* If the route is valid, add it to the filtered list */
+				if ( isRouteLengthValid(route, maxFlights)){
+					filteredRoutes.add(route);
+				}
+				
+			}
+			
+	
 			
 		}
 		
@@ -356,9 +372,115 @@ public class GraphEngine implements IFlightGraph{
 		
 	}
 	
+	private boolean isRouteDirValid(LinkedList<Edge> route) {
+		
+		/* If the route size is 1, i.e. it 
+		 * is a direct flight, return true */
+		if(route.size() == 1 ){
+			return true;
+		}
+		/* Check if the connections are in geographical order */
+		else{
+			
+			/* Go through the linked list */
+			for (int i = 0; i < (route.size() - 1); i++) {
+				
+				/* Get the departure location */
+				FlightLeg firstFltInfo = route.getFirst().getAttribute("fltInfo");
+				Location depLocation = firstFltInfo.getDepatureAirport().getLocation();
+				
+				/* Get the arrival location */
+				FlightLeg lastFltInfo = route.getLast().getAttribute("fltInfo");
+				Location arrLocation = lastFltInfo.getArrivalAirport().getLocation();
+				
+				/* Get the flights' info */
+				Edge flightLeg = route.get(i);
+				FlightLeg fltInfo = flightLeg.getAttribute("fltInfo");
+				Location depPortLoc = fltInfo.getDepatureAirport().getLocation();
+				
+				Edge flightLegNxt = route.get(i+1);
+				FlightLeg fltNxtInfo = flightLegNxt.getAttribute("fltInfo");
+				Location arrPortLoc = fltNxtInfo.getArrivalAirport().getLocation();
+				
+				/* If not going in the right direction */
+				if ( !( isRightLongDir(depLocation, arrLocation, depPortLoc, arrPortLoc) &&
+					 isRightLatDir(depLocation, arrLocation, depPortLoc, arrPortLoc)) ){	
+					return false;
+				}
+								
+			}
+			
+			/* The flights are in the right direction  */
+			return true;
+			
+		}
+		
+
+	}
+
+	private boolean isRightLatDir(Location depLocation, Location arrLocation,Location depPortLoc, Location arrPortLoc) {
+		
+		/* Check if we're heading south */
+		if (arrLocation.getLatitude() <= depLocation.getLatitude()){
+
+			/* If the arriving airport is more north than departing airport 
+			 * then we're not heading in the right direction */
+			if(arrPortLoc.getLatitude() > depPortLoc.getLatitude()){
+				return false;
+			}
+			else{
+				return true;
+			}
+			
+		}
+		/* We're heading north */
+		else{
+			
+			/* If the arriving airport is more south than departing airport 
+			 * then we're not heading in the right direction */
+			if(arrPortLoc.getLatitude() < depPortLoc.getLatitude()){
+				return false;
+			}
+			else{
+				return true; 
+			}
+			
+		}
+	}
+	
+	private boolean isRightLongDir(Location depLocation, Location arrLocation,Location depPortLoc, Location arrPortLoc) {
+		
+		/* Check if we're heading east */
+		if (arrLocation.getLongitude() <= depLocation.getLongitude()){
+
+			/* If the arriving airport is more west than departing airport 
+			 * then we're not heading in the right direction */
+			if(arrPortLoc.getLongitude() > depPortLoc.getLongitude()){
+				return false;
+			}
+			else{
+				return true;
+			}
+			
+		}
+		/* We're heading west */
+		else{
+			
+			/* If the arriving airport is more east than departing airport 
+			 * then we're not heading in the right direction */
+			if(arrPortLoc.getLongitude() > depPortLoc.getLongitude()){
+				return false;
+			}
+			else{
+				return true; 
+			}
+			
+		}
+	}
+	
 	/* Returns true if the flights in the route are in 
 	 * chronological order */
-	private boolean isRouteValid(LinkedList<Edge> route, int maxFlights) {
+	private boolean isRouteLengthValid(LinkedList<Edge> route, int maxFlights) {
 
 		/* If the route size is 1, i.e. it 
 		 * is a direct flight, return true */
