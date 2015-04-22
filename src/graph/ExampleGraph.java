@@ -83,6 +83,7 @@ public class ExampleGraph {
 //		routes = getRoutes(jfk, mia, new ArrayList<Node>(), jfk, 0);
 //		routes = getRoutes(mia, sfo, new ArrayList<Node>(), mia, 0);
 //		routes = getRoutes(atl, sfo, new ArrayList<Node>(), atl, 0);
+		routes = getRoutes(bos, mia, new ArrayList<Node>(), bos, 0);
 //		routes = getRoutes(jfk, sfo, new ArrayList<Node>(), jfk, 0); // need to work on this one
 
 
@@ -250,8 +251,9 @@ public class ExampleGraph {
 		FlightLeg f2000 = new FlightLeg(airplane, 2000, 59, d2000, date,
 				airports.get(1), a2000, date, airports.get(2), 50.00, 15,
 				25.00, 25);
-
-		FlightLeg f2001 = new FlightLeg(airplane, 2001, 60, d2001, date,
+		
+		/* f2001 now departs on the next day */
+		FlightLeg f2001 = new FlightLeg(airplane, 2001, 60, d2001, new Date(Month.May, 11, 2015),
 				airports.get(1), a2001, date, airports.get(2), 50.00, 15,
 				25.00, 25);
 
@@ -711,17 +713,39 @@ public class ExampleGraph {
 				/* Get the flights' info */
 				Edge flightLeg = route.get(i);
 				FlightLeg fltInfo = flightLeg.getAttribute("fltInfo");
+				Date fltInfoDate = fltInfo.getArrivalDate();
 				Time fltInfoTime = fltInfo.getArrivalTime();
 				
 				Edge flightLegNxt = route.get(i+1);
 				FlightLeg fltNxtInfo = flightLegNxt.getAttribute("fltInfo");
+				Date fltNxtInfoDate = fltNxtInfo.getDepartureDate();
 				Time fltNxtInfoTime = fltNxtInfo.getDepartureTime();
 				
-				/* If this flight arrives after the next flight leaves */
-				if(fltInfoTime.compareTo(fltNxtInfoTime) >= 0){
-					return false;
+				/* If both flights land on the same day, 
+				 * then check if the next flight leaves after
+				 * the current flight lands. */
+				if (fltInfoDate.compareTo(fltNxtInfoDate) == 0){
+					
+					/* If this flight arrives after the next flight leaves */
+					if(fltInfoTime.compareTo(fltNxtInfoTime) >= 0){
+						return false;
+					}
+				
 				}
-		
+				/* If the next flight lands on the day after 
+				 * (crosses 23:59 GMT), then it's still valid,
+				 * so don't do anything and check the next flight in the chain */
+				else if (fltInfoDate.compareTo(fltNxtInfoDate) < 0){
+					
+					// lands on the next day, so it's valid
+					
+				}
+				/* If the next flight lands on a date that is after the arrival
+				 * date, which is impossible */
+				else{
+					return false; 
+				}
+			
 			}
 			
 			/* The flights are in chronological order */

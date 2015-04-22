@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import org.graphstream.graph.*;
 
 import flight_system.Airport;
+import flight_system.Date;
 import flight_system.FlightLeg;
 import flight_system.Location;
 import flight_system.Time;
@@ -528,15 +529,37 @@ public class GraphEngine implements IFlightGraph{
 				/* Get the flights' info */
 				Edge flightLeg = route.get(i);
 				FlightLeg fltInfo = flightLeg.getAttribute("fltInfo");
+				Date fltInfoDate = fltInfo.getArrivalDate();
 				Time fltInfoTime = fltInfo.getArrivalTime();
 				
 				Edge flightLegNxt = route.get(i+1);
 				FlightLeg fltNxtInfo = flightLegNxt.getAttribute("fltInfo");
+				Date fltNxtInfoDate = fltNxtInfo.getDepartureDate();
 				Time fltNxtInfoTime = fltNxtInfo.getDepartureTime();
 				
-				/* If this flight arrives after the next flight leaves */
-				if(fltInfoTime.compareTo(fltNxtInfoTime) >= 0){
-					return false;
+				/* If both flights land on the same day, 
+				 * then check if the next flight leaves after
+				 * the current flight lands. */
+				if (fltInfoDate.compareTo(fltNxtInfoDate) == 0){
+					
+					/* If this flight arrives after the next flight leaves */
+					if(fltInfoTime.compareTo(fltNxtInfoTime) >= 0){
+						return false;
+					}
+				
+				}
+				/* If the next flight lands on the day after 
+				 * (crosses 23:59 GMT), then it's still valid,
+				 * so don't do anything and check the next flight in the chain */
+				else if (fltInfoDate.compareTo(fltNxtInfoDate) < 0){
+					
+					// lands on the next day, so it's valid
+					
+				}
+				/* If the next flight lands on a date that is after the arrival
+				 * date, which is impossible */
+				else{
+					return false; 
 				}
 		
 			}
