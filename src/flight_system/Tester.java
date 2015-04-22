@@ -3,6 +3,8 @@ package flight_system;
 import graph.GraphTester;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import parsers.*;
 
@@ -248,6 +250,16 @@ public class Tester {
 		System.out.println("Testing Time Class\n");
 		
 		Time test = new Time(21, 00); // 21:00 GMT
+		Time test2 = new Time(18, 00); // 18:00 GMT
+		Time test3 = new Time(12, 00); // 12:00 GMT
+		Time test4 = new Time(15, 00); // 15:00 GMT
+		
+		/* Make a list of the test times */
+		ArrayList<Time> testList =  new ArrayList<Time>();
+		testList.add(test);
+		testList.add(test2);
+		testList.add(test3);
+		testList.add(test4);
 		
 		Location bos = new Location(42.365855, -71.009624); // Boston, MA
 		Location yin = new Location(38.4667, 106.2667); // Yinchuan, China
@@ -270,8 +282,23 @@ public class Tester {
 				+ test.getHoursIn12());
 		
 		System.out.println("The time is in AM : " + test.isAM());
+		
+		/* Testing the local time methods */
 		System.out.println("The local time is in AM: " + localBos.isAM());
 		System.out.println("The local time is in AM: " + localYin.isAM());
+		
+		/* Testing the compare method */
+		System.out.println("Is " + test + " after " + test2 +"? " + (test.compareTo(test2) > 0));
+		System.out.println("Is " + test2 + " after " + test +"? " + (test2.compareTo(test) > 0));
+		System.out.println("Is " + test + " the same " + test +"? " + (test.compareTo(test) == 0));
+		
+		/* Testing the 24-Hour to 12-Hour converter */
+		System.out.println(test + " in 12-hour time is " + Time.get12HourTime(test));
+		
+		/* Testing if if the Time class can be sorted */
+		System.out.println(testList); // before sort
+		Collections.sort(testList);   // sort in ascending order
+		System.out.println(testList); // after sort
 	}
 
 	@SuppressWarnings("unused")
@@ -377,4 +404,61 @@ public class Tester {
 		user.setIsFirstClass(false);
 		System.out.println(user.toString());
 	}
+	
+	@SuppressWarnings("unused")
+	private static void testFlightClass()
+	{
+		
+		System.out.println("Testing Flight class\n");
+		
+		Date date = new Date(Month.May, 10, 2015);
+		
+		/* First flight info */
+		Airplane plane1 = new Airplane("A340", "Airbus", 32, 268);
+		Time dt1 = new Time(11, 00);
+		Time at1 = new Time(12, 00);
+		Location dl1 = new Location(42.216446, -83.355427);
+		Location al1 = new Location(42.365855, -71.009624);
+		Airport da1 = new Airport("DTW", "Detroit Metropolitan Wayne County Airport", dl1);
+		Airport aa1 = new Airport("BOS", "Logan International", al1);
+				
+		/* Second flight info */
+		Airplane plane2 = new Airplane("A320", "Airbus", 12, 124);
+		Time dt2 = new Time(13, 00);
+		Time at2 = new Time(14, 30);
+		Location dl2 = new Location(42.365855, -71.009624);
+		Location al2 = new Location(35.042345, -89.979216);
+		Airport da2 = new Airport("BOS", "Logan International", dl2);
+		Airport aa2 = new Airport("MEM", "Memphis International", al2);
+		
+		Airplane plane3 = new Airplane("A320", "Airbus", 12, 124);
+		Time dt3 = new Time(15, 00);
+		Time at3 = new Time(16, 00);
+		Location dl3= new Location(42.365855, -71.009624);
+		Location al3= new Location(35.042345, -89.979216);
+		Airport da3= new Airport("MEM", "Memphis International", dl3);
+		Airport aa3 = new Airport("SFO", "San Fransisco International", al3);
+
+		FlightLeg flight1 = new FlightLeg(plane1, 2000, (at1.getTimeInMinutes() - dt1.getTimeInMinutes()) , dt1, date, da1, at1, date, aa1, 100.00, 20,	33.33, 23);
+		FlightLeg flight2 = new FlightLeg(plane2, 3000, (at2.getTimeInMinutes() - dt2.getTimeInMinutes()), dt2, date, da2, at2, date, aa2, 150.00, 20, 50.00, 23);
+		FlightLeg flight3 = new FlightLeg(plane3, 4000, (at3.getTimeInMinutes() - dt3.getTimeInMinutes()), dt3, date, da3, at3, date, aa3, 200.00, 20,	66.66, 23);
+		
+		/* Make the flights */
+		Flight f1 = new Flight(flight1);
+		Flight f2 = new Flight(flight2, flight3);
+		Flight f3 = new Flight(flight1, flight2, flight3);
+		
+		System.out.println("\nThe flight leg info is:\n");
+		System.out.println(flight1);
+		System.out.println(flight2);
+		System.out.println(flight3);
+		
+		/* Print the flights */
+		System.out.println(f1+"\n");
+		System.out.println(f2+"\n");
+		System.out.println(f3+"\n");
+		
+	}
+	
+	
 }

@@ -1,12 +1,3 @@
-/** Engineer: Richard Walker
- * Date: March 5. 2015
- * Description: Creates a DOM that parses an Airplane XML file
- * 				given by Professor Blake Nelson for the CS 509 Project.
- * 				Currently the Class just prints the information to the 
- * 				console, but it will be modified to store the information in 
- * 				a list of airplane objects.
- */
-
 package parsers;
 
 import java.io.IOException;
@@ -27,6 +18,18 @@ import org.xml.sax.SAXException;
 
 import flight_system.Airplane;
 
+/** 
+ * Creates a DOM that parses an Airplane XML file from the flight database. 
+ * <p>
+ * This class uses the Singleton Pattern, thus, only one instance of it is allowed
+ * as any point in time. The parser object also allows a client to get a copy of 
+ * a list that contains of the airplanes that were parsed. Also, the
+ * object provides a method for getting an airplane based on its model.  
+ * 				
+ * @author Richard Walker
+ * @see parsers.XMLGetter#getAirplaneXML() 
+ */
+
 public class AirplaneParser {
 	
 	/* List to hold the airplanes parsed from the XML */
@@ -39,6 +42,10 @@ public class AirplaneParser {
 		this.airplaneList = new ArrayList<Airplane>();
 	};
 	
+	/** 
+	 * Gets the only instance of the class. 			
+	 * @return the only instance of the Airplane Parser.
+	 */
 	/* Method to get the only instance of the class */
 	public static AirplaneParser getInstance(){
 		if(firstInstance == null){
@@ -48,16 +55,30 @@ public class AirplaneParser {
 		return firstInstance;
 	}
 	
+	/** 
+	 * Gives a list of the airplanes that were parsed.			
+	 * @return the list of the parsed airplanes.
+	 */
 	/* Returns a list of the parsed airplanes */
 	public ArrayList<Airplane> getAirplaneList() {
 		return airplaneList;
 	}
 	
+	/** 
+	 * Gets the the size of the airport list.			
+	 * @return the number of airplanes that were parsed.
+	 */
 	/* Returns the number of airplanes in the list */
 	public int getNumOfAirplanes() {
 		return this.airplaneList.size();
 	}
 	
+	/** 
+	 * Provides the airplane that matches the model that was provided.
+	 * Returns a null object if there is no matching airplane.			
+	 * @param model the model of the airplane.
+	 * @return the airplane object that is associated with the code.
+	 */
 	/* Return the airplane from the list that corresponds with the model number */
 	public Airplane getAirplane(String model){
 
@@ -90,6 +111,9 @@ public class AirplaneParser {
 
 	}
 	
+	/** 
+	 * Prints all the airplanes that were parsed.
+	 */
 	/* Prints the airplane list */
 	public void printAirplaneList(){
 		System.out.println("Printing the Airplane XML data:");
@@ -100,12 +124,23 @@ public class AirplaneParser {
 
 	}
 	
+	/** 
+	 * Used to tell if the parser already parsed the airplane XML.			
+	 * @return true if the parser already has the list of airplanes.
+	 */
 	/* Returns true if the list is populated */
 	public boolean hasAirplaneList(){
 		return (this.airplaneList.size() != 0);
 		
 	}
 	
+	/** 
+	 * Parses the airplane data from the XML that is provided to it. Stores the parsed 
+	 * airplane data in a list within the object.
+	 * 			
+	 * @param xmlSource the XML String that contains the airplane information.
+	 * @see parsers.XMLGetter#getAirplaneXML()
+	 */
 	/* Static Method used to parse the airplane XML */
 	public void parseAirplaneXML(String xmlSource) {
 
@@ -165,7 +200,10 @@ public class AirplaneParser {
 
 	}
 
-	
+	/** 
+	 * Provides a string representation of the Airplane parser.			
+	 * @return a string representation of the Airplane parser object.
+	 */
 	@Override
 	public String toString() {
 		return "AirplaneParser extracted" + getNumOfAirplanes() + "airplanes from the XML";

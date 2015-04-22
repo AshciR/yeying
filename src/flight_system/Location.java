@@ -40,7 +40,7 @@ public class Location {
 	public Location(double latitude, double longitude) {
 		this.latitude = latitude;
 		this.longitude = longitude;
-		
+
 		/* Have to sleep in order to avoid the Google API Limit */
 		try {
 			Thread.sleep(200);
@@ -73,7 +73,7 @@ public class Location {
 			this.latitude = latitude;
 			this.longitude = longitude;	
 		}
-
+		
 	}
 	
 	/* Getters */
