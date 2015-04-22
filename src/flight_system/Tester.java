@@ -12,7 +12,7 @@ public class Tester {
 
 	public static void main(String[] args) {
 		GraphTester test = new GraphTester();
-		test.testExampleGraph();		
+		test.testGraphEngine();
 	}
 
 	@SuppressWarnings("unused")

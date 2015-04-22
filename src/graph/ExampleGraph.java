@@ -90,14 +90,8 @@ public class ExampleGraph {
 		for (LinkedList<Edge> route : routes) {
 			System.out.println(route);
 		}
-		
-		/* Testing Direction Filter */
-		GraphEngine engine = new GraphEngine(graph);		
-		for (LinkedList<Edge> route : routes){
-			engine.testDirValid(route);
-		}
-		
-		/* Testing the Flight Filter */
+	
+		/* Testing the Flight Filter, (filters by chronological order */
 		ArrayList<LinkedList<Edge>> filteredRoutes = routeFilter(routes);
 		
 		System.out.println("\n---- Testing filteredRoutes Method: ----");
