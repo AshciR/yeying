@@ -12,10 +12,9 @@ public class Tester {
 
 	public static void main(String[] args) {
 		
-		graphExampleTester();
-		
 	}
 	
+	@SuppressWarnings("unused")
 	private static void graphExampleTester(){
 		GraphTester test = new GraphTester();
 		test.testExampleGraph();
