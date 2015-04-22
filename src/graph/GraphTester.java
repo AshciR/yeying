@@ -45,7 +45,7 @@ public class GraphTester {
 		System.out.println("There is a flight between BOS to MIA: " + engine.hasRoute(airports.get(0), airports.get(3), false) );
 		
 		/* Get all the coach flights from BOS to SFO with maximum of 3 flights, regardless of direction */
-		ArrayList<LinkedList<Edge>> flights = engine.getRoutes(airports.get(1), airports.get(2), 3, true);
+		ArrayList<LinkedList<Edge>> flights = engine.getRoutes(airports.get(0), airports.get(3), 3, false);
 		
 		System.out.println("\nThere are " + flights.size() + " flights.");
 		
@@ -56,7 +56,7 @@ public class GraphTester {
 		}
 		
 		/* Get all the flights coach from BOS to SFO with maximum of 3 flights in a general direction */
-		ArrayList<LinkedList<Edge>> flightsDir = engine.getRoutesDir(airports.get(1), airports.get(2), 3, true);
+		ArrayList<LinkedList<Edge>> flightsDir = engine.getRoutesDir(airports.get(0), airports.get(3), 3, false);
 		
 		System.out.println("\nThere are " + flightsDir.size() + " flights in a general direction.");
 		
