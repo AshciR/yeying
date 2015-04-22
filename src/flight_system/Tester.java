@@ -226,23 +226,37 @@ public class Tester {
 
 	@SuppressWarnings("unused")
 	private static void testDateClass() {
-		System.out.println("Testing Date Class");
+		System.out.println("Testing Date Class:\n");
 
 		/* Making a Date object called test */
 		Date test = new Date(Month.November, 21, 1991);
-
+		Date test2 = new Date(Month.April, 22, 2015);
+		Date test3 = new Date(Month.May, 3, 2015);
+		Date richardBday = new Date(Month.August, 22, 1990);
+		
+		ArrayList<Date> testList = new ArrayList<Date>();
+		
+		testList.add(test);
+		testList.add(test2);
+		testList.add(test3);
+		testList.add(richardBday);
+		
 		/* Printing the Date */
 		System.out.println(test.toString());
 
 		/* Printing the month, day, and year of the object */
-		System.out.println("The Month of this Date object is" + test.getMonth());
-		System.out.println("The Day of this Date object is" + test.getDay());
-		System.out.println("The Year of this Date object is" + test.getYear());
+		System.out.println("The Month of this Date object is " + test.getMonth());
+		System.out.println("The Day of this Date object is " + test.getDay());
+		System.out.println("The Year of this Date object is " + test.getYear());
 
-		Date richardBday = new Date(Month.August, 22, 1990);
+		System.out.println("\nRichard is born in the month of: " + richardBday.getMonth());
 		
-		System.out.println("Richard is born in the month of: " + richardBday.getMonth());
-
+		/* Testing if if the Date class can be sorted */
+		System.out.println(); 
+		System.out.println(testList); // before sort
+		Collections.sort(testList);   // sort in ascending order
+		System.out.println(testList); // after sort
+		
 	}
 
 	@SuppressWarnings("unused")
