@@ -591,11 +591,43 @@ public class GraphEngine implements IFlightGraph{
 				FlightLeg fltNxtInfo = flightLegNxt.getAttribute("fltInfo");
 				Location arrPortLoc = fltNxtInfo.getDepatureAirport().getLocation();
 				
-				/* If not going in the right direction */
-				if ( !( isRightLongDir(depLocation, arrLocation, depPortLoc, arrPortLoc) && isRightLatDir(depLocation, arrLocation, depPortLoc, arrPortLoc)) ){	
-					return false;
+				/* Get the distance between the origin and final destination */
+				double width = Math.abs(depLocation.getLongitude() - arrLocation.getLongitude());
+				double height = Math.abs(depLocation.getLatitude() - arrLocation.getLatitude());
+				
+				/* If the distance between the origin and destination
+				 * is longer longitudinally, then check by latitude 1st. */
+				if (width > height){
+					
+					/* Check by latitude 1st */
+					if(!isRightLatDir(depLocation, arrLocation, depPortLoc, arrPortLoc)){
+						return false;
+					}
+					else{
+						/* return false if you're not going in the right Longtitude direction */
+						if(!(isRightLongDir(depLocation, arrLocation, depPortLoc, arrPortLoc))){
+							return false;
+						}
+					}
+				
 				}
-								
+				/* It is longer latitudinally, check longitude first */
+				else{
+					
+					/* Check by lontitude 1st */
+					if(!isRightLongDir(depLocation, arrLocation, depPortLoc, arrPortLoc)){
+						return false;
+					}
+					else{
+						
+						/* return false if you're not going in the right Latitude direction */
+						if(!(isRightLatDir(depLocation, arrLocation, depPortLoc, arrPortLoc))){
+							return false;
+						}
+					}
+					
+				}
+									
 			}
 			
 			/* The flights are in the right direction  */
