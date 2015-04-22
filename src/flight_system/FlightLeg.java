@@ -109,7 +109,7 @@ public class FlightLeg {
 		return firstClassPrice;
 	}
 
-	public int getFirstClassSeats() {
+	public int getOccFirstClassSeats() {
 		return firstClassSeatsOcc;
 	}
 	
@@ -128,11 +128,19 @@ public class FlightLeg {
 		return airplane.getFirstClassSeats() - firstClassSeatsOcc;
 	}
 	
+	/**
+	 * Checks if there are available first class seats.
+	 * @return true if there are available first class seats. 
+	 */
+	public boolean areFirstSeatsAvail(){
+		return (getFirstClassSeatsAvail() > 0);
+	}
+	
 	public double getCoachClassPrice() {
 		return coachClassPrice;
 	}
 
-	public int getCoachClassSeats() {
+	public int getOccCoachClassSeats() {
 		return coachClassSeatsOcc;
 	}
 	
@@ -149,6 +157,14 @@ public class FlightLeg {
 	 */
 	public int getCoachClassSeatsAvail(){
 		return airplane.getCoachSeats() - coachClassSeatsOcc;
+	}
+	
+	/**
+	 * Checks if there are available coach class seats.
+	 * @return true if there are available coach class seats. 
+	 */
+	public boolean areCoachSeatsAvail(){
+		return (getCoachClassSeatsAvail() > 0);
 	}
 	
 	/**

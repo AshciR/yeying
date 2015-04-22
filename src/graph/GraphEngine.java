@@ -710,15 +710,9 @@ public class GraphEngine implements IFlightGraph{
 			/* Check the first class seats */
 			if(isFirstClass){
 				
-				/*number of occupied seats */
-				int occupied = flightInfo.getFirstClassSeats(); 
-				
-				/* number of seats on the plane */
-				int seatsOnPlane = flightInfo.getAirplane().getFirstClassSeats();
-				
 				/* If all the seats on the plane are taken
 				 * this flight can't be booked */
-				if(occupied >= seatsOnPlane){
+				if(!flightInfo.areFirstSeatsAvail()){
 					return false;
 				}
 				
@@ -726,15 +720,9 @@ public class GraphEngine implements IFlightGraph{
 			/* Check the coach seats */
 			else{
 				
-				/*number of occupied seats */
-				int occupied = flightInfo.getCoachClassSeats(); 
-				
-				/* number of seats on the plane */
-				int seatsOnPlane = flightInfo.getAirplane().getCoachSeats();
-				
 				/* If all the seats on the plane are taken
 				 * this flight can't be booked */
-				if(occupied >= seatsOnPlane){
+				if(!flightInfo.areCoachSeatsAvail()){
 					return false;
 				}
 				
