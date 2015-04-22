@@ -35,17 +35,17 @@ public class GraphTester {
 		/* Flight from BOS -> SFO */
 		System.out.println("There is a flight from BOS to SFO: " + engine.hasDirectFlight(airports.get(0), airports.get(4))); 
 		
-		/* Flight from BOS -> ATL */
-		System.out.println("There is a flight between BOS to ATL: " + engine.hasRoute(airports.get(0), airports.get(2)));
+		/* Coach Flight from BOS -> ATL */
+		System.out.println("There is a flight between BOS to ATL: " + engine.hasRoute(airports.get(0), airports.get(2), false) );
 	
-		/* Flight from BOS -> ATL -> JFK */
-		System.out.println("There is a flight between BOS to JFK: " + engine.hasRoute(airports.get(0), airports.get(1)));
+		/* First Class Flight from BOS -> ATL -> JFK */
+		System.out.println("There is a flight between BOS to JFK: " + engine.hasRoute(airports.get(0), airports.get(1), true) );
 		
-		/* Flight from BOS -> MIA */
-		System.out.println("There is a flight between BOS to MIA: " + engine.hasRoute(airports.get(0), airports.get(3)));
+		/* Coach Flight from BOS -> MIA */
+		System.out.println("There is a flight between BOS to MIA: " + engine.hasRoute(airports.get(0), airports.get(3), false) );
 		
-		/* Get all the flights from BOS to SFO with maximum of 3 flights, regardless of direction */
-		ArrayList<LinkedList<Edge>> flights = engine.getRoutes(airports.get(1), airports.get(2), 3);
+		/* Get all the coach flights from BOS to SFO with maximum of 3 flights, regardless of direction */
+		ArrayList<LinkedList<Edge>> flights = engine.getRoutes(airports.get(1), airports.get(2), 3, false);
 		
 		System.out.println("\nThere are " + flights.size() + " flights.");
 		
@@ -55,8 +55,8 @@ public class GraphTester {
 			System.out.println(flight); 
 		}
 		
-		/* Get all the flights from BOS to SFO with maximum of 3 flights in a general direction */
-		ArrayList<LinkedList<Edge>> flightsDir = engine.getRoutesDir(airports.get(1), airports.get(2), 3);
+		/* Get all the flights coach from BOS to SFO with maximum of 3 flights in a general direction */
+		ArrayList<LinkedList<Edge>> flightsDir = engine.getRoutesDir(airports.get(1), airports.get(2), 3, false);
 		
 		System.out.println("\nThere are " + flightsDir.size() + " flights in a general direction.");
 		

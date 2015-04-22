@@ -39,11 +39,12 @@ public interface IFlightGraph {
 	 * 
 	 * @param depPort the departure airport
 	 * @param arrPort the arrival airport
+	 * @param true if it's a first class flight
 	 * @return true if there is a route
 	 * @see flight_system.Airport
 	 */
 	/* Tells if there's a route between two airports */
-	public boolean hasRoute(Airport depPort, Airport arrPort);
+	public boolean hasRoute(Airport depPort, Airport arrPort, boolean isFirstClass);
 	
 	/**
 	 * Gets all the routes between two airports, 
@@ -54,9 +55,10 @@ public interface IFlightGraph {
 	 * @param depPort the departure airport
 	 * @param arrPort the arrival airport
 	 * @param maxFlights the maximum number of flights the route can have
+	 * @param isFirstClass true if it's a first class flight
 	 * @return a list of all the possible routes
 	 */
 	/* Gets all the routes between two airports */
-	public ArrayList<LinkedList<Edge>> getRoutes(Airport depPort, Airport arrPort, int maxFlights);
+	public ArrayList<LinkedList<Edge>> getRoutes(Airport depPort, Airport arrPort, int maxFlights, boolean isFirstClass);
 	
 }

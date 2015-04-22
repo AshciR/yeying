@@ -63,17 +63,18 @@ public class GraphEngine implements IFlightGraph{
 	 * 
 	 * @param depPort the departure airport
 	 * @param arrPort the arrival airport
+	 * @param isFirstClass true if it's a first class flight
 	 * @return true if there is a route
 	 * @see flight_system.Airport
 	 */
 	/* The interface for the engine to tell if there's a route between two airport */
-	public boolean hasRoute(Airport depPort, Airport arrPort){
+	public boolean hasRoute(Airport depPort, Airport arrPort, boolean isFirstClass){
 				
 		/* Assume a maximum of 3 flights */
 		int maxFlights = 3;
 		
 		/* Get all the routes */
-		ArrayList<LinkedList<Edge>> routes = getRoutes(depPort, arrPort, maxFlights);
+		ArrayList<LinkedList<Edge>> routes = getRoutes(depPort, arrPort, maxFlights, isFirstClass);
 		
 		/* If the route list is not empty, then there are flights */
 		return (!routes.isEmpty());
@@ -87,17 +88,18 @@ public class GraphEngine implements IFlightGraph{
 	 * 
 	 * @param depPort the departure airport
 	 * @param arrPort the arrival airport
+	 * @param isFirstClass true if it's a first class flight
 	 * @return true if there is a route in a general direction
 	 * @see flight_system.Airport
 	 */
 	/* The interface for the engine to tell if there's a route between two airport */
-	public boolean hasRouteDirection(Airport depPort, Airport arrPort){
+	public boolean hasRouteDirection(Airport depPort, Airport arrPort, boolean isFirstClass){
 				
 		/* Assume a maximum of 3 flights */
 		int maxFlights = 3;
 		
 		/* Get all the routes */
-		ArrayList<LinkedList<Edge>> routes = getRoutesDir(depPort, arrPort, maxFlights);
+		ArrayList<LinkedList<Edge>> routes = getRoutesDir(depPort, arrPort, maxFlights, isFirstClass);
 		
 		/* If the route list is not empty, then there are flights */
 		return (!routes.isEmpty());
@@ -113,9 +115,10 @@ public class GraphEngine implements IFlightGraph{
 	 * @param depPort the departure airport
 	 * @param arrPort the arrival airport
 	 * @param maxFlights the maximum number of flights the route can have
+	 * @param isFirstClass true if looking for First Class flights
 	 * @return a list of all the possible routes
 	 */
-	public ArrayList<LinkedList<Edge>> getRoutes(Airport depPort, Airport arrPort, int maxFlights){
+	public ArrayList<LinkedList<Edge>> getRoutes(Airport depPort, Airport arrPort, int maxFlights, boolean isFirstClass){
 		
 		/* Convert Airports to Nodes */
 		Node depNode = getNode(depPort);
@@ -128,7 +131,7 @@ public class GraphEngine implements IFlightGraph{
 		routes = getRoutes(depNode, arrNode, new ArrayList<Node>(), depNode, 0);
 		
 		/* Filter out the flights based on max flights, but not by a general direction*/
-		routes = routeFilter(routes, maxFlights, false);
+		routes = routeFilter(routes, maxFlights, false, isFirstClass);
 		
 		return routes;
 		
@@ -147,10 +150,11 @@ public class GraphEngine implements IFlightGraph{
 	 * @param depPort the departure airport
 	 * @param arrPort the arrival airport
 	 * @param maxFlights the maximum number of flights the route can have
+	 * @param isFirstClass true if you are searching for First Class flights
 	 * @return a list of all the possible routes in that general direction.
 	 */
 	/* Gets all the routes in a general direction */
-	public ArrayList<LinkedList<Edge>> getRoutesDir(Airport depPort, Airport arrPort, int maxFlights){
+	public ArrayList<LinkedList<Edge>> getRoutesDir(Airport depPort, Airport arrPort, int maxFlights, boolean isFirstClass){
 		
 		/* Convert Airports to Nodes */
 		Node depNode = getNode(depPort);
@@ -163,7 +167,7 @@ public class GraphEngine implements IFlightGraph{
 		routes = getRoutes(depNode, arrNode, new ArrayList<Node>(), depNode, 0);
 		
 		/* Filter out the flights based on max flights, and direction */
-		routes = routeFilter(routes, maxFlights, true);
+		routes = routeFilter(routes, maxFlights, true, isFirstClass);
 		
 		return routes;
 		
@@ -450,8 +454,8 @@ public class GraphEngine implements IFlightGraph{
 	}
 	
 	/* Returns a new list routes, that contain only routes that are 
-	 * chronologically possible */
-	private ArrayList<LinkedList<Edge>> routeFilter(ArrayList<LinkedList<Edge>> routes, int maxFlights, boolean filterDir){
+	 * chronologically possible and have available seats */
+	private ArrayList<LinkedList<Edge>> routeFilter(ArrayList<LinkedList<Edge>> routes, int maxFlights, boolean filterDir, boolean isFirstClass){
 		
 		ArrayList<LinkedList<Edge>> filteredRoutes = new ArrayList<LinkedList<Edge>>();
 			
@@ -462,7 +466,7 @@ public class GraphEngine implements IFlightGraph{
 			if (filterDir){
 				
 				/* If the route is valid, add it to the filtered list */
-				if ( isRouteLengthValid(route, maxFlights) ){
+				if ( isRouteLengthValid(route, maxFlights) && isSeatAvail(route,isFirstClass) ){
 					
 					/* Is the route in a general direction */
 					if (isRouteDirValid(route)){
@@ -490,6 +494,71 @@ public class GraphEngine implements IFlightGraph{
 		
 	}
 	
+	/* Returns true if the flights in the route are in 
+	 * chronological order */
+	private boolean isRouteLengthValid(LinkedList<Edge> route, int maxFlights) {
+	
+		/* If the route size is 1, i.e. it 
+		 * is a direct flight, return true */
+		if(route.size() == 1 ){
+			return true;
+		}
+		/* If the route has more than maximum number of flights,
+		 * i.e more than 2 connections, then it's not valid
+		 */
+		else if (route.size() > maxFlights){
+			return false;
+		}
+		/* Check if the connections are in chronological order */
+		else{
+			
+			/* Go through the linked list */
+			for (int i = 0; i < (route.size() - 1); i++) {
+				
+				/* Get the flights' info */
+				Edge flightLeg = route.get(i);
+				FlightLeg fltInfo = flightLeg.getAttribute("fltInfo");
+				Date fltInfoDate = fltInfo.getArrivalDate();
+				Time fltInfoTime = fltInfo.getArrivalTime();
+				
+				Edge flightLegNxt = route.get(i+1);
+				FlightLeg fltNxtInfo = flightLegNxt.getAttribute("fltInfo");
+				Date fltNxtInfoDate = fltNxtInfo.getDepartureDate();
+				Time fltNxtInfoTime = fltNxtInfo.getDepartureTime();
+				
+				/* If both flights land on the same day, 
+				 * then check if the next flight leaves after
+				 * the current flight lands. */
+				if (fltInfoDate.compareTo(fltNxtInfoDate) == 0){
+					
+					/* If this flight arrives after the next flight leaves */
+					if(fltInfoTime.compareTo(fltNxtInfoTime) >= 0){
+						return false;
+					}
+				
+				}
+				/* If the next flight lands on the day after 
+				 * (crosses 23:59 GMT), then it's still valid,
+				 * so don't do anything and check the next flight in the chain */
+				else if (fltInfoDate.compareTo(fltNxtInfoDate) < 0){
+					
+					// lands on the next day, so it's valid
+					
+				}
+				/* If the next flight lands on a date that is after the arrival
+				 * date, which is impossible */
+				else{
+					return false; 
+				}
+		
+			}
+			
+			/* The flights are in chronological order */
+			return true;
+		}
+		
+	}
+
 	/* Is the route going in a general direction? */
 	private boolean isRouteDirValid(LinkedList<Edge> route) {
 		
@@ -598,70 +667,49 @@ public class GraphEngine implements IFlightGraph{
 		}
 	}
 	
-	/* Returns true if the flights in the route are in 
-	 * chronological order */
-	private boolean isRouteLengthValid(LinkedList<Edge> route, int maxFlights) {
-
-		/* If the route size is 1, i.e. it 
-		 * is a direct flight, return true */
-		if(route.size() == 1 ){
-			return true;
-		}
-		/* If the route has more than maximum number of flights,
-		 * i.e more than 2 connections, then it's not valid
-		 */
-		else if (route.size() > maxFlights){
-			return false;
-		}
-		/* Check if the connections are in chronological order */
-		else{
-			
-			/* Go through the linked list */
-			for (int i = 0; i < (route.size() - 1); i++) {
-				
-				/* Get the flights' info */
-				Edge flightLeg = route.get(i);
-				FlightLeg fltInfo = flightLeg.getAttribute("fltInfo");
-				Date fltInfoDate = fltInfo.getArrivalDate();
-				Time fltInfoTime = fltInfo.getArrivalTime();
-				
-				Edge flightLegNxt = route.get(i+1);
-				FlightLeg fltNxtInfo = flightLegNxt.getAttribute("fltInfo");
-				Date fltNxtInfoDate = fltNxtInfo.getDepartureDate();
-				Time fltNxtInfoTime = fltNxtInfo.getDepartureTime();
-				
-				/* If both flights land on the same day, 
-				 * then check if the next flight leaves after
-				 * the current flight lands. */
-				if (fltInfoDate.compareTo(fltNxtInfoDate) == 0){
-					
-					/* If this flight arrives after the next flight leaves */
-					if(fltInfoTime.compareTo(fltNxtInfoTime) >= 0){
-						return false;
-					}
-				
-				}
-				/* If the next flight lands on the day after 
-				 * (crosses 23:59 GMT), then it's still valid,
-				 * so don't do anything and check the next flight in the chain */
-				else if (fltInfoDate.compareTo(fltNxtInfoDate) < 0){
-					
-					// lands on the next day, so it's valid
-					
-				}
-				/* If the next flight lands on a date that is after the arrival
-				 * date, which is impossible */
-				else{
-					return false; 
-				}
+	private boolean isSeatAvail(LinkedList<Edge> route, boolean isFirstClass){
 		
+		for (Edge flight : route){
+			
+			FlightLeg flightInfo = flight.getAttribute("fltInfo");
+			
+			/* Check the first class seats */
+			if(isFirstClass){
+				
+				/*number of occupied seats */
+				int occupied = flightInfo.getFirstClassSeats(); 
+				
+				/* number of seats on the plane */
+				int seatsOnPlane = flightInfo.getAirplane().getFirstClassSeats();
+				
+				/* If all the seats on the plane are taken
+				 * this flight can't be booked */
+				if(occupied >= seatsOnPlane){
+					return false;
+				}
+				
 			}
-			
-			/* The flights are in chronological order */
-			return true;
+			/* Check the coach seats */
+			else{
+				
+				/*number of occupied seats */
+				int occupied = flightInfo.getCoachClassSeats(); 
+				
+				/* number of seats on the plane */
+				int seatsOnPlane = flightInfo.getAirplane().getCoachSeats();
+				
+				/* If all the seats on the plane are taken
+				 * this flight can't be booked */
+				if(occupied >= seatsOnPlane){
+					return false;
+				}
+				
+			}		
 		}
 		
+		/* If it made it through the for loop, 
+		 * then it means all the flights are valid */
+		return true;	
 	}
-	
 	
 }
