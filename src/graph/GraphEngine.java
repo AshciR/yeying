@@ -29,7 +29,7 @@ public class GraphEngine implements IFlightGraph{
 	 * <p>
 	 *
 	 * @param flightGraph the graph that will be analyzed.
-	 * @see graph.GraphMaker
+	 * @see GraphMaker
 	 */
 	/* Constructor */
 	public GraphEngine(Graph flightGraph) {
@@ -614,7 +614,7 @@ public class GraphEngine implements IFlightGraph{
 				/* It is longer latitudinally, check longitude first */
 				else{
 					
-					/* Check by lontitude 1st */
+					/* Check by longitude 1st */
 					if(!isRightLongDir(depLocation, arrLocation, depPortLoc, arrPortLoc)){
 						return false;
 					}
