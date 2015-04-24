@@ -98,6 +98,42 @@ public class Flight implements Comparable<Flight>
 		return flightList.get(flightList.size()-1).getArrivalTime();
 	}
 	
+//	public Time getDurationTime(int flightLegIndex)
+//	{
+//		
+//		/* If you ask for a lay over time 
+//		 * that's more than the size of the list,
+//		 * return 0 minutes */
+//		if(flightLegIndex >= (flightList.size()-1))
+//		{
+//			return new Time(0, 0);
+//		}
+//		//calculate the lay over time
+//		else 
+//		{
+//			Date transferADate = flightList.get(layoverIndex).getArrivalDate();
+//			Date transferDDate = flightList.get(layoverIndex + 1).getDepartureDate();
+//			Time AtransferTime = flightList.get(layoverIndex).getArrivalTime();
+//			Time transferTimeD = flightList.get(layoverIndex + 1).getDepartureTime();
+//		
+//			int transferDays = transferDDate.getDay() - transferADate.getDay();
+//			int transferHours = transferTimeD.getHours() - AtransferTime.getHours();
+//		
+//			int Hours = transferDays * 24 + transferHours;
+//			int minutes = transferTimeD.getMinutes() - AtransferTime.getMinutes();
+//			if (minutes < 0)
+//			{
+//				Hours = Hours - 1;
+//				minutes = 60 + minutes;
+//			}
+//		
+//			return new Time(Hours, minutes);
+//			
+//		}
+//		
+//		
+//	}
+	
 	/**
 	 * get the total time of this flight object
 	 * @return the total time of the flight
