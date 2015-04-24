@@ -425,6 +425,4 @@ public class Tester {
 		System.out.println("The total layover time is: " + f.getTotalLayoverTime());
 		System.out.println("The layover time of this transit airport is: " + f.getLayoverTime(0));
 	}
-	
-	
 }
