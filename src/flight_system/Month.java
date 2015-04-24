@@ -1,4 +1,4 @@
-/* Engineer: Zhong
+/** Engineer: Zhong Ren
  * Date: March 18. 2015
  * Description: Enum that holds the months of a year
  */

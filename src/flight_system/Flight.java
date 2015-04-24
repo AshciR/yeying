@@ -196,14 +196,22 @@ public class Flight implements Comparable<Flight>
 		
 	}
 	
-	/* This compares the flight total time */
+	/** 
+	 * This compares the flight total time 
+	 * 
+	 * @param compareTotalTime give the total time you want to 
+	 * compare with the total time you get in the flight class.
+	 * 
+	 */
 	public int compareTo(Time compareTotalTime)
 	{
 		int compareTotalTimeInMins = compareTotalTime.getTimeInMinutes();
 		return getTotalTime().getTimeInMinutes() - compareTotalTimeInMins;
 	}
 	
-	/* This compares the flight total lay over time */
+	/** This compares the flight total lay over time 
+	 * 
+	 */
 	public static Comparator<Flight> TotalLayoverComparator = new Comparator<Flight> ()
 	{
 		public int compare(Flight flight1, Flight flight2)
@@ -214,7 +222,9 @@ public class Flight implements Comparable<Flight>
 		}
 	};
 	
-	/* This compares the flight total price of first class*/
+	/** This compares the flight total price of first class
+	 * 
+	 */
 	public static Comparator<Flight> FirstClassPriceComparator = new Comparator<Flight> ()
 	{
 		public int compare(Flight flight1, Flight flight2)
@@ -225,7 +235,9 @@ public class Flight implements Comparable<Flight>
 		}
 	};
 	
-	/* This compares the flight total time of coach class*/
+	/* This compares the flight total time of coach class
+	 * 
+	 * */
 	public static Comparator<Flight> CoachClassPriceComparator = new Comparator<Flight> ()
 	{
 		public int compare(Flight flight1, Flight flight2)
@@ -236,7 +248,10 @@ public class Flight implements Comparable<Flight>
 		}
 	};
 	
-	/* This compares the flight connections */
+	/** This compares the flight connections 
+	 * 
+	 * 
+	 */
 	public static Comparator<Flight> ConnectionComparator = new Comparator<Flight> ()
 	{
 		public int compare(Flight flight1, Flight flight2)

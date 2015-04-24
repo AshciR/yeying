@@ -4,7 +4,13 @@
 
 package flight_system;
 
-
+/**
+ * Class used to a date based on the information provided 
+ * by the XML files in the flight database system.
+ * 
+ * @author Zhong Ren
+ * @see parsers.XMLGetter#getFlightsXML() 
+ */
 public class Date implements Comparable<Date> {
 	
 	// The fields 
@@ -12,22 +18,45 @@ public class Date implements Comparable<Date> {
 	private int day;
 	private int year;
 	
-	// The Constructor
-	public Date(Month month, int day, int year){
+	/**
+	 * Makes an object that represents a date.
+	 * 
+	 * @param month the month of the date
+	 * @param day	the day of the date
+	 * @param year	the year of the date
+	 * @see getFlightsXML()
+	 */
+	public Date(Month month, int day, int year)
+	{
 		this.month = month;
 		this.day = day;
 		this.year = year;
 	}
 	
 	// Getter Methods
+	/**
+	 * Gets the month of this date object.
+	 * 
+	 * @return the month of the date
+	 */
 	public Month getMonth(){
 		return month;
 	}
 
+	/**
+	 * Gets the day of this date object.
+	 * 
+	 * @return the day of the date
+	 */
 	public int getDay(){
 		return day;
 	}
 
+	/**
+	 * Gets the year of this date object.
+	 * 
+	 * @return the year of the date
+	 */
 	public int getYear(){
 		return year;
 	}
