@@ -29,7 +29,6 @@ public class GraphTester {
 		
 		GraphMaker maker = new GraphMaker(new Date(Month.May, 10, 2015));
 		GraphEngine engine = new GraphEngine(maker.getGraph());
-		//maker.displayGraph();
 				
 		System.out.println("Node for the 1st Airport is: " + engine.getNode(airports.get(0)));
 		
