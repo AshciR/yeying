@@ -26,6 +26,15 @@ import org.xml.sax.SAXException;
 
 import parsers.XMLGetter;
 
+/** 
+ * Class used to represent location in latitude and longitude.
+ * <p>
+ * The class can also determine the time zone of the given location.
+ * 
+ * @author Jianan Ou
+ * @author Richard Walker
+ *  
+ */
 public class Location {
 	
 	/* Fields */
@@ -34,6 +43,7 @@ public class Location {
 	private double timeZoneOffset;
 	
 	/**
+	 * Makes an object that represent location
 	 * @param latitude the latitude of the location
 	 * @param longitude the longitude of the location
 	 */
@@ -51,6 +61,13 @@ public class Location {
 		
 		determineTimeZone(); // Get the Time Zone from Google
 	}
+	
+	/**
+	 * Makes an object that represent location include its time zone.
+	 * @param latitude the latitude of the location
+	 * @param longitude the longitude of the location
+	 * @param getZone determine whether to get time zone of this location or not
+	 */
 	
 	/* Constructor for making a Location w/o getting the TimeZone info */
 	public Location(double latitude, double longitude, boolean getZone) {
@@ -76,19 +93,38 @@ public class Location {
 		
 	}
 	
+	/**
+	 * Get the latitude of the location
+	 * @return the latitude of the location
+	 */
 	/* Getters */
 	public double getLatitude() {
 		return latitude;
 	}
+	
+	/**
+	 * get the longitude of the location
+	 * @return the longitude of the location
+	 */
 
 	public double getLongitude() {
 		return longitude;
 	}
 	
+	/**
+	 * get the parameter called 'time zone offset' of the location
+	 * @return the time zone offset of the location
+	 */
+	
 	public double getTimeZoneOffset() {
 		
 		return timeZoneOffset;
 	}
+	
+	/**
+	 * Make a method to get the time zone information of selected location
+	 * @see parsers.XMLGetter#getTimeZoneXML(Location)
+	 */
 	
 	private void determineTimeZone(){
 		//Getting information
@@ -127,7 +163,11 @@ public class Location {
 
 	}
 		
-	
+	/**
+	 * String representation of the location object.
+	 * <p>
+	 * @return the string representation of this location. 
+	 */
 
 	@Override
 	public String toString() {
