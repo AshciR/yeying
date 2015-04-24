@@ -10,12 +10,9 @@ import parsers.*;
 
 public class Tester {
 
-<<<<<<< HEAD
-	
-=======
->>>>>>> aa82a9fedc04096b0526d4bba7565481ebf16742
+
 	public static void main(String[] args) {
-		
+		graphEngineTester();
 	}
 	
 	@SuppressWarnings("unused")
