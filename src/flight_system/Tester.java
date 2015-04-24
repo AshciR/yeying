@@ -15,6 +15,69 @@ public class Tester {
 	}
 	
 	@SuppressWarnings("unused")
+	private static void flightFilterTester(){
+		
+		System.out.println("Testing Flight Filter Class");
+		
+		/* Making Flight Legs */
+		
+		/* Make an airplane, location, and date for the flights */
+		Airplane airplane = new Airplane("774", "Airbus", 20, 50);
+		Date date = new Date(Month.March, 18, 2015);
+		Location loc = new Location(33.641045, -84.427764, false);
+		
+		/* Airport Info */
+		Airport bosPort = new Airport("BOS", "Boston Logan", loc);
+		Airport jfkPort = new Airport("JFK", "John F. Kennedy International", loc);
+		Airport miaPort = new Airport("MIA", "Miami International", loc);
+
+		/* Time info */
+		Time dTime = new Time(20, 00);
+		Time aTime = new Time(21, 15);
+		
+		Time dTime2 = new Time(22, 00);
+		Time aTime2 = new Time(21, 00);
+		
+		Time dTime3 = new Time(11, 00);
+		Time aTime3 = new Time(13, 00);
+		
+		/* Making the legs */
+		FlightLeg leg1 = new FlightLeg(airplane, 2000, 
+				(aTime.getMinutes() - dTime.getTimeInMinutes()),
+				dTime, date, bosPort, aTime, date, jfkPort, 50.00, 15, 25.00, 25);
+		
+		FlightLeg leg2 = new FlightLeg(airplane, 3000, 
+				(aTime2.getMinutes() - dTime2.getTimeInMinutes()),
+				dTime2, date, jfkPort, aTime2, date, miaPort, 50.00, 15, 25.00, 25);
+		
+		FlightLeg leg3 = new FlightLeg(airplane, 4000, 
+				(aTime3.getMinutes() - dTime3.getTimeInMinutes()),
+				dTime3, date, miaPort, aTime3, date, bosPort, 50.00, 15, 25.00, 25);
+		
+		/* Make flight classes */
+		Flight flight1 = new Flight(leg1); // BOS -> JFK
+		Flight flight2 = new Flight(leg3, leg1); // MIA -> BOS -> JFK
+		Flight flight3 = new Flight(leg3, leg1, leg2); // MIA -> BOS -> JFK -> MIA
+		
+		/* Make the filter */
+		FlightFilter filter = new FlightFilter();
+		filter.addFlight(flight1);
+		filter.addFlight(flight2);
+		filter.addFlight(flight3);
+		
+		/* Print the tests */
+		System.out.println("The cheapest 1st Class flight is: " + filter.cheapestFlight(true));
+		System.out.println("The shortest flight is: " + filter.shortestFlightTime());
+		System.out.println("The flight with the least layover time is: " + filter.minLayover());
+		
+		/* Sort the flights */
+		System.out.println("\nThe current flight list is:");
+		
+		// ADD THIS LATER 
+		
+	}
+	
+	@SuppressWarnings("unused")
 	private static void graphExampleTester(){
 		GraphTester test = new GraphTester();
 		test.testExampleGraph();
