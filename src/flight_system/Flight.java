@@ -1,12 +1,21 @@
-//Name: Zhong Ren
-package flight_system;
-import java.util.ArrayList;
-import java.util.Scanner;
+/*Name: Zhong Ren */
 
+package flight_system;
+
+import java.util.ArrayList;
 
 public class Flight
 {
 	private ArrayList<FlightLeg> flightList;
+	
+	/**
+	 * Makes a Flight object without any Flight Legs
+	 * @see FlightLeg 
+	 */
+	public Flight(){
+		this.flightList = new ArrayList<FlightLeg>();
+	}
+	
 	public Flight(FlightLeg flight1)
 	{
 		this.flightList = new ArrayList<FlightLeg>();
@@ -26,6 +35,14 @@ public class Flight
 		this.flightList.add(flight1);
 		this.flightList.add(flight2);
 		this.flightList.add(flight3);
+	}
+	
+	/**
+	 * Adds a FlightLeg object to this flight list.
+	 * @see FlightLeg 
+	 */
+	public void addFlightLeg(FlightLeg flightLeg){
+		this.flightList.add(flightLeg);
 	}
 	
 	public Time getTotalTime()
@@ -79,48 +96,44 @@ public class Flight
 		return numOfConnection;
 	}
 	
-	public Time gettotalLayoverTime()
+	public Time getTotalLayoverTime()
 	{
 		//transform the hours and minutes into minutes
-		int totoalLayoverMinutes = (this.getTotalTime().getTimeInMinutes());
+		int totalLayoverMinutes = (this.getTotalTime().getTimeInMinutes());
 		
 		//print the duration of each flight leg into minutes
 		for (int i = 0; i < this.flightList.size(); i++)
 		{
-			totoalLayoverMinutes = totoalLayoverMinutes - this.flightList.get(i).getFlightDuration();
-			System.out.println("The " + (i + 1) + "th flightLeg's duration is: " + this.flightList.get(i).getFlightDuration());
+			totalLayoverMinutes = totalLayoverMinutes - this.flightList.get(i).getFlightDuration();
+			//System.out.println("The " + (i + 1) + " flightLeg's duration is: " + this.flightList.get(i).getFlightDuration());
 		}
 		
-		//get the hours and minutes of the total layover time
-		int hours = totoalLayoverMinutes / 60;
-		int minutes = totoalLayoverMinutes % 60;
+		//get the hours and minutes of the total lay over time
+		int hours = totalLayoverMinutes / 60;
+		int minutes = totalLayoverMinutes % 60;
 		Time totalLayoverTime = new Time(hours, minutes);
 		
 		return totalLayoverTime;
 	}
 
 
-	public Time getLayoverTime()
+	public Time getLayoverTime(int layoverIndex)
 	{
-		//make a scanner to let user to choose which connection they want to check
-		System.out.println("Please enter the serie number of the transit airport you want to check: ");
-		Scanner in = new Scanner(System.in);
-		int num = in.nextInt();
 		
-		//give the return value of exception
-		if(num == 0)
+		/* If you ask for a lay over time 
+		 * that's more than the size of the list,
+		 * return 0 minutes */
+		if(layoverIndex >= (flightList.size()-1))
 		{
-			Time zero = new Time(0, 0);
-			return zero;
+			return new Time(0, 0);
 		}
-		
-		//calculate the layover time
-		if(num > 0 && num < flightList.size())
+		//calculate the lay over time
+		else 
 		{
-			Date transferADate = flightList.get(num).getArrivalDate();
-			Date transferDDate = flightList.get(num + 1).getDepartureDate();
-			Time AtransferTime = flightList.get(num).getArrivalTime();
-			Time transferTimeD = flightList.get(num + 1).getDepartureTime();
+			Date transferADate = flightList.get(layoverIndex).getArrivalDate();
+			Date transferDDate = flightList.get(layoverIndex + 1).getDepartureDate();
+			Time AtransferTime = flightList.get(layoverIndex).getArrivalTime();
+			Time transferTimeD = flightList.get(layoverIndex + 1).getDepartureTime();
 		
 			int transferDays = transferDDate.getDay() - transferADate.getDay();
 			int transferHours = transferTimeD.getHours() - AtransferTime.getHours();
@@ -133,26 +146,21 @@ public class Flight
 				minutes = 60 + minutes;
 			}
 		
-			Time layoverTime = new Time(Hours, minutes);
-			return layoverTime;
+			return new Time(Hours, minutes);
+			
 		}
 		
-		//give the return value of exception
-		else 
-		{
-			System.out.println("Please enter the correct number of transit airport.");
-			Time zero = new Time(0, 0);
-			return zero;
-		}
 		
 	}
 
-	public String toString(UserInfo userInfo)
+	public String toString()
 	{
-		return "The total time is: " + this.getTotalTime() + "./n"+
-			   "The total cost is: " + this.getTotalCost(true) + "./n"+
-			   "The number of connection are: " + this.getNumOfConnection() + "./n"+
-			   "The total layover time is : " + this.gettotalLayoverTime() + "./n"+
-			   "The layover time is : " + this.getLayoverTime() + "./n";
+		return "The total time is: " + getTotalTime() + "\n"+
+			   "The total cost for First Class is: " + getTotalCost(true) + "\n"+
+			   "The total cost for Coach Class is: " + getTotalCost(false) + "\n"+
+			   "The number of connection are: " + getNumOfConnection() + "\n"+
+			   "The total layover time is " + getTotalLayoverTime() + "\n"+
+			   "The layover time for 1st connection is: " + getLayoverTime(0) + "\n"+
+			   "The layover time for the 2nd connection is: " + getLayoverTime(1);
 	}
 }
