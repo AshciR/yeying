@@ -105,7 +105,7 @@ public class FlightFilter {
 		ArrayList<Flight> sortedFlights = new ArrayList<Flight>();
 		sortedFlights.addAll(this.flightList);
 		
-		Collections.sort(sortedFlights, Flight.TotalTimeComparator);
+		Collections.sort(sortedFlights);
 		
 		if (ascending){
 			return sortedFlights;
