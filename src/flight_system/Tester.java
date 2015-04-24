@@ -11,6 +11,7 @@ import parsers.*;
 public class Tester {
 
 	public static void main(String[] args) {
+		graphEngineTester();
 		
 	}
 	
