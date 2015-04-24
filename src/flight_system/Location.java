@@ -40,9 +40,9 @@ public class Location {
 	public Location(double latitude, double longitude) {
 		this.latitude = latitude;
 		this.longitude = longitude;
-<<<<<<< HEAD
+
 		//determineTimeZone();
-=======
+
 		
 		/* Have to sleep in order to avoid the Google API Limit */
 		try {
@@ -53,7 +53,7 @@ public class Location {
 		}
 		
 		determineTimeZone(); 
->>>>>>> 6985f5a096fa18852eed658021d2548067821344
+
 	}
 	
 	/* Getters */
