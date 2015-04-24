@@ -20,7 +20,17 @@ import flight_system.Date;
 import flight_system.Location;
 import flight_system.Month;
 
-
+/** 
+ * Creates a Getter that get the XML information form the server.
+ * <p>
+ * This class uses the Singleton Pattern, thus, only one instance of it is allowed
+ * All the information that we need on the server get from here.
+ * 			
+ * @param teamName the name of our team, would be used in url address.
+ * @param numXML the number of XML file we have got from the server.
+ * @param urlAddress the url address of the server, we keep this as a parameter in order to use it simply.
+ * @author Jianan Ou
+ * */
 public class XMLGetter {
 	private String teamName = "TeamYeYing"; // Team Name
 	private int numXML; // Number of XMLs 
@@ -28,9 +38,17 @@ public class XMLGetter {
 	
 	private static XMLGetter firstInstance = null;
 	
+	/**
+	 * Make an object that can get XML data from the server
+	
+	 */
 	/* The private constructor */
 	private XMLGetter(){};
 	
+	/**
+	 * Get the only instance of this class
+	 * @return the only instance 
+	 */
 	/* Method to get the only instance of the class */
 	public static XMLGetter getInstance(){
 		if(firstInstance == null){
@@ -39,16 +57,34 @@ public class XMLGetter {
 
 		return firstInstance;
 	}
-		
+	
+	/**
+	 * Get the team name of our team	
+	 * @return the team name "TeamYeYing"
+	 */
 	/* Getter Functions*/
 	public String getTeamName() {
 		return teamName;
 	}
+	
+	/**
+	 * Get the number of XML file that already got from the server
+	 * @return the number of XML file
+	 */
 
 	public int getNumXML() {
 		return numXML;
 	}
 	
+	/**
+	 * An method that can get all the XML information about airport from the server.
+	 * @param url the url address which contains all information about airports.
+	 * @param connection the http url connection that built between local and server.
+	 * @param reader the buffer reader that helps to read the information from the server.
+	 * @param line a line of airport information on the server.
+	 * @param result the buffer that stores all lines of airport information on the server.
+	 * @return the XML information about airport on the server.
+	 */
 	/* Returns the XML for the Airports */
 	public String getAirportsXML (){
 		URL url;
@@ -112,6 +148,16 @@ public class XMLGetter {
 			
 			return result.toString();
 	}
+	
+	/**
+	 * An method that can get all the XML information about airplane from the server.
+	 * @param url the url address which contains all information about airplanes.
+	 * @param connection the http url connection that built between local and server.
+	 * @param reader the buffer reader that helps to read the information from the server.
+	 * @param line a line of airplane information on the server.
+	 * @param result the buffer that stores all lines of airplane information on the server.
+	 * @return the XML information about airplane on the server.
+	 */
 
 	public  String getAirplaneXML (){
 		URL url;
@@ -175,6 +221,16 @@ public class XMLGetter {
 			
 			return result.toString();
 	}
+	
+	/**
+	 * An method that can get all the XML information about flight from the server.
+	 * @param url the url address which contains all information about flights.
+	 * @param connection the http url connection that built between local and server.
+	 * @param reader the buffer reader that helps to read the information from the server.
+	 * @param line a line of flight information on the server.
+	 * @param result the buffer that stores all lines of flight information on the server.
+	 * @return the XML information about flight on the server.
+	 */
 
 	public  String getFlightsXML (boolean depart, Airport airport, Date date){
 		URL url;
@@ -251,6 +307,15 @@ public class XMLGetter {
 			return result.toString();
 	}
 	
+	/**
+	 * An method that can reset database on the server.
+	 * @param url the url address which can help us reset database.
+	 * @param connection the http url connection that built between local and server.
+	 * @param wasReset the signal to show whether database is correctly reset
+	 * return 'true' for success, 'false' for fail.
+	 * @return the status whether the database is successfully reset.
+	 */
+	
 	/* Resets the Database */
 	public boolean resetDB(){
 		URL url;
@@ -295,10 +360,12 @@ public class XMLGetter {
 		
 		return wasReset;
 	}
+	
 	/**
-	 * This method can get the time zone info from google server
-	 * @param location
-	 * @return XML string which include time zone info
+	 * This method can get the time zone information from google server.
+	 * @param location the location of the time zone that need to be got.
+	 * @param url the url address that contains time zone information .
+	 * @return XML string which include time zone information for input location.
 	 */
 	public String getTimeZoneXML (Location location){
 		URL url;
@@ -364,6 +431,12 @@ public class XMLGetter {
 			
 			return result.toString();
 	}
+	
+	/**
+	 * String representation of the XMLGetter object.
+	 * <p>
+	 * @return the string representation of this XMLGetter. 
+	 */
 
 	public String toString() {
 		return "This is an XMLGetter that has the team name: " + teamName + " and it has gotten " + numXML + " XML file(s)";
