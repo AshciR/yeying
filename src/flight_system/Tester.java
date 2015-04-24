@@ -7,10 +7,7 @@ import parsers.*;
 
 public class Tester {
 
-	private static final String A340 = null;
-	private static final String Airbus = null;
-	private static final String A320 = null;
-
+	
 	public static void main(String[] args) {
 		
 	}
