@@ -15,11 +15,24 @@ public class Time implements Comparable<Time>{
 	private int hours;
 	private int minutes;
 	
-	
+	/**
+	 * Makes an object that represent time
+	 * @param hours the hour part in the time
+	 * @param minutes the minute part in the time
+	 */
 	public Time(int hours, int minutes) {
 		this.hours = hours;
 		this.minutes = minutes;
 	}
+	
+	/**
+	 * Makes an object that represent local time
+	 * @param time the time in GMT format
+	 * @param location the location information where the local time we want to get
+	 * @return local time that transformed from GMT time
+	 * 
+	 * @see flight_system.Location#getTimeZoneOffset()
+	 */
 	
 	/* Returns a Time Object with the local time that was given */
 	public static Time getLocalTime(Time time, Location location) {
@@ -44,17 +57,37 @@ public class Time implements Comparable<Time>{
 		
 	}
 	
+	/**
+	 * Returns the hour part in the time format
+	 * @return the hour part in given time
+	 */
+	
 	public int getHours() {
 		return hours;
 	}
 	
+	/**
+	 * Returns the minute part in the time format
+	 * @return the minute part in given time
+	 */
+	
 	public int getMinutes() {
 		return minutes;
 	}
+	
+	/**
+	 * Represent the given time only use minutes 
+	 * @return the given time in minute format
+	 */
 	/* this function returns the time in minutes */
 	public int getTimeInMinutes(){
 		return hours*60+minutes;
 	}
+	
+	/**
+	 * Change the hour part in time form 24-hour format to 12-hour format
+	 * @return the hour part in 12-hour format
+	 */
 	
 	/* this function returns the hours in 12 hour format */
 	public int getHoursIn12(){
@@ -66,6 +99,11 @@ public class Time implements Comparable<Time>{
 			return hours;
 		}
 	}
+	
+	/**
+	 * Tells if the standard time would be in AM or PM
+	 * @return 'true' for AM, 'false' for PM
+	 */
 	/* this function returns true if it is AM */
 	public boolean isAM(){
 		return (hours < 12);
@@ -93,6 +131,13 @@ public class Time implements Comparable<Time>{
 		return getTimeInMinutes() - compareTimeInMins;
  
 	}
+	
+	/**
+	 * String representation of the Time object.
+	 * <p>
+	 * @return the string representation of this Time. 
+	 */
+
 
 	@Override
 	public String toString() {

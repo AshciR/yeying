@@ -1,10 +1,16 @@
 /*Name: Zhong Ren */
 
 package flight_system;
-
 import java.util.ArrayList;
+import java.util.Comparator;
 
-public class Flight
+/** 
+ * Class used to represent a flight based on the 
+ * information provided by FlightLeg class
+ * @author Zhong Ren
+ * @see FlightLeg
+ */
+public class Flight implements Comparable<Flight>
 {
 	private ArrayList<FlightLeg> flightList;
 	
@@ -16,12 +22,21 @@ public class Flight
 		this.flightList = new ArrayList<FlightLeg>();
 	}
 	
+	/**
+	 * Creates a flight object with one flight leg.
+	 * @param flight1 the 1st flight leg in the list
+	 */
 	public Flight(FlightLeg flight1)
 	{
 		this.flightList = new ArrayList<FlightLeg>();
 		this.flightList.add(flight1);
 	}
 	
+	/**
+	 * Creates a flight object with two flight legs.
+	 * @param flight1 the 1st flight leg in the list
+	 * @param flight2 the 2nd flight leg in the list
+	 */
 	public Flight(FlightLeg flight1, FlightLeg flight2)
 	{
 		this.flightList = new ArrayList<FlightLeg>();
@@ -29,6 +44,12 @@ public class Flight
 		this.flightList.add(flight2);
 	}
 	
+	/**
+	 * Creates a flight object with three flight legs.
+	 * @param flight1 the 1st flight leg in the list
+	 * @param flight2 the 2nd flight leg in the list
+	 * @param flight3 the 3nd flight leg in the list
+	 */
 	public Flight(FlightLeg flight1, FlightLeg flight2, FlightLeg flight3)
 	{
 		this.flightList = new ArrayList<FlightLeg>();
@@ -45,6 +66,10 @@ public class Flight
 		this.flightList.add(flightLeg);
 	}
 	
+	/**
+	 * get the total time of this flight object
+	 * @return the total time of the flight
+	 */
 	public Time getTotalTime()
 	{	//get the days between the beginning and the end of travel
 		int dday = flightList.get(0).getDepartureDate().getDay();
@@ -73,6 +98,12 @@ public class Flight
 		return totalTime;
 	}
 
+	/**
+	 * get the total cost of this flight object
+	 * @param isFirstClass true if you want the flight with first class seat, 
+	 * false if you want the flight with coach lass seat
+	 * @return the cost time of the flight
+	 */
 	public double getTotalCost(boolean isFirstClass)
 	{	
 		double totalCost = 0;
@@ -90,12 +121,20 @@ public class Flight
 		return totalCost;
 	}
 		
+	/**
+	 * get the connections of this flight object
+	 * @return the connections of the flight
+	 */
 	public int getNumOfConnection()
 	{
 		int numOfConnection = this.flightList.size() - 1;
 		return numOfConnection;
 	}
 	
+	/**
+	 * get the total lay over time of this flight object
+	 * @return the total lay over time of the flight
+	 */
 	public Time getTotalLayoverTime()
 	{
 		//transform the hours and minutes into minutes
@@ -116,7 +155,11 @@ public class Flight
 		return totalLayoverTime;
 	}
 
-
+	/**
+	 * get the lay over time of a connection
+	 * @param layoverIndex the index of the connection
+	 * @return the total time of the connection
+	 */
 	public Time getLayoverTime(int layoverIndex)
 	{
 		
@@ -152,6 +195,57 @@ public class Flight
 		
 		
 	}
+	
+	/* This compares the flight total time */
+	public int compareTo(Time compareTotalTime)
+	{
+		int compareTotalTimeInMins = compareTotalTime.getTimeInMinutes();
+		return getTotalTime().getTimeInMinutes() - compareTotalTimeInMins;
+	}
+	
+	/* This compares the flight total lay over time */
+	public static Comparator<Flight> TotalLayoverComparator = new Comparator<Flight> ()
+	{
+		public int compare(Flight flight1, Flight flight2)
+		{
+			Integer layoverTime1 = flight1.getTotalLayoverTime().getTimeInMinutes();
+			Integer layoverTime2 = flight2.getTotalLayoverTime().getTimeInMinutes();
+			return layoverTime1.compareTo(layoverTime2);
+		}
+	};
+	
+	/* This compares the flight total price of first class*/
+	public static Comparator<Flight> FirstClassPriceComparator = new Comparator<Flight> ()
+	{
+		public int compare(Flight flight1, Flight flight2)
+		{
+			Double price1 = flight1.getTotalCost(true);
+			Double price2 = flight1.getTotalCost(true);
+			return price1.compareTo(price2);
+		}
+	};
+	
+	/* This compares the flight total time of coach class*/
+	public static Comparator<Flight> CoachClassPriceComparator = new Comparator<Flight> ()
+	{
+		public int compare(Flight flight1, Flight flight2)
+		{
+			Double price1 = flight1.getTotalCost(false);
+			Double price2 = flight1.getTotalCost(false);
+			return price1.compareTo(price2);
+		}
+	};
+	
+	/* This compares the flight connections */
+	public static Comparator<Flight> ConnectionComparator = new Comparator<Flight> ()
+	{
+		public int compare(Flight flight1, Flight flight2)
+		{
+			Integer connection1 = flight1.getNumOfConnection();
+			Integer connection2 = flight2.getNumOfConnection();
+			return connection1.compareTo(connection2);
+		}
+	};
 
 	public String toString()
 	{
@@ -162,5 +256,11 @@ public class Flight
 			   "The total layover time is " + getTotalLayoverTime() + "\n"+
 			   "The layover time for 1st connection is: " + getLayoverTime(0) + "\n"+
 			   "The layover time for the 2nd connection is: " + getLayoverTime(1);
+	}
+
+	@Override
+	public int compareTo(Flight o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
