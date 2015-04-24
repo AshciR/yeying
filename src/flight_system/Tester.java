@@ -12,13 +12,13 @@ public class Tester {
 
 
 	public static void main(String[] args) {
-
+		flightFilterTester();
 	}
 	
 	@SuppressWarnings("unused")
 	private static void flightFilterTester(){
 		
-		System.out.println("Testing Flight Filter Class");
+		System.out.println("Testing Flight Filter Class\n");
 		
 		/* Making Flight Legs */
 		
@@ -37,7 +37,7 @@ public class Tester {
 		Time aTime = new Time(21, 15);
 		
 		Time dTime2 = new Time(22, 00);
-		Time aTime2 = new Time(21, 00);
+		Time aTime2 = new Time(23, 00);
 		
 		Time dTime3 = new Time(11, 00);
 		Time aTime3 = new Time(13, 00);
@@ -62,20 +62,81 @@ public class Tester {
 		
 		/* Make the filter */
 		FlightFilter filter = new FlightFilter();
-		filter.addFlight(flight1);
 		filter.addFlight(flight2);
+		filter.addFlight(flight1);
 		filter.addFlight(flight3);
 		
 		/* Print the tests */
-		System.out.println("The cheapest 1st Class flight is: " + filter.cheapestFlight(true));
-		System.out.println("The shortest flight is: " + filter.shortestFlightTime());
-		System.out.println("The flight with the least layover time is: " + filter.minLayover());
+		System.out.println("The cheapest 1st Class flight is: \n" + filter.cheapestFlight(true));
+		System.out.println("\nThe shortest flight is: \n" + filter.shortestFlightTime());
+		System.out.println("\nThe flight with the least layover time is: \n" + filter.minLayover());
 		
 		/* Sort the flights */
-		System.out.println("\nThe current flight list is:");
+		System.out.println("\nThe original flight list is:\n");
 		
-		// ADD THIS LATER 
-
+		/* Prints all the flights in the filter filter list */
+		for (Flight flight : filter.getFlightList()){
+			System.out.println(flight);
+			System.out.println();
+		}
+		
+		ArrayList<Flight> sortDep = filter.sortDepartTime(true);
+		System.out.println("Sorted by Departure Time: ----");
+		System.out.println();
+		for (Flight flight : sortDep){
+			System.out.println(flight);
+			System.out.println();
+		}
+		
+		ArrayList<Flight> sortArr = filter.sortArriveTime(true);
+		System.out.println("Sorted by Arrival Time: ----");
+		System.out.println();
+		for (Flight flight : sortArr){
+			System.out.println(flight);
+			System.out.println();
+		}
+		
+		ArrayList<Flight> sortConn = filter.sortConnect(true);
+		System.out.println("Sorted by Connections: ----");
+		System.out.println();
+		for (Flight flight : sortConn){
+			System.out.println(flight);
+			System.out.println();
+		}
+		
+		ArrayList<Flight> sortLay = filter.sortLayover(true);
+		System.out.println("Sorted by Layover: ----");
+		System.out.println();
+		for (Flight flight : sortLay){
+			System.out.println(flight);
+			System.out.println();
+		}
+		
+		ArrayList<Flight> sort1stPrice = filter.sortPrice(true, true);
+		System.out.println("Sorted by 1st Class Price: ----");
+		System.out.println();
+		for (Flight flight : sort1stPrice){
+			System.out.println(flight);
+			System.out.println();
+		}
+		
+		ArrayList<Flight> sortCoachPrice = filter.sortPrice(true, false);
+		System.out.println("Sorted by Coach Class Price: ----");
+		System.out.println();
+		for (Flight flight : sortCoachPrice){
+			System.out.println(flight);
+			System.out.println();
+		}
+		
+		ArrayList<Flight> sortTime = filter.sortTime(true);
+		System.out.println("Sorted by Flight Duration: ----");
+		System.out.println();
+		for (Flight flight : sortTime){
+			System.out.println(flight);
+			System.out.println();
+		}
+		
+		
 	}
 	
 	@SuppressWarnings("unused")

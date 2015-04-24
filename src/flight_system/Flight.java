@@ -67,10 +67,42 @@ public class Flight implements Comparable<Flight>
 	}
 	
 	/**
+	 * Gets the departure airport
+	 * @return the departure airport.
+	 */
+	public Airport getDepartureAirport(){
+		return flightList.get(0).getDepatureAirport();
+	}
+	
+	/**
+	 * Gets the arrival airport
+	 * @return the arrival airport.
+	 */
+	public Airport getArrivalAirport(){
+		return flightList.get(flightList.size()-1).getArrivalAirport();
+	}
+	
+	/**
+	 * Gets the departure time for the flight.
+	 * @return the departure time for the flight
+	 */
+	public Time getDepartureTime(){
+		return flightList.get(0).getDepartureTime();
+	}
+	
+	/**
+	 * Gets the arrival time for the flight.
+	 * @return the arrival time for the flight
+	 */
+	public Time getArrivalTime(){
+		return flightList.get(flightList.size()-1).getArrivalTime();
+	}
+	
+	/**
 	 * get the total time of this flight object
 	 * @return the total time of the flight
 	 */
-	public Time getTotalTime()
+	public Time getTotalFlightTime()
 	{	//get the days between the beginning and the end of travel
 		int dday = flightList.get(0).getDepartureDate().getDay();
 		int aday = flightList.get(flightList.size() - 1).getArrivalDate().getDay();
@@ -137,14 +169,21 @@ public class Flight implements Comparable<Flight>
 	 */
 	public Time getTotalLayoverTime()
 	{
-		//transform the hours and minutes into minutes
-		int totalLayoverMinutes = (this.getTotalTime().getTimeInMinutes());
+		// Lay over time is 0 by default 
+		int totalLayoverMinutes = 0;
 		
-		//print the duration of each flight leg into minutes
-		for (int i = 0; i < this.flightList.size(); i++)
-		{
-			totalLayoverMinutes = totalLayoverMinutes - this.flightList.get(i).getFlightDuration();
-			//System.out.println("The " + (i + 1) + " flightLeg's duration is: " + this.flightList.get(i).getFlightDuration());
+		if(flightList.isEmpty()){
+			return new Time(0,0);
+		}
+		else if (flightList.size() == 1){
+			return new Time(0,0);
+		}
+		else{
+			
+			for(int i = 0; i < flightList.size(); i++){
+				totalLayoverMinutes = totalLayoverMinutes + this.getLayoverTime(i).getTimeInMinutes();
+			}
+			
 		}
 		
 		//get the hours and minutes of the total lay over time
@@ -197,11 +236,35 @@ public class Flight implements Comparable<Flight>
 	}
 	
 	/* This compares the flight total time */
-	public int compareTo(Time compareTotalTime)
+	@Override
+	public int compareTo(Flight compareFlight)
 	{
-		int compareTotalTimeInMins = compareTotalTime.getTimeInMinutes();
-		return getTotalTime().getTimeInMinutes() - compareTotalTimeInMins;
+		int compareTotalTimeInMins = compareFlight.getTotalFlightTime().getTimeInMinutes();
+		return getTotalFlightTime().getTimeInMinutes() - compareTotalTimeInMins;
 	}
+	
+	
+	/* This compares the departure time of the flight*/
+	public static Comparator<Flight> DepartureTimeComparator = new Comparator<Flight> ()
+	{
+		public int compare(Flight flight1, Flight flight2)
+		{
+			Integer layoverTime1 = flight1.getDepartureTime().getTimeInMinutes();
+			Integer layoverTime2 = flight2.getDepartureTime().getTimeInMinutes();
+			return layoverTime1.compareTo(layoverTime2);
+		}
+	};
+
+	/* This compares the arrival time of the flight*/
+	public static Comparator<Flight> ArrivalTimeComparator = new Comparator<Flight> ()
+	{
+		public int compare(Flight flight1, Flight flight2)
+		{
+			Integer layoverTime1 = flight1.getArrivalTime().getTimeInMinutes();
+			Integer layoverTime2 = flight2.getArrivalTime().getTimeInMinutes();
+			return layoverTime1.compareTo(layoverTime2);
+		}
+	};
 	
 	/* This compares the flight total lay over time */
 	public static Comparator<Flight> TotalLayoverComparator = new Comparator<Flight> ()
@@ -220,7 +283,7 @@ public class Flight implements Comparable<Flight>
 		public int compare(Flight flight1, Flight flight2)
 		{
 			Double price1 = flight1.getTotalCost(true);
-			Double price2 = flight1.getTotalCost(true);
+			Double price2 = flight2.getTotalCost(true);
 			return price1.compareTo(price2);
 		}
 	};
@@ -231,7 +294,7 @@ public class Flight implements Comparable<Flight>
 		public int compare(Flight flight1, Flight flight2)
 		{
 			Double price1 = flight1.getTotalCost(false);
-			Double price2 = flight1.getTotalCost(false);
+			Double price2 = flight2.getTotalCost(false);
 			return price1.compareTo(price2);
 		}
 	};
@@ -249,18 +312,16 @@ public class Flight implements Comparable<Flight>
 
 	public String toString()
 	{
-		return "The total time is: " + getTotalTime() + "\n"+
-			   "The total cost for First Class is: " + getTotalCost(true) + "\n"+
-			   "The total cost for Coach Class is: " + getTotalCost(false) + "\n"+
-			   "The number of connection are: " + getNumOfConnection() + "\n"+
+		return "This flight departs from " + getDepartureAirport().getName() + " at " + getDepartureTime() +
+			   " This flight arrives at " + getArrivalAirport().getName() + " at " + getArrivalTime() +
+			   "\nThe total flight time is: " + getTotalFlightTime().getHours() + ":" + getTotalFlightTime().getMinutes() + "\n"+
+			   "The First Class price: " + getTotalCost(true) + "\n"+
+			   "The Coach Class price: " + getTotalCost(false) + "\n"+
+			   "The number of connections are: " + getNumOfConnection() + "\n"+
 			   "The total layover time is " + getTotalLayoverTime() + "\n"+
 			   "The layover time for 1st connection is: " + getLayoverTime(0) + "\n"+
 			   "The layover time for the 2nd connection is: " + getLayoverTime(1);
 	}
 
-	@Override
-	public int compareTo(Flight o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+
 }

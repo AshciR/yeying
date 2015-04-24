@@ -58,7 +58,7 @@ public class FlightFilter {
 	public Flight shortestFlightTime(){
 		Flight shortestFlight = flightList.get(0);
 		for(Flight flight : flightList){
-			if(flight.getTotalTime().getTimeInMinutes()<shortestFlight.getTotalTime().getTimeInMinutes())
+			if(flight.getTotalFlightTime().getTimeInMinutes()<shortestFlight.getTotalFlightTime().getTimeInMinutes())
 				shortestFlight=flight;
 		}
 		return shortestFlight;
@@ -77,11 +77,56 @@ public class FlightFilter {
 		return minLayover;
 	}
 	
+	
 	/**
-	 * This method sort the flightlist based on the price
-	 * @param ascending ture if you want the sort price returned in ascending order
+	 * This method sorts the flight list based on the departure time.
+	 * @param ascending true if you want the sort price returned in ascending order
+	 * false if you want the sort price returned in descending order.
+	 * @return the sorted flights in a order decide by you
+	 */
+	public ArrayList<Flight> sortDepartTime(boolean ascending){
+
+		ArrayList<Flight> sortedFlights = new ArrayList<Flight>();
+		sortedFlights.addAll(this.flightList);
+
+		Collections.sort(sortedFlights, Flight.DepartureTimeComparator);
+
+		if (ascending){
+			return sortedFlights;
+		}
+		else{
+			Collections.reverse(sortedFlights);
+			return sortedFlights;
+		}
+	}
+	
+	/**
+	 * This method sorts the flight list based on the arrival time.
+	 * @param ascending true if you want the sort price returned in ascending order
+	 * false if you want the sort price returned in descending order.
+	 * @return the sorted flights in a order decide by you
+	 */
+	public ArrayList<Flight> sortArriveTime(boolean ascending){
+
+		ArrayList<Flight> sortedFlights = new ArrayList<Flight>();
+		sortedFlights.addAll(this.flightList);
+
+		Collections.sort(sortedFlights, Flight.ArrivalTimeComparator);
+
+		if (ascending){
+			return sortedFlights;
+		}
+		else{
+			Collections.reverse(sortedFlights);
+			return sortedFlights;
+		}
+	}
+	
+	/**
+	 * This method sorts the flight list based on the price
+	 * @param ascending true if you want the sort price returned in ascending order
 	 * false if you want the sort price returned in descending order
-	 * @param isFirstClass ture if you want the sort price returned is first class
+	 * @param isFirstClass true if you want the sort price returned is first class
 	 * false if you want the sort price returned is coach class
 	 * @return the sorted flights in a order decide by you
 	 */
@@ -89,6 +134,7 @@ public class FlightFilter {
 
 		ArrayList<Flight> sortedFlights = new ArrayList<Flight>();
 		sortedFlights.addAll(this.flightList);
+		
 		if(isFirstClass){
 			Collections.sort(sortedFlights, Flight.FirstClassPriceComparator);
 		}
@@ -105,8 +151,8 @@ public class FlightFilter {
 	}
 	
 	/**
-	 * This method returns the sorted flightlist based on the time
-	 * @param ascending ture if you want the sorted returned in ascending order of time
+	 * This method returns the sorted flight list based on the duration of the flight.
+	 * @param ascending true if you want the sorted returned in ascending order of time
 	 * false if you want the sorted returned in descending order of time
 	 * @return the sorted flights in a order decide by you
 	 */
