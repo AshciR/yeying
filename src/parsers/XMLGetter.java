@@ -26,9 +26,6 @@ import flight_system.Month;
  * This class uses the Singleton Pattern, thus, only one instance of it is allowed
  * All the information that we need on the server get from here.
  * 			
- * @param teamName the name of our team, would be used in url address.
- * @param numXML the number of XML file we have got from the server.
- * @param urlAddress the url address of the server, we keep this as a parameter in order to use it simply.
  * @author Jianan Ou
  * */
 public class XMLGetter {
@@ -78,11 +75,6 @@ public class XMLGetter {
 	
 	/**
 	 * An method that can get all the XML information about airport from the server.
-	 * @param url the url address which contains all information about airports.
-	 * @param connection the http url connection that built between local and server.
-	 * @param reader the buffer reader that helps to read the information from the server.
-	 * @param line a line of airport information on the server.
-	 * @param result the buffer that stores all lines of airport information on the server.
 	 * @return the XML information about airport on the server.
 	 */
 	/* Returns the XML for the Airports */
@@ -151,11 +143,6 @@ public class XMLGetter {
 	
 	/**
 	 * An method that can get all the XML information about airplane from the server.
-	 * @param url the url address which contains all information about airplanes.
-	 * @param connection the http url connection that built between local and server.
-	 * @param reader the buffer reader that helps to read the information from the server.
-	 * @param line a line of airplane information on the server.
-	 * @param result the buffer that stores all lines of airplane information on the server.
 	 * @return the XML information about airplane on the server.
 	 */
 
@@ -223,13 +210,11 @@ public class XMLGetter {
 	}
 	
 	/**
-	 * An method that can get all the XML information about flight from the server.
-	 * @param url the url address which contains all information about flights.
-	 * @param connection the http url connection that built between local and server.
-	 * @param reader the buffer reader that helps to read the information from the server.
-	 * @param line a line of flight information on the server.
-	 * @param result the buffer that stores all lines of flight information on the server.
-	 * @return the XML information about flight on the server.
+	 * An method that can get all the XML information about a flight from the server.
+	 * @param depart select whether the departure information or the arrival information is needed
+	 * @param airport the airport this flight would depart or arrive
+	 * @param date the date this flight would depart or arrive
+	 * @return the XML information about flight on the server
 	 */
 
 	public  String getFlightsXML (boolean depart, Airport airport, Date date){
@@ -309,10 +294,6 @@ public class XMLGetter {
 	
 	/**
 	 * An method that can reset database on the server.
-	 * @param url the url address which can help us reset database.
-	 * @param connection the http url connection that built between local and server.
-	 * @param wasReset the signal to show whether database is correctly reset
-	 * return 'true' for success, 'false' for fail.
 	 * @return the status whether the database is successfully reset.
 	 */
 	
@@ -364,7 +345,6 @@ public class XMLGetter {
 	/**
 	 * This method can get the time zone information from google server.
 	 * @param location the location of the time zone that need to be got.
-	 * @param url the url address that contains time zone information .
 	 * @return XML string which include time zone information for input location.
 	 */
 	public String getTimeZoneXML (Location location){
