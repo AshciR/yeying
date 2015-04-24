@@ -18,6 +18,15 @@ public class FlightFilter {
 		this.flightList =  new ArrayList<Flight>();
 	}
 	
+	
+	/**
+	 * Gets the original list of flights that the filter has.
+	 * @return the original list of flights that the filter has.
+	 */
+	public ArrayList<Flight> getFlightList() {
+		return flightList;
+	}
+
 	/**
 	 * Add a flight to flightfilter
 	 */
