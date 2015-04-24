@@ -49,8 +49,31 @@ public class Location {
 			e.printStackTrace();
 		}
 		
-		determineTimeZone(); 
+		determineTimeZone(); // Get the Time Zone from Google
+	}
+	
+	/* Constructor for making a Location w/o getting the TimeZone info */
+	public Location(double latitude, double longitude, boolean getZone) {
 
+		if(getZone){
+			this.latitude = latitude;
+			this.longitude = longitude;
+
+			/* Have to sleep in order to avoid the Google API Limit */
+			try {
+				Thread.sleep(200);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			determineTimeZone(); // Get the Time Zone from Google
+		}
+		else{
+			this.latitude = latitude;
+			this.longitude = longitude;	
+		}
+		
 	}
 	
 	/* Getters */
@@ -71,6 +94,7 @@ public class Location {
 		//Getting information
 		XMLGetter getter = XMLGetter.getInstance();
 		String xmlSource = getter.getTimeZoneXML(this);
+		
 		//Parsing info
 		DocumentBuilderFactory dom_fac = DocumentBuilderFactory.newInstance();
 
@@ -86,7 +110,8 @@ public class Location {
 			
             double rawOffset = Double.parseDouble(rawOffsetNode.getTextContent());
 		    this.timeZoneOffset = rawOffset;
-
+		    
+		    
 		/* Exceptions required by the Parser */	
 
 		} catch (ParserConfigurationException e) {

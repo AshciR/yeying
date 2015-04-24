@@ -49,18 +49,34 @@ public class FlightParser {
 		 /* Get the Airplane Parser object then parse then
 		  * XML to ensure you have the list of airplanes */
 		 this.airplanes = AirplaneParser.getInstance();
-		 this.airplanes.parseAirplaneXML(planeXML);
+		 
+		 if (!this.airplanes.hasAirplaneList()){
+			 this.airplanes.parseAirplaneXML(planeXML); 
+		 }
 		 
 		 /* Get the Airport Parser object then parse then
 		  * XML to ensure you have the list of airplanes */
 		 this.airports = AirportParser.getInstance();
-		 this.airports.parseAirportXML(portXML);
 		 
+		 if (!this.airports.hasAirportList()){
+			 this.airports.parseAirportXML(portXML);
+		 }
+		 
+	}
+	
+	public FlightParser(){
+		/* Make an empty list to store the extracted flight legs */
+		 this.flightLegList = new ArrayList<FlightLeg>();
 	}
 	
 	/* Returns a list of the parsed airplanes */
 	public ArrayList<FlightLeg> getFlightList() {
 		return flightLegList;
+	}
+	
+	/* Empties the list */
+	public void clearFlightList(){
+		this.flightLegList.clear();
 	}
 	
 	/* Returns the number of airplanes in the list */

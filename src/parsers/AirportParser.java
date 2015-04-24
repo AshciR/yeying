@@ -1,11 +1,3 @@
-/** Engineer: Richard Walker
- * Date: March 5. 2015
- * Description: Creates a DOM that parses an Airport XML file
- * 				given by Professor Blake Nelson for the CS 509 Project.
- * 				The class stores the information in 
- * 				a list of airport objects.
- */
-
 package parsers;
 
 import java.io.IOException;
@@ -26,6 +18,18 @@ import org.xml.sax.SAXException;
 
 import flight_system.*;
 
+/** 
+ * Creates a DOM that parses an Airport XML file from the flight database. 
+ * <p>
+ * This class uses the Singleton Pattern, thus, only one instance of it is allowed
+ * as any point in time. The parser object also allows a client to get a copy of 
+ * a list that contains all the airports that were parsed. Also, the parser 
+ * object provides a method for getting an airport based on its 3-digit code.  
+ * 				
+ * @author Richard Walker
+ * @see parsers.XMLGetter#getAirportsXML() 
+ */
+
 public class AirportParser {
 	
 	/* List to hold the airplanes parsed from the XML */
@@ -38,6 +42,10 @@ public class AirportParser {
 		this.airportList = new ArrayList<Airport>();
 	};
 	
+	/** 
+	 * Gets the only instance of the class. 			
+	 * @return the only instance of the Airport Parser.
+	 */
 	/* Method to get the only instance of the class */
 	public static AirportParser getInstance(){
 		if(firstInstance == null){
@@ -47,16 +55,30 @@ public class AirportParser {
 		return firstInstance;
 	}
 		
+	/** 
+	 * Gives a list of the airports that were parsed.			
+	 * @return the list of the parsed airports.
+	 */
 	/* Returns a list of the parsed airplanes */
 	public ArrayList<Airport> getAirportList() {
 		return airportList;
 	}
 	
+	/** 
+	 * Gets the the size of the airport list.			
+	 * @return the number of airports that were parsed.
+	 */
 	/* Returns the number of airplanes in the list */
 	public int getNumOfAirports() {
 		return this.airportList.size();
 	}
-
+	
+	/** 
+	 * Provides the airport that matches the code that was provided.
+	 * Returns a null object if there is no matching airport.			
+	 * @param code the 3-digit code for the airplane.
+	 * @return the airport object that is associated with the code.
+	 */
 	/* Return the airport from the list that corresponds with the code */
 	public Airport getAirport(String code){
 
@@ -89,7 +111,9 @@ public class AirportParser {
 
 	}
 	
-	
+	/** 
+	 * Prints all the airports that were parsed.
+	 */
 	/* Prints the airplane list */
 	public void printAirportList(){
 		System.out.println("Printing the Airport XML data:");
@@ -100,12 +124,23 @@ public class AirportParser {
 
 	}
 	
+	/** 
+	 * Used to tell if the parser already parsed the airport XML.			
+	 * @return true if the parser already has the list of airports.
+	 */
 	/* Returns true if the list is populated */
 	public boolean hasAirportList(){
 		return (this.airportList.size() != 0);
 		
 	}
 	
+	/** 
+	 * Parses the airport data from the XML that is provided to it. Stores the parsed 
+	 * airport data in a list within the object.
+	 * 			
+	 * @param xmlSource the XML String that contains the airport information.
+	 * @see parsers.XMLGetter#getAirportsXML()
+	 */
 	/* Static Method used to parse the airplane XML */
 	public void parseAirportXML(String xmlSource) {
 
@@ -164,7 +199,10 @@ public class AirportParser {
 
 	}
 
-	
+	/** 
+	 * Provides a string representation of the Airport parser.			
+	 * @return a string representation of the Airport parser object.
+	 */
 	@Override
 	public String toString() {
 		return "AirportParser extracted" + this.getNumOfAirports() + "airports from the XML";

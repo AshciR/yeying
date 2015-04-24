@@ -74,9 +74,11 @@ public class Time implements Comparable<Time>{
 	/**
 	 * Compares a given time object to this time object. 
 	 * <p>
-	 * If the this object is bigger, then the result will be a positive integer,
-	 * if smaller, the result will be a negative integer, and if
-	 * they are the same, the result will be 0.
+	 * If the this time is after the compared time, 
+	 * the result will be a positive integer.
+	 * If this time is before the compared one, 
+	 * the result will be a negative integer. 
+	 * If they are the same, the result will be 0.
 	 * <p>
 	 * @param time the other time object to be compared to this time object. 
 	 * @return a +ive or -ive integer, or 0.  

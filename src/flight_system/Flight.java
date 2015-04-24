@@ -7,6 +7,15 @@ import java.util.ArrayList;
 public class Flight
 {
 	private ArrayList<FlightLeg> flightList;
+	
+	/**
+	 * Makes a Flight object without any Flight Legs
+	 * @see FlightLeg 
+	 */
+	public Flight(){
+		this.flightList = new ArrayList<FlightLeg>();
+	}
+	
 	public Flight(FlightLeg flight1)
 	{
 		this.flightList = new ArrayList<FlightLeg>();
@@ -26,6 +35,14 @@ public class Flight
 		this.flightList.add(flight1);
 		this.flightList.add(flight2);
 		this.flightList.add(flight3);
+	}
+	
+	/**
+	 * Adds a FlightLeg object to this flight list.
+	 * @see FlightLeg 
+	 */
+	public void addFlightLeg(FlightLeg flightLeg){
+		this.flightList.add(flightLeg);
 	}
 	
 	public Time getTotalTime()
