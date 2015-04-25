@@ -142,6 +142,6 @@ public class Time implements Comparable<Time>{
 	@Override
 	public String toString() {
 		/* Formats the time in HH:MM */
-		return "The Time is: "+ String.format("%02d", hours) + ":" + String.format("%02d", minutes);
+		return /*"The Time is: "+ */String.format("%02d", hours) + ":" + String.format("%02d", minutes);
 	}
 }

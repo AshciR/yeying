@@ -1,5 +1,3 @@
-/*Name: Zhong Ren */
-
 package flight_system;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -62,77 +60,62 @@ public class Flight implements Comparable<Flight>
 	 * Adds a FlightLeg object to this flight list.
 	 * @see FlightLeg 
 	 */
-	public void addFlightLeg(FlightLeg flightLeg){
+	public void addFlightLeg(FlightLeg flightLeg)
+	{
 		this.flightList.add(flightLeg);
 	}
-	
 	/**
-	 * Gets the departure airport
-	 * @return the departure airport.
+	 * Get a departure 
+	 * @param indexOfLeg
+	 * @return
 	 */
-	public Airport getDepartureAirport(){
-		return flightList.get(0).getDepatureAirport();
+	public Airport getDepartureAirport(int indexOfLeg)
+	{
+		return flightList.get(indexOfLeg).getDepatureAirport();
 	}
 	
-	/**
-	 * Gets the arrival airport
-	 * @return the arrival airport.
-	 */
-	public Airport getArrivalAirport(){
-		return flightList.get(flightList.size()-1).getArrivalAirport();
+	public Airport getArrivalAirport(int indexOfLeg)
+	{
+		return flightList.get(indexOfLeg).getArrivalAirport();
 	}
 	
-	/**
-	 * Gets the departure time for the flight.
-	 * @return the departure time for the flight
-	 */
-	public Time getDepartureTime(){
-		return flightList.get(0).getDepartureTime();
+	public Time getDepartureTime(int indexOfLeg)
+	{
+		return flightList.get(indexOfLeg).getDepartureTime();
 	}
 	
-	/**
-	 * Gets the arrival time for the flight.
-	 * @return the arrival time for the flight
-	 */
-	public Time getArrivalTime(){
-		return flightList.get(flightList.size()-1).getArrivalTime();
+	public Time getArrivalTime(int indexOfLeg)
+	{
+		return flightList.get(indexOfLeg).getArrivalTime();
 	}
 	
-//	public Time getDurationTime(int flightLegIndex)
-//	{
-//		
-//		/* If you ask for a lay over time 
-//		 * that's more than the size of the list,
-//		 * return 0 minutes */
-//		if(flightLegIndex >= (flightList.size()-1))
-//		{
-//			return new Time(0, 0);
-//		}
-//		//calculate the lay over time
-//		else 
-//		{
-//			Date transferADate = flightList.get(layoverIndex).getArrivalDate();
-//			Date transferDDate = flightList.get(layoverIndex + 1).getDepartureDate();
-//			Time AtransferTime = flightList.get(layoverIndex).getArrivalTime();
-//			Time transferTimeD = flightList.get(layoverIndex + 1).getDepartureTime();
-//		
-//			int transferDays = transferDDate.getDay() - transferADate.getDay();
-//			int transferHours = transferTimeD.getHours() - AtransferTime.getHours();
-//		
-//			int Hours = transferDays * 24 + transferHours;
-//			int minutes = transferTimeD.getMinutes() - AtransferTime.getMinutes();
-//			if (minutes < 0)
-//			{
-//				Hours = Hours - 1;
-//				minutes = 60 + minutes;
-//			}
-//		
-//			return new Time(Hours, minutes);
-//			
-//		}
-//		
-//		
-//	}
+	public Time getArrTimeOfLastleg()
+	{
+		return flightList.get(flightList.size() - 1).getArrivalTime();
+	}
+	
+	public Time getDurationTime(int LegIndex)
+	{
+			Date DepartureDate = flightList.get(LegIndex).getDepartureDate();
+			Time DepartureTime = flightList.get(LegIndex).getDepartureTime();
+			Date ArrivalDate = flightList.get(LegIndex).getArrivalDate();
+			Time ArrivalTime = flightList.get(LegIndex).getArrivalTime();
+
+		
+			int flightDays = ArrivalDate.getDay() - DepartureDate.getDay();
+			int flightHours = ArrivalTime.getHours() - DepartureTime.getHours();
+		
+			int Hours = flightDays * 24 + flightHours;
+			int minutes = ArrivalTime.getMinutes() - DepartureTime.getMinutes();
+			if (minutes < 0)
+			{
+				Hours = Hours - 1;
+				minutes = 60 + minutes;
+			}
+			return new Time(Hours, minutes);	
+	}
+	
+	
 	
 	/**
 	 * get the total time of this flight object
@@ -237,7 +220,6 @@ public class Flight implements Comparable<Flight>
 	 */
 	public Time getLayoverTime(int layoverIndex)
 	{
-		
 		/* If you ask for a lay over time 
 		 * that's more than the size of the list,
 		 * return 0 minutes */
@@ -263,15 +245,10 @@ public class Flight implements Comparable<Flight>
 				Hours = Hours - 1;
 				minutes = 60 + minutes;
 			}
-		
 			return new Time(Hours, minutes);
-			
-		}
-		
-		
+		}	
 	}
 	
-<<<<<<< HEAD
 	/** 
 	 * This compares the flight total time 
 	 * 
@@ -279,30 +256,20 @@ public class Flight implements Comparable<Flight>
 	 * compare with the total time you get in the flight class.
 	 * 
 	 */
-	public int compareTo(Time compareTotalTime)
-=======
-	/* This compares the flight total time */
-	@Override
 	public int compareTo(Flight compareFlight)
->>>>>>> 705b398599bc340c7c8665b28528b1666ef81906
 	{
 		int compareTotalTimeInMins = compareFlight.getTotalFlightTime().getTimeInMinutes();
 		return getTotalFlightTime().getTimeInMinutes() - compareTotalTimeInMins;
 	}
 	
-<<<<<<< HEAD
-	/** This compares the flight total lay over time 
-	 * 
-	 */
-=======
 	
 	/* This compares the departure time of the flight*/
 	public static Comparator<Flight> DepartureTimeComparator = new Comparator<Flight> ()
 	{
 		public int compare(Flight flight1, Flight flight2)
 		{
-			Integer layoverTime1 = flight1.getDepartureTime().getTimeInMinutes();
-			Integer layoverTime2 = flight2.getDepartureTime().getTimeInMinutes();
+			Integer layoverTime1 = flight1.getDepartureTime(0).getTimeInMinutes();
+			Integer layoverTime2 = flight2.getDepartureTime(0).getTimeInMinutes();
 			return layoverTime1.compareTo(layoverTime2);
 		}
 	};
@@ -312,14 +279,14 @@ public class Flight implements Comparable<Flight>
 	{
 		public int compare(Flight flight1, Flight flight2)
 		{
-			Integer layoverTime1 = flight1.getArrivalTime().getTimeInMinutes();
-			Integer layoverTime2 = flight2.getArrivalTime().getTimeInMinutes();
+			Integer layoverTime1 = flight1.getArrTimeOfLastleg().getTimeInMinutes();
+			Integer layoverTime2 = flight2.getArrTimeOfLastleg().getTimeInMinutes();
 			return layoverTime1.compareTo(layoverTime2);
 		}
 	};
 	
 	/* This compares the flight total lay over time */
->>>>>>> 705b398599bc340c7c8665b28528b1666ef81906
+
 	public static Comparator<Flight> TotalLayoverComparator = new Comparator<Flight> ()
 	{
 		public int compare(Flight flight1, Flight flight2)
@@ -372,15 +339,41 @@ public class Flight implements Comparable<Flight>
 
 	public String toString()
 	{
-		return "This flight departs from " + getDepartureAirport().getName() + " at " + getDepartureTime() +
-			   " This flight arrives at " + getArrivalAirport().getName() + " at " + getArrivalTime() +
-			   "\nThe total flight time is: " + getTotalFlightTime().getHours() + ":" + getTotalFlightTime().getMinutes() + "\n"+
-			   "The First Class price: " + getTotalCost(true) + "\n"+
-			   "The Coach Class price: " + getTotalCost(false) + "\n"+
-			   "The number of connections are: " + getNumOfConnection() + "\n"+
-			   "The total layover time is " + getTotalLayoverTime() + "\n"+
-			   "The layover time for 1st connection is: " + getLayoverTime(0) + "\n"+
-			   "The layover time for the 2nd connection is: " + getLayoverTime(1);
+		/*return "This flight departs from " + getDepartureAirport().getName() + " at " + getDepartureTime() + "\n" +
+			   "This flight arrives at " + getArrivalAirport().getName() + " at " + getArrivalTime() + "\n" +
+			   "The total flight time is: " + getTotalFlightTime().getHours() + ":" + getTotalFlightTime().getMinutes() + "\n" +
+			   "The First Class price: " + getTotalCost(true) + "\n" +
+			   "The Coach Class price: " + getTotalCost(false) + "\n" +
+			   "The number of connections are: " + getNumOfConnection() + "\n" +
+			   "The total lay over time is " + getTotalLayoverTime() + "\n" +
+			   "The lay over time for 1st connection is: " + getLayoverTime(0) + "\n" +
+			   "The lay over time for the 2nd connection is: " + getLayoverTime(1) + "\n" + "\n" +*/
+		if(flightList.size() == 1)
+		{
+			return "when size = 1\n\n" +
+				   flightList.get(0).getAirplane().getManufacturer() + "          Departs " + getDepartureAirport(0).getCode() + " at " + getDepartureTime(0) + "          Arrives " + getArrivalAirport(0).getCode() + " at " +getArrivalTime(0) + "           " + "Duration\n " +
+				   flightList.get(0).getAirplane().getModel() + "               " + flightList.get(0).getDepartureDate() + "                   " + flightList.get(0).getArrivalDate() + "                 " + getDurationTime(0);
+		}
+		
+		else if(flightList.size() == 2)
+		{
+			return "\nwhen size = 2\n\n" +
+				   flightList.get(0).getAirplane().getManufacturer() + "          Departs " + getDepartureAirport(0).getCode() + " at " + getDepartureTime(0) + "          Arrives " + getArrivalAirport(0).getCode() + " at " +getArrivalTime(0) + "           " + "Duration\n " +
+				   flightList.get(0).getAirplane().getModel() + "               " + flightList.get(0).getDepartureDate() + "                   " + flightList.get(0).getArrivalDate() + "                 " + getDurationTime(0) + "\n\n" +
+				   "-------------------The layover time of this connection is: " + this.getLayoverTime(0) + "---------------------\n\n" + 
+				   flightList.get(1).getAirplane().getManufacturer() + "          Departs " + getDepartureAirport(1).getCode() + " at " + getDepartureTime(1) + "          Arrives " + getArrivalAirport(1).getCode() + " at " +getArrivalTime(1) + "           " + "Duration\n " +
+				   flightList.get(1).getAirplane().getModel() + "               " + flightList.get(1).getDepartureDate() + "                   " + flightList.get(1).getArrivalDate() + "                 " + getDurationTime(1);
+		}
+		else
+			return "\nwhen size = 3\n\n" +
+				   flightList.get(0).getAirplane().getManufacturer() + "          Departs " + getDepartureAirport(0).getCode() + " at " + getDepartureTime(0) + "          Arrives " + getArrivalAirport(0).getCode() + " at " +getArrivalTime(0) + "           " + "Duration\n " +
+				   flightList.get(0).getAirplane().getModel() + "               " + flightList.get(0).getDepartureDate() + "                   " + flightList.get(0).getArrivalDate() + "                 " + getDurationTime(0) + "\n\n" +
+			       "-------------------The layover time of this connection is: " + this.getLayoverTime(0) + "---------------------\n\n" + 
+			       flightList.get(1).getAirplane().getManufacturer() + "          Departs " + getDepartureAirport(1).getCode() + " at " + getDepartureTime(1) + "          Arrives " + getArrivalAirport(1).getCode() + " at " +getArrivalTime(1) + "           " + "Duration\n " +
+			       flightList.get(1).getAirplane().getModel() + "               " + flightList.get(1).getDepartureDate() + "                   " + flightList.get(1).getArrivalDate() + "                 " + getDurationTime(1) + "\n\n" +
+			       "-------------------The layover time of this connection is: " + this.getLayoverTime(1) + "---------------------\n\n" + 
+			       flightList.get(2).getAirplane().getManufacturer() + "          Departs " + getDepartureAirport(2).getCode() + " at " + getDepartureTime(2) + "          Arrives " + getArrivalAirport(2).getCode() + " at " +getArrivalTime(2) + "           " + "Duration\n " +
+			       flightList.get(2).getAirplane().getModel() + "               " + flightList.get(2).getDepartureDate() + "                   " + flightList.get(2).getArrivalDate() + "                 " + getDurationTime(2);   
 	}
 
 
