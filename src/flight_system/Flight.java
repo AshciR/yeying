@@ -65,35 +65,58 @@ public class Flight implements Comparable<Flight>
 		this.flightList.add(flightLeg);
 	}
 	/**
-	 * Get a departure 
-	 * @param indexOfLeg
-	 * @return
+	 * Get a departure airport of specific flight leg
+	 * @param the index of the flight leg
+	 * @return a departure airport of specific flight leg
 	 */
 	public Airport getDepartureAirport(int indexOfLeg)
 	{
 		return flightList.get(indexOfLeg).getDepatureAirport();
 	}
 	
+	/**
+	 * Get a arrival airport of specific flight leg
+	 * @param indexOfLeg the index of the flight leg
+	 * @return a arrival airport of specific flight leg
+	 */
 	public Airport getArrivalAirport(int indexOfLeg)
 	{
 		return flightList.get(indexOfLeg).getArrivalAirport();
 	}
 	
+	/**
+	 * Get a departure time of specific flight leg
+	 * @param indexOfLeg the index of the flight leg
+	 * @return a departure time of specific flight leg
+	 */
 	public Time getDepartureTime(int indexOfLeg)
 	{
 		return flightList.get(indexOfLeg).getDepartureTime();
 	}
 	
+	/**
+	 * Get a arrival time of specific flight leg
+	 * @param indexOfLeg the index of the flight leg
+	 * @return a arrival time of specific flight leg
+	 */
 	public Time getArrivalTime(int indexOfLeg)
 	{
 		return flightList.get(indexOfLeg).getArrivalTime();
 	}
-	
+	/**
+	 * Get the arrival time of last flight leg
+	 * @return the arrival time of last flight leg
+	 */
 	public Time getArrTimeOfLastleg()
 	{
 		return flightList.get(flightList.size() - 1).getArrivalTime();
 	}
 	
+	/**
+	 * Get a duration time of a specific flight leg
+	 * @param Legindex the index of flight leg
+	 * @return a duration time of a specific flight leg
+	 */
 	public Time getDurationTime(int LegIndex)
 	{
 			Date DepartureDate = flightList.get(LegIndex).getDepartureDate();
@@ -297,9 +320,7 @@ public class Flight implements Comparable<Flight>
 		}
 	};
 	
-	/** This compares the flight total price of first class
-	 * 
-	 */
+	/* This compares the flight total price of first class */
 	public static Comparator<Flight> FirstClassPriceComparator = new Comparator<Flight> ()
 	{
 		public int compare(Flight flight1, Flight flight2)
@@ -310,9 +331,7 @@ public class Flight implements Comparable<Flight>
 		}
 	};
 	
-	/* This compares the flight total time of coach class
-	 * 
-	 * */
+	/* This compares the flight total time of coach class*/
 	public static Comparator<Flight> CoachClassPriceComparator = new Comparator<Flight> ()
 	{
 		public int compare(Flight flight1, Flight flight2)
@@ -323,10 +342,7 @@ public class Flight implements Comparable<Flight>
 		}
 	};
 	
-	/** This compares the flight connections 
-	 * 
-	 * 
-	 */
+	/* This compares the flight connections */
 	public static Comparator<Flight> ConnectionComparator = new Comparator<Flight> ()
 	{
 		public int compare(Flight flight1, Flight flight2)

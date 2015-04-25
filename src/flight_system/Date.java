@@ -39,7 +39,8 @@ public class Date implements Comparable<Date> {
 	 * 
 	 * @return the month of the date
 	 */
-	public Month getMonth(){
+	public Month getMonth()
+	{
 		return month;
 	}
 
@@ -48,7 +49,8 @@ public class Date implements Comparable<Date> {
 	 * 
 	 * @return the day of the date
 	 */
-	public int getDay(){
+	public int getDay()
+	{
 		return day;
 	}
 
@@ -57,7 +59,8 @@ public class Date implements Comparable<Date> {
 	 * 
 	 * @return the year of the date
 	 */
-	public int getYear(){
+	public int getYear()
+	{
 		return year;
 	}
 	
@@ -72,33 +75,40 @@ public class Date implements Comparable<Date> {
 	 * @return a +ive or -ive integer, or 0.  
 	 */
 	@Override
-	public int compareTo(Date compareDate) {
-		
+	public int compareTo(Date compareDate) 
+	{
 		/* If this year is after the compared year */
-		if( year > compareDate.getYear() ){
+		if( year > compareDate.getYear() )
+		{
 			return 1;
 		}
-		else if (year <  compareDate.getYear() ){
+		else if (year <  compareDate.getYear() )
+		{
 			return -1;
 		}
 		/* It's the same year, let's compare the months */
-		else{
-			
+		else
+		{
 			/* If this month is after the compared month */
-			if (month.ordinal() > compareDate.getMonth().ordinal()){
+			if (month.ordinal() > compareDate.getMonth().ordinal())
+			{
 				return 1;
 			}
-			else if (month.ordinal() < compareDate.getMonth().ordinal()){
+			else if (month.ordinal() < compareDate.getMonth().ordinal())
+			{
 				return -1;
 			}
 			/* It's the same month, let's compare the days */
-			else{
+			else
+			{
 				
 				/* If this day is after the compared day */
-				if (day > compareDate.getDay()){
+				if (day > compareDate.getDay())
+				{
 					return 1;
 				}
-				else if (day < compareDate.getDay()){
+				else if (day < compareDate.getDay())
+				{
 					return -1;
 				}
 				/* It's the same year, month, and day. 
