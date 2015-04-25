@@ -1,6 +1,4 @@
-//Name: Zhong Ren
 package parsers;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,6 +6,14 @@ import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/** 
+ * Creates a Putter that put the XML information to the server.
+ * <p>
+ * This class uses the Singleton Pattern, thus, only one instance of it is allowed
+ * All the information that we need on the server get from here.
+ * 			
+ * @author Zhong Ren
+ * */
 public class XMLPutter {
 	private String teamName = "TeamYeYing"; // Team Name
 	private int numXML; // Number of XMLs 
@@ -16,9 +22,16 @@ public class XMLPutter {
 	
 	private static XMLPutter firstInstance = null;
 	
+	/**
+	 * Make an object that can put XML data to the server
+	 */
 	/* The private constructor */
 	private XMLPutter(){};
 	
+	/**
+	 * Get the only instance of this class
+	 * @return the only instance 
+	 */
 	/* Method to get the only instance of the class */
 	public static XMLPutter getInstance(){
 		if(firstInstance == null){
@@ -28,11 +41,19 @@ public class XMLPutter {
 		return firstInstance;
 	}
 	
+	/**
+	 * Get the team name of our team	
+	 * @return the team name "TeamYeYing"
+	 */
 	/* Getter Functions*/
 	public String getTeamName() {
 		return teamName;
 	}
 	
+	/**
+	 * Get the number of XML file that already got from the server
+	 * @return the number of XML file
+	 */
 	public int getNumXML() {
 		return numXML;
 	}
@@ -41,27 +62,34 @@ public class XMLPutter {
 		return ticketsBought;
 	}	
 	
-	/*Lock the Database*/
+	/**Lock the Database
+	 * 
+	 * @return true if lock the DB successful else false
+	 */
 	public boolean lockDB(){
 		URL url;
 		HttpURLConnection connection;
 		
 		try{
+			/* Open Connection and send POST request */
 			url = new URL(urlAddress);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
 			connection.setDoOutput(true);
 			connection.setDoInput(true);
 			
+			/* Give the lockDB action to the sever*/
 			DataOutputStream writer=new DataOutputStream(connection.getOutputStream());
 			writer.writeBytes("team="+teamName+"&action=lockDB");
 			writer.flush();
 			writer.close();
 			
+			/* Print POST to show the connection is begin*/
 			int responseCode=connection.getResponseCode();
 			System.out.println("\nSending 'POST' to lock database");
 			System.out.println("\nResponse Code:"+ responseCode);
 			
+			/*if the connection was success*/
 			if((responseCode>=200)&&(responseCode<=299)){
 				System.out.println("Locked the Database successfully!");
 				BufferedReader in=new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -77,6 +105,7 @@ public class XMLPutter {
 				return true;
 			}
 		}
+		/*catch the exception*/
 		catch(IOException ex){
 			ex.printStackTrace();
 			return false;
@@ -88,12 +117,16 @@ public class XMLPutter {
 		return false;
 	}
 	
-	/*Unlock the Database*/
+	/**
+	 * Unlock the Database
+	 * @return true if  unlock DB successful else false
+	 */
 	public boolean unlockDB(){
 		URL url;
 		HttpURLConnection connection;
 		
 		try{
+			/* Open Connection and send POST request */
 			url = new URL(urlAddress);
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
@@ -105,10 +138,12 @@ public class XMLPutter {
 			writer.flush();
 			writer.close();
 			
+			/* The response code given by the server*/
 			int responseCode=connection.getResponseCode();
 			System.out.println("\nSending 'POST' to unlock database");
 			System.out.println("\nResponse Code:"+ responseCode);
 			
+			/* if the connection was successful*/
 			if((responseCode>=200)&&(responseCode<=299)){
 				System.out.println("Unlocked the Database successfully!");
 				BufferedReader in=new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -124,6 +159,8 @@ public class XMLPutter {
 				return true;
 			}
 		}
+		
+		/*catech the exception*/
 		catch(IOException ex){
 			ex.printStackTrace();
 			return false;
@@ -144,9 +181,8 @@ public class XMLPutter {
 		   <Flight number="1781" seating="FirstClass" />
 		   <Flight number="1782" seating="FirstClass" />
 		</Flights>
-		*/
-		
-		String seat; // holds either First Class or Coach String
+		/* holds either First Class or Coach String*/
+		String seat; 
 		
 		/* Set the seat String */
 		if (firstClass) {
@@ -169,7 +205,8 @@ public class XMLPutter {
 		
 		try{
 			url = new URL(urlAddress);
-				
+			
+			/* Open Connection and send POST request */
 			connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestMethod("POST");
 			connection.setDoOutput(true);
@@ -180,9 +217,11 @@ public class XMLPutter {
 			writer.flush();
 			writer.close();
 			
+			/* The response code given by the server*/
 			int responseCode=connection.getResponseCode();
 			System.out.println("\nResponse Code: "+ responseCode);
 			
+			/* If the connection waas success*/
 			if((responseCode>=200)&&(responseCode<=299)){
 				System.out.println("The ticket was bought.");
 				BufferedReader in=new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -218,6 +257,8 @@ public class XMLPutter {
 				return false;
 			}
 		}
+		
+		/* Catch the exceoption*/
 		catch(IOException ex){
 			ex.printStackTrace();
 			return false;
@@ -229,12 +270,14 @@ public class XMLPutter {
 		
 	}
 
+	/**
+	 * String representation of the XMLPutter object.
+	 * <p>
+	 * @return the string representation of this XMLPutter. 
+	 */
+
 	@Override
 	public String toString() {
 		return "This is an XMLPutter that has the team name: " + teamName + " and it has bought " + ticketsBought + " ticket(s).";
 	}
-	
-	
-	
-		
 }
