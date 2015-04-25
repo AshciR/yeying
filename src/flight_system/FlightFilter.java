@@ -3,17 +3,44 @@ package flight_system;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * Class used to represent a flight filter based on flights.
+ * @author Daoheng guo
+ **/
+
 public class FlightFilter {
 	private ArrayList<Flight> flightList;
-
+	
+	/**
+	 * Creates an flight filter object without any flights in the list.
+	 */
 	public FlightFilter(){
 		this.flightList =  new ArrayList<Flight>();
 	}
 	
+	
+	/**
+	 * Gets the original list of flights that the filter has.
+	 * @return the original list of flights that the filter has.
+	 */
+	public ArrayList<Flight> getFlightList() {
+		return flightList;
+	}
+
+	/**
+	 * Add a flight to flightfilter
+	 */
 	public void addFlight(Flight flight){
 		this.flightList.add(flight);
 	}
 	
+	/**
+	 * This method returns the cheapest flight from the flight list.
+	 * @param isFirstClass true if you want the flight with the cheapest
+	 * first class seat. False if you want the flight with the cheapest coach
+	 * class seat.
+	 * @return the cheapest flight in the list.
+	 */
 	public Flight cheapestFlight(boolean isFirstClass){
 		
 		Flight cheapestFlight = flightList.get(0);
@@ -24,15 +51,23 @@ public class FlightFilter {
 		return cheapestFlight;
 	}
 	
+	/**
+	 * This method returns the shortest flight time from the list
+	 * @return The shortest flight in the list
+	 */
 	public Flight shortestFlightTime(){
 		Flight shortestFlight = flightList.get(0);
 		for(Flight flight : flightList){
-			if(flight.getTotalTime().getTimeInMinutes()<shortestFlight.getTotalTime().getTimeInMinutes())
+			if(flight.getTotalFlightTime().getTimeInMinutes()<shortestFlight.getTotalFlightTime().getTimeInMinutes())
 				shortestFlight=flight;
 		}
 		return shortestFlight;
 	}
 
+	/**
+	 * This method returns the minimum layover time.
+	 * @return the minimum layover time in the list
+	 */
 	public Flight minLayover(){
 		Flight minLayover = flightList.get(0);
 		for(Flight flight : flightList){
@@ -42,118 +77,141 @@ public class FlightFilter {
 		return minLayover;
 	}
 	
+	
+	/**
+	 * This method sorts the flight list based on the departure time.
+	 * @param ascending true if you want the sort price returned in ascending order
+	 * false if you want the sort price returned in descending order.
+	 * @return the sorted flights in a order decide by you
+	 */
+	public ArrayList<Flight> sortDepartTime(boolean ascending){
+
+		ArrayList<Flight> sortedFlights = new ArrayList<Flight>();
+		sortedFlights.addAll(this.flightList);
+
+		Collections.sort(sortedFlights, Flight.DepartureTimeComparator);
+
+		if (ascending){
+			return sortedFlights;
+		}
+		else{
+			Collections.reverse(sortedFlights);
+			return sortedFlights;
+		}
+	}
+	
+	/**
+	 * This method sorts the flight list based on the arrival time.
+	 * @param ascending true if you want the sort price returned in ascending order
+	 * false if you want the sort price returned in descending order.
+	 * @return the sorted flights in a order decide by you
+	 */
+	public ArrayList<Flight> sortArriveTime(boolean ascending){
+
+		ArrayList<Flight> sortedFlights = new ArrayList<Flight>();
+		sortedFlights.addAll(this.flightList);
+
+		Collections.sort(sortedFlights, Flight.ArrivalTimeComparator);
+
+		if (ascending){
+			return sortedFlights;
+		}
+		else{
+			Collections.reverse(sortedFlights);
+			return sortedFlights;
+		}
+	}
+	
+	/**
+	 * This method sorts the flight list based on the price
+	 * @param ascending true if you want the sort price returned in ascending order
+	 * false if you want the sort price returned in descending order
+	 * @param isFirstClass true if you want the sort price returned is first class
+	 * false if you want the sort price returned is coach class
+	 * @return the sorted flights in a order decide by you
+	 */
 	public ArrayList<Flight> sortPrice(boolean ascending, boolean isFirstClass){
-		ArrayList<Flight> sortedFlights=new ArrayList<Flight>();
 
-		ArrayList<Double> flightPriceList = new ArrayList<Double>();
-
-		for(Flight flight : flightList){
-			flightPriceList.add(flight.getTotalCost(isFirstClass));
-		}
-
-		Collections.sort(flightPriceList); //ascending order
+		ArrayList<Flight> sortedFlights = new ArrayList<Flight>();
+		sortedFlights.addAll(this.flightList);
 		
-		/* If not ascending order, reverse the list */
-		if (!ascending){
-			Collections.reverse(flightPriceList);
+		if(isFirstClass){
+			Collections.sort(sortedFlights, Flight.FirstClassPriceComparator);
 		}
+		else
+			Collections.sort(sortedFlights, Flight.CoachClassPriceComparator);
 
-		for(Double price : flightPriceList){
-
-			for(Flight flight : flightList){
-				if (price == flight.getTotalCost(isFirstClass)){
-
-					sortedFlights.add(flight);
-				}
-			}
+		if (ascending){
+			return sortedFlights;
 		}
-
-		return sortedFlights;
+		else{
+			Collections.reverse(sortedFlights);
+			return sortedFlights;
+		}
 	}
 	
+	/**
+	 * This method returns the sorted flight list based on the duration of the flight.
+	 * @param ascending true if you want the sorted returned in ascending order of time
+	 * false if you want the sorted returned in descending order of time
+	 * @return the sorted flights in a order decide by you
+	 */
 	public ArrayList<Flight> sortTime(boolean ascending){
-		ArrayList<Flight> sortedFlights=new ArrayList<Flight>();
-
-		ArrayList<Integer> flightTimeList = new ArrayList<Integer>();
-
-		for(Flight flight : flightList){
-			flightTimeList.add(flight.getTotalTime().getTimeInMinutes());
-		}
-
-		Collections.sort(flightTimeList); //ascending order
+		ArrayList<Flight> sortedFlights = new ArrayList<Flight>();
+		sortedFlights.addAll(this.flightList);
 		
-		/* If not ascending order, reverse the list */
-		if (!ascending){
-			Collections.reverse(flightTimeList);
+		Collections.sort(sortedFlights);
+		
+		if (ascending){
+			return sortedFlights;
 		}
-
-		for(Integer time : flightTimeList){
-
-			for(Flight flight : flightList){
-				if (time == flight.getTotalTime().getTimeInMinutes()){
-
-					sortedFlights.add(flight);
-				}
-			}
+		else{
+			Collections.reverse(sortedFlights);
+			return sortedFlights;
 		}
-
-		return sortedFlights;
+		
 	}
 	
+	/**
+	 * This method sort the flightlist based on the layovertime
+	 * @param ascending ture if you want the sorted returned in ascending order of layover time
+	 * false if you want the sorted returned in descending order of layover time
+	 * @return the sorted flights in a order decide by you
+	 */
 	public ArrayList<Flight> sortLayover(boolean ascending){
-		ArrayList<Flight> sortedFlights=new ArrayList<Flight>();
-
-		ArrayList<Integer> flightLayoverList = new ArrayList<Integer>();
-
-		for(Flight flight : flightList){
-			flightLayoverList.add(flight.getTotalLayoverTime().getTimeInMinutes());
-		}
-
-		Collections.sort(flightLayoverList); //ascending order
+		ArrayList<Flight> sortedFlights = new ArrayList<Flight>();
+		sortedFlights.addAll(this.flightList);
 		
-		/* If not ascending order, reverse the list */
-		if (!ascending){
-			Collections.reverse(flightLayoverList);
+		Collections.sort(sortedFlights, Flight.TotalLayoverComparator);
+		
+		if (ascending){
+			return sortedFlights;
 		}
-
-		for(Integer layover : flightLayoverList){
-
-			for(Flight flight : flightList){
-				if (layover == flight.getTotalLayoverTime().getTimeInMinutes()){
-					sortedFlights.add(flight);
-				}
-			}
+		else{
+			Collections.reverse(sortedFlights);
+			return sortedFlights;
 		}
-
-		return sortedFlights;
 	}
 	
+	/**
+	 * This method sort the flightlist based on the number of connections
+	 * @param ascending ture if you want the sort price returned in ascending order of number of connections
+	 * false if you want the sort price returned in descending order of connections
+	 * @return the sorted flights in a order decide by you
+	 */
 	public ArrayList<Flight> sortConnect(boolean ascending){
-		ArrayList<Flight> sortedFlights=new ArrayList<Flight>();
-
-		ArrayList<Integer> flightConnectList = new ArrayList<Integer>();
-
-		for(Flight flight : flightList){
-			flightConnectList.add(flight.getNumOfConnection());
-		}
-
-		Collections.sort(flightConnectList); //ascending order
+		ArrayList<Flight> sortedFlights = new ArrayList<Flight>();
+		sortedFlights.addAll(this.flightList);
 		
-		/* If not ascending order, reverse the list */
-		if (!ascending){
-			Collections.reverse(flightConnectList);
+		Collections.sort(sortedFlights, Flight.ConnectionComparator);
+		
+		if (ascending){
+			return sortedFlights;
 		}
-
-		for(Integer connect : flightConnectList){
-
-			for(Flight flight : flightList){
-				if (connect == flight.getNumOfConnection()){
-					sortedFlights.add(flight);
-				}
-			}
+		else{
+			Collections.reverse(sortedFlights);
+			return sortedFlights;
 		}
-
-		return sortedFlights;
 	}
 	
 	@Override
