@@ -74,9 +74,15 @@ public class Flight implements Comparable<Flight>
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * Get the departure airport for a particular flight leg.
 	 * @param indexOfLeg
 	 * @return
+=======
+	 * Get a departure airport of specific flight leg
+	 * @param the index of the flight leg
+	 * @return a departure airport of specific flight leg
+>>>>>>> 528a618a7906813d2147c378f247f3fd4012a6d5
 	 */
 	public Airport getDepartureAirport(int indexOfLeg)
 	{
@@ -91,6 +97,12 @@ public class Flight implements Comparable<Flight>
 		return flightList.get(flightList.size()-1).getArrivalAirport();
 	}
 	
+	/**
+	 * Get a arrival airport of specific flight leg
+	 * @param indexOfLeg the index of the flight leg
+	 * @return a arrival airport of specific flight leg
+	 */
+
 	public Airport getArrivalAirport(int indexOfLeg)
 	{
 		return flightList.get(indexOfLeg).getArrivalAirport();
@@ -107,12 +119,11 @@ public class Flight implements Comparable<Flight>
 		return flightList.get(0).getDepartureTime();
 	}
 	
-	/** 
-	 * Gets the departure time for a particular leg of the flight.
-	 * <p>
-	 * Note that the times are in GMT.
-	 * @param indexOfLeg the flight leg's departure time you want.
-	 * @return the departure time for the specified flight leg.
+
+	/**
+	 * Get a departure time of specific flight leg
+	 * @param indexOfLeg the index of the flight leg
+	 * @return the departure time of specific flight leg
 	 */
 	public Time getDepartureTime(int indexOfLeg)
 	{	
@@ -137,11 +148,21 @@ public class Flight implements Comparable<Flight>
 		return flightList.get(flightList.size()-1).getArrivalTime();
 	}
 	
+	/**
+	 * Get a arrival time of specific flight leg
+	 * @param indexOfLeg the index of the flight leg
+	 * @return a arrival time of specific flight leg
+	 */
 	public Time getArrivalTime(int indexOfLeg)
 	{
 		return flightList.get(indexOfLeg).getArrivalTime();
 	}
 		
+	/**
+	 * Get a duration time of a specific flight leg
+	 * @param Legindex the index of flight leg
+	 * @return a duration time of a specific flight leg
+	 */
 	public Time getDurationTime(int LegIndex)
 	{
 			Date DepartureDate = flightList.get(LegIndex).getDepartureDate();
@@ -162,7 +183,6 @@ public class Flight implements Comparable<Flight>
 			}
 			return new Time(Hours, minutes);	
 	}
-	
 	
 	
 	/**
@@ -345,9 +365,7 @@ public class Flight implements Comparable<Flight>
 		}
 	};
 	
-	/** This compares the flight total price of first class
-	 * 
-	 */
+	/* This compares the flight total price of first class */
 	public static Comparator<Flight> FirstClassPriceComparator = new Comparator<Flight> ()
 	{
 		public int compare(Flight flight1, Flight flight2)
@@ -358,9 +376,7 @@ public class Flight implements Comparable<Flight>
 		}
 	};
 	
-	/* This compares the flight total time of coach class
-	 * 
-	 * */
+	/* This compares the flight total time of coach class*/
 	public static Comparator<Flight> CoachClassPriceComparator = new Comparator<Flight> ()
 	{
 		public int compare(Flight flight1, Flight flight2)
@@ -371,10 +387,7 @@ public class Flight implements Comparable<Flight>
 		}
 	};
 	
-	/** This compares the flight connections 
-	 * 
-	 * 
-	 */
+	/* This compares the flight connections */
 	public static Comparator<Flight> ConnectionComparator = new Comparator<Flight> ()
 	{
 		public int compare(Flight flight1, Flight flight2)
@@ -401,8 +414,8 @@ public class Flight implements Comparable<Flight>
 			Time arrTime = Time.getLocalTime(getArrivalTime(), getArrivalAirport().getLocation());
 			
 			return "\n--------------------------------------------------------------------------------------\n" +
-				   flightList.get(0).getAirplane().getManufacturer() + "          Departs " + getDepartureAirport(0).getCode() + " at " + depTime + "          Arrives " + getArrivalAirport(0).getCode() + " at " + arrTime + "           " + "Duration\n " +
-				   flightList.get(0).getAirplane().getModel() + "               " + flightList.get(0).getDepartureDate() + "                   " + flightList.get(0).getArrivalDate() + "                 " + getDurationTime(0) +
+				   flightList.get(0).getAirplane().getManufacturer() + "          Departs " + getDepartureAirport(0).getCode() + " at " + depTime + "          Arrives " + getArrivalAirport(0).getCode() + " at " + arrTime + "           " + "Duration\n" +
+				   flightList.get(0).getAirplane().getModel() + "                " + flightList.get(0).getDepartureDate() + "                    " + flightList.get(0).getArrivalDate() + "                 " + getDurationTime(0) +
 				   "\n--------------------------------------------------------------------------------------\n";
 		}
 		
@@ -418,11 +431,11 @@ public class Flight implements Comparable<Flight>
 			Time arrTime1 = Time.getLocalTime(getArrivalTime(1), getArrivalAirport(1).getLocation());
 			
 			return "\n--------------------------------------------------------------------------------------\n" +
-				   flightList.get(0).getAirplane().getManufacturer() + "          Departs " + getDepartureAirport(0).getCode() + " at " + depTime0 + "          Arrives " + getArrivalAirport(0).getCode() + " at " + arrTime0 + "           " + "Duration\n " +
-				   flightList.get(0).getAirplane().getModel() + "               " + flightList.get(0).getDepartureDate() + "                   " + flightList.get(0).getArrivalDate() + "                 " + getDurationTime(0) + "\n\n" +
+				   flightList.get(0).getAirplane().getManufacturer() + "          Departs " + getDepartureAirport(0).getCode() + " at " + depTime0 + "          Arrives " + getArrivalAirport(0).getCode() + " at " + arrTime0 + "           " + "Duration\n" +
+				   flightList.get(0).getAirplane().getModel() + "                " + flightList.get(0).getDepartureDate() + "                    " + flightList.get(0).getArrivalDate() + "                 " + getDurationTime(0) + "\n\n" +
 				   "-------------------The layover time of this connection is: " + this.getLayoverTime(0) + "---------------------\n\n" + 
-				   flightList.get(1).getAirplane().getManufacturer() + "          Departs " + getDepartureAirport(1).getCode() + " at " + depTime1 + "          Arrives " + getArrivalAirport(1).getCode() + " at " + arrTime1 + "           " + "Duration\n " +
-				   flightList.get(1).getAirplane().getModel() + "               " + flightList.get(1).getDepartureDate() + "                   " + flightList.get(1).getArrivalDate() + "                 " + getDurationTime(1) +
+				   flightList.get(1).getAirplane().getManufacturer() + "          Departs " + getDepartureAirport(1).getCode() + " at " + depTime1 + "          Arrives " + getArrivalAirport(1).getCode() + " at " + arrTime1 + "           " + "Duration\n" +
+				   flightList.get(1).getAirplane().getModel() + "                " + flightList.get(1).getDepartureDate() + "                    " + flightList.get(1).getArrivalDate() + "                 " + getDurationTime(1) +
 				   "\n--------------------------------------------------------------------------------------\n";
 		}
 		
@@ -441,14 +454,14 @@ public class Flight implements Comparable<Flight>
 			Time arrTime2 = Time.getLocalTime(getArrivalTime(2), getArrivalAirport().getLocation());
 			
 			return "\n--------------------------------------------------------------------------------------\n" +
-				   flightList.get(0).getAirplane().getManufacturer() + "          Departs " + getDepartureAirport(0).getCode() + " at " + depTime0 + "          Arrives " + getArrivalAirport(0).getCode() + " at " + arrTime0 + "           " + "Duration\n " +
+				   flightList.get(0).getAirplane().getManufacturer() + "          Departs " + getDepartureAirport(0).getCode() + " at " + depTime0 + "          Arrives " + getArrivalAirport(0).getCode() + " at " + arrTime0 + "           " + "Duration\n" +
 				   flightList.get(0).getAirplane().getModel() + "               " + flightList.get(0).getDepartureDate() + "                   " + flightList.get(0).getArrivalDate() + "                 " + getDurationTime(0) + "\n\n" +
 			       "-------------------The layover time of this connection is: " + this.getLayoverTime(0) + "---------------------\n\n" + 
-			       flightList.get(1).getAirplane().getManufacturer() + "          Departs " + getDepartureAirport(1).getCode() + " at " + depTime1 + "          Arrives " + getArrivalAirport(1).getCode() + " at " + arrTime1  + "           " + "Duration\n " +
-			       flightList.get(1).getAirplane().getModel() + "               " + flightList.get(1).getDepartureDate() + "                   " + flightList.get(1).getArrivalDate() + "                 " + getDurationTime(1) + "\n\n" +
+			       flightList.get(1).getAirplane().getManufacturer() + "          Departs " + getDepartureAirport(1).getCode() + " at " + depTime1 + "          Arrives " + getArrivalAirport(1).getCode() + " at " + arrTime1  + "           " + "Duration\n" +
+			       flightList.get(1).getAirplane().getModel() + "               " + flightList.get(1).getDepartureDate() + "                    " + flightList.get(1).getArrivalDate() + "                  " + getDurationTime(1) + "\n\n" +
 			       "-------------------The layover time of this connection is: " + this.getLayoverTime(1) + "---------------------\n\n" + 
-			       flightList.get(2).getAirplane().getManufacturer() + "          Departs " + getDepartureAirport(2).getCode() + " at " + depTime2 + "          Arrives " + getArrivalAirport(2).getCode() + " at " + arrTime2 + "           " + "Duration\n " +
-			       flightList.get(2).getAirplane().getModel() + "               " + flightList.get(2).getDepartureDate() + "                   " + flightList.get(2).getArrivalDate() + "                 " + getDurationTime(2) +
+			       flightList.get(2).getAirplane().getManufacturer() + "          Departs " + getDepartureAirport(2).getCode() + " at " + depTime2 + "          Arrives " + getArrivalAirport(2).getCode() + " at " + arrTime2 + "           " + "Duration\n" +
+			       flightList.get(2).getAirplane().getModel() + "               " + flightList.get(2).getDepartureDate() + "                    " + flightList.get(2).getArrivalDate() + "                  " + getDurationTime(2) +
 			       "\n--------------------------------------------------------------------------------------\n";
 	
 		}
