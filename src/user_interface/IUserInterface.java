@@ -34,6 +34,12 @@ public interface IUserInterface {
 	public String getLeavingDate();
 	
 	/**
+	 * Ask user if they want to book a round trip. 
+	 * @return the user's answer. Should be a "yes" or a "no".
+	 */
+	public String roundTrip();
+	
+	/**
 	 * Used to ask the user what date they want to return.
 	 * @return the return date (day) as a string from the user.
 	 */
@@ -67,9 +73,19 @@ public interface IUserInterface {
 	public String bookFlight();
 	
 	/**
+	 * Tells the user what flight they bought.
+	 */
+	public void confirmFlight(int fltNum);
+	
+	/**
 	 * Asks the user if they would like to book another flight.
 	 */
 	public String bookAnother();
+
+	/**
+	 * Tell the user goodbye and thanks for using the system.
+	 */
+	public void goodbyeMsg();
 	
 	
 }

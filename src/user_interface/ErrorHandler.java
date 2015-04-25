@@ -63,5 +63,14 @@ public class ErrorHandler {
 		System.out.println("Please type Y or N");
 	}
 	
+	/**
+	 * Prints an error message that states that the
+	 * ticket could not be bought at this point in time.
+	 */
+	public static void ivalidBuy(){
+		System.out.println("I'm sorry, the ticket could not be bought"
+				+ "at this point in time, try in a few minutes later");
+	}
+	
 	
 }
