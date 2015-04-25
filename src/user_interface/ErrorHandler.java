@@ -67,7 +67,7 @@ public class ErrorHandler {
 	 * Prints an error message that states that the
 	 * ticket could not be bought at this point in time.
 	 */
-	public static void ivalidBuy(){
+	public static void invalidBuy(){
 		System.out.println("I'm sorry, the ticket could not be bought"
 				+ "at this point in time, try in a few minutes later");
 	}

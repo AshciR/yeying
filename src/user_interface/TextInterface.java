@@ -19,6 +19,7 @@ public class TextInterface implements IUserInterface {
 	public TextInterface() {
 		/* Make the field a new Scanner object */
 		userInput = new Scanner(System.in);
+			
 	}
 
 	@Override
