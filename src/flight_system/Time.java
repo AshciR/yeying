@@ -29,7 +29,7 @@ public class Time implements Comparable<Time>{
 	 * Makes an object that represent local time
 	 * @param time the time in GMT format
 	 * @param location the location information where the local time we want to get
-	 * @return local time that transformed from GMT time
+	 * @return local time that transformed from GMT time in 24-Hour format.
 	 * 
 	 * @see flight_system.Location#getTimeZoneOffset()
 	 */

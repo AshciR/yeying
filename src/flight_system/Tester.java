@@ -13,7 +13,6 @@ public class Tester {
 
 	public static void main(String[] args) {
 		testFlightClass();
-		
 	}
 	
 	@SuppressWarnings("unused")
@@ -605,9 +604,9 @@ public class Tester {
 		System.out.println(flight3);
 		
 		/* Print the flights */
-		System.out.println(f1+"\n");
-		System.out.println(f2+"\n");
-		System.out.println(f3+"\n");
+		System.out.println(f1.userToString()+"\n");
+		System.out.println(f2.userToString()+"\n");
+		System.out.println(f3.userToString()+"\n");
 		
 	}
 }
