@@ -1,6 +1,7 @@
 package flight_system;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 
 /** 
  * Class used to represent a flight based on the 
@@ -402,70 +403,32 @@ public class Flight implements Comparable<Flight>
 	 * A toString method that returns a more user-friendly representation of the flight info.
 	 * @return the flight info in a user-friendly String format.
 	 */
-	public String userToString()
+	public void userToString()
 	{
 		
-		/* Direct Flight */
-		if(flightList.size() == 1) {
+		/* Iterator for the flight leg list */
+		Iterator<FlightLeg> listIter = flightList.iterator();
 		
-			/* Convert from GMT to Local Time */
-			
-			Time depTime = Time.getLocalTime(getDepartureTime(), getDepartureAirport().getLocation());
-			Time arrTime = Time.getLocalTime(getArrivalTime(), getArrivalAirport().getLocation());
-			
-			return "\n--------------------------------------------------------------------------------------\n" +
-				   flightList.get(0).getAirplane().getManufacturer() + "          Departs " + getDepartureAirport(0).getCode() + " at " + depTime + "          Arrives " + getArrivalAirport(0).getCode() + " at " + arrTime + "           " + "Duration\n" +
-				   flightList.get(0).getAirplane().getModel() + "                " + flightList.get(0).getDepartureDate() + "                    " + flightList.get(0).getArrivalDate() + "                 " + getDurationTime(0) +
-				   "\n--------------------------------------------------------------------------------------\n";
-		}
-		
-		/* One connection flight */
-		else if(flightList.size() == 2) {
-		
-			/* Convert from GMT to Local Time */
-			
-			Time depTime0 = Time.getLocalTime(getDepartureTime(), getDepartureAirport().getLocation());
-			Time arrTime0 = Time.getLocalTime(getArrivalTime(), getArrivalAirport().getLocation());
-			
-			Time depTime1 = Time.getLocalTime(getDepartureTime(1), getDepartureAirport(1).getLocation());
-			Time arrTime1 = Time.getLocalTime(getArrivalTime(1), getArrivalAirport(1).getLocation());
-			
-			return "\n--------------------------------------------------------------------------------------\n" +
-				   flightList.get(0).getAirplane().getManufacturer() + "          Departs " + getDepartureAirport(0).getCode() + " at " + depTime0 + "          Arrives " + getArrivalAirport(0).getCode() + " at " + arrTime0 + "           " + "Duration\n" +
-				   flightList.get(0).getAirplane().getModel() + "                " + flightList.get(0).getDepartureDate() + "                    " + flightList.get(0).getArrivalDate() + "                 " + getDurationTime(0) + "\n\n" +
-				   "-------------------The layover time of this connection is: " + this.getLayoverTime(0) + "---------------------\n\n" + 
-				   flightList.get(1).getAirplane().getManufacturer() + "          Departs " + getDepartureAirport(1).getCode() + " at " + depTime1 + "          Arrives " + getArrivalAirport(1).getCode() + " at " + arrTime1 + "           " + "Duration\n" +
-				   flightList.get(1).getAirplane().getModel() + "                " + flightList.get(1).getDepartureDate() + "                    " + flightList.get(1).getArrivalDate() + "                 " + getDurationTime(1) +
-				   "\n--------------------------------------------------------------------------------------\n";
-		}
-		
-		/* 2 Connection flight */
-		else {
+		/* While there are flight legs left in list */
+		while(listIter.hasNext()){
+
+			FlightLeg flight = listIter.next();
 			
 			/* Convert from GMT to Local Time */
-			
-			Time depTime0 = Time.getLocalTime(getDepartureTime(), getDepartureAirport().getLocation());
-			Time arrTime0 = Time.getLocalTime(getArrivalTime(), getArrivalAirport().getLocation());
-			
-			Time depTime1 = Time.getLocalTime(getDepartureTime(1), getDepartureAirport(1).getLocation());
-			Time arrTime1 = Time.getLocalTime(getArrivalTime(1), getArrivalAirport(1).getLocation());
-			
-			Time depTime2 = Time.getLocalTime(getDepartureTime(2), getDepartureAirport().getLocation());
-			Time arrTime2 = Time.getLocalTime(getArrivalTime(2), getArrivalAirport().getLocation());
-			
-			return "\n--------------------------------------------------------------------------------------\n" +
-				   flightList.get(0).getAirplane().getManufacturer() + "          Departs " + getDepartureAirport(0).getCode() + " at " + depTime0 + "          Arrives " + getArrivalAirport(0).getCode() + " at " + arrTime0 + "           " + "Duration\n" +
-				   flightList.get(0).getAirplane().getModel() + "               " + flightList.get(0).getDepartureDate() + "                   " + flightList.get(0).getArrivalDate() + "                 " + getDurationTime(0) + "\n\n" +
-			       "-------------------The layover time of this connection is: " + this.getLayoverTime(0) + "---------------------\n\n" + 
-			       flightList.get(1).getAirplane().getManufacturer() + "          Departs " + getDepartureAirport(1).getCode() + " at " + depTime1 + "          Arrives " + getArrivalAirport(1).getCode() + " at " + arrTime1  + "           " + "Duration\n" +
-			       flightList.get(1).getAirplane().getModel() + "               " + flightList.get(1).getDepartureDate() + "                    " + flightList.get(1).getArrivalDate() + "                  " + getDurationTime(1) + "\n\n" +
-			       "-------------------The layover time of this connection is: " + this.getLayoverTime(1) + "---------------------\n\n" + 
-			       flightList.get(2).getAirplane().getManufacturer() + "          Departs " + getDepartureAirport(2).getCode() + " at " + depTime2 + "          Arrives " + getArrivalAirport(2).getCode() + " at " + arrTime2 + "           " + "Duration\n" +
-			       flightList.get(2).getAirplane().getModel() + "               " + flightList.get(2).getDepartureDate() + "                    " + flightList.get(2).getArrivalDate() + "                  " + getDurationTime(2) +
-			       "\n--------------------------------------------------------------------------------------\n";
-	
+
+			Time depTime = Time.getLocalTime(flight.getDepartureTime(),flight.getDepatureAirport().getLocation());
+			Time arrTime = Time.getLocalTime(flight.getArrivalTime(), flight.getArrivalAirport().getLocation());
+
+			System.out.println("----------------------------------------------------------------------------------\n" +
+			"Departs " + flight.getDepatureAirport().getCode() + " at " + depTime + 
+			"\t\tArrives " + flight.getArrivalAirport().getCode() + " at " + arrTime +
+			"\t\tDuration (in mins)\n" + 
+			flight.getDepartureDate() + "\t\t\t" + flight.getArrivalDate() +
+			"\t\t\t" + flight.getFlightDuration() +
+			"\n----------------------------------------------------------------------------------");
+
 		}
-	
+		
 	}
 		
 	@Override

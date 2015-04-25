@@ -604,9 +604,14 @@ public class Tester {
 		System.out.println(flight3);
 		
 		/* Print the flights */
-		System.out.println(f1.userToString()+"\n");
-		System.out.println(f2.userToString()+"\n");
-		System.out.println(f3.userToString()+"\n");
+		f1.userToString();
+		System.out.println();
+		
+		f2.userToString();
+		System.out.println();
+		
+		f3.userToString();
+		System.out.println();
 		
 	}
 }
