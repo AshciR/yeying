@@ -1,11 +1,13 @@
 package flight_system;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Iterator;
 
 /** 
- * Class used to represent a flight based on the 
- * information provided by FlightLeg class
+ * Class used to represent a flight. Contains information about the 
+ * Origin Airport and final Airport, flight times, lay over
+ * durations, and flight durations. 
+ * <p>
+ * A flight is a list of flight legs.
  * @author Zhong Ren
  * @see FlightLeg
  */
@@ -71,23 +73,17 @@ public class Flight implements Comparable<Flight>
 	 * @return the original departure airport.
 	 */
 	public Airport getDepartureAirport(){
-		return flightList.get(0).getDepatureAirport();
+		return flightList.get(0).getDepartureAirport();
 	}
 	
 	/**
-<<<<<<< HEAD
-	 * Get the departure airport for a particular flight leg.
-	 * @param indexOfLeg
-	 * @return
-=======
 	 * Get a departure airport of specific flight leg
-	 * @param the index of the flight leg
+	 * @param indexOfLeg the index of the flight leg
 	 * @return a departure airport of specific flight leg
->>>>>>> 528a618a7906813d2147c378f247f3fd4012a6d5
 	 */
 	public Airport getDepartureAirport(int indexOfLeg)
 	{
-		return flightList.get(indexOfLeg).getDepatureAirport();
+		return flightList.get(indexOfLeg).getDepartureAirport();
 	}
 	
 	/**
@@ -122,7 +118,9 @@ public class Flight implements Comparable<Flight>
 	
 
 	/**
-	 * Get a departure time of specific flight leg
+	 * Get a departure time of specific flight leg.
+	 * <p>
+	 * If the leg does not exist, it returns 00:00 GMT.
 	 * @param indexOfLeg the index of the flight leg
 	 * @return the departure time of specific flight leg
 	 */
@@ -150,13 +148,23 @@ public class Flight implements Comparable<Flight>
 	}
 	
 	/**
-	 * Get a arrival time of specific flight leg
+	 * Get a arrival time of specific flight leg. 
+	 * <p>
+	 * If the leg does not exist, it returns 00:00 GMT.
 	 * @param indexOfLeg the index of the flight leg
 	 * @return a arrival time of specific flight leg
 	 */
 	public Time getArrivalTime(int indexOfLeg)
 	{
-		return flightList.get(indexOfLeg).getArrivalTime();
+		
+		/* If they ask for a non-existent leg, then return 00:00 GMT */
+		if (indexOfLeg >= flightList.size()){
+			return new Time(0,0);
+		}
+		else {
+			return flightList.get(indexOfLeg).getArrivalTime();
+		}
+	
 	}
 		
 	/**
@@ -296,7 +304,7 @@ public class Flight implements Comparable<Flight>
 		{
 			return new Time(0, 0);
 		}
-		//calculate the lay over time
+		/* Calculate the lay over time */
 		else 
 		{
 			Date transferADate = flightList.get(layoverIndex).getArrivalDate();
@@ -318,6 +326,51 @@ public class Flight implements Comparable<Flight>
 		}	
 	}
 	
+	/**
+	 * Prints the flight information in a user-friendly format.
+	 */
+	public void printFlight()
+	{
+		
+		/* Convert flight time of the original departure and 
+		 * final arrival from GMT to Local Time */
+		Time originDepTime = Time.getLocalTime(getDepartureTime(), getDepartureAirport().getLocation());
+		Time finalArrTime = Time.getLocalTime(getArrivalTime(), getArrivalAirport().getLocation());
+		
+		System.out.println(getDepartureAirport().getCode() + " -> " + getArrivalAirport().getCode());
+		System.out.println(originDepTime + " -> " + finalArrTime + "\t(Total Flight Time: " + getTotalFlightTime() + ")");
+		
+		for (FlightLeg flight : flightList){
+			
+			/* Convert flight leg time from GMT to Local Time */
+			Time depTime = Time.getLocalTime(flight.getDepartureTime(),flight.getDepartureAirport().getLocation());
+			Time arrTime = Time.getLocalTime(flight.getArrivalTime(), flight.getArrivalAirport().getLocation());
+			
+			System.out.println("----------------------------------------------------------------------------------\n" +
+			"Flight #: " + flight.getFlightNum() + "\n" +
+			"Departs " + flight.getDepartureAirport().getCode() + " at " + depTime + 
+			"\t\tArrives " + flight.getArrivalAirport().getCode() + " at " + arrTime +
+			"\t\tDuration\n" + 
+			flight.getDepartureDate() + "\t\t\t" + flight.getArrivalDate() +
+			"\t\t\t" + Time.convertMinsToHours(flight.getFlightDuration()) +
+			"\n----------------------------------------------------------------------------------");
+			
+			/* Index for the next flight */
+			int nextFltInd = flightList.indexOf(flight) + 1;
+			
+			/* If there's a flight after this one */
+			if(nextFltInd < (flightList.size())){
+				
+				/* Print the lay over time */
+				System.out.println("\t\t\t\tLayover time: " + getLayoverTime(flightList.indexOf(flight)));
+				//System.out.println("\n----------------------------------------------------------------------------------");
+				
+			}
+	
+		}
+		
+	}
+
 	/** 
 	 * This compares the flight total time 
 	 * 
@@ -399,38 +452,6 @@ public class Flight implements Comparable<Flight>
 		}
 	};
 	
-	/**
-	 * A toString method that returns a more user-friendly representation of the flight info.
-	 * @return the flight info in a user-friendly String format.
-	 */
-	public void userToString()
-	{
-		
-		/* Iterator for the flight leg list */
-		Iterator<FlightLeg> listIter = flightList.iterator();
-		
-		/* While there are flight legs left in list */
-		while(listIter.hasNext()){
-
-			FlightLeg flight = listIter.next();
-			
-			/* Convert from GMT to Local Time */
-
-			Time depTime = Time.getLocalTime(flight.getDepartureTime(),flight.getDepatureAirport().getLocation());
-			Time arrTime = Time.getLocalTime(flight.getArrivalTime(), flight.getArrivalAirport().getLocation());
-
-			System.out.println("----------------------------------------------------------------------------------\n" +
-			"Departs " + flight.getDepatureAirport().getCode() + " at " + depTime + 
-			"\t\tArrives " + flight.getArrivalAirport().getCode() + " at " + arrTime +
-			"\t\tDuration (in mins)\n" + 
-			flight.getDepartureDate() + "\t\t\t" + flight.getArrivalDate() +
-			"\t\t\t" + flight.getFlightDuration() +
-			"\n----------------------------------------------------------------------------------");
-
-		}
-		
-	}
-		
 	@Override
 	public String toString(){
 		return "This flight departs from " + getDepartureAirport().getName() + " at " + getDepartureTime() + "\n" +

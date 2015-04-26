@@ -576,7 +576,7 @@ public class GraphEngine implements IFlightGraph{
 				
 				/* Get the departure location */
 				FlightLeg firstFltInfo = route.getFirst().getAttribute("fltInfo");
-				Location depLocation = firstFltInfo.getDepatureAirport().getLocation();
+				Location depLocation = firstFltInfo.getDepartureAirport().getLocation();
 				
 				/* Get the arrival location */
 				FlightLeg lastFltInfo = route.getLast().getAttribute("fltInfo");
@@ -585,11 +585,11 @@ public class GraphEngine implements IFlightGraph{
 				/* Get the flights' info */
 				Edge flightLeg = route.get(i);
 				FlightLeg fltInfo = flightLeg.getAttribute("fltInfo");
-				Location depPortLoc = fltInfo.getDepatureAirport().getLocation();
+				Location depPortLoc = fltInfo.getDepartureAirport().getLocation();
 				
 				Edge flightLegNxt = route.get(i+1);
 				FlightLeg fltNxtInfo = flightLegNxt.getAttribute("fltInfo");
-				Location arrPortLoc = fltNxtInfo.getDepatureAirport().getLocation();
+				Location arrPortLoc = fltNxtInfo.getDepartureAirport().getLocation();
 				
 				/* Get the distance between the origin and final destination */
 				double width = Math.abs(depLocation.getLongitude() - arrLocation.getLongitude());

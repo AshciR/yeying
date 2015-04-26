@@ -21,7 +21,7 @@ public class FlightLeg {
 	/* Departure Info */
 	private Time departureTime;
 	private Date departureDate;
-	private Airport depatureAirport;
+	private Airport departureAirport;
 	
 	/* Arrival Info */
 	private Time arrivalTime;
@@ -45,7 +45,7 @@ public class FlightLeg {
 	 * @param flightDuration the duration of the flight in minutes
 	 * @param departureTime the departure time
 	 * @param departureDate the departure date
-	 * @param depatureAirport the departure airport
+	 * @param departureAirport the departure airport
 	 * @param arrivalTime the arrival time
 	 * @param arrivalDate the arrival date
 	 * @param arrivalAirport the arrival airport
@@ -55,7 +55,7 @@ public class FlightLeg {
 	 * @param coachClassSeatsOcc the number of occupied coach class seats
 	 */
 	public FlightLeg(Airplane airplane, int flightNum, int flightDuration,
-			Time departureTime, Date departureDate, Airport depatureAirport,
+			Time departureTime, Date departureDate, Airport departureAirport,
 			Time arrivalTime, Date arrivalDate, Airport arrivalAirport,
 			double firstClassPrice, int firstClassSeatsOcc,
 			double coachClassPrice, int coachClassSeatsOcc) {
@@ -65,7 +65,7 @@ public class FlightLeg {
 		this.flightDuration = flightDuration;
 		this.departureTime = departureTime;
 		this.departureDate = departureDate;
-		this.depatureAirport = depatureAirport;
+		this.departureAirport = departureAirport;
 		this.arrivalTime = arrivalTime;
 		this.arrivalDate = arrivalDate;
 		this.arrivalAirport = arrivalAirport;
@@ -128,8 +128,8 @@ public class FlightLeg {
 	 * <p>
 	 * @return the flight's departure airport.
 	 */	
-	public Airport getDepatureAirport() {
-		return depatureAirport;
+	public Airport getDepartureAirport() {
+		return departureAirport;
 	}
 	
 	/**
@@ -259,7 +259,7 @@ public class FlightLeg {
 		NumberFormat priceFormat = new DecimalFormat("#.00");     
 
 		return "This flight leg number is: " + flightNum + " and the plane model is " + airplane.getModel() + ".\n" +
-		"This flight leaves " + depatureAirport.getName() + " at " + departureTime.toString() + ".\n" +
+		"This flight leaves " + departureAirport.getName() + " at " + departureTime.toString() + ".\n" +
 		"It arrives at " + arrivalAirport.getName() + " at " + arrivalTime.toString() + ".\n" + 
 		"Available First Class seats: " + getFirstClassSeatsAvail() + " at $" + priceFormat.format(firstClassPrice) + " per seat.\n" +
 		"Available Coach Class seats: " + getCoachClassSeatsAvail() + " at $" + priceFormat.format(coachClassPrice) + " per seat.\n";
@@ -280,7 +280,7 @@ public class FlightLeg {
 		NumberFormat priceFormat = new DecimalFormat("#.00");     
 		
 		return "This flight leg number is: " + flightNum + " and the plane model is " + airplane.getModel() + ".\n" +
-			   "This flight leaves " + depatureAirport.getName() + " at " + departureTime.toString() + ".\n" +
+			   "This flight leaves " + departureAirport.getName() + " at " + departureTime.toString() + ".\n" +
 			   "It arrives at " + arrivalAirport.getName() + " at " + arrivalTime.toString() + ".\n" + 
 			   "First Class seats: " + firstClassSeatsOcc + " at $" + priceFormat.format(firstClassPrice) + " per seat.\n" +
 			   "Coach Class seats: " + coachClassSeatsOcc + " at $" + priceFormat.format(coachClassPrice) + " per seat.\n";

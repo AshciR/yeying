@@ -413,7 +413,7 @@ public class Tester {
 		
 		Location bos = new Location(42.365855, -71.009624); // Boston, MA
 		Location yin = new Location(38.4667, 106.2667); // Yinchuan, China
-		
+				
 		/* Local times for the locations */
 		Time localBos = Time.getLocalTime(test, bos);
 		Time localYin = Time.getLocalTime(test, yin);
@@ -449,6 +449,11 @@ public class Tester {
 		System.out.println(testList); // before sort
 		Collections.sort(testList);   // sort in ascending order
 		System.out.println(testList); // after sort
+		
+		/* Convert from minutes to hours and minutes */
+		System.out.println(Time.convertMinsToHours(120)); // 2:00
+		System.out.println(Time.convertMinsToHours(90)); // 1:30
+		System.out.println(Time.convertMinsToHours(225)); // 3:45
 	}
 
 	@SuppressWarnings("unused")
@@ -604,13 +609,16 @@ public class Tester {
 		System.out.println(flight3);
 		
 		/* Print the flights */
-		f1.userToString();
+		System.out.println("Flight Option: 1");
+		f1.printFlight();
 		System.out.println();
 		
-		f2.userToString();
+		System.out.println("Flight Option: 2");
+		f2.printFlight();
 		System.out.println();
 		
-		f3.userToString();
+		System.out.println("Fligh Optiont: 3");
+		f3.printFlight();
 		System.out.println();
 		
 	}

@@ -58,6 +58,16 @@ public class Time implements Comparable<Time>{
 	}
 	
 	/**
+	 * Converts from minutes to hours and minutes.
+	 * @return a time object with the converted time.
+	 */
+	public static Time convertMinsToHours(int mins){
+		
+		return new Time(mins / 60, mins % 60);
+		
+	}
+	
+	/**
 	 * Returns the hour part in the time format
 	 * @return the hour part in given time
 	 */
