@@ -1,4 +1,6 @@
 package flight_system;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -327,18 +329,29 @@ public class Flight implements Comparable<Flight>
 	}
 	
 	/**
-	 * Prints the flight information in a user-friendly format.
+	 * Prints the simplified flight information in a
+	 * user-friendly format.
 	 */
-	public void printFlight()
-	{
+	public void printFlight(boolean isFirstClass){
 		
 		/* Convert flight time of the original departure and 
 		 * final arrival from GMT to Local Time */
 		Time originDepTime = Time.getLocalTime(getDepartureTime(), getDepartureAirport().getLocation());
 		Time finalArrTime = Time.getLocalTime(getArrivalTime(), getArrivalAirport().getLocation());
 		
+		NumberFormat priceFormat = new DecimalFormat("#.00");   
+		
 		System.out.println(getDepartureAirport().getCode() + " -> " + getArrivalAirport().getCode());
 		System.out.println(originDepTime + " -> " + finalArrTime + "\t(Total Flight Time: " + getTotalFlightTime() + ")");
+		System.out.println("Price: $" + priceFormat.format(getTotalCost(isFirstClass)) + "\t" + (isFirstClass ? "(First Class)": "(Coach)"));
+	}
+	
+	/**
+	 * Prints the detailed flight information in a user-friendly format.
+	 * @param isFirstClass 
+	 */
+	public void printDetailFlight(boolean isFirstClass)
+	{
 		
 		for (FlightLeg flight : flightList){
 			

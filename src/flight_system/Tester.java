@@ -10,7 +10,6 @@ import parsers.*;
 
 public class Tester {
 
-
 	public static void main(String[] args) {
 		
 	}
@@ -609,16 +608,19 @@ public class Tester {
 		System.out.println(flight3);
 		
 		/* Print the flights */
-		System.out.println("Flight Option: 1");
-		f1.printFlight();
+		System.out.println("======= Flight Option: 1 =======");
+		f1.printFlight(false);
+		f1.printDetailFlight(false);
 		System.out.println();
 		
-		System.out.println("Flight Option: 2");
-		f2.printFlight();
+		System.out.println("======= Flight Option: 2 =======");
+		f2.printFlight(true);
+		f2.printDetailFlight(true);
 		System.out.println();
 		
-		System.out.println("Fligh Optiont: 3");
-		f3.printFlight();
+		System.out.println("======= Flight Option: 3 =======");
+		f3.printFlight(false);
+		f3.printDetailFlight(false);
 		System.out.println();
 		
 	}
