@@ -7,7 +7,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /** 
- * Creates a Putter that put the XML information to the server.
+ * Creates a Putter that puts the XML information to the server.
  * <p>
  * This class uses the Singleton Pattern, thus, only one instance of it is allowed
  * All the information that we need on the server get from here.
@@ -22,9 +22,7 @@ public class XMLPutter {
 	
 	private static XMLPutter firstInstance = null;
 	
-	/**
-	 * Make an object that can put XML data to the server
-	 */
+	
 	/* The private constructor */
 	private XMLPutter(){};
 	
@@ -160,7 +158,7 @@ public class XMLPutter {
 			}
 		}
 		
-		/*catech the exception*/
+		/*catch the exceptions*/
 		catch(IOException ex){
 			ex.printStackTrace();
 			return false;
@@ -221,7 +219,7 @@ public class XMLPutter {
 			int responseCode=connection.getResponseCode();
 			System.out.println("\nResponse Code: "+ responseCode);
 			
-			/* If the connection waas success*/
+			/* If the connection was successful*/
 			if((responseCode>=200)&&(responseCode<=299)){
 				System.out.println("The ticket was bought.");
 				BufferedReader in=new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -258,7 +256,7 @@ public class XMLPutter {
 			}
 		}
 		
-		/* Catch the exceoption*/
+		/* Catch the exception*/
 		catch(IOException ex){
 			ex.printStackTrace();
 			return false;
