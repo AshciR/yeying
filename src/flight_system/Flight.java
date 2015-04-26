@@ -363,7 +363,6 @@ public class Flight implements Comparable<Flight>
 				
 				/* Print the lay over time */
 				System.out.println("\t\t\t\tLayover time: " + getLayoverTime(flightList.indexOf(flight)));
-				//System.out.println("\n----------------------------------------------------------------------------------");
 				
 			}
 	
