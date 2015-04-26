@@ -62,6 +62,14 @@ public class Flight implements Comparable<Flight>
 	}
 	
 	/**
+	 * Gets the list of flights.
+	 * @return the flight leg list.
+	 */
+	public ArrayList<FlightLeg> getFlightList() {
+		return flightList;
+	}
+
+	/**
 	 * Adds a FlightLeg object to this flight list.
 	 * @see FlightLeg 
 	 */
@@ -341,7 +349,7 @@ public class Flight implements Comparable<Flight>
 		
 		NumberFormat priceFormat = new DecimalFormat("#.00");   
 		
-		System.out.println(getDepartureAirport().getCode() + " -> " + getArrivalAirport().getCode());
+		System.out.println(getDepartureAirport().getCode() + " -> " + getArrivalAirport().getCode() + "\tNum of stops: " + getNumOfConnection());
 		System.out.println(originDepTime + " -> " + finalArrTime + "\t(Total Flight Time: " + getTotalFlightTime() + ")");
 		System.out.println("Price: $" + priceFormat.format(getTotalCost(isFirstClass)) + "\t" + (isFirstClass ? "(First Class)": "(Coach)"));
 	}

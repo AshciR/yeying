@@ -5,6 +5,10 @@ import java.io.InputStreamReader;
 import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+
+import flight_system.Flight;
+import flight_system.FlightLeg;
 
 /** 
  * Creates a Putter that puts the XML information to the server.
@@ -169,9 +173,17 @@ public class XMLPutter {
 		}
 		return false;
 	}
-
+	
+	/**
+	 * Makes an XML representation of a ticket that is used
+	 * to purchase a flight from the database.
+	 * @param flight the flight that will be purchased
+	 * @param isFirstClass true if you want the 1st Class ticket
+	 * 		  for that flight. False if you want the Coach class.
+	 * @return the XML String representation of the ticket.
+	 */
 	/* Make a ticket with the fight number */
-	public String makeTicket(int number, boolean firstClass){
+	public String makeTicket(Flight flight, boolean isFirstClass){
 		
 		/* Flight String looks like this. */
 		/*		 
@@ -179,27 +191,48 @@ public class XMLPutter {
 		   <Flight number="1781" seating="FirstClass" />
 		   <Flight number="1782" seating="FirstClass" />
 		</Flights>
-		/* holds either First Class or Coach String*/
-		String seat; 
-		
-		/* Set the seat String */
-		if (firstClass) {
-			seat = "FirstClass";
-		}
-		else{
-			seat = "Coach";
-		}
-		
+			
 		/* The ticket XML */
-		String ticket = "<Flights><Flight number="+"\""+ number +"\""+" seating="+"\""+seat+"\""+" /></Flights>";
-				 
-		 return ticket;
+		String ticket = "<Flights>";
+		
+		for (FlightLeg fLeg : flight.getFlightList()){
+			
+			/* holds either First Class or Coach String*/
+			String seat; 
+			
+			/* Set the seat String */
+			if (isFirstClass) {
+				seat = "FirstClass";
+			}
+			else{
+				seat = "Coach";
+			}
+			
+			ticket = ticket + "<Flight number="+"\""+ fLeg.getFlightNum() +"\""+" seating="+"\""+seat+"\""+" />";
+		}
+		
+		/* Closes the XML tag */
+		ticket = ticket + "</Flights>";
+		
+		return ticket;
 	}
 	
+	/**
+	 * Purchases a ticket from the flight database.
+	 * @param ticket the ticket for the flight that will be purchased.
+	 * @return a map of the response. "Successful, Response Code".
+	 * <p>
+	 * If the ticket was successfully bought, then you will get "true, 200".
+	 * <p>
+	 * Else you will get "false, response code".
+	 */
 	/* Buying a ticket */
-	public boolean buyTicket(String ticket){
+	public HashMap<Boolean,Integer> buyTicket(String ticket){
 		URL url;
 		HttpURLConnection connection;
+		
+		/* The return value is a boolean and an integer */
+		HashMap<Boolean, Integer> returnVal = new HashMap<Boolean, Integer>();
 		
 		try{
 			url = new URL(urlAddress);
@@ -235,35 +268,43 @@ public class XMLPutter {
 				
 				ticketsBought++;
 				
-				return true;
+				/* Successful */
+				returnVal.put(true, 200); 
+				return returnVal;
 			}
 			/* Else the response was not valid */
 			else if (responseCode == 304){
 				System.out.println("Unsuccessful: Did not update the Database.");
-				return false;
+				returnVal.put(false, responseCode); 
+				return returnVal;
 			}
 			else if (responseCode == 400){
 				System.out.println("Missing or Invalid action");
-				return false;
+				returnVal.put(false, responseCode); 
+				return returnVal;
 			}
 			else if (responseCode == 412){
 				System.out.println("Unsuccessful: Our team did not have the lock.");
-				return false;
+				returnVal.put(false, responseCode); 
+				return returnVal;
 			}
 			else{
 				System.out.println("Unknown connection error");
-				return false;
+				returnVal.put(false, responseCode); 
+				return returnVal;
 			}
 		}
 		
 		/* Catch the exception*/
 		catch(IOException ex){
 			ex.printStackTrace();
-			return false;
+			returnVal.put(false, 500); 
+			return returnVal;
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
-			return false;
+			returnVal.put(false, 500); 
+			return returnVal;
 		}
 		
 	}

@@ -497,32 +497,77 @@ public class Tester {
 		resetter.resetDB();
 
 		XMLPutter test = XMLPutter.getInstance(); // create the test object
+		
+		/* Making flights to test the ticket maker */
+		Date date = new Date(Month.May, 10, 2015);
+		
+		/* First flight info */
+		Airplane plane1 = new Airplane("A340", "Airbus", 32, 268);
+		Time dt1 = new Time(11, 00);
+		Time at1 = new Time(12, 00);
+		Location dl1 = new Location(42.216446, -83.355427);
+		Location al1 = new Location(42.365855, -71.009624);
+		Airport da1 = new Airport("DTW", "Detroit Metropolitan Wayne County Airport", dl1);
+		Airport aa1 = new Airport("BOS", "Logan International", al1);
+				
+		/* Second flight info */
+		Airplane plane2 = new Airplane("A320", "Airbus", 12, 124);
+		Time dt2 = new Time(13, 00);
+		Time at2 = new Time(14, 30);
+		Location dl2 = new Location(42.365855, -71.009624);
+		Location al2 = new Location(35.042345, -89.979216);
+		Airport da2 = new Airport("BOS", "Logan International", dl2);
+		Airport aa2 = new Airport("MEM", "Memphis International", al2);
+		
+		Airplane plane3 = new Airplane("A320", "Airbus", 12, 124);
+		Time dt3 = new Time(15, 00);
+		Time at3 = new Time(16, 00);
+		Location dl3= new Location(42.365855, -71.009624);
+		Location al3= new Location(35.042345, -89.979216);
+		Airport da3= new Airport("MEM", "Memphis International", dl3);
+		Airport aa3 = new Airport("SFO", "San Fransisco International", al3);
 
-		/* Make a ticket for the test case */
-		String testTicket1 = test.makeTicket(1781, true); // Flight 1781
-															// FirstClass
-		String testTicket2 = test.makeTicket(1781, false); // Flight 1781
-															// FirstClass
-
+		FlightLeg flight1 = new FlightLeg(plane1, 2000, (at1.getTimeInMinutes() - dt1.getTimeInMinutes()) , dt1, date, da1, at1, date, aa1, 100.00, 20,	33.33, 23);
+		FlightLeg flight2 = new FlightLeg(plane2, 3000, (at2.getTimeInMinutes() - dt2.getTimeInMinutes()), dt2, date, da2, at2, date, aa2, 150.00, 20, 50.00, 23);
+		FlightLeg flight3 = new FlightLeg(plane3, 4000, (at3.getTimeInMinutes() - dt3.getTimeInMinutes()), dt3, date, da3, at3, date, aa3, 200.00, 20,	66.66, 23);
+		
+		/* Make the flights */
+		Flight f1 = new Flight(flight1);
+		Flight f2 = new Flight(flight2, flight3);
+		Flight f3 = new Flight(flight1, flight2, flight3);
+		
+		/* ----------------- */
+		
+		/* Making tickets for the test case */
+		String testTicket1 = test.makeTicket(f1, true); 											
+		String testTicket2 = test.makeTicket(f2, false); 
+		String testTicket3 = test.makeTicket(f3, false);												
+		
 		System.out.println("\nTicket 1 info is:");
 		System.out.println(testTicket1);
 
 		System.out.println("\nTicket 2 info is:");
 		System.out.println(testTicket2);
-
-		/* Lock the database before we purchase the tickets */
-		test.lockDB();
-		test.buyTicket(testTicket1);
-		test.buyTicket(testTicket2);
-
-		/* Unlock after the purchase */
-		test.unlockDB();
-
-		/* Should Print the fact that 2 tickets were bought */
-		System.out.println(test.toString());
-
-		/* Reset the DB to default state */
-		resetter.resetDB();
+		
+		System.out.println("\nTicket 2 info is:");
+		System.out.println(testTicket2);
+		
+		System.out.println("\nTicket 3 info is:");
+		System.out.println(testTicket3);
+		
+//		/* Lock the database before we purchase the tickets */
+//		test.lockDB();
+//		test.buyTicket(testTicket1);
+//		test.buyTicket(testTicket2);
+//
+//		/* Unlock after the purchase */
+//		test.unlockDB();
+//
+//		/* Should Print the fact that 2 tickets were bought */
+//		System.out.println(test.toString());
+//
+//		/* Reset the DB to default state */
+//		resetter.resetDB();
 
 	}
 

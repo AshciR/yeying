@@ -131,7 +131,7 @@ public class Prototype {
 		boolean firstClass = this.userInfo.getIsFirstClass();
 		
 		/* Make the ticket */
-		String ticket = dbPutter.makeTicket(fltNum, firstClass);
+		String ticket = dbPutter.makeTicket(null, firstClass); // DEPRACATED
 		
 		/* Try to lock the database before we purchase the tickets */
 		if (dbPutter.lockDB()){
