@@ -3,6 +3,7 @@ package flight_system;
 import graph.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 
 import org.graphstream.graph.Edge;
@@ -19,7 +20,7 @@ public class FlightSystem {
 
 	private ArrayList<Airport> airportList;
 	private ArrayList<Airplane> airplaneList;
-	private ArrayList<Flight> flightList, showFlightList;
+	private ArrayList<Flight> flightList;
 	private State state;
 	private UserInfo userInfo;
 	private IUserInterface iFace;
@@ -29,7 +30,6 @@ public class FlightSystem {
 		this.airportList = new ArrayList<Airport>();
 		this.airplaneList = new ArrayList<Airplane>();
 		this.flightList = new ArrayList<Flight>();
-		this.showFlightList = new ArrayList<Flight>();
 		this.userInfo = new UserInfo(null, null, null, false);
 		this.iFace = iFace;
 	};
@@ -70,6 +70,10 @@ public class FlightSystem {
 
 				/* Shows the user the flight(s) if available */
 				showFlights();
+				
+				/* Filter the flights */
+				filterFlights();
+				
 				break;
 			
 			case DetailFlights:
@@ -143,6 +147,11 @@ public class FlightSystem {
 
 	}
 	
+	private void filterFlights() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	/* Asks the user if they want to get more detail 
 	 * about a flight. If they do, then we print that info,
 	 * if not, then we go to the buy flights state.
@@ -321,11 +330,19 @@ public class FlightSystem {
 
 	private void showFlights() {
 		
-		/* Needed to get rid of past results */
-		showFlightList.clear();
+		/* Chooses which seating to sort by initially */
+		if(userInfo.getIsFirstClass()){
+			/* Sort flights by price (by default) */
+			Collections.sort(flightList, Flight.FirstClassPriceComparator);
+		}
+		else{
+			/* Sort flights by price (by default) */
+			Collections.sort(flightList, Flight.CoachClassPriceComparator);
+		}
+		
 		
 		/* If there flights */
-		if (showFlightList.size() != 0) {
+		if (flightList.size() != 0) {
 			
 			/* Tell the user that there are # of available flights */
 			iFace.numOfFlights(flightList.size());
@@ -350,6 +367,9 @@ public class FlightSystem {
 	}
 
 	private void getFlights() {
+		
+		/* Empty the list each time we're going to get new flight data */
+		flightList.clear();
 		
 		/* Make the flight graph based on the user's 
 		 * flight information */

@@ -4,7 +4,6 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-
 /** 
  * Class used to represent a flight. Contains information about the 
  * Origin Airport and final Airport, flight times, lay over
