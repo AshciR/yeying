@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
 
 import flight_system.Flight;
 import flight_system.FlightLeg;
@@ -227,12 +226,9 @@ public class XMLPutter {
 	 * Else you will get "false, response code".
 	 */
 	/* Buying a ticket */
-	public HashMap<Boolean,Integer> buyTicket(String ticket){
+	public int buyTicket(String ticket){
 		URL url;
 		HttpURLConnection connection;
-		
-		/* The return value is a boolean and an integer */
-		HashMap<Boolean, Integer> returnVal = new HashMap<Boolean, Integer>();
 		
 		try{
 			url = new URL(urlAddress);
@@ -268,43 +264,37 @@ public class XMLPutter {
 				
 				ticketsBought++;
 				
-				/* Successful */
-				returnVal.put(true, 200); 
-				return returnVal;
+				/* Successful */ 
+				return responseCode;
 			}
 			/* Else the response was not valid */
 			else if (responseCode == 304){
-				System.out.println("Unsuccessful: Did not update the Database.");
-				returnVal.put(false, responseCode); 
-				return returnVal;
+				//System.out.println("Unsuccessful: Did not update the Database.");
+				return responseCode;
 			}
 			else if (responseCode == 400){
-				System.out.println("Missing or Invalid action");
-				returnVal.put(false, responseCode); 
-				return returnVal;
+				//System.out.println("Missing or Invalid action");
+				return responseCode;
 			}
 			else if (responseCode == 412){
-				System.out.println("Unsuccessful: Our team did not have the lock.");
-				returnVal.put(false, responseCode); 
-				return returnVal;
+				//System.out.println("Unsuccessful: Our team did not have the lock.");
+				return responseCode;
 			}
 			else{
-				System.out.println("Unknown connection error");
-				returnVal.put(false, responseCode); 
-				return returnVal;
+				//System.out.println("Unknown connection error");
+				return responseCode;
 			}
 		}
 		
 		/* Catch the exception*/
 		catch(IOException ex){
 			ex.printStackTrace();
-			returnVal.put(false, 500); 
-			return returnVal;
+			return 500;
+			
 		}
 		catch(Exception ex){
 			ex.printStackTrace();
-			returnVal.put(false, 500); 
-			return returnVal;
+			return 500;
 		}
 		
 	}

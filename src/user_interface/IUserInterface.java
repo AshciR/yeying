@@ -73,9 +73,9 @@ public interface IUserInterface {
 	public String bookFlight();
 	
 	/**
-	 * Tells the user what flight they bought.
+	 * Tells the user that their flight was bought.
 	 */
-	public void confirmFlight(int fltNum);
+	public void confirmFlight();
 	
 	/**
 	 * Asks the user if they would like to book another flight.
@@ -87,5 +87,47 @@ public interface IUserInterface {
 	 */
 	public void goodbyeMsg();
 	
+	/**
+	 * Prints the flight index in a user-friendly format.
+	 * @param index the index of the flight within the list.
+	 */
+	public void printFlightOption(int index);
 	
+	/**
+	 * Asks the user if they want more detail about a
+	 * specific flight.
+	 * @return a "yes" or "no" String.
+	 */
+	public String wantDetail();
+	
+	/**
+	 * Asks the user for the flight option that they want to 
+	 * get detail about.
+	 * @return a positive number, because it is an index in the flight list.
+	 */
+	public String getDetailFlight();
+	
+	/**
+	 * Asks the user if they want to get detail about
+	 * another flight.
+	 * @return a "yes" or "no" String.
+	 */
+	public String getAnotherDetail();
+	
+	/**
+	 * Tells the user what flight they selected. 
+	 */
+	public void userFlightChoice(int index);
+	
+	/**
+	 * Tells the user the flight doesn't exist anymore 
+	 */
+	public void flightDisappear();
+	
+	/** 
+	 * Tell the user that they can't buy the flight right now
+	 * please wait a few minutes, or try back later.
+	 */
+	public void dataBaseLocked();
 }
+

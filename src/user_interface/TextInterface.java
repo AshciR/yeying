@@ -87,8 +87,8 @@ public class TextInterface implements IUserInterface {
 	}
 
 	@Override
-	public void confirmFlight(int fltNum) {
-		System.out.println("The ticket for your flight: " + fltNum + " was bought.");
+	public void confirmFlight() {
+		System.out.println("The ticket for your flight was bought sucessfully.");
 	}
 
 	@Override
@@ -103,4 +103,52 @@ public class TextInterface implements IUserInterface {
 		System.out.print("\nThank you for using our system!\n" + "Goodbye!");
 	}
 
+	@Override
+	public void printFlightOption(int index) {
+		System.out.println("Flight Option: " + (index + 1) );
+	}
+
+	@Override
+	public String wantDetail() {
+		/* Ask if they want flight detail */
+		System.out.print("\nDo you want more detail about a particular flight?\n"
+						 +"(Yes or No)");
+		return userInput.nextLine().toUpperCase();
+	}
+
+	@Override
+	public String getDetailFlight() {
+		/* Ask what flight option they want detail about */
+		System.out.print("\nWhich flight do you want more detail about?\n"
+						+ "(Enter the flight option number)");
+		return userInput.nextLine().toUpperCase();
+	}
+
+	@Override
+	public String getAnotherDetail() {
+		System.out.print("\nDo you want detail about another particular flight?\n"
+				+"(Yes or No)");
+		return userInput.nextLine().toUpperCase();
+	}
+
+	@Override
+	public void userFlightChoice(int index) {
+		System.out.println("You selcted flight option: " + index);	
+	}
+
+	@Override
+	public void flightDisappear() {
+		System.out.println("Whoops! This flight has just been bought out.");
+		
+	}
+
+	@Override
+	public void dataBaseLocked() {
+		System.out.println("Sorry! We can't purchase this flight for you right now. "
+				+ "Please try again in a few minutes");
+		
+	}
+	
+	
+	
 }

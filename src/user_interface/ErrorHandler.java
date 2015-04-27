@@ -72,5 +72,12 @@ public class ErrorHandler {
 				+ "at this point in time, try in a few minutes later");
 	}
 	
+	/**
+	 * Some error involving buying a flight occurred 
+	 */
+	public static void whoops(){
+		System.out.println("Whoops, having some technical difficulites. "
+				+ "Sorry about that!");	
+	}
 	
 }
