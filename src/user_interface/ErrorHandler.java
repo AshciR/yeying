@@ -18,7 +18,7 @@ public class ErrorHandler {
 	 * user tried to input an invalid airport.
 	 */
 	public static void invalidPort(){
-		System.out.println("That is not a valid Airport. ");	
+		System.out.println("I'm sorry, that is not a valid Airport. ");	
 
 	}
 	
@@ -35,7 +35,8 @@ public class ErrorHandler {
 	 * user tried to input an invalid date.
 	 */
 	public static void invalidDate(){
-		System.out.println("That is not a valid Date");
+		System.out.println("I'm sorry, that is not a valid day.");
+		System.out.println("Please select a day between 8 and 18 (inclusively)");
 	}
 		
 	/**
@@ -52,7 +53,7 @@ public class ErrorHandler {
 	 * for the date (day).
 	 */
 	public static void notANum(){
-		System.out.println("That is not a number!");
+		System.out.println("I'm sorry, that is not a number.");
 	}
 	
 	/**

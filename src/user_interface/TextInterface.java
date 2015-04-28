@@ -44,7 +44,9 @@ public class TextInterface implements IUserInterface {
 	@Override
 	public String getLeavingDate() {
 		/* Get the Departure Day */
-		System.out.print("\nWhat day do you want to leave? ");
+		System.out.print("\nPlease note that currently we only have flights between"
+				+ "May 8, 2015 and May 18, 2015.");
+		System.out.print("What day do you want to leave? ");
 		return userInput.nextLine();
 	}
 
@@ -210,6 +212,11 @@ public class TextInterface implements IUserInterface {
 	public String getMinutes() {
 		System.out.println("Minutes: ");
 		return userInput.nextLine();
+	}
+
+	@Override
+	public void searchFlights() {
+		System.out.println("Searching for flights...");		
 	}
 	
 	

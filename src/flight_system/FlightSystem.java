@@ -73,7 +73,7 @@ public class FlightSystem {
 				showFlights(true);
 				
 				/* Filter the flights */
-				filterFlights();
+				//filterFlights();
 				
 				showFlights(false);
 				break;
@@ -149,6 +149,189 @@ public class FlightSystem {
 
 	}
 	
+	private void initSys() {
+	
+		/* Display the welcome message */
+		iFace.displayWelcomeMsg();
+		
+		/* The only DB Getter Object */
+		XMLGetter dbGetter = XMLGetter.getInstance();
+	
+		System.out.println("\nGetting ready to serve all your flight needs...");
+		
+		/* Get the list of airports from the DB */
+		String airportsXMLString = dbGetter.getAirportsXML();
+	
+		/* Get the list of airplanes from the DB */
+		String airplanesXMLString = dbGetter.getAirplaneXML();
+	
+		/* Parsing the Airplane and Airport Info */
+		AirportParser portParser = AirportParser.getInstance();
+		portParser.parseAirportXML(airportsXMLString);
+		airportList = portParser.getAirportList(); // puts in local list
+	
+		AirplaneParser planeParser = AirplaneParser.getInstance();
+		planeParser.parseAirplaneXML(airplanesXMLString);
+		airplaneList = planeParser.getAirplaneList(); // puts in local list
+		
+		System.out.println("All Done!");
+		
+	
+	}
+
+	private void askUserForInfo() {
+	
+		/* User Airports */
+		Airport depAirport, arrAirport;
+		Date depDate;
+		int day = 0; // day of departure
+		boolean seat = false; // coach by default
+	
+		/* Airport parser object */
+		AirportParser portParser = AirportParser.getInstance();
+	
+		do {
+			
+			/* Get the Depart Airport from the user */
+			String depAirportStr = iFace.getDepartureAirport();
+		
+			/* Create the departure Airport object */
+			depAirport = portParser.getAirport(depAirportStr);
+	
+			/* Invalid Data */
+			if (depAirport == null) {
+				ErrorHandler.invalidPort();
+			}
+	
+		} while (depAirport == null);
+	
+		/* Holds whether User input a airport */
+		boolean validPort = true;
+	
+		do {
+	
+			/* Get the Arrival Airport from the user */
+			String arrAirportStr = iFace.getArrivalAirport();
+	
+			/* Create the departure Airport object */
+			arrAirport = portParser.getAirport(arrAirportStr);
+	
+			/* Validates Arrival Airport */
+			if (arrAirport == null) {
+				ErrorHandler.invalidPort();
+				validPort = false;
+			} else if (arrAirport.getCode().equalsIgnoreCase(depAirport.getCode())) {
+				ErrorHandler.samePort();
+				validPort = false;
+			} else {
+				validPort = true;
+			}
+	
+		} while (!validPort);
+	
+		/* Holds whether User input a good date */
+		boolean validDate = false;
+	
+		do {
+			/* Get the Departure Day */
+			String dayStr = iFace.getLeavingDate();
+	
+			try {
+				day = Integer.parseInt(dayStr);
+	
+				if (day > 18 || day < 8) {
+					ErrorHandler.invalidDate();
+				} else {
+					validDate = true;
+				}
+	
+			} catch (NumberFormatException e) {
+				ErrorHandler.notANum();
+			}
+	
+		} while (!validDate);
+	
+		/* Makes the date object */
+		depDate = new Date(Month.May, day, 2015);
+	
+		/* Holds whether User inputs a valid seat */
+		boolean validSeat = false;
+	
+		do {
+			/* Ask if they want First Class */
+			String classType = iFace.isFirstClassSeat();
+			classType = classType.toUpperCase();
+	
+			/* 1st Class */
+			if (classType.startsWith("Y")) {
+				seat = true;
+				validSeat = true;
+			}
+			/* Coach */
+			else if (classType.startsWith("N")) {
+				seat = false;
+				validSeat = true;
+			} else {
+				ErrorHandler.notYesOrNo();
+			}
+	
+		} while (!validSeat);
+	
+		/* Set the User info */
+		userInfo.setArrivalAirport(arrAirport);
+		userInfo.setDepartureAirport(depAirport);
+		userInfo.setDepartureDate(depDate);
+		userInfo.setIsFirstClass(seat);
+		
+		/* Go to Show Flights State */
+		state = State.ShowFlights;
+		
+	}
+
+	private void getFlights() {
+		
+		/* Tell the user that the system is searching for flights */
+		iFace.searchFlights();
+		
+		/* Empty the list each time we're going to get new flight data */
+		flightList.clear();
+		
+		/* Make the flight graph based on the user's 
+		 * flight information */
+		GraphMaker gMaker = new GraphMaker(userInfo.getDepartureDate());
+	
+		/* Use the graph engine to find the flights after
+		 * the graph is made */
+		GraphEngine engine = new GraphEngine(gMaker.getGraph());
+		
+		/* Search for the flights that meet the user's 
+		 * requirements. Note, that it will return flights
+		 * that have up to maximum 2 connections. */
+		ArrayList<LinkedList<Edge>> availFlights = engine.getRoutes(userInfo.getDepartureAirport(), userInfo.getArrivalAirport(), 3, userInfo.getIsFirstClass());
+		
+		/* Converts the graph edges, which are flights, into Flight objects
+		 * that can be used throughout the rest of the program */
+		for(LinkedList<Edge> flight : availFlights){
+			
+			/* Make a new flight */
+			Flight addedFlight = new Flight();
+			
+			for (Edge edge : flight){
+				
+				/* Get the flight object from the edge */
+				FlightLeg fLeg = edge.getAttribute("fltInfo");
+				
+				/* Add the Flight Leg to the flight */
+				addedFlight.addFlightLeg(fLeg);
+			}
+			
+			/* Add the flight to the flight list */
+			flightList.add(addedFlight);
+			
+		}
+		
+	}
+
 	private void filterFlights() {
 		
 		/* Sort the flights before we filter them */
@@ -750,180 +933,6 @@ public class FlightSystem {
 		}
 		
 
-	}
-
-	private void getFlights() {
-		
-		/* Empty the list each time we're going to get new flight data */
-		flightList.clear();
-		
-		/* Make the flight graph based on the user's 
-		 * flight information */
-		GraphMaker gMaker = new GraphMaker(userInfo.getDepartureDate());
-
-		/* Use the graph engine to find the flights after
-		 * the graph is made */
-		GraphEngine engine = new GraphEngine(gMaker.getGraph());
-		
-		/* Search for the flights that meet the user's 
-		 * requirements. Note, that it will return flights
-		 * that have up to maximum 2 connections. */
-		ArrayList<LinkedList<Edge>> availFlights = engine.getRoutes(userInfo.getDepartureAirport(), userInfo.getArrivalAirport(), 3, userInfo.getIsFirstClass());
-		
-		/* Converts the graph edges, which are flights, into Flight objects
-		 * that can be used throughout the rest of the program */
-		for(LinkedList<Edge> flight : availFlights){
-			
-			/* Make a new flight */
-			Flight addedFlight = new Flight();
-			
-			for (Edge edge : flight){
-				
-				/* Get the flight object from the edge */
-				FlightLeg fLeg = edge.getAttribute("fltInfo");
-				
-				/* Add the Flight Leg to the flight */
-				addedFlight.addFlightLeg(fLeg);
-			}
-			
-			/* Add the flight to the flight list */
-			flightList.add(addedFlight);
-			
-		}
-		
-	}
-
-	private void askUserForInfo() {
-
-		/* User Airports */
-		Airport depAirport, arrAirport;
-		Date depDate;
-		int day = 0; // day of departure
-		boolean seat = false; // coach by default
-
-		/* Airport parser object */
-		AirportParser portParser = AirportParser.getInstance();
-
-		do {
-			
-			/* Get the Depart Airport from the user */
-			String depAirportStr = iFace.getDepartureAirport();
-		
-			/* Create the departure Airport object */
-			depAirport = portParser.getAirport(depAirportStr);
-
-			/* Invalid Data */
-			if (depAirport == null) {
-				ErrorHandler.invalidPort();
-			}
-
-		} while (depAirport == null);
-
-		/* Holds whether User input a airport */
-		boolean validPort = true;
-
-		do {
-
-			/* Get the Arrival Airport from the user */
-			String arrAirportStr = iFace.getArrivalAirport();
-
-			/* Create the departure Airport object */
-			arrAirport = portParser.getAirport(arrAirportStr);
-
-			/* Validates Arrival Airport */
-			if (arrAirport == null) {
-				ErrorHandler.invalidPort();
-				validPort = false;
-			} else if (arrAirport.getCode().equalsIgnoreCase(depAirport.getCode())) {
-				ErrorHandler.samePort();
-				validPort = false;
-			} else {
-				validPort = true;
-			}
-
-		} while (!validPort);
-
-		/* Holds whether User input a good date */
-		boolean validDate = false;
-
-		do {
-			/* Get the Departure Day */
-			String dayStr = iFace.getLeavingDate();
-
-			try {
-				day = Integer.parseInt(dayStr);
-
-				if (day > 18 || day < 8) {
-					ErrorHandler.invalidDate();
-				} else {
-					validDate = true;
-				}
-
-			} catch (NumberFormatException e) {
-				ErrorHandler.notANum();
-			}
-
-		} while (!validDate);
-
-		/* Makes the date object */
-		depDate = new Date(Month.May, day, 2015);
-
-		/* Holds whether User inputs a valid seat */
-		boolean validSeat = false;
-
-		do {
-			/* Ask if they want First Class */
-			String classType = iFace.isFirstClassSeat();
-			classType = classType.toUpperCase();
-
-			/* 1st Class */
-			if (classType.startsWith("Y")) {
-				seat = true;
-				validSeat = true;
-			}
-			/* Coach */
-			else if (classType.startsWith("N")) {
-				seat = false;
-				validSeat = true;
-			} else {
-				ErrorHandler.notYesOrNo();
-			}
-
-		} while (!validSeat);
-
-		/* Set the User info */
-		userInfo.setArrivalAirport(arrAirport);
-		userInfo.setDepartureAirport(depAirport);
-		userInfo.setDepartureDate(depDate);
-		userInfo.setIsFirstClass(seat);
-		
-		/* Go to Show Flights State */
-		state = State.ShowFlights;
-		
-	}
-
-	private void initSys() {
-
-		/* The only DB Getter Object */
-		XMLGetter dbGetter = XMLGetter.getInstance();
-
-		/* Get the list of airports from the DB */
-		String airportsXMLString = dbGetter.getAirportsXML();
-
-		/* Get the list of airplanes from the DB */
-		String airplanesXMLString = dbGetter.getAirplaneXML();
-
-		/* Parsing the Airplane and Airport Info */
-		AirportParser portParser = AirportParser.getInstance();
-		portParser.parseAirportXML(airportsXMLString);
-		airportList = portParser.getAirportList(); // puts in local list
-
-		AirplaneParser planeParser = AirplaneParser.getInstance();
-		planeParser.parseAirplaneXML(airplanesXMLString);
-		airplaneList = planeParser.getAirplaneList(); // puts in local list
-		
-		iFace.displayWelcomeMsg();
-	
 	}
 
 }

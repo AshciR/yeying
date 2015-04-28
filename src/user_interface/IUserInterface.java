@@ -178,6 +178,11 @@ public interface IUserInterface {
 	 * @return the minutes the user wants their flight.
 	 */
 	public String getMinutes();
+
+	/**
+	 * Tells the user that you're searching for flights.
+	 */
+	public void searchFlights();
 	
 }
 
