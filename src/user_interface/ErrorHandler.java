@@ -73,11 +73,40 @@ public class ErrorHandler {
 	}
 	
 	/**
-	 * Some error involving buying a flight occurred 
+	 * Some error involving buying a flight occurred. 
 	 */
 	public static void whoops(){
 		System.out.println("Whoops, having some technical difficulites. "
 				+ "Sorry about that!");	
 	}
+	
+	/**
+	 * Invalid sorting option.
+	 */
+	public static void invalidSort(){
+		System.out.println("I'm sorry, that is not a valid sorting option.");
+	}
+	
+	/**
+	 * Invalid sorting order.
+	 */
+	public static void invalidSortOrder(){
+		System.out.println("I'm sorry, that is not a valid sorting order.");
+	}
+	
+	/**
+	 * Invalid Time data.
+	 */
+	public static void invalidTime(){
+		System.out.println("That's not a proper time.");
+	}
+
+	/**
+	 * Invalid input from the user.
+	 */
+	public static void invalidInput() {
+		System.out.println("I'm sorry, that's not a proper answer.");
+	}
+	
 	
 }

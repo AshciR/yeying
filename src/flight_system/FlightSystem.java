@@ -20,7 +20,7 @@ public class FlightSystem {
 
 	private ArrayList<Airport> airportList;
 	private ArrayList<Airplane> airplaneList;
-	private ArrayList<Flight> flightList;
+	private ArrayList<Flight> flightList, filterFlights;
 	private State state;
 	private UserInfo userInfo;
 	private IUserInterface iFace;
@@ -30,6 +30,7 @@ public class FlightSystem {
 		this.airportList = new ArrayList<Airport>();
 		this.airplaneList = new ArrayList<Airplane>();
 		this.flightList = new ArrayList<Flight>();
+		this.filterFlights = new ArrayList<Flight>();
 		this.userInfo = new UserInfo(null, null, null, false);
 		this.iFace = iFace;
 	};
@@ -69,11 +70,12 @@ public class FlightSystem {
 				getFlights();
 
 				/* Shows the user the flight(s) if available */
-				showFlights();
+				showFlights(true);
 				
 				/* Filter the flights */
 				filterFlights();
 				
+				showFlights(false);
 				break;
 			
 			case DetailFlights:
@@ -148,8 +150,352 @@ public class FlightSystem {
 	}
 	
 	private void filterFlights() {
-		// TODO Auto-generated method stub
 		
+		/* Sort the flights before we filter them */
+		sortFlights();
+		
+		/* Filter by time (if the user wants) */
+		FlightFilter filter = new FlightFilter(flightList);
+		
+		/* Check if the user typed in correct answers */
+		boolean validAns = false;
+		
+		do {
+			
+			/* Ask the user if they want to filer by departure time */
+			String filAns = iFace.askDepFilter();
+			
+			/* They want to filter */
+			if (filAns.startsWith("Y")) {
+				
+				/* Get the time from the user */
+				Time depTime = getUserInputTime();
+				
+				boolean BOrA = false; // B Or A
+				
+				do{
+
+					/* Ask the user if they want the departing flight to leave
+					 * before of after the given time */
+					String b4OrAfter = iFace.b4OrAfter();	
+
+					if (b4OrAfter.startsWith("B")){
+						BOrA = true;
+						
+						filterFlights.clear(); // clean the list 1st.
+						
+						filterFlights.addAll(filter.filterDepTime(depTime, false, userInfo.getDepartureAirport()));
+					
+					}
+					else if (b4OrAfter.startsWith("A")){
+						BOrA = true;
+						filterFlights.clear(); // clean the list 1st.
+						filterFlights.addAll(filter.filterDepTime(depTime, true, userInfo.getDepartureAirport()));
+					}
+					else{
+						ErrorHandler.invalidInput();
+					}
+
+				} while(!BOrA);
+				
+				validAns = true;
+				
+			}
+			/* They don't want to filter, go on to the
+			 * show detail state */
+			else if (filAns.startsWith("N")) {
+				state = State.DetailFlights;
+			} 
+			/* Input is invalid */
+			else {
+				ErrorHandler.notYesOrNo();
+			}
+
+		} while (!validAns);
+		validAns = false;
+		ArrayList<Flight> arrFilterList = new ArrayList<Flight>();
+		FlightFilter filterArr = new FlightFilter(filterFlights); 
+		//choose arrival filter time
+		do{
+			/* Ask the user if they want to filer by arrival time */
+			String filAns = iFace.askArrFilter();
+			
+			/* They want to filter */
+			if (filAns.startsWith("Y")) {
+				
+				/* Get the time from the user */
+				Time arrTime = getUserInputTime();
+				
+				boolean BOrA = false; // B Or A
+				
+				do{
+
+					/* Ask the user if they want the arriving flight to arrive
+					 * before of after the given time */
+					String b4OrAfter = iFace.b4OrAfter();	
+
+					if (b4OrAfter.startsWith("B")){
+						BOrA = true;
+						arrFilterList.clear();
+						arrFilterList.addAll(filterArr.filterArrTime(arrTime, false, userInfo.getArrivalAirport()));
+					
+					}
+					else if (b4OrAfter.startsWith("A")){
+						BOrA = true;
+						arrFilterList.clear();
+						arrFilterList.addAll(filter.filterArrTime(arrTime, true, userInfo.getArrivalAirport()));
+					}
+					else{
+						ErrorHandler.invalidInput();
+					}
+
+				} while(!BOrA);
+				
+				validAns = true;
+				filterFlights.clear();
+				filterFlights.addAll(arrFilterList);
+			}
+			/* They don't want to filter, go on to the
+			 * show detail state */
+			else if (filAns.startsWith("N")) {
+				state = State.DetailFlights;
+			} 
+			/* Input is invalid */
+			else {
+				ErrorHandler.notYesOrNo();
+			}
+
+		}while(!validAns);
+		
+		state = State.DetailFlights;
+	}
+
+	private Time getUserInputTime() {
+		
+		boolean validTime = false;
+		
+		Time filterTime = null; // the return value
+		
+		/* Ask the user what time they want to depart */
+		iFace.askDepTime();
+		
+		/* Get the hour */
+		String hourStr = iFace.getHours();
+		String minsStr = iFace.getMinutes();
+		
+		/* Try to parse Hour */
+		do {
+			try {
+
+				int hour = Integer.parseInt(hourStr);
+				int mins = Integer.parseInt(minsStr);
+
+				/* Check if the time could be valid */
+				if ((hour > 24 || hour < 0) || (mins < 0 || mins > 59)) {
+					ErrorHandler.invalidTime();
+				} else {
+					
+					validTime = true;
+					
+					/* Make the time */
+					filterTime = new Time(hour,mins);
+					
+				}
+
+			} catch (NumberFormatException e) {
+				ErrorHandler.invalidTime();
+			}
+		
+		} while (!validTime);
+		
+		/* Make the time */
+		return filterTime;
+	}
+
+	private void sortFlights() {
+	
+		/* Clean the list each time we want to filter */
+		filterFlights.clear();
+		
+		/* Ask if they want ascending or descending order */
+		String ordAns = null;
+		
+		/* Add the flights to the filter */
+		FlightFilter filter = new FlightFilter(flightList);
+		
+		/* Ask the user if they want to filter the flights */
+		String ans = iFace.doFilter();
+		boolean ansValid = false;
+		
+		do {
+			
+			/* Ask the user what they want to sort by */
+			if (ans.startsWith("Y")) {
+				
+
+					/* Integer that has the sort option */
+					int sortOpt = Integer.parseInt(iFace.sortBy());
+
+					if (sortOpt < 1 || sortOpt > 6) {
+						ErrorHandler.invalidSort();
+					} 
+					/* It's a valid sorting option, so let's sort
+					 * accordingly */
+					else {
+						
+						switch (sortOpt){
+
+						/* Departure time */
+						case 1:
+
+							/* Ask if they want ascending or descending order */
+							ordAns = iFace.sortOrder();
+
+							/* Ascending */
+							if(ordAns.startsWith("A")){
+								filterFlights.addAll(filter.sortDepartTime(true));
+								ansValid = true;
+							}
+							/* Descending */
+							else if (ordAns.startsWith("D")){
+								filterFlights.addAll(filter.sortDepartTime(false));
+								ansValid = true;
+							}
+							else{
+								ErrorHandler.invalidSortOrder();
+							}
+							break;
+
+							/* Arrival time */
+						case 2:
+
+							/* Ask if they want ascending or descending order */
+							ordAns = iFace.sortOrder();
+
+							/* Ascending */
+							if(ordAns.startsWith("A")){
+								filterFlights.addAll(filter.sortArriveTime(true));
+								ansValid = true;
+							}
+							/* Descending */
+							else if (ordAns.startsWith("D")){
+								filterFlights.addAll(filter.sortArriveTime(false)); 
+								ansValid = true;
+							}
+							else{
+								ErrorHandler.invalidSortOrder();
+							}
+							break;
+
+							/* Total Time */
+						case 3:
+
+							/* Ask if they want ascending or descending order */
+							ordAns = iFace.sortOrder();
+
+							/* Ascending */
+							if(ordAns.startsWith("A")){
+								filterFlights.addAll(filter.sortTime(true)); 
+								ansValid = true;
+							}
+							/* Descending */
+							else if (ordAns.startsWith("D")){
+								filterFlights.addAll(filter.sortTime(false)); 
+								ansValid = true;
+							}
+							else{
+								ErrorHandler.invalidSortOrder();
+							}
+							break;
+
+							/* Number of Connections */
+						case 4:
+
+							/* Ask if they want ascending or descending order */
+							ordAns = iFace.sortOrder();
+
+							/* Ascending */
+							if(ordAns.startsWith("A")){
+								filterFlights.addAll(filter.sortConnect(true)); 
+								ansValid = true;
+							}
+							/* Descending */
+							else if (ordAns.startsWith("D")){
+								filterFlights.addAll(filter.sortConnect(false));
+								ansValid = true;
+							}
+							else{
+								ErrorHandler.invalidSortOrder();
+							}
+							break;
+
+							/* Lay over Time */
+						case 5:
+
+							/* Ask if they want ascending or descending order */
+							ordAns = iFace.sortOrder();
+
+							/* Ascending */
+							if(ordAns.startsWith("A")){
+								filterFlights.addAll(filter.sortLayover(true)); 
+								ansValid = true;
+							}
+							/* Descending */
+							else if (ordAns.startsWith("D")){
+								filterFlights.addAll(filter.sortLayover(false));
+								ansValid = true;
+							}
+							else{
+								ErrorHandler.invalidSortOrder();
+							}
+							break;
+
+							/* Cost */
+						case 6:	
+
+							/* Ask if they want ascending or descending order */
+							ordAns = iFace.sortOrder();
+
+							/* Ascending */
+							if(ordAns.startsWith("A")){
+								filterFlights.addAll(filter.sortPrice(true, userInfo.getIsFirstClass()));
+								ansValid = true;
+							}
+							/* Descending */
+							else if (ordAns.startsWith("D")){
+								filterFlights.addAll(filter.sortPrice(false, userInfo.getIsFirstClass()));
+								ansValid = true;
+							}
+							else{
+								ErrorHandler.invalidSortOrder();
+							}
+							break;
+						
+						default:
+							
+							// will never get here.
+							
+							break;
+							
+						} // end of switch
+					
+					} // end of if						
+				
+			}
+			else if (ans.startsWith("N")) {
+				
+				ansValid = true;
+				
+				/* Go to the Detail flight state */
+				state = State.DetailFlights;
+				
+			}
+			/* Tell the user to input yes or no */
+			else{
+				ErrorHandler.notYesOrNo();
+			}
+		 
+		} while(!ansValid); // repeat until we get a valid ans.
 	}
 
 	/* Asks the user if they want to get more detail 
@@ -328,41 +674,81 @@ public class FlightSystem {
 		
 	}
 
-	private void showFlights() {
+	private void showFlights(boolean showOriginal) {
 		
-		/* Chooses which seating to sort by initially */
-		if(userInfo.getIsFirstClass()){
-			/* Sort flights by price (by default) */
-			Collections.sort(flightList, Flight.FirstClassPriceComparator);
-		}
-		else{
-			/* Sort flights by price (by default) */
-			Collections.sort(flightList, Flight.CoachClassPriceComparator);
-		}
-		
-		
-		/* If there flights */
-		if (flightList.size() != 0) {
-			
-			/* Tell the user that there are # of available flights */
-			iFace.numOfFlights(flightList.size());
-			
-			/* Print all the available flights */
-			for (Flight flight : flightList) {
-				iFace.printFlightOption(flightList.indexOf(flight));
-				flight.printFlight(userInfo.getIsFirstClass());
+		//decide whether to show filtered flights or original flights
+		if(showOriginal){
+			/* Chooses which seating to sort by initially */
+			if(userInfo.getIsFirstClass()){
+				/* Sort flights by price (by default) */
+				Collections.sort(flightList, Flight.FirstClassPriceComparator);
+			}
+			else{
+				/* Sort flights by price (by default) */
+				Collections.sort(flightList, Flight.CoachClassPriceComparator);
 			}
 			
-			this.state = State.DetailFlights; // go to the buy flight state
 			
+			/* If there flights */
+			if (flightList.size() != 0) {
+				
+				/* Tell the user that there are # of available flights */
+				iFace.numOfFlights(flightList.size());
+				
+				/* Print all the available flights */
+				for (Flight flight : flightList) {
+					iFace.printFlightOption(flightList.indexOf(flight));
+					flight.printFlight(userInfo.getIsFirstClass());
+				}
+				
+				this.state = State.DetailFlights; // go to the buy flight state
+				
+			}
+			/* No matching flights */
+			else {
+				
+				/* Tell the user there are no flights */
+				iFace.noFlights();
+				this.state = State.FinishState; // go to the finished state
+			}
+
 		}
-		/* No matching flights */
-		else {
+		else{
+			/* Chooses which seating to sort by initially */
+			if(userInfo.getIsFirstClass()){
+				/* Sort flights by price (by default) */
+				Collections.sort(filterFlights, Flight.FirstClassPriceComparator);
+			}
+			else{
+				/* Sort flights by price (by default) */
+				Collections.sort(filterFlights, Flight.CoachClassPriceComparator);
+			}
 			
-			/* Tell the user there are no flights */
-			iFace.noFlights();
-			this.state = State.FinishState; // go to the finished state
+			
+			/* If there flights */
+			if (filterFlights.size() != 0) {
+				
+				/* Tell the user that there are # of available flights */
+				iFace.numOfFlights(filterFlights.size());
+				
+				/* Print all the available flights */
+				for (Flight flight : filterFlights) {
+					iFace.printFlightOption(filterFlights.indexOf(flight));
+					flight.printFlight(userInfo.getIsFirstClass());
+				}
+				
+				this.state = State.DetailFlights; // go to the buy flight state
+				
+			}
+			/* No matching flights */
+			else {
+				
+				/* Tell the user there are no flights */
+				iFace.noFlights();
+				this.state = State.FinishState; // go to the finished state
+			}
 		}
+		
 
 	}
 

@@ -129,5 +129,56 @@ public interface IUserInterface {
 	 * please wait a few minutes, or try back later.
 	 */
 	public void dataBaseLocked();
+	
+	/**
+	 * Ask the user if they want to filter a flight.
+	 * @return "yes" or "no" answer.
+	 */
+	public String doFilter();
+	
+	/**
+	 * Ask the what criteria they user wants to filter by.s
+	 * @return what criteria the user wants to filter by.
+	 */
+	public String sortBy();
+	
+	/**
+	 * Ask the user if they want the list in ascending or descending order.
+	 */
+	public String sortOrder();
+	
+	/**
+	 * Ask the user if they want to filter by departure time. 
+	 */
+	public String askDepFilter();
+	
+	/**
+	 * Ask the user if they want to filter by arrival time. 
+	 */
+	public String askArrFilter();
+	
+	/**
+	 * Asks the user if they want to filter the time as before or after.
+	 */
+	public String b4OrAfter();
+	
+	/**
+	 * Ask the user what time they want to depart at.
+	 */
+	public void askDepTime();
+	
+	/**
+	 * Gets hour information from the user.
+	 * @return the hours the user wants their flight.
+	 */
+	public String getHours();
+	
+	/**
+	 * Gets minutes information from the user.
+	 * @return the minutes the user wants their flight.
+	 */
+	public String getMinutes();
+	
 }
+
 

@@ -14,8 +14,8 @@ public class FlightFilter {
 	/**
 	 * Creates an flight filter object without any flights in the list.
 	 */
-	public FlightFilter(){
-		this.flightList =  new ArrayList<Flight>();
+	public FlightFilter(ArrayList<Flight> flightList){
+		this.flightList  = flightList;
 	}
 	
 	
@@ -28,7 +28,7 @@ public class FlightFilter {
 	}
 
 	/**
-	 * Add a flight to flightfilter
+	 * Add a flight to flight filter
 	 */
 	public void addFlight(Flight flight){
 		this.flightList.add(flight);
@@ -75,6 +75,96 @@ public class FlightFilter {
 				minLayover=flight;
 		}
 		return minLayover;
+	}
+	
+	/** 
+	 * This method returns a flight list that has only flights
+	 * that leave after or before a given time (inclusive). 
+	 * @param depLocalTime the local time for the departure
+	 * @param after true if you want flights that leave after a certain time (inclusive)
+	 * @return the filtered flight list.
+	 */
+	public ArrayList<Flight> filterDepTime(Time depLocalTime, boolean after, Airport airport){
+		
+		/* Convert from Local time to GMT time */
+		Time depTime = Time.getGMTTime(depLocalTime, airport.getLocation());
+
+		/* Make a new list to add the filtered flights to */
+		ArrayList<Flight> filteredFlights = new ArrayList<Flight>();
+		
+		/* Check every flight in the list to see if it matches the 
+		 * criteria */
+		for (Flight flight : flightList){
+
+			/* Check flights that leave after specified time */
+			if(after){
+
+				/* Leaves after */
+				if( flight.getDepartureTime().compareTo(depTime) >= 0 ){
+					filteredFlights.add(flight);
+				}
+
+			}
+			/* Check flights that leave before specified time */
+			else{
+
+				/* Leaves after */
+				if( flight.getDepartureTime().compareTo(depTime) <= 0 ){
+					filteredFlights.add(flight);
+				}
+
+
+			}
+
+		}
+		
+		return filteredFlights;
+		
+	}
+	
+	/** 
+	 * This method returns a flight list that has only flights
+	 * that arrive after or before a given time (inclusive). 
+	 * @param arrLocalTime the local time for the arrival
+	 * @param after true if you want flights that arrive after a certain time (inclusive)
+	 * @return the filtered flight list.
+	 */
+	public ArrayList<Flight> filterArrTime(Time arrLocalTime, boolean after, Airport airport){
+		
+		/* Convert from Local time to GMT time */
+		Time arrTime = Time.getGMTTime(arrLocalTime, airport.getLocation());
+
+		/* Make a new list to add the filtered flights to */
+		ArrayList<Flight> filteredFlights = new ArrayList<Flight>();
+		
+		/* Check every flight in the list to see if it matches the 
+		 * criteria */
+		for (Flight flight : flightList){
+
+			/* Check flights that leave after specified time */
+			if(after){
+
+				/* Leaves after */
+				if( flight.getArrivalTime().compareTo(arrTime) >= 0 ){
+					filteredFlights.add(flight);
+				}
+
+			}
+			/* Check flights that leave before specified time */
+			else{
+
+				/* Leaves after */
+				if( flight.getArrivalTime().compareTo(arrTime) <= 0 ){
+					filteredFlights.add(flight);
+				}
+
+
+			}
+
+		}
+		
+		return filteredFlights;
+		
 	}
 	
 	

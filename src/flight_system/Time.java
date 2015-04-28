@@ -33,11 +33,24 @@ public class Time implements Comparable<Time>{
 	 * 
 	 * @see flight_system.Location#getTimeZoneOffset()
 	 */
-	
 	/* Returns a Time Object with the local time that was given */
 	public static Time getLocalTime(Time time, Location location) {
 		int localHours = (time.getHours() + (int) location.getTimeZoneOffset() / 3600) % 24;
 		return new Time(localHours, time.getMinutes());
+	}
+	
+	/**
+	 * Makes an object that represent GMT time
+	 * @param time the time in local format
+	 * @param location the location information where the GMT time we want to get
+	 * @return local time that transformed from local time in 24-Hour format.
+	 * 
+	 * @see flight_system.Location#getTimeZoneOffset()
+	 */
+	/* Returns a Time Object with the GMT time that was given */
+	public static Time getGMTTime(Time time, Location location) {
+		int gmtHours = (time.getHours() - (int) location.getTimeZoneOffset() / 3600) % 24;
+		return new Time(gmtHours, time.getMinutes());
 	}
 	
 	/**

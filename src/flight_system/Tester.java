@@ -7,11 +7,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import parsers.*;
+import user_interface.IUserInterface;
+import user_interface.TextInterface;
 
 public class Tester {
 
 	public static void main(String[] args) {
-		testFlightClass();
+		runFlightSys();
+	}
+	
+	private static void runFlightSys(){
+		
+		IUserInterface userInterface = new TextInterface();
+		
+		FlightSystem app = new FlightSystem(userInterface);
+		
+		app.run();
+		
 	}
 	
 	@SuppressWarnings("unused")
@@ -59,11 +71,13 @@ public class Tester {
 		Flight flight2 = new Flight(leg3, leg1); // MIA -> BOS -> JFK
 		Flight flight3 = new Flight(leg3, leg1, leg2); // MIA -> BOS -> JFK -> MIA
 		
+		ArrayList<Flight> fList = new ArrayList<Flight>();
+		fList.add(flight1);
+		fList.add(flight2);
+		fList.add(flight3);
+		
 		/* Make the filter */
-		FlightFilter filter = new FlightFilter();
-		filter.addFlight(flight2);
-		filter.addFlight(flight1);
-		filter.addFlight(flight3);
+		FlightFilter filter = new FlightFilter(fList);
 		
 		/* Print the tests */
 		System.out.println("The cheapest 1st Class flight is: \n" + filter.cheapestFlight(true));

@@ -139,7 +139,6 @@ public class TextInterface implements IUserInterface {
 	@Override
 	public void flightDisappear() {
 		System.out.println("Whoops! This flight has just been bought out.");
-		
 	}
 
 	@Override
@@ -147,6 +146,70 @@ public class TextInterface implements IUserInterface {
 		System.out.println("Sorry! We can't purchase this flight for you right now. "
 				+ "Please try again in a few minutes");
 		
+	}
+
+	@Override
+	public String doFilter() {
+		System.out.println("Would you like to filter the flights?\n"
+				+ "(Yes or No)");
+		return userInput.nextLine().toUpperCase();
+	}
+
+	@Override
+	public String sortBy() {
+		System.out.println("How would you like to filter the flights?\n");
+		System.out.println("1: Departure time\n" +
+						   "2: Arrival Time\n" +
+						   "3: Total Time\n" +
+						   "4: Number of Connections\n" +
+						   "5: Layover Time\n" +
+						   "6: Cost");		
+		return userInput.nextLine();
+	}
+
+	@Override
+	public String sortOrder() {
+		System.out.println("Do you want the list in ascending order or descending order\n"
+		+ "(A or D)");
+		return userInput.nextLine().toUpperCase();
+	}
+
+	@Override
+	public String askDepFilter() {
+		System.out.println("Would you like to filter by departure times?\n"
+				+ "(Yes or No)");
+		return userInput.nextLine().toUpperCase();
+	}
+
+	@Override
+	public String askArrFilter() {
+		System.out.println("Would you like to filter by arrival times?\n"
+				+ "(Yes or No)");
+		return userInput.nextLine().toUpperCase();
+	}
+
+	@Override
+	public String b4OrAfter() {
+		System.out.println("Do you want flights before this time, or after this time?\n"
+				+ "(B or A)");
+		return userInput.nextLine().toUpperCase();
+	}
+
+	@Override
+	public void askDepTime() {
+		System.out.println("What time do you want to depart?");
+	}
+
+	@Override
+	public String getHours() {
+		System.out.println("Hour: ");
+		return userInput.nextLine();
+	}
+
+	@Override
+	public String getMinutes() {
+		System.out.println("Minutes: ");
+		return userInput.nextLine();
 	}
 	
 	
