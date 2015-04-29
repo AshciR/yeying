@@ -18,7 +18,7 @@ public class ErrorHandler {
 	 * user tried to input an invalid airport.
 	 */
 	public static void invalidPort(){
-		System.out.println("That is not a valid Airport. ");	
+		System.out.println("I'm sorry, that is not a valid Airport. ");	
 
 	}
 	
@@ -35,7 +35,8 @@ public class ErrorHandler {
 	 * user tried to input an invalid date.
 	 */
 	public static void invalidDate(){
-		System.out.println("That is not a valid Date");
+		System.out.println("I'm sorry, that is not a valid day.");
+		System.out.println("Please select a day between 8 and 18 (inclusively).");
 	}
 		
 	/**
@@ -52,7 +53,7 @@ public class ErrorHandler {
 	 * for the date (day).
 	 */
 	public static void notANum(){
-		System.out.println("That is not a number!");
+		System.out.println("I'm sorry, that is not a number.");
 	}
 	
 	/**
@@ -60,7 +61,7 @@ public class ErrorHandler {
 	 * user did not type "Yes" or "No" for their answer.
 	 */
 	public static void notYesOrNo(){
-		System.out.println("Please type Y or N");
+		System.out.println("Please type \"Y\" or \"N\".");
 	}
 	
 	/**
@@ -106,6 +107,16 @@ public class ErrorHandler {
 	 */
 	public static void invalidInput() {
 		System.out.println("I'm sorry, that's not a proper answer.");
+	}
+
+	public static void invalidReturn() {
+		System.out.println("\nI'm sorry, that is not a valid day.");
+		System.out.println("Your return date can't be before your departure date.");
+	}
+
+	public static void invalidOption() {
+		System.out.println("\nI'm sorry, that is not a valid option.");
+		System.out.println("Please enter one of the above options.");		
 	}
 	
 	
