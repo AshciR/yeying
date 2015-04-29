@@ -196,6 +196,12 @@ public interface IUserInterface {
 	 */
 	public String doWhatWithFlights();
 	
+	/** 
+	 * Ask the user which list they want to filter 
+	 * @return the user's answer.
+	 */
+	public String askOriginOrReturn();
+	
 }
 
 

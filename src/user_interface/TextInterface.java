@@ -150,16 +150,9 @@ public class TextInterface implements IUserInterface {
 				+ "Please try again in a few minutes");
 		
 	}
-
-	@Override
-<<<<<<< HEAD
+	
 	public String doSort() {
-		System.out.println("Would you like to sort the flights?\n"
-				+ "(Yes or No)");
-=======
-	public String doFilter() {
-		System.out.print("Would you like to filter the flights? (Y/N) ");
->>>>>>> d706089adaafaeae3e09d1b931f11bbd731c6d38
+		System.out.print("Would you like to sort the flights? (Y/N) ");
 		return userInput.nextLine().toUpperCase();
 	}
 
@@ -247,6 +240,12 @@ public class TextInterface implements IUserInterface {
 		System.out.print("\nPlease select one of the above options: ");
 		return userInput.nextLine().toUpperCase();
 		
+	}
+
+	@Override
+	public String askOriginOrReturn() {
+		System.out.print("\nWhich list do you want to filter? (Origin/Return)");
+		return userInput.nextLine().toUpperCase();
 	}
 	
 	

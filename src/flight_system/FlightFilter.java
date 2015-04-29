@@ -12,13 +12,34 @@ public class FlightFilter {
 	private ArrayList<Flight> flightList;
 	
 	/**
-	 * Creates an flight filter object without any flights in the list.
+	 * Makes a flight filter without any flights in the list.
+	 */
+	public FlightFilter(){
+		this.flightList = new ArrayList<Flight>();
+	}
+	
+	/**
+	 * Creates an flight filter object with flights in the list.
 	 */
 	public FlightFilter(ArrayList<Flight> flightList){
 		this.flightList  = flightList;
 	}
 	
 	
+	/**
+	 * Adds the given list to this flight list. Cleans the previous
+	 * information 1st. 
+	 * @param flightList the flight list to be added to the filter.
+	 */
+	public void addFlightList(ArrayList<Flight> flightList) {
+		
+		/* Clean this list 1st */
+		this.flightList.clear();
+		
+		this.flightList.addAll(flightList);
+		
+	}
+
 	/**
 	 * Gets the original list of flights that the filter has.
 	 * @return the original list of flights that the filter has.
