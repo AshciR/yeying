@@ -252,7 +252,7 @@ public class XMLGetter {
 			/* If The connection was successful */
 			if((responseCode >= 200) && (responseCode <= 299)){
 				
-				System.out.println("Getting Flight Info..."); // Shows successful connection
+				//System.out.println("Getting Flight Info..."); 
 				
 				/* Setup the input stream */
 				InputStream inputStream = connection.getInputStream();

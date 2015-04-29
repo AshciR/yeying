@@ -30,23 +30,24 @@ public class TextInterface implements IUserInterface {
 	@Override
 	public String getDepartureAirport() {
 		/* Get the Depart Airport from the user */
-		System.out.print("\nWhat is the code for your Departure Airport? ");
+		System.out.println("\nWhat is the Departure Airport's code? ");
 		return userInput.nextLine();
 	}
 
 	@Override
 	public String getArrivalAirport() {
 		/* Get the Arrival Airport from the user */
-		System.out.print("\nWhat is the code for your Arrival Airport? ");
+		System.out.println("\nWhat is the Arrival Airport's code? ");
 		return userInput.nextLine();
 	}
 
 	@Override
 	public String getLeavingDate() {
 		/* Get the Departure Day */
-		System.out.print("\nPlease note that currently we only have flights between"
+		System.out.println("\nPlease note that currently we only have flights between "
 				+ "May 8, 2015 and May 18, 2015.");
-		System.out.print("What day do you want to leave? ");
+		System.out.println("What day do you want to leave? ");
+		System.out.println("For example: if you want to leave on May 16, 2015, please enter 16.");
 		return userInput.nextLine();
 	}
 

@@ -36,7 +36,7 @@ public class ErrorHandler {
 	 */
 	public static void invalidDate(){
 		System.out.println("I'm sorry, that is not a valid day.");
-		System.out.println("Please select a day between 8 and 18 (inclusively)");
+		System.out.println("Please select a day between 8 and 18 (inclusively).");
 	}
 		
 	/**
@@ -61,7 +61,7 @@ public class ErrorHandler {
 	 * user did not type "Yes" or "No" for their answer.
 	 */
 	public static void notYesOrNo(){
-		System.out.println("Please type Y or N");
+		System.out.println("Please type \"Y\" or \"N\".");
 	}
 	
 	/**

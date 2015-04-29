@@ -62,6 +62,10 @@ public class FlightSystem {
 
 				/* Updates the user's info */
 				askUserForInfo();
+				
+				/* Go to Show Flights State */
+				state = State.ShowFlights;
+				
 				break;
 
 			case ShowFlights:
@@ -70,12 +74,15 @@ public class FlightSystem {
 				getFlights();
 
 				/* Shows the user the flight(s) if available */
-				showFlights(true);
 				
-				/* Filter the flights */
-				//filterFlights();
+				/* If there are no flights */
+				if(!showFlights()){
+					
+					/* Then go to finish state */
+					state = State.FinishState;
+					
+				}
 				
-				showFlights(false);
 				break;
 			
 			case DetailFlights:
@@ -283,9 +290,6 @@ public class FlightSystem {
 		userInfo.setDepartureDate(depDate);
 		userInfo.setIsFirstClass(seat);
 		
-		/* Go to Show Flights State */
-		state = State.ShowFlights;
-		
 	}
 
 	private void getFlights() {
@@ -329,6 +333,175 @@ public class FlightSystem {
 			flightList.add(addedFlight);
 			
 		}
+		
+	}
+
+	private boolean showFlights() {
+
+		/* Show the un-filtered list of flights ordered by price initially.
+		 * Sort the price based on the user's seating choice. */
+		if(userInfo.getIsFirstClass()){
+
+			/* Sort flights by price (by default) */
+			Collections.sort(flightList, Flight.FirstClassPriceComparator);
+
+		}
+		else{
+
+			/* Sort flights by price (by default) */
+			Collections.sort(flightList, Flight.CoachClassPriceComparator);
+
+		}
+
+		/* If there flights */
+		if (flightList.size() != 0) {
+
+			/* Tell the user that there are # of available flights */
+			iFace.numOfFlights(flightList.size());
+
+			/* Print all the available flights */
+			for (Flight flight : flightList) {
+				iFace.printFlightOption(flightList.indexOf(flight));
+				flight.printFlight(userInfo.getIsFirstClass());
+				System.out.println();
+			}
+			
+			return true; // Yes, there are flights
+		
+		}
+		/* No matching flights */
+		else {
+
+			/* Tell the user there are no flights */
+			iFace.noFlights();
+			return false; // No flights
+		}
+
+	}
+		
+	/* Asks the user if they want to get more detail 
+	 * about a flight. If they do, then we print that info,
+	 * if not, then we go to the buy flights state.
+	 */
+	private void showDetail() {
+		
+		/* Ask the user if they want to see more 
+		 * detail about a flight */
+		String detAns = iFace.wantDetail();
+		
+		/* Loop until the user inputs Y or N */
+		do{
+			
+			/* Tell the user to input Y or N */
+			if(!validUserAns(detAns, "Y", "N")){
+				ErrorHandler.notYesOrNo();
+			}
+			
+			/* Ask the user again if they want detail about the flight */
+			detAns = iFace.wantDetail();
+			
+		}
+		while(!validUserAns(detAns, "Y", "N"));
+		
+		/* if they don't want more detail about any of the flights */
+		if (detAns.startsWith("N")){
+			
+			/* Then they know what flight they want to 
+			
+		}
+			
+			
+		
+		
+		/* Get the flight option the user wants more info about */
+		String fltOpt = iFace.getDetailFlight();
+		
+		boolean intValid = false;
+		
+		/* Keep looping until the user inputs a 
+		do {
+			/* Try and convert the user input into a integer */
+			try {
+				Integer.parseInt(fltOpt);
+				intValid = true;
+			}
+			/* The user did not input a number */
+			catch (IndexOutOfBoundsException e) {
+				ErrorHandler.invalidFlight();
+				intValid = false;
+			}
+//		} while (!intValid);
+//
+		
+//
+//		while (!validUserAns(detAns, "Y", "N"));
+//		
+//		boolean ansValid = false;
+		
+//		do {
+//			/* Go back to user info */
+//			if (detAns.startsWith("Y")) {
+//				
+//				/* Get the flight option the user wants
+//				 * more info about */
+//				String fltOpt = iFace.getDetailFlight();
+//				
+//				try {
+//					int fltOptNum = Integer.parseInt(fltOpt);
+//					
+//					/* We know it's an integer */
+//					try {
+//						
+//						/* Prints the detail info about the flight */
+//						flightList.get(fltOptNum).printDetailFlight(userInfo.getIsFirstClass());
+//						
+//						String detAns2nd = iFace.getAnotherDetail();
+//						
+//						/* If they want detail about another flight */
+//						if(detAns2nd.startsWith("Y")){
+//							
+//							ansValid = true;
+//							
+//							/* Call this function again */
+//							showDetail();
+//						}
+//						else if (detAns2nd.startsWith("N")){
+//							
+//							ansValid = true;
+//							/* Go the the buy state */
+//							this.state = State.BuyFlights;
+//						}
+//						else{
+//							/* Not a valid answer */
+//							ErrorHandler.notYesOrNo();
+//						}
+//						
+//					/* If the user tries to select an incorrect option */
+//					} catch (IndexOutOfBoundsException e) {
+//						ErrorHandler.invalidFlight();
+//					}
+//				
+//				/* The user did not type a number */
+//				} catch (NumberFormatException e) {
+//					ErrorHandler.notANum();
+//				}
+//		
+//			}
+//			/* The user doesn't want any flight detail */
+//			else if (detAns.startsWith("N")) {
+//				
+//				ansValid = true;
+//		
+//				/* Go the the buy state */
+//				this.state = State.BuyFlights;
+//			
+//			} else {
+//				/* Not a valid answer */
+//				ErrorHandler.notYesOrNo();
+//			}
+//			
+//		} while (!ansValid);
+	
 		
 	}
 
@@ -681,82 +854,6 @@ public class FlightSystem {
 		} while(!ansValid); // repeat until we get a valid ans.
 	}
 
-	/* Asks the user if they want to get more detail 
-	 * about a flight. If they do, then we print that info,
-	 * if not, then we go to the buy flights state.
-	 */
-	private void showDetail() {
-		
-		String detAns = iFace.wantDetail();
-		boolean ansValid = false;
-		
-		do {
-			/* Go back to user info */
-			if (detAns.startsWith("Y")) {
-				
-				/* Get the flight option the user wants
-				 * more info about */
-				String fltOpt = iFace.getDetailFlight();
-				
-				try {
-					int fltOptNum = Integer.parseInt(fltOpt);
-					
-					/* We know it's an integer */
-					try {
-						
-						/* Prints the detail info about the flight */
-						flightList.get(fltOptNum).printDetailFlight(userInfo.getIsFirstClass());
-						
-						String detAns2nd = iFace.getAnotherDetail();
-						
-						/* If they want detail about another flight */
-						if(detAns2nd.startsWith("Y")){
-							
-							ansValid = true;
-							
-							/* Call this function again */
-							showDetail();
-						}
-						else if (detAns2nd.startsWith("N")){
-							
-							ansValid = true;
-							/* Go the the buy state */
-							this.state = State.BuyFlights;
-						}
-						else{
-							/* Not a valid answer */
-							ErrorHandler.notYesOrNo();
-						}
-						
-					/* If the user tries to select an incorrect option */
-					} catch (IndexOutOfBoundsException e) {
-						ErrorHandler.invalidFlight();
-					}
-				
-				/* The user did not type a number */
-				} catch (NumberFormatException e) {
-					ErrorHandler.notANum();
-				}
-		
-			}
-			/* The user doesn't want any flight detail */
-			else if (detAns.startsWith("N")) {
-				
-				ansValid = true;
-		
-				/* Go the the buy state */
-				this.state = State.BuyFlights;
-			
-			} else {
-				/* Not a valid answer */
-				ErrorHandler.notYesOrNo();
-			}
-			
-		} while (!ansValid);
-
-		
-	}
-
 	private int buyFlt(Flight flight) {
 		
 		/* Get the XML Putter Instance */
@@ -856,83 +953,13 @@ public class FlightSystem {
 		return userContinue;
 		
 	}
-
-	private void showFlights(boolean showOriginal) {
+	
+	/* Returns true if the user provides a valid answer */
+	private boolean validUserAns(String userAns, String option1, String option2){
 		
-		//decide whether to show filtered flights or original flights
-		if(showOriginal){
-			/* Chooses which seating to sort by initially */
-			if(userInfo.getIsFirstClass()){
-				/* Sort flights by price (by default) */
-				Collections.sort(flightList, Flight.FirstClassPriceComparator);
-			}
-			else{
-				/* Sort flights by price (by default) */
-				Collections.sort(flightList, Flight.CoachClassPriceComparator);
-			}
+		/* If the user pick an appropriate option, then return true */
+		return ( userAns.startsWith(option1) || userAns.startsWith(option2) );
 			
-			
-			/* If there flights */
-			if (flightList.size() != 0) {
-				
-				/* Tell the user that there are # of available flights */
-				iFace.numOfFlights(flightList.size());
-				
-				/* Print all the available flights */
-				for (Flight flight : flightList) {
-					iFace.printFlightOption(flightList.indexOf(flight));
-					flight.printFlight(userInfo.getIsFirstClass());
-				}
-				
-				this.state = State.DetailFlights; // go to the buy flight state
-				
-			}
-			/* No matching flights */
-			else {
-				
-				/* Tell the user there are no flights */
-				iFace.noFlights();
-				this.state = State.FinishState; // go to the finished state
-			}
-
-		}
-		else{
-			/* Chooses which seating to sort by initially */
-			if(userInfo.getIsFirstClass()){
-				/* Sort flights by price (by default) */
-				Collections.sort(filterFlights, Flight.FirstClassPriceComparator);
-			}
-			else{
-				/* Sort flights by price (by default) */
-				Collections.sort(filterFlights, Flight.CoachClassPriceComparator);
-			}
-			
-			
-			/* If there flights */
-			if (filterFlights.size() != 0) {
-				
-				/* Tell the user that there are # of available flights */
-				iFace.numOfFlights(filterFlights.size());
-				
-				/* Print all the available flights */
-				for (Flight flight : filterFlights) {
-					iFace.printFlightOption(filterFlights.indexOf(flight));
-					flight.printFlight(userInfo.getIsFirstClass());
-				}
-				
-				this.state = State.DetailFlights; // go to the buy flight state
-				
-			}
-			/* No matching flights */
-			else {
-				
-				/* Tell the user there are no flights */
-				iFace.noFlights();
-				this.state = State.FinishState; // go to the finished state
-			}
-		}
-		
-
 	}
-
+	
 }
