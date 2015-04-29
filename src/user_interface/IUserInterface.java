@@ -164,8 +164,9 @@ public interface IUserInterface {
 	
 	/**
 	 * Ask the user what time they want to depart at.
+	 * @param depTime 
 	 */
-	public void askDepTime();
+	public void askDepTime(boolean depTime);
 	
 	/**
 	 * Gets hour information from the user.
@@ -201,6 +202,13 @@ public interface IUserInterface {
 	 * @return the user's answer.
 	 */
 	public String askOriginOrReturn();
+	
+	/** 
+	 * Ask the user if they want to sort the origin flights,
+	 * or the return flights
+	 * @return the user's answer.
+	 */
+	public String sortOriginOrReturn();
 	
 }
 

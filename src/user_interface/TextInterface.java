@@ -164,14 +164,14 @@ public class TextInterface implements IUserInterface {
 						   "3: Total Time\n" +
 						   "4: Number of Connections\n" +
 						   "5: Layover Time\n" +
-						   "6: Cost");		
+						   "6: Cost");	
+		System.out.println("\nWhat is your choice? (1-6) ");
 		return userInput.nextLine();
 	}
 
 	@Override
 	public String sortOrder() {
-		System.out.println("Do you want the list in ascending order or descending order\n"
-		+ "(A or D)");
+		System.out.print("Do you want the list in ascending order or descending order (A or D). ");
 		return userInput.nextLine().toUpperCase();
 	}
 
@@ -197,8 +197,8 @@ public class TextInterface implements IUserInterface {
 	}
 
 	@Override
-	public void askDepTime() {
-		System.out.println("What time do you want to depart?");
+	public void askDepTime(boolean depTime) {
+		System.out.println("What time do you want to " + ((depTime) ? "depart? " : "arrive? "));
 	}
 
 	@Override
@@ -222,7 +222,7 @@ public class TextInterface implements IUserInterface {
 	public String wantRoundTrip() {
 		
 		/* Ask if they want to book a round trip*/
-		System.out.print("\nDo you want to book a round trip? (Y/N)");
+		System.out.print("\nDo you want to book a round trip? (Y/N) ");
 		return userInput.nextLine().toUpperCase();
 	}
 
@@ -244,7 +244,13 @@ public class TextInterface implements IUserInterface {
 
 	@Override
 	public String askOriginOrReturn() {
-		System.out.print("\nWhich list do you want to filter? (Origin/Return)");
+		System.out.print("\nWhich list do you want to filter? (Origin/Return) ");
+		return userInput.nextLine().toUpperCase();
+	}
+
+	@Override
+	public String sortOriginOrReturn() {
+		System.out.print("\nWhich list do you want to sort? (Origin/Return) ");
 		return userInput.nextLine().toUpperCase();
 	}
 	
