@@ -15,7 +15,9 @@ public class FlightSystem {
 
 	/* Holds the states for the Flight System */
 	private enum State {
-		GetUserInfo, ShowFlights, BuyFlights, FinishState, DetailFlights
+		GetUserInfo, ShowFlights, Options, FilterFlights, 
+		SortFights, DetailFlights, BuyFlights, FinishState
+		
 	};
 
 	private ArrayList<Airport> airportList;
@@ -31,7 +33,7 @@ public class FlightSystem {
 		this.airplaneList = new ArrayList<Airplane>();
 		this.flightList = new ArrayList<Flight>();
 		this.filterFlights = new ArrayList<Flight>();
-		this.userInfo = new UserInfo(null, null, null, false);
+		this.userInfo = new UserInfo(null, null, null, null, false, false);
 		this.iFace = iFace;
 	};
 	
@@ -48,10 +50,10 @@ public class FlightSystem {
 	public void run() {
 		
 		/* Initialize System */
-		initSys();
+		//initSys();
 
 		/* Go to Get User Info State */
-		this.state = State.GetUserInfo;
+		this.state = State.Options;
 
 		/* Determines whether the user wants to continue */
 		boolean userContinue = true;
@@ -82,13 +84,87 @@ public class FlightSystem {
 					state = State.FinishState;
 					
 				}
+				/* There are flights, ask what the user would like to do */
+				else{
+					
+					/* Go to the Options State */
+					state = State.Options;
+				}
 				
 				break;
+			
+			case Options:
+				
+				/* Holds whether User input a good date */
+				boolean validOption = false;
+				
+				/* Holds the integer value for the option
+				 * the user selects */
+				int optionInt = 0;
+				
+				/* Keep asking the user for options until a valid number
+				 * is inputed */
+				do {
+					/* Ask the user what they would like to do */
+					String option = iFace.doWhatWithFlights();
+			
+					try {
+						optionInt = Integer.parseInt(option);
+						
+						if (optionInt > 6 || optionInt < 1) {
+							ErrorHandler.invalidOption();
+						} else {
+							validOption = true;
+						}
+						
+						
+					} catch (NumberFormatException e) {
+						ErrorHandler.notANum();
+					}
+			
+				} while (!validOption);
+				
+				/* If we got here, then we know the user inputed a valid option
+				 * Go to the state that corresponds with the selected option */
+				switch((optionInt)){
+				
+				/* Filter */
+				case 1:
+					state = State.FilterFlights;
+					break;
+				
+				/* Sort */	
+				case 2:
+					state = State.SortFights;
+					break;
+				
+				/* Detail */
+				case 3:
+					state = State.DetailFlights;
+					break;
+				
+				/* Buy */	
+				case 4:
+					state = State.BuyFlights;
+					break;
+				
+				/* Search new Trip */	
+				case 5:
+					state = State.GetUserInfo;
+					break;
+				
+				/* Close Program */	
+				case 6:
+					state = State.FinishState;
+					break;
+				}
+				
+			break; // finish options state	
 			
 			case DetailFlights:
 				
 				/* Asks the user if they want to see the detail flight info */
-				showDetail();
+				showDetails();
 				break;
 				
 			case BuyFlights:
@@ -190,8 +266,9 @@ public class FlightSystem {
 	
 		/* User Airports */
 		Airport depAirport, arrAirport;
-		Date depDate;
+		Date depDate, returnDate = null;
 		int day = 0; // day of departure
+		int returnDay = 0; // day of return
 		boolean seat = false; // coach by default
 	
 		/* Airport parser object */
@@ -235,7 +312,37 @@ public class FlightSystem {
 			}
 	
 		} while (!validPort);
-	
+		
+		/* Ask if they want to make a round trip */
+		String roundAns = iFace.wantRoundTrip();
+		
+		/* Loop until the user inputs Y or N */
+		do{
+			
+			/* Tell the user to input Y or N */
+			if(!validUserAns(roundAns, "Y", "N")){
+				
+				ErrorHandler.notYesOrNo();
+
+				/* Ask the user again if they want detail about the flight */
+				roundAns = iFace.wantRoundTrip();
+			}
+			
+			
+		}
+		while(!validUserAns(roundAns, "Y", "N"));
+		
+		/* Holds whether the user wants to do a round trip */
+		boolean roundTrip; 
+		
+		/* If they want a round trip */
+		if(roundAns.startsWith("Y")){
+			roundTrip = true;
+		}
+		else{
+			roundTrip = false;
+		}
+			
 		/* Holds whether User input a good date */
 		boolean validDate = false;
 	
@@ -257,10 +364,48 @@ public class FlightSystem {
 			}
 	
 		} while (!validDate);
-	
+		
 		/* Makes the date object */
 		depDate = new Date(Month.May, day, 2015);
-	
+		
+		/* If they selected a round trip, ask for the return date */
+		if(roundTrip){
+			
+			/* Holds whether User input a good date */
+			boolean validReturnDate = false;
+		
+			do {
+				/* Get the Departure Day */
+				String dayStr = iFace.getReturnDate();
+		
+				try {
+					returnDay = Integer.parseInt(dayStr);
+					
+					/* If the return day is less than the 
+					 * departure day, or more than 18 */
+					if (returnDay > 18) {
+						ErrorHandler.invalidDate();
+					} 
+					else if (returnDay < depDate.getDay()){
+						ErrorHandler.invalidReturn();
+					}
+					else {
+						
+						/* The return day is ok */
+						validReturnDate = true;
+					}
+		
+				} catch (NumberFormatException e) {
+					ErrorHandler.notANum();
+				}
+		
+			} while (!validReturnDate);
+			
+			/* Make the return date */
+			returnDate = new Date(Month.May, returnDay, 2015);
+			
+		} // end get return trip date  
+		
 		/* Holds whether User inputs a valid seat */
 		boolean validSeat = false;
 	
@@ -288,7 +433,13 @@ public class FlightSystem {
 		userInfo.setArrivalAirport(arrAirport);
 		userInfo.setDepartureAirport(depAirport);
 		userInfo.setDepartureDate(depDate);
+		if(roundTrip){userInfo.setReturnDate(returnDate);} //Set return date
 		userInfo.setIsFirstClass(seat);
+		userInfo.setIsRoundTrip(roundTrip);
+		
+		/* Echo the user's selection */
+		System.out.println("\nSearching for flights based on this information:");
+		userInfo.printUserInfo();
 		
 	}
 
@@ -383,7 +534,7 @@ public class FlightSystem {
 	 * about a flight. If they do, then we print that info,
 	 * if not, then we go to the buy flights state.
 	 */
-	private void showDetail() {
+	private void showDetails() {
 		
 		/* Ask the user if they want to see more 
 		 * detail about a flight */
@@ -416,21 +567,21 @@ public class FlightSystem {
 		/* Get the flight option the user wants more info about */
 		String fltOpt = iFace.getDetailFlight();
 		
-		boolean intValid = false;
-		
-		/* Keep looping until the user inputs a 
-		do {
-			/* Try and convert the user input into a integer */
-			try {
-				Integer.parseInt(fltOpt);
-				intValid = true;
-			}
-			/* The user did not input a number */
-			catch (IndexOutOfBoundsException e) {
-				ErrorHandler.invalidFlight();
-				intValid = false;
-			}
-//		} while (!intValid);
+//		boolean intValid = false;
+//		
+//		/* Keep looping until the user inputs a 
+//		do {
+//			/* Try and convert the user input into a integer */
+//			try {
+//				Integer.parseInt(fltOpt);
+//				intValid = true;
+//			}
+//			/* The user did not input a number */
+//			catch (IndexOutOfBoundsException e) {
+//				ErrorHandler.invalidFlight();
+//				intValid = false;
+//			}
+////		} while (!intValid);
 //
 		
 //
@@ -503,6 +654,7 @@ public class FlightSystem {
 //		} while (!ansValid);
 	
 		
+	}
 	}
 
 	private void filterFlights() {

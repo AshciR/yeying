@@ -183,6 +183,18 @@ public interface IUserInterface {
 	 * Tells the user that you're searching for flights.
 	 */
 	public void searchFlights();
+
+	/**
+	 * Ask's the user if they want to book a round trip.
+	 * @return The yes or no answer.
+	 */
+	public String wantRoundTrip();
+	
+	/**
+	 * Ask the user if they want to with the flight information. 
+	 * @return the user's option.
+	 */
+	public String doWhatWithFlights();
 	
 }
 

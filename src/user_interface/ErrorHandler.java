@@ -108,6 +108,16 @@ public class ErrorHandler {
 	public static void invalidInput() {
 		System.out.println("I'm sorry, that's not a proper answer.");
 	}
+
+	public static void invalidReturn() {
+		System.out.println("\nI'm sorry, that is not a valid day.");
+		System.out.println("Your return date can't be before your departure date.");
+	}
+
+	public static void invalidOption() {
+		System.out.println("\nI'm sorry, that is not a valid option.");
+		System.out.println("Please enter one of the above options.");		
+	}
 	
 	
 }
