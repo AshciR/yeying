@@ -101,14 +101,12 @@ public class FlightFilter {
 	/** 
 	 * This method returns a flight list that has only flights
 	 * that leave after or before a given time (inclusive). 
-	 * @param depLocalTime the local time for the departure
+	 * @param depTime the time for the departure
 	 * @param after true if you want flights that leave after a certain time (inclusive)
 	 * @return the filtered flight list.
 	 */
-	public ArrayList<Flight> filterDepTime(Time depLocalTime, boolean after, Airport airport){
+	public ArrayList<Flight> filterDepTime(Time depTime, boolean after, Airport airport){
 		
-		/* Convert from Local time to GMT time */
-		Time depTime = Time.getGMTTime(depLocalTime, airport.getLocation());
 
 		/* Make a new list to add the filtered flights to */
 		ArrayList<Flight> filteredFlights = new ArrayList<Flight>();
@@ -129,7 +127,7 @@ public class FlightFilter {
 			/* Check flights that leave before specified time */
 			else{
 
-				/* Leaves after */
+				/* Leaves before */
 				if( flight.getDepartureTime().compareTo(depTime) <= 0 ){
 					filteredFlights.add(flight);
 				}

@@ -342,15 +342,15 @@ public class Flight implements Comparable<Flight>
 	 */
 	public void printFlight(boolean isFirstClass){
 		
-		/* Convert flight time of the original departure and 
-		 * final arrival from GMT to Local Time */
-		Time originDepTime = Time.getLocalTime(getDepartureTime(), getDepartureAirport().getLocation());
-		Time finalArrTime = Time.getLocalTime(getArrivalTime(), getArrivalAirport().getLocation());
+//		/* Convert flight time of the original departure and 
+//		 * final arrival from GMT to Local Time */
+//		Time originDepTime = Time.getLocalTime(getDepartureTime(), getDepartureAirport().getLocation());
+//		Time finalArrTime = Time.getLocalTime(getArrivalTime(), getArrivalAirport().getLocation());
 		
 		NumberFormat priceFormat = new DecimalFormat("#.00");   
 		
 		System.out.println(getDepartureAirport().getCode() + " -> " + getArrivalAirport().getCode() + "\tNum of stops: " + getNumOfConnection());
-		System.out.println(originDepTime + " -> " + finalArrTime + "\t(Total Flight Time: " + getTotalFlightTime() + ")");
+		System.out.println(getDepartureTime() + " -> " + getArrivalTime() + "\t(Total Flight Time: " + getTotalFlightTime() + ")");
 		System.out.println("Price: $" + priceFormat.format(getTotalCost(isFirstClass)) + "\t" + (isFirstClass ? "(First Class)": "(Coach)"));
 	}
 	
