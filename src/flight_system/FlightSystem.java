@@ -22,7 +22,7 @@ public class FlightSystem {
 
 	private ArrayList<Airport> airportList;
 	private ArrayList<Airplane> airplaneList;
-	private ArrayList<Flight> flightList, filterFlights;
+	private ArrayList<Flight> depFlightList, returnFlightList, filterFlights;
 	private State state;
 	private UserInfo userInfo;
 	private IUserInterface iFace;
@@ -31,7 +31,8 @@ public class FlightSystem {
 	public FlightSystem(IUserInterface iFace) {
 		this.airportList = new ArrayList<Airport>();
 		this.airplaneList = new ArrayList<Airplane>();
-		this.flightList = new ArrayList<Flight>();
+		this.depFlightList = new ArrayList<Flight>();
+		this.returnFlightList = new ArrayList<Flight>();
 		this.filterFlights = new ArrayList<Flight>();
 		this.userInfo = new UserInfo(null, null, null, null, false, false);
 		this.iFace = iFace;
@@ -50,10 +51,30 @@ public class FlightSystem {
 	public void run() {
 		
 		/* Initialize System */
-		//initSys();
-
+		initSys();
+		
+		/* Print a list of all the available airports */
+		System.out.println("\nHere is a list of all the availalbe airports:\n");
+		
+		/* Used to print a new line in the airport list, 
+		 * if the current line is over 4 airports long */
+		int printCount = 0;
+		
+		for(Airport port : airportList){
+			
+			System.out.print(port.getCode() + "\t");
+			printCount++;
+			
+			/* Print a new line */
+			if (printCount >=4 ){
+				System.out.println("\n");
+				printCount = 0;
+			}
+			
+		}
+		
 		/* Go to Get User Info State */
-		this.state = State.Options;
+		this.state = State.GetUserInfo;
 
 		/* Determines whether the user wants to continue */
 		boolean userContinue = true;
@@ -73,7 +94,7 @@ public class FlightSystem {
 			case ShowFlights:
 
 				/* Gets the flights from the DB */
-				getFlights();
+				getFlights(userInfo.getIsRoundTrip());
 
 				/* Shows the user the flight(s) if available */
 				
@@ -173,7 +194,7 @@ public class FlightSystem {
 				Flight fltOpt = getFltOpt(); 
 				
 				/* Show the user what flight they selected */
-				iFace.userFlightChoice(flightList.indexOf(fltOpt) + 1);
+				iFace.userFlightChoice(depFlightList.indexOf(fltOpt) + 1);
 				
 				/* Print the details about the flight, again, just to confirm
 				 * with the user */
@@ -443,30 +464,40 @@ public class FlightSystem {
 		
 	}
 
-	private void getFlights() {
+	private void getFlights(boolean isRoundTrip) {
 		
 		/* Tell the user that the system is searching for flights */
 		iFace.searchFlights();
 		
-		/* Empty the list each time we're going to get new flight data */
-		flightList.clear();
+		/* Empty the lists each time we're going to get new flight data */
+		depFlightList.clear();
+		returnFlightList.clear();
 		
-		/* Make the flight graph based on the user's 
-		 * flight information */
-		GraphMaker gMaker = new GraphMaker(userInfo.getDepartureDate());
+		/* Make the departure flight graph */
+		GraphMaker gMakerDep = new GraphMaker(userInfo.getDepartureDate());
 	
-		/* Use the graph engine to find the flights after
-		 * the graph is made */
-		GraphEngine engine = new GraphEngine(gMaker.getGraph());
+		/* Make the return flight graph */
+		GraphMaker gMakerRet = new GraphMaker(userInfo.getReturnDate());
+
+		/* Use the graph engine to find the departure flights */ 
+		GraphEngine engineDep = new GraphEngine(gMakerDep.getGraph());
 		
-		/* Search for the flights that meet the user's 
+		/* Use the graph engine to find the return flights */ 
+		GraphEngine engineRet = new GraphEngine(gMakerRet.getGraph());
+		
+		/* Search for the departure flights that meet the user's 
 		 * requirements. Note, that it will return flights
 		 * that have up to maximum 2 connections. */
-		ArrayList<LinkedList<Edge>> availFlights = engine.getRoutes(userInfo.getDepartureAirport(), userInfo.getArrivalAirport(), 3, userInfo.getIsFirstClass());
+		ArrayList<LinkedList<Edge>> availDepFlights = engineDep.getRoutes(userInfo.getDepartureAirport(), userInfo.getArrivalAirport(), 3, userInfo.getIsFirstClass());
+		
+		/* Search for the arrival flights that meet the user's 
+		 * requirements. Note, that it will return flights
+		 * that have up to maximum 2 connections. */
+		ArrayList<LinkedList<Edge>> availRetFlights = engineRet.getRoutes(userInfo.getArrivalAirport(), userInfo.getDepartureAirport(), 3, userInfo.getIsFirstClass());
 		
 		/* Converts the graph edges, which are flights, into Flight objects
 		 * that can be used throughout the rest of the program */
-		for(LinkedList<Edge> flight : availFlights){
+		for(LinkedList<Edge> flight : availDepFlights){
 			
 			/* Make a new flight */
 			Flight addedFlight = new Flight();
@@ -481,9 +512,31 @@ public class FlightSystem {
 			}
 			
 			/* Add the flight to the flight list */
-			flightList.add(addedFlight);
+			depFlightList.add(addedFlight);
 			
 		}
+		
+		/* Converts the graph edges, which are flights, into Flight objects
+		 * that can be used throughout the rest of the program */
+		for(LinkedList<Edge> flight : availRetFlights){
+			
+			/* Make a new flight */
+			Flight addedFlight = new Flight();
+			
+			for (Edge edge : flight){
+				
+				/* Get the flight object from the edge */
+				FlightLeg fLeg = edge.getAttribute("fltInfo");
+				
+				/* Add the Flight Leg to the flight */
+				addedFlight.addFlightLeg(fLeg);
+			}
+			
+			/* Add the flight to the flight list */
+			returnFlightList.add(addedFlight);
+			
+		}
+		
 		
 	}
 
@@ -494,25 +547,25 @@ public class FlightSystem {
 		if(userInfo.getIsFirstClass()){
 
 			/* Sort flights by price (by default) */
-			Collections.sort(flightList, Flight.FirstClassPriceComparator);
+			Collections.sort(depFlightList, Flight.FirstClassPriceComparator);
 
 		}
 		else{
 
 			/* Sort flights by price (by default) */
-			Collections.sort(flightList, Flight.CoachClassPriceComparator);
+			Collections.sort(depFlightList, Flight.CoachClassPriceComparator);
 
 		}
 
 		/* If there flights */
-		if (flightList.size() != 0) {
+		if (depFlightList.size() != 0) {
 
 			/* Tell the user that there are # of available flights */
-			iFace.numOfFlights(flightList.size());
+			iFace.numOfFlights(depFlightList.size());
 
 			/* Print all the available flights */
-			for (Flight flight : flightList) {
-				iFace.printFlightOption(flightList.indexOf(flight));
+			for (Flight flight : depFlightList) {
+				iFace.printFlightOption(depFlightList.indexOf(flight));
 				flight.printFlight(userInfo.getIsFirstClass());
 				System.out.println();
 			}
@@ -663,7 +716,7 @@ public class FlightSystem {
 		sortFlights();
 		
 		/* Filter by time (if the user wants) */
-		FlightFilter filter = new FlightFilter(flightList);
+		FlightFilter filter = new FlightFilter(depFlightList);
 		
 		/* Check if the user typed in correct answers */
 		boolean validAns = false;
@@ -829,7 +882,7 @@ public class FlightSystem {
 		String ordAns = null;
 		
 		/* Add the flights to the filter */
-		FlightFilter filter = new FlightFilter(flightList);
+		FlightFilter filter = new FlightFilter(depFlightList);
 		
 		/* Ask the user if they want to filter the flights */
 		String ans = iFace.doFilter();
@@ -1046,7 +1099,7 @@ public class FlightSystem {
 				 * the list */
 				try {
 					
-					fltOpt = flightList.get(fltNum - 1);
+					fltOpt = depFlightList.get(fltNum - 1);
 					validFlight = true;
 				
 				/* Not the in the list! */
