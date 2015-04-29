@@ -24,7 +24,7 @@ public class Prototype {
 		this.airplaneList = new ArrayList<Airplane>();
 		this.flightList = new ArrayList<FlightLeg>();
 		this.showFlightList = new ArrayList<FlightLeg>();
-		this.userInfo = new UserInfo(null, null, null, false);
+		this.userInfo = new UserInfo(null, null, null, null, false, false);
 	};
 	
 	/* Getter Functions */
