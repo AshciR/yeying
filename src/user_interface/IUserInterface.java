@@ -134,11 +134,11 @@ public interface IUserInterface {
 	 * Ask the user if they want to filter a flight.
 	 * @return "yes" or "no" answer.
 	 */
-	public String doFilter();
+	public String doSort();
 	
 	/**
-	 * Ask the what criteria they user wants to filter by.s
-	 * @return what criteria the user wants to filter by.
+	 * Ask the what criteria they user wants to sort by.s
+	 * @return what criteria the user wants to sort by.
 	 */
 	public String sortBy();
 	

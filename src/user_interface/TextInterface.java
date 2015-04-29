@@ -149,8 +149,8 @@ public class TextInterface implements IUserInterface {
 	}
 
 	@Override
-	public String doFilter() {
-		System.out.println("Would you like to filter the flights?\n"
+	public String doSort() {
+		System.out.println("Would you like to sort the flights?\n"
 				+ "(Yes or No)");
 		return userInput.nextLine().toUpperCase();
 	}
