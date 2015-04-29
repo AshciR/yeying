@@ -548,39 +548,98 @@ public class FlightSystem {
 
 			/* Sort flights by price (by default) */
 			Collections.sort(depFlightList, Flight.FirstClassPriceComparator);
+			
+			if(userInfo.getIsRoundTrip()){
+				/* Sort flights by price (by default) */
+				Collections.sort(returnFlightList, Flight.FirstClassPriceComparator);
+			}
 
 		}
 		else{
 
 			/* Sort flights by price (by default) */
 			Collections.sort(depFlightList, Flight.CoachClassPriceComparator);
-
-		}
-
-		/* If there flights */
-		if (depFlightList.size() != 0) {
-
-			/* Tell the user that there are # of available flights */
-			iFace.numOfFlights(depFlightList.size());
-
-			/* Print all the available flights */
-			for (Flight flight : depFlightList) {
-				iFace.printFlightOption(depFlightList.indexOf(flight));
-				flight.printFlight(userInfo.getIsFirstClass());
-				System.out.println();
-			}
 			
-			return true; // Yes, there are flights
+			if(userInfo.getIsRoundTrip()){
+				/* Sort flights by price (by default) */
+				Collections.sort(returnFlightList, Flight.CoachClassPriceComparator);
+			}
+
+		}
 		
+		/* If it's not a round trip */
+		if(!userInfo.getIsRoundTrip()){
+			
+			/* If there departure flights */
+			if (depFlightList.size() != 0)  {
+				
+				System.out.println("\n--- Departure Flights Info: ---");
+				
+				/* Tell the user that there are # of available flights */
+				iFace.numOfFlights(depFlightList.size());
+
+				/* Print all the available flights */
+				for (Flight flight : depFlightList) {
+					iFace.printFlightOption(depFlightList.indexOf(flight));
+					flight.printFlight(userInfo.getIsFirstClass());
+					System.out.println();
+				}
+				
+				return true;
+			
+			}
+			/* There are no departure flights */
+			else{
+				/* Tell the user there are no flights */
+				iFace.noFlights();
+				return false; // No flights
+			}
+					
 		}
-		/* No matching flights */
+		/* if it is a round trip */
 		else {
+			
+			/* If there are departure flights and return flights */
+			if (depFlightList.size() != 0 && returnFlightList.size() !=0 )  {
+				
+				System.out.println("\n--- Departure Flights Info: ---");
 
-			/* Tell the user there are no flights */
-			iFace.noFlights();
-			return false; // No flights
+				/* Tell the user that there are # of available flights */
+				iFace.numOfFlights(depFlightList.size());
+
+				/* Print all the available flights */
+				for (Flight flight : depFlightList) {
+					iFace.printFlightOption(depFlightList.indexOf(flight));
+					flight.printFlight(userInfo.getIsFirstClass());
+					System.out.println();
+				}
+
+				
+				System.out.println("--- Arrival Flights Info: ---");
+
+				/* Tell the user that there are # of available flights */
+				iFace.numOfFlights(returnFlightList.size());
+
+				/* Print all the available flights */
+				for (Flight flight : returnFlightList) {
+					iFace.printFlightOption(returnFlightList.indexOf(flight));
+					flight.printFlight(userInfo.getIsFirstClass());
+					System.out.println();
+				}
+
+				return true;
+				
+			}
+			/* There are no flights */
+			else{
+				/* Tell the user there are no flights */
+				iFace.noFlights();
+				return false; // No flights
+			}
+				
+			
 		}
-
+					
 	}
 		
 	/* Asks the user if they want to get more detail 
