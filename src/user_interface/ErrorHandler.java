@@ -18,7 +18,7 @@ public class ErrorHandler {
 	 * user tried to input an invalid airport.
 	 */
 	public static void invalidPort(){
-		System.out.println("I'm sorry, that is not a valid Airport. ");	
+		System.out.println("I'm sorry, that is not a valid Airport.");	
 
 	}
 	
@@ -44,7 +44,7 @@ public class ErrorHandler {
 	 * to select an invalid flight.
 	 */
 	public static void invalidFlight(){
-		System.out.println("That is not a valid flight");
+		System.out.println("That is not a valid flight.");
 	}
 	
 	/**
@@ -85,7 +85,7 @@ public class ErrorHandler {
 	 * Invalid sorting option.
 	 */
 	public static void invalidSort(){
-		System.out.println("I'm sorry, that is not a valid sorting option.");
+		System.out.println("I'm sorry, that is not a valid sort option.");
 	}
 	
 	/**
@@ -106,7 +106,7 @@ public class ErrorHandler {
 	 * Invalid input from the user.
 	 */
 	public static void invalidInput() {
-		System.out.println("I'm sorry, that's not a proper answer.");
+		System.out.println("I'm sorry, that's not a valid answer.");
 	}
 
 	public static void invalidReturn() {

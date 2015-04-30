@@ -3,6 +3,7 @@ package flight_system;
 import graph.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 
 import org.graphstream.graph.Edge;
@@ -468,6 +469,11 @@ public class FlightSystem {
 	}
 
 	private void printAirportList() {
+		
+		/* Sort the airport list in alphabetical order before you
+		 * display it on the screen. */
+		Collections.sort(airportList);
+		
 		/* Print a list of all the available airports */
 		System.out.println("\nHere is a list of all available airports:\n");
 		System.out.println("----------------------------------------------------------"

@@ -9,7 +9,7 @@ package flight_system;
  * @see parsers.XMLGetter#getAirportsXML() 
  */
 
-public class Airport {
+public class Airport implements Comparable<Airport> {
 	
 	/* The Fields */
 	private String code;
@@ -77,6 +77,13 @@ public class Airport {
 		return (this.code.equalsIgnoreCase(compAirport.code));
 	}
 	
+	@Override
+	public int compareTo(Airport compPort) {
+		
+		return code.toUpperCase().compareTo(compPort.getCode().toUpperCase());
+		
+	}
+
 	/**
 	 * String representation of the airport object.
 	 * <p>
