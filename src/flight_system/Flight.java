@@ -363,14 +363,14 @@ public class Flight implements Comparable<Flight>
 		
 		for (FlightLeg flight : flightList){
 			
-			/* Convert flight leg time from GMT to Local Time */
-			Time depTime = Time.getLocalTime(flight.getDepartureTime(),flight.getDepartureAirport().getLocation());
-			Time arrTime = Time.getLocalTime(flight.getArrivalTime(), flight.getArrivalAirport().getLocation());
+//			/* Convert flight leg time from GMT to Local Time */
+//			Time depTime = Time.getLocalTime(flight.getDepartureTime(),flight.getDepartureAirport().getLocation());
+//			Time arrTime = Time.getLocalTime(flight.getArrivalTime(), flight.getArrivalAirport().getLocation());
 			
 			System.out.println("----------------------------------------------------------------------------------\n" +
 			"Flight #: " + flight.getFlightNum() + "\n" +
-			"Departs " + flight.getDepartureAirport().getCode() + " at " + depTime + 
-			"\t\tArrives " + flight.getArrivalAirport().getCode() + " at " + arrTime +
+			"Departs " + flight.getDepartureAirport().getCode() + " at " + flight.getDepartureTime() + 
+			"\t\tArrives " + flight.getArrivalAirport().getCode() + " at " + flight.getArrivalTime() +
 			"\t\tDuration\n" + 
 			flight.getDepartureDate() + "\t\t\t" + flight.getArrivalDate() +
 			"\t\t\t" + Time.convertMinsToHours(flight.getFlightDuration()) +

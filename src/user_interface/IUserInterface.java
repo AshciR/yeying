@@ -210,6 +210,12 @@ public interface IUserInterface {
 	 */
 	public String sortOriginOrReturn();
 	
+	/**
+	 * Ask the user if they want detail about an origin flight or a return flight.
+	 * @return the origin flight or return flight.
+	 */
+	public String detailOriginOrReturn();
+	
 }
 
 

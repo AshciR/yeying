@@ -123,8 +123,7 @@ public class TextInterface implements IUserInterface {
 	@Override
 	public String getDetailFlight() {
 		/* Ask what flight option they want detail about */
-		System.out.print("\nWhich flight do you want more detail about?\n"
-						+ "(Enter the flight option number)");
+		System.out.print("\nWhich flight do you want more detail about? (Enter the flight option number) ");
 		return userInput.nextLine().toUpperCase();
 	}
 
@@ -184,15 +183,13 @@ public class TextInterface implements IUserInterface {
 
 	@Override
 	public String askArrFilter() {
-		System.out.println("Would you like to filter by arrival times?\n"
-				+ "(Yes or No)");
+		System.out.print("Would you like to filter by arrival times? (Yes or No) ");
 		return userInput.nextLine().toUpperCase();
 	}
 
 	@Override
 	public String b4OrAfter() {
-		System.out.println("Do you want flights before this time, or after this time?\n"
-				+ "(B or A)");
+		System.out.print("Do you want flights before this time, or after this time? (B or A) " );
 		return userInput.nextLine().toUpperCase();
 	}
 
@@ -251,6 +248,12 @@ public class TextInterface implements IUserInterface {
 	@Override
 	public String sortOriginOrReturn() {
 		System.out.print("\nWhich list do you want to sort? (Origin/Return) ");
+		return userInput.nextLine().toUpperCase();
+	}
+
+	@Override
+	public String detailOriginOrReturn() {
+		System.out.print("\nWhich list do you want detail flight info. from? (Origin/Return) ");
 		return userInput.nextLine().toUpperCase();
 	}
 	

@@ -235,8 +235,69 @@ public class FlightSystem {
 				
 			case DetailFlights:
 				
-				/* Asks the user if they want to see the detail flight info */
-				showDetails();
+				/* This is a one-way trip */
+				if(!userInfo.getIsRoundTrip()){
+					
+					/* If it has been filtered */
+					if(hasBeenFiltered){
+						showDetails(originFilter);
+					}
+					else if(hasBeenSorted){
+						showDetails(sortList);
+					}
+					else{
+						showDetails(originFlightList);
+					}
+					
+				}
+				/* Is a round trip */
+				else{
+					
+					/* Ask the user what list they want detail info from */
+					String detOriOrRet = iFace.detailOriginOrReturn();	
+					/* Loop until the user inputs Y or N */
+					do{
+						
+						/* Tell the user to input Y or N */
+						if(!validUserAns(detOriOrRet, "O", "R")){
+							
+							ErrorHandler.invalidInput();
+
+							/* Ask the user again if they want detail about the flight */
+							detOriOrRet = iFace.detailOriginOrReturn();
+						}
+						
+						
+					}
+					while(!validUserAns(detOriOrRet, "O", "R"));
+					
+					if (detOriOrRet.startsWith("O")){
+						
+						/* Asks the user if they want to see the detail flight info */
+						if(hasBeenFiltered){
+							showDetails(originFilter);
+						}
+						else{
+							showDetails(originFlightList);
+						}
+						
+					}
+					else{
+						
+						if(hasBeenFiltered){
+							showDetails(returnFilter);
+						}
+						else{
+							showDetails(returnFlightList);
+						}
+					
+					}
+					
+				}
+				
+				/* Go back to options */
+				state = State.Options;
+				
 				break;
 				
 			case BuyFlights:
@@ -734,6 +795,40 @@ public class FlightSystem {
 					return true;
 					
 				}
+				else if( !originFilter.isEmpty() && returnFilter.isEmpty() ){
+					
+					System.out.println("\n--- Departure Flights Info: ---");
+
+					/* Tell the user that there are # of available flights */
+					iFace.numOfFlights(originFilter.size());
+
+					/* Print all the available flights */
+					for (Flight flight : originFilter) {
+						iFace.printFlightOption(originFilter.indexOf(flight));
+						flight.printFlight(userInfo.getIsFirstClass());
+						System.out.println();
+					}
+					
+					return true;
+										
+				}
+				else if( originFilter.isEmpty() && !returnFilter.isEmpty() ){
+					
+					System.out.println("--- Arrival Flights Info: ---");
+
+					/* Tell the user that there are # of available flights */
+					iFace.numOfFlights(returnFilter.size());
+
+					/* Print all the available flights */
+					for (Flight flight : returnFilter) {
+						iFace.printFlightOption(returnFilter.indexOf(flight));
+						flight.printFlight(userInfo.getIsFirstClass());
+						System.out.println();
+					}
+					
+					return true;
+					
+				}
 				/* There are no flights */
 				else{
 					/* Tell the user there are no flights */
@@ -775,13 +870,13 @@ public class FlightSystem {
 			if(depOrRetAns.startsWith("O")){
 				didFilter = filterDepArr(originFlightList, userInfo.getDepartureAirport(), true);
 				
-				returnFilter.addAll(returnFlightList); 
+				//returnFilter.addAll(returnFlightList); 
 				
 			}
 			/* The want to filter return flights */
 			else{
 				didFilter = filterDepArr(returnFlightList, userInfo.getArrivalAirport(), false);
-				originFilter.addAll(originFlightList);
+				//originFilter.addAll(originFlightList);
 			}
 			
 		}
@@ -1234,129 +1329,53 @@ public class FlightSystem {
 	 * about a flight. If they do, then we print that info,
 	 * if not, then we go to the buy flights state.
 	 */
-	private void showDetails() {
-		
-		/* Ask the user if they want to see more 
-		 * detail about a flight */
-		String detAns = iFace.wantDetail();
-		
-		/* Loop until the user inputs Y or N */
-		do{
+	private boolean showDetails(ArrayList<Flight> flightList) {
 			
-			/* Tell the user to input Y or N */
-			if(!validUserAns(detAns, "Y", "N")){
-				ErrorHandler.notYesOrNo();
-			}
-			
-			/* Ask the user again if they want detail about the flight */
-			detAns = iFace.wantDetail();
-			
+		/* Print all the available flights */
+		for (Flight flight : flightList) {
+			iFace.printFlightOption(flightList.indexOf(flight));
+			flight.printFlight(userInfo.getIsFirstClass());
+			System.out.println();
 		}
-		while(!validUserAns(detAns, "Y", "N"));
 		
-		/* if they don't want more detail about any of the flights */
-		if (detAns.startsWith("N")){
+		/* Loop variable */
+		boolean intValid = false;
+		
+		/* Keep looping until the user inputs a correct index */
+		do {
 			
-			/* Then they know what flight they want to 
+			/* Get the flight option the user wants more info about */
+			String fltOptStr = iFace.getDetailFlight();
 			
-		}
-			
-			
-		
-		
-		/* Get the flight option the user wants more info about */
-		String fltOpt = iFace.getDetailFlight();
-		
-//		boolean intValid = false;
-//		
-//		/* Keep looping until the user inputs a 
-//		do {
-//			/* Try and convert the user input into a integer */
-//			try {
-//				Integer.parseInt(fltOpt);
-//				intValid = true;
-//			}
-//			/* The user did not input a number */
-//			catch (IndexOutOfBoundsException e) {
-//				ErrorHandler.invalidFlight();
-//				intValid = false;
-//			}
-////		} while (!intValid);
-//
-		
-//
-//		while (!validUserAns(detAns, "Y", "N"));
-//		
-//		boolean ansValid = false;
-		
-//		do {
-//			/* Go back to user info */
-//			if (detAns.startsWith("Y")) {
-//				
-//				/* Get the flight option the user wants
-//				 * more info about */
-//				String fltOpt = iFace.getDetailFlight();
-//				
-//				try {
-//					int fltOptNum = Integer.parseInt(fltOpt);
-//					
-//					/* We know it's an integer */
-//					try {
-//						
-//						/* Prints the detail info about the flight */
-//						flightList.get(fltOptNum).printDetailFlight(userInfo.getIsFirstClass());
-//						
-//						String detAns2nd = iFace.getAnotherDetail();
-//						
-//						/* If they want detail about another flight */
-//						if(detAns2nd.startsWith("Y")){
-//							
-//							ansValid = true;
-//							
-//							/* Call this function again */
-//							showDetail();
-//						}
-//						else if (detAns2nd.startsWith("N")){
-//							
-//							ansValid = true;
-//							/* Go the the buy state */
-//							this.state = State.BuyFlights;
-//						}
-//						else{
-//							/* Not a valid answer */
-//							ErrorHandler.notYesOrNo();
-//						}
-//						
-//					/* If the user tries to select an incorrect option */
-//					} catch (IndexOutOfBoundsException e) {
-//						ErrorHandler.invalidFlight();
-//					}
-//				
-//				/* The user did not type a number */
-//				} catch (NumberFormatException e) {
-//					ErrorHandler.notANum();
-//				}
-//		
-//			}
-//			/* The user doesn't want any flight detail */
-//			else if (detAns.startsWith("N")) {
-//				
-//				ansValid = true;
-//		
-//				/* Go the the buy state */
-//				this.state = State.BuyFlights;
-//			
-//			} else {
-//				/* Not a valid answer */
-//				ErrorHandler.notYesOrNo();
-//			}
-//			
-//		} while (!ansValid);
-	
-		
-	}
-	}
+			/* Try and convert the user input into a integer */
+			try {
+				
+				int fltOpt = Integer.parseInt(fltOptStr);
+				
+				try{
+					
+					/* Print the detail about the flight */
+					flightList.get(fltOpt-1).printDetailFlight(userInfo.getIsFirstClass());
+					intValid = true;
+										
+				}
+				catch(IndexOutOfBoundsException e){
 
+					ErrorHandler.invalidFlight();
+					intValid = false;
+				}
+				
+			}
+			/* The user did not input a number */
+			catch (NumberFormatException e) {
+				ErrorHandler.notANum();
+				intValid = false;
+			}
+		} while (!intValid);
+		
+		return true;
+	}		
+			
 	private Time getUserInputTime(boolean depTime) {
 		
 		boolean validTime = false;
