@@ -256,6 +256,12 @@ public class TextInterface implements IUserInterface {
 		System.out.print("\nWhich list do you want detail flight info. from? (Origin/Return) ");
 		return userInput.nextLine().toUpperCase();
 	}
+
+	@Override
+	public String buyOrgOrRet() {
+		System.out.print("\nDo you want to buy the origin ticket, or the return ticket? (Origin/Return) ");
+		return userInput.nextLine().toUpperCase();
+	}
 	
 	
 	

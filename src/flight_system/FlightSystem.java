@@ -3,7 +3,6 @@ package flight_system;
 import graph.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 
 import org.graphstream.graph.Edge;
@@ -59,7 +58,7 @@ public class FlightSystem {
 		initSys();
 		
 		/* Print a list of all the available airports */
-		System.out.println("\nHere is a list of all the availalbe airports:\n");
+		System.out.println("\nHere is a list of all the available airports:\n");
 		
 		/* Used to print a new line in the airport list, 
 		 * if the current line is over 4 airports long */
@@ -301,30 +300,136 @@ public class FlightSystem {
 				break;
 				
 			case BuyFlights:
+				
+				Flight chosenFlt = null;
+				
+				/* This is a one-way trip */
+				if(!userInfo.getIsRoundTrip()){
+					
+					/* If it has been filtered */
+					if(hasBeenFiltered){
+						showDetails(originFilter);
+						chosenFlt = getFltOpt(originFilter);
+						
+						/* Show the user what flight they selected */
+						iFace.userFlightChoice(originFilter.indexOf(chosenFlt) + 1);
+						
+					}
+					else if(hasBeenSorted){
+						showDetails(sortList);
+						chosenFlt = getFltOpt(sortList);
+						
+						/* Show the user what flight they selected */
+						iFace.userFlightChoice(sortList.indexOf(chosenFlt) + 1);
+						
+					}
+					else{
+						showDetails(originFlightList);
+						chosenFlt = getFltOpt(originFlightList);
+						
+						/* Show the user what flight they selected */
+						iFace.userFlightChoice(originFlightList.indexOf(chosenFlt) + 1);
+					}
+					
+				}
+				/* It's a round trip */
+				else{
+					
+					String orgOrRet = iFace.buyOrgOrRet();
+					/* Loop until the user inputs O or R */
+					do{
+						
+						/* Tell the user to input Y or N */
+						if(!validUserAns(orgOrRet, "O", "R")){
+							
+							ErrorHandler.invalidInput();
+							orgOrRet = iFace.buyOrgOrRet();
+						}
+						
+						
+					}
+					while(!validUserAns(orgOrRet, "O", "R"));
+					
+					/* They want to buy the origin ticket */
+					if (orgOrRet.startsWith("O")){
+						
+						/* If it has been filtered */
+						if(hasBeenFiltered){
+							showDetails(originFilter);
+							chosenFlt = getFltOpt(originFilter);
+							
+							/* Show the user what flight they selected */
+							iFace.userFlightChoice(originFilter.indexOf(chosenFlt) + 1);
+							
+						}
+						else if(hasBeenSorted){
+							showDetails(sortList);
+							chosenFlt = getFltOpt(sortList);
+							
+							/* Show the user what flight they selected */
+							iFace.userFlightChoice(sortList.indexOf(chosenFlt) + 1);
+						}
+						else{
+							showDetails(originFlightList);
+							chosenFlt = getFltOpt(originFlightList);
+							
+							
+							/* Show the user what flight they selected */
+							iFace.userFlightChoice(originFlightList.indexOf(chosenFlt) + 1);
+						}
+						
+					}
+					/* The chose the return ticket */
+					else{
+						
+						/* If it has been filtered */
+						if(hasBeenFiltered){
+							showDetails(returnFilter);
+							chosenFlt = getFltOpt(returnFilter);
+							
+							/* Show the user what flight they selected */
+							iFace.userFlightChoice(returnFilter.indexOf(chosenFlt) + 1);
+							
+						}
+						else if(hasBeenSorted){
+							showDetails(sortList);
+							chosenFlt = getFltOpt(sortList);
+							
+							/* Show the user what flight they selected */
+							iFace.userFlightChoice(sortList.indexOf(chosenFlt) + 1);
+						}
+						else{
+							showDetails(returnFlightList);
+							chosenFlt = getFltOpt(returnFlightList);
+							
+							/* Show the user what flight they selected */
+							iFace.userFlightChoice(returnFlightList.indexOf(chosenFlt) + 1);
+						}
+						
+					}	
+					
+				}
 								
-				/* Get the flight for the flight the user wants to buy */
-				Flight fltOpt = getFltOpt(); 
-				
-				/* Show the user what flight they selected */
-				iFace.userFlightChoice(originFlightList.indexOf(fltOpt) + 1);
-				
 				/* Print the details about the flight, again, just to confirm
 				 * with the user */
-				fltOpt.printDetailFlight(userInfo.getIsFirstClass());
+				chosenFlt.printDetailFlight(userInfo.getIsFirstClass(),true);
 				
 				/* Result from trying to buy the flight */
-				int result = buyFlt(fltOpt);
+				int result = buyFlt(chosenFlt);
 				
 				/* Find out the result from trying to buy the ticket */
 				switch (result){
 				
 				/* Successful buy */
-				case 200:
+				case 202:
+					
 					/* Tell user the ticket was bought */
 					iFace.confirmFlight();
 					
 					/* Print the flight again to confirm */
-					fltOpt.printFlight(userInfo.getIsFirstClass());
+					System.out.println("\n-----------------------------------");
+					chosenFlt.printFlight(userInfo.getIsFirstClass(),true);
+					System.out.println("-----------------------------------\n");
 					
 					/* Go to finished state */
 					state = State.FinishState;
@@ -587,26 +692,17 @@ public class FlightSystem {
 		
 		/* Make the departure flight graph */
 		GraphMaker gMakerDep = new GraphMaker(userInfo.getDepartureDate());
-	
-		/* Make the return flight graph */
-		GraphMaker gMakerRet = new GraphMaker(userInfo.getReturnDate());
-
+		
 		/* Use the graph engine to find the departure flights */ 
 		GraphEngine engineDep = new GraphEngine(gMakerDep.getGraph());
-		
-		/* Use the graph engine to find the return flights */ 
-		GraphEngine engineRet = new GraphEngine(gMakerRet.getGraph());
+	
 		
 		/* Search for the departure flights that meet the user's 
 		 * requirements. Note, that it will return flights
 		 * that have up to maximum 2 connections. */
 		ArrayList<LinkedList<Edge>> availDepFlights = engineDep.getRoutes(userInfo.getDepartureAirport(), userInfo.getArrivalAirport(), 3, userInfo.getIsFirstClass());
 		
-		/* Search for the arrival flights that meet the user's 
-		 * requirements. Note, that it will return flights
-		 * that have up to maximum 2 connections. */
-		ArrayList<LinkedList<Edge>> availRetFlights = engineRet.getRoutes(userInfo.getArrivalAirport(), userInfo.getDepartureAirport(), 3, userInfo.getIsFirstClass());
-		
+	
 		/* Converts the graph edges, which are flights, into Flight objects
 		 * that can be used throughout the rest of the program */
 		for(LinkedList<Edge> flight : availDepFlights){
@@ -628,219 +724,191 @@ public class FlightSystem {
 			
 		}
 		
-		/* Converts the graph edges, which are flights, into Flight objects
-		 * that can be used throughout the rest of the program */
-		for(LinkedList<Edge> flight : availRetFlights){
+		/* If round trip, then make the graph */
+		if(userInfo.getIsRoundTrip()){
 			
-			/* Make a new flight */
-			Flight addedFlight = new Flight();
+			/* Make the return flight graph */
+			GraphMaker gMakerRet = new GraphMaker(userInfo.getReturnDate());
 			
-			for (Edge edge : flight){
+			/* Use the graph engine to find the return flights */ 
+			GraphEngine engineRet = new GraphEngine(gMakerRet.getGraph());
+			
+			/* Search for the arrival flights that meet the user's 
+			 * requirements. Note, that it will return flights
+			 * that have up to maximum 2 connections. */
+			ArrayList<LinkedList<Edge>> availRetFlights = engineRet.getRoutes(userInfo.getArrivalAirport(), userInfo.getDepartureAirport(), 3, userInfo.getIsFirstClass());
+			
+			/* Converts the graph edges, which are flights, into Flight objects
+			 * that can be used throughout the rest of the program */
+			for(LinkedList<Edge> flight : availRetFlights){
 				
-				/* Get the flight object from the edge */
-				FlightLeg fLeg = edge.getAttribute("fltInfo");
+				/* Make a new flight */
+				Flight addedFlight = new Flight();
 				
-				/* Add the Flight Leg to the flight */
-				addedFlight.addFlightLeg(fLeg);
+				for (Edge edge : flight){
+					
+					/* Get the flight object from the edge */
+					FlightLeg fLeg = edge.getAttribute("fltInfo");
+					
+					/* Add the Flight Leg to the flight */
+					addedFlight.addFlightLeg(fLeg);
+				}
+				
+				/* Add the flight to the flight list */
+				returnFlightList.add(addedFlight);
+				
 			}
-			
-			/* Add the flight to the flight list */
-			returnFlightList.add(addedFlight);
-			
 		}
-		
 		
 	}
 
 	private boolean showFlights(boolean hasBeenFiltered) {
-
-		if(!hasBeenFiltered){
-						
-			/* If it's not a round trip */
-			if(!userInfo.getIsRoundTrip()){
-				
-				/* If there departure flights */
-				if (originFlightList.size() != 0)  {
-					
-					System.out.println("\n--- Departure Flights Info: ---");
-					
-					/* Tell the user that there are # of available flights */
-					iFace.numOfFlights(originFlightList.size());
-
-					/* Print all the available flights */
-					for (Flight flight : originFlightList) {
-						iFace.printFlightOption(originFlightList.indexOf(flight));
-						flight.printFlight(userInfo.getIsFirstClass());
-						System.out.println();
-					}
-					
-					return true;
-				
-				}
-				/* There are no departure flights */
-				else{
-					/* Tell the user there are no flights */
-					iFace.noFlights();
-					return false; // No flights
-				}
-						
-			}
-			/* if it is a round trip */
-			else {
-				
-				/* If there are departure flights and return flights */
-				if (originFlightList.size() != 0 && returnFlightList.size() !=0 )  {
-					
-					System.out.println("\n--- Departure Flights Info: ---");
-
-					/* Tell the user that there are # of available flights */
-					iFace.numOfFlights(originFlightList.size());
-
-					/* Print all the available flights */
-					for (Flight flight : originFlightList) {
-						iFace.printFlightOption(originFlightList.indexOf(flight));
-						flight.printFlight(userInfo.getIsFirstClass());
-						System.out.println();
-					}
-
-					
-					System.out.println("--- Arrival Flights Info: ---");
-
-					/* Tell the user that there are # of available flights */
-					iFace.numOfFlights(returnFlightList.size());
-
-					/* Print all the available flights */
-					for (Flight flight : returnFlightList) {
-						iFace.printFlightOption(returnFlightList.indexOf(flight));
-						flight.printFlight(userInfo.getIsFirstClass());
-						System.out.println();
-					}
-
-					return true;
-					
-				}
-				/* There are no flights */
-				else{
-					/* Tell the user there are no flights */
-					iFace.noFlights();
-					return false; // No flights
-				}
-					
-				
-			}
-		}
-		/* Has the flights been filtered, use the filter list */
-		else{
-						
-			/* If it's not a round trip */
-			if(!userInfo.getIsRoundTrip()){
-				
-				/* If there departure flights */
-				if (originFilter.size() != 0)  {
-					
-					System.out.println("\n--- Departure Flights Info: ---");
-					
-					/* Tell the user that there are # of available flights */
-					iFace.numOfFlights(originFilter.size());
-
-					/* Print all the available flights */
-					for (Flight flight : originFilter) {
-						iFace.printFlightOption(originFilter.indexOf(flight));
-						flight.printFlight(userInfo.getIsFirstClass());
-						System.out.println();
-					}
-					
-					return true;
-				
-				}
-				/* There are no departure flights */
-				else{
-					/* Tell the user there are no flights */
-					iFace.noFlights();
-					return false; // No flights
-				}
-						
-			}
-			/* if it is a round trip */
-			else {
-				
-				/* If there are departure flights and return flights */
-				if (returnFilter.size() != 0 && originFilter.size() !=0 )  {
-					
-					System.out.println("\n--- Departure Flights Info: ---");
-
-					/* Tell the user that there are # of available flights */
-					iFace.numOfFlights(originFilter.size());
-
-					/* Print all the available flights */
-					for (Flight flight : originFilter) {
-						iFace.printFlightOption(originFilter.indexOf(flight));
-						flight.printFlight(userInfo.getIsFirstClass());
-						System.out.println();
-					}
-
-					
-					System.out.println("--- Arrival Flights Info: ---");
-
-					/* Tell the user that there are # of available flights */
-					iFace.numOfFlights(returnFilter.size());
-
-					/* Print all the available flights */
-					for (Flight flight : returnFilter) {
-						iFace.printFlightOption(returnFilter.indexOf(flight));
-						flight.printFlight(userInfo.getIsFirstClass());
-						System.out.println();
-					}
-
-					return true;
-					
-				}
-				else if( !originFilter.isEmpty() && returnFilter.isEmpty() ){
-					
-					System.out.println("\n--- Departure Flights Info: ---");
-
-					/* Tell the user that there are # of available flights */
-					iFace.numOfFlights(originFilter.size());
-
-					/* Print all the available flights */
-					for (Flight flight : originFilter) {
-						iFace.printFlightOption(originFilter.indexOf(flight));
-						flight.printFlight(userInfo.getIsFirstClass());
-						System.out.println();
-					}
-					
-					return true;
-										
-				}
-				else if( originFilter.isEmpty() && !returnFilter.isEmpty() ){
-					
-					System.out.println("--- Arrival Flights Info: ---");
-
-					/* Tell the user that there are # of available flights */
-					iFace.numOfFlights(returnFilter.size());
-
-					/* Print all the available flights */
-					for (Flight flight : returnFilter) {
-						iFace.printFlightOption(returnFilter.indexOf(flight));
-						flight.printFlight(userInfo.getIsFirstClass());
-						System.out.println();
-					}
-					
-					return true;
-					
-				}
-				/* There are no flights */
-				else{
-					/* Tell the user there are no flights */
-					iFace.noFlights();
-					return false; // No flights
-				}
-					
-				
-			}
-		}
 		
+		/* If it's a one-way trip */
+		if(!userInfo.getIsRoundTrip()){
+			
+			/* Check if the list has been filtered before */
+			if(hasBeenFiltered){
+				
+				/* Show filtered origin trip */
+				if (!originFilter.isEmpty())  {
 					
+					System.out.println("\n--- Departure Flights Info: ---");
+					printShowFlightList(originFilter,true);
+					return true;
+				
+				}
+				
+			}
+			/* The one-way trip list has not been filtered yet */
+			else{
+				/* If there departure flights */
+				if (!originFlightList.isEmpty()){
+					
+					System.out.println("\n--- Departure Flights Info: ---");
+					printShowFlightList(originFlightList,true);
+					return true;
+				
+				}
+			
+			}
+			
+		}
+		/* It is a round trip */
+		else{
+			
+			/* Check if the list has been filtered before */
+			if(hasBeenFiltered){
+				
+				/* Both filtered list have info */
+				if(!originFilter.isEmpty() && !returnFilter.isEmpty()){
+					
+					System.out.println("\n--- Departure Flights Info: ---");
+					printShowFlightList(originFilter,true);
+					
+					System.out.println("--- Return Flights Info: ---");
+					printShowFlightList(returnFilter,true);
+					
+					return true;
+					
+				}
+				/* Origin filter has info, the return filter doesn't */
+				else if(!originFilter.isEmpty() && returnFilter.isEmpty()){
+					
+					System.out.println("\n--- Departure Flights Info: ---");
+					printShowFlightList(originFilter,true);
+
+					System.out.println("--- Return Flights Info: ---");
+					printShowFlightList(returnFlightList,true);
+					
+					return true;
+				
+				}
+				else if(originFilter.isEmpty() && !returnFilter.isEmpty()){
+					
+					System.out.println("\n--- Departure Flights Info: ---");
+					printShowFlightList(originFlightList,true);
+
+					System.out.println("--- Return Flights Info: ---");
+					printShowFlightList(returnFilter,true);
+					
+					return true;
+					
+				}
+				/* Both lists are empty, tell the user no flights available */
+				else{
+					
+					iFace.noFlights();
+					return false;
+				}
+				
+				
+			}
+			/* Not has been filtered */
+			else{
+				
+				/* Both filtered list have info */
+				if(!originFlightList.isEmpty() && !returnFlightList.isEmpty()){
+					
+					System.out.println("\n--- Departure Flights Info: ---");
+					printShowFlightList(originFlightList,true);
+					
+					System.out.println("--- Return Flights Info: ---");
+					printShowFlightList(returnFlightList,true);
+					
+					return true;
+					
+				}
+				/* Origin filter has info, the return filter doesn't */
+				else if(!originFlightList.isEmpty() && returnFlightList.isEmpty()){
+					
+					System.out.println("\n--- Departure Flights Info: ---");
+					printShowFlightList(originFlightList,true);
+					
+					System.out.println("--- Return Flights Info: ---");
+					iFace.noFlights();
+				
+					return true;
+				
+				}
+				else if(originFlightList.isEmpty() && !returnFlightList.isEmpty()){
+					
+					System.out.println("\n--- Departure Flights Info: ---");
+					iFace.noFlights();
+					
+					System.out.println("--- Return Flights Info: ---");
+					printShowFlightList(returnFlightList,true);
+					
+					return true;
+					
+				}
+				/* Both lists are empty, tell the user no flights available */
+				else{
+					
+					iFace.noFlights();
+					return false;
+				}	
+			}
+			
+		} // else round trip
+		
+		/* No flights */
+		iFace.noFlights();
+		return false;
+	
+	}
+
+	private void printShowFlightList(ArrayList<Flight> flightList, boolean localTime) {
+	
+		/* Tell the user that there are # of available flights */
+		iFace.numOfFlights(flightList.size());
+		
+		/* Print all the available flights */
+		for (Flight flight : flightList) {
+			iFace.printFlightOption(flightList.indexOf(flight));
+			flight.printFlight(userInfo.getIsFirstClass(), localTime);
+			System.out.println();
+		}
 	}
 		
 	private boolean filterFlights() {
@@ -895,10 +963,9 @@ public class FlightSystem {
 	/* Filters by departure or arrival time from a specific airport */
 	private boolean filterDepArr(ArrayList<Flight> flightList, Airport airport, boolean origin) {
 		
+
 		boolean didFilter = false; // the return value
 		
-		FlightFilter depFilter = new FlightFilter(); // depart time filter
-		FlightFilter arrFilter = new FlightFilter(); // arrival time filter
 		
 		/* ---------- DEPARTURE TIME FILTER ------------ */
 	
@@ -943,6 +1010,7 @@ public class FlightSystem {
 			} while (!validUserAns(b4OrAfter, "B", "A"));
 	
 			/* Add all the departure flights to the departure filter */
+			FlightFilter depFilter = new FlightFilter(); // depart time filter
 			depFilter.addFlightList(flightList);
 	
 			/* Filter by Departure flights by Before Departure time */
@@ -974,8 +1042,17 @@ public class FlightSystem {
 			}
 	
 	
-		} /* END ASKING FOR DEPARTURE TIME FILTER */
-	
+		} 
+		else{
+			
+			originFilter.clear();
+			originFilter.addAll(originFlightList);
+			
+			returnFilter.clear();
+			returnFilter.addAll(returnFlightList);
+			
+		}/* END ASKING FOR DEPARTURE TIME FILTER */
+		
 		/* ---------  ARRIVAL TIME FILTER  --------- */
 	
 		/* Ask the user if they want to filer by arrival time */
@@ -1019,18 +1096,27 @@ public class FlightSystem {
 			} while (!validUserAns(b4OrAfter, "B", "A"));
 	
 			/* Add all the departure flights to the departure filter */
-			arrFilter.addFlightList(flightList);
-	
+			ArrayList<Flight> oFilterList = new ArrayList<Flight>();
+			oFilterList.addAll(originFilter);
+			
+			ArrayList<Flight> rFilterList = new ArrayList<Flight>();
+			rFilterList.addAll(returnFilter);
+			
+			FlightFilter originFilter2nd = new FlightFilter(oFilterList);
+			FlightFilter returnFilter2nd = new FlightFilter(rFilterList);
+			
 			/* Filter by Departure flights by Before Departure time */
 			if (b4OrAfter.startsWith("B")){
 				
 				if(origin){
-					originFilter.clear(); // clean the list 1st.
-					originFilter.addAll(arrFilter.filterArrTime(arrTime, false, airport));
+					originFilter.clear();
+					originFilter.addAll(originFilter2nd.filterArrTime(arrTime, false, airport));
+					oFilterList.clear();
 				}
 				else{
-					returnFilter.clear(); // clean the list 1st.
-					returnFilter.addAll(arrFilter.filterArrTime(arrTime, false, airport));
+					returnFilter.clear();
+					returnFilter.addAll(returnFilter2nd.filterArrTime(arrTime, false, airport));
+					rFilterList.clear();
 				}
 				
 			}
@@ -1039,11 +1125,11 @@ public class FlightSystem {
 				
 				if(origin){
 					originFilter.clear(); // clean the list 1st.
-					originFilter.addAll(arrFilter.filterArrTime(arrTime, true, airport));
+					originFilter.addAll(originFilter2nd.filterArrTime(arrTime, true, airport));
 				}
 				else{
 					returnFilter.clear(); // clean the list 1st.
-					returnFilter.addAll(arrFilter.filterArrTime(arrTime, true, airport));
+					returnFilter.addAll(returnFilter2nd.filterArrTime(arrTime, true, airport));
 				}
 				
 			}
@@ -1334,7 +1420,7 @@ public class FlightSystem {
 		/* Print all the available flights */
 		for (Flight flight : flightList) {
 			iFace.printFlightOption(flightList.indexOf(flight));
-			flight.printFlight(userInfo.getIsFirstClass());
+			flight.printFlight(userInfo.getIsFirstClass(),true);
 			System.out.println();
 		}
 		
@@ -1355,7 +1441,7 @@ public class FlightSystem {
 				try{
 					
 					/* Print the detail about the flight */
-					flightList.get(fltOpt-1).printDetailFlight(userInfo.getIsFirstClass());
+					flightList.get(fltOpt-1).printDetailFlight(userInfo.getIsFirstClass(),true);
 					intValid = true;
 										
 				}
@@ -1426,15 +1512,23 @@ public class FlightSystem {
 
 		/* Make the ticket */
 		String ticket = dbPutter.makeTicket(flight, userInfo.getIsFirstClass());
-
+		
+		/* Lock the database */
+		dbPutter.lockDB();
+		
 		/* Result from buy ticket, will be using this to
 		 * determine what happened */
-		return dbPutter.buyTicket(ticket);
+		int resCode = dbPutter.buyTicket(ticket);
+		
+		/* Unlock the database */
+		dbPutter.unlockDB();
+		
+		return resCode;
 
 	}
 
 	
-	private Flight getFltOpt() {
+	private Flight getFltOpt(ArrayList<Flight> flightList) {
 		
 		/* Holds whether User input an available flight */
 		boolean validFlight = false;
@@ -1459,7 +1553,7 @@ public class FlightSystem {
 				 * the list */
 				try {
 					
-					fltOpt = originFlightList.get(fltNum - 1);
+					fltOpt = flightList.get(fltNum - 1);
 					validFlight = true;
 				
 				/* Not the in the list! */

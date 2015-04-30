@@ -87,12 +87,12 @@ public class XMLPutter {
 			
 			/* Print POST to show the connection is begin*/
 			int responseCode=connection.getResponseCode();
-			System.out.println("\nSending 'POST' to lock database");
-			System.out.println("\nResponse Code:"+ responseCode);
+//			System.out.println("\nSending 'POST' to lock database");
+//			System.out.println("\nResponse Code:"+ responseCode);
 			
 			/*if the connection was success*/
 			if((responseCode>=200)&&(responseCode<=299)){
-				System.out.println("Locked the Database successfully!");
+//				System.out.println("Locked the Database successfully!");
 				BufferedReader in=new BufferedReader(new InputStreamReader(connection.getInputStream()));
 				String line;
 				StringBuffer response=new StringBuffer();
@@ -141,12 +141,12 @@ public class XMLPutter {
 			
 			/* The response code given by the server*/
 			int responseCode=connection.getResponseCode();
-			System.out.println("\nSending 'POST' to unlock database");
-			System.out.println("\nResponse Code:"+ responseCode);
+//			System.out.println("\nSending 'POST' to unlock database");
+//			System.out.println("\nResponse Code:"+ responseCode);
 			
 			/* if the connection was successful*/
 			if((responseCode>=200)&&(responseCode<=299)){
-				System.out.println("Unlocked the Database successfully!");
+//				System.out.println("Unlocked the Database successfully!");
 				BufferedReader in=new BufferedReader(new InputStreamReader(connection.getInputStream()));
 				String line;
 				StringBuffer response=new StringBuffer();
@@ -246,7 +246,7 @@ public class XMLPutter {
 			
 			/* The response code given by the server*/
 			int responseCode=connection.getResponseCode();
-			System.out.println("\nResponse Code: "+ responseCode);
+			//System.out.println("\nResponse Code: "+ responseCode);
 			
 			/* If the connection was successful*/
 			if((responseCode>=200)&&(responseCode<=299)){

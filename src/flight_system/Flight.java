@@ -340,53 +340,109 @@ public class Flight implements Comparable<Flight>
 	 * Prints the simplified flight information in a
 	 * user-friendly format.
 	 */
-	public void printFlight(boolean isFirstClass){
+	public void printFlight(boolean isFirstClass, boolean localTime){
 		
-//		/* Convert flight time of the original departure and 
-//		 * final arrival from GMT to Local Time */
-//		Time originDepTime = Time.getLocalTime(getDepartureTime(), getDepartureAirport().getLocation());
-//		Time finalArrTime = Time.getLocalTime(getArrivalTime(), getArrivalAirport().getLocation());
-		
-		NumberFormat priceFormat = new DecimalFormat("#.00");   
-		
-		System.out.println(getDepartureAirport().getCode() + " -> " + getArrivalAirport().getCode() + "\tNum of stops: " + getNumOfConnection());
-		System.out.println(getDepartureTime() + " -> " + getArrivalTime() + "\t(Total Flight Time: " + getTotalFlightTime() + ")");
-		System.out.println("Price: $" + priceFormat.format(getTotalCost(isFirstClass)) + "\t" + (isFirstClass ? "(First Class)": "(Coach)"));
+		if(localTime){
+			/* Convert flight time of the original departure and 
+			 * final arrival from GMT to Local Time */
+			Time originDepTime = Time.getLocalTime(getDepartureTime(), getDepartureAirport().getLocation());
+			Time finalArrTime = Time.getLocalTime(getArrivalTime(), getArrivalAirport().getLocation());
+			NumberFormat priceFormat = new DecimalFormat("#.00");   
+			
+			System.out.println(getDepartureAirport().getCode() + " -> " + getArrivalAirport().getCode() + "\tNum of stops: " + getNumOfConnection());
+			System.out.println(originDepTime + " -> " + finalArrTime + "\t(Total Flight Time: " + getTotalFlightTime() + ")");
+			System.out.println(getDepartureDate() + " -> " + getArrivalDate());
+			System.out.println("Price: $" + priceFormat.format(getTotalCost(isFirstClass)) + "\t" + (isFirstClass ? "(First Class)": "(Coach)"));
+			
+		}
+		else{
+			
+			NumberFormat priceFormat = new DecimalFormat("#.00");   
+			
+			System.out.println(getDepartureAirport().getCode() + " -> " + getArrivalAirport().getCode() + "\tNum of stops: " + getNumOfConnection());
+			System.out.println(getDepartureTime() + " -> " + getArrivalTime() + "\t(Total Flight Time: " + getTotalFlightTime() + ")");
+			System.out.println(getDepartureDate() + " -> " + getArrivalDate());
+			System.out.println("Price: $" + priceFormat.format(getTotalCost(isFirstClass)) + "\t" + (isFirstClass ? "(First Class)": "(Coach)"));
+			
+		}
+			
+	}
+	
+	/**
+	 * The date of departure 
+	 * @return the departure date
+	 */
+	public Date getDepartureDate() {
+		return flightList.get(0).getDepartureDate();
+	}
+
+	/**
+	 * The date of arrival
+	 * @return the arrival date
+	 */
+	public Date getArrivalDate() {
+		return flightList.get(flightList.size()-1).getArrivalDate();
 	}
 	
 	/**
 	 * Prints the detailed flight information in a user-friendly format.
 	 * @param isFirstClass 
 	 */
-	public void printDetailFlight(boolean isFirstClass)
+	public void printDetailFlight(boolean isFirstClass, boolean localTime)
 	{
 		
 		for (FlightLeg flight : flightList){
 			
-//			/* Convert flight leg time from GMT to Local Time */
-//			Time depTime = Time.getLocalTime(flight.getDepartureTime(),flight.getDepartureAirport().getLocation());
-//			Time arrTime = Time.getLocalTime(flight.getArrivalTime(), flight.getArrivalAirport().getLocation());
-			
-			System.out.println("----------------------------------------------------------------------------------\n" +
-			"Flight #: " + flight.getFlightNum() + "\n" +
-			"Departs " + flight.getDepartureAirport().getCode() + " at " + flight.getDepartureTime() + 
-			"\t\tArrives " + flight.getArrivalAirport().getCode() + " at " + flight.getArrivalTime() +
-			"\t\tDuration\n" + 
-			flight.getDepartureDate() + "\t\t\t" + flight.getArrivalDate() +
-			"\t\t\t" + Time.convertMinsToHours(flight.getFlightDuration()) +
-			"\n----------------------------------------------------------------------------------");
-			
-			/* Index for the next flight */
-			int nextFltInd = flightList.indexOf(flight) + 1;
-			
-			/* If there's a flight after this one */
-			if(nextFltInd < (flightList.size())){
+			if(localTime){
+				/* Convert flight leg time from GMT to Local Time */
+				Time depTime = Time.getLocalTime(flight.getDepartureTime(),flight.getDepartureAirport().getLocation());
+				Time arrTime = Time.getLocalTime(flight.getArrivalTime(), flight.getArrivalAirport().getLocation());
 				
-				/* Print the lay over time */
-				System.out.println("\t\t\t\tLayover time: " + getLayoverTime(flightList.indexOf(flight)));
+				System.out.println("----------------------------------------------------------------------------------\n" +
+				"Flight #: " + flight.getFlightNum() + "\n" +
+				"Departs " + flight.getDepartureAirport().getCode() + " at " + depTime + 
+				"\t\tArrives " + flight.getArrivalAirport().getCode() + " at " + arrTime +
+				"\t\tDuration\n" + 
+				flight.getDepartureDate() + "\t\t\t" + flight.getArrivalDate() +
+				"\t\t\t" + Time.convertMinsToHours(flight.getFlightDuration()) +
+				"\n----------------------------------------------------------------------------------");
+				
+				/* Index for the next flight */
+				int nextFltInd = flightList.indexOf(flight) + 1;
+				
+				/* If there's a flight after this one */
+				if(nextFltInd < (flightList.size())){
+					
+					/* Print the lay over time */
+					System.out.println("\t\t\t\tLayover time: " + getLayoverTime(flightList.indexOf(flight)));
+					
+				}
 				
 			}
-	
+			else{
+			
+				System.out.println("----------------------------------------------------------------------------------\n" +
+				"Flight #: " + flight.getFlightNum() + "\n" +
+				"Departs " + flight.getDepartureAirport().getCode() + " at " + flight.getDepartureTime() + 
+				"\t\tArrives " + flight.getArrivalAirport().getCode() + " at " + flight.getArrivalTime() +
+				"\t\tDuration\n" + 
+				flight.getDepartureDate() + "\t\t\t" + flight.getArrivalDate() +
+				"\t\t\t" + Time.convertMinsToHours(flight.getFlightDuration()) +
+				"\n----------------------------------------------------------------------------------");
+				
+				/* Index for the next flight */
+				int nextFltInd = flightList.indexOf(flight) + 1;
+				
+				/* If there's a flight after this one */
+				if(nextFltInd < (flightList.size())){
+					
+					/* Print the lay over time */
+					System.out.println("\t\t\t\tLayover time: " + getLayoverTime(flightList.indexOf(flight)));
+					
+				}
+				
+			}
+
 		}
 		
 	}

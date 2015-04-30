@@ -216,6 +216,12 @@ public interface IUserInterface {
 	 */
 	public String detailOriginOrReturn();
 	
+	/**
+	 * Ask the user if they want to buy the origin ticket or the return ticket.
+	 * @return The user's answer.
+	 */
+	public String buyOrgOrRet();
+	
 }
 
 

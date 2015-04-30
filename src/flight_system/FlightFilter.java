@@ -148,10 +148,10 @@ public class FlightFilter {
 	 * @param after true if you want flights that arrive after a certain time (inclusive)
 	 * @return the filtered flight list.
 	 */
-	public ArrayList<Flight> filterArrTime(Time arrLocalTime, boolean after, Airport airport){
+	public ArrayList<Flight> filterArrTime(Time arrTime, boolean after, Airport airport){
 		
-		/* Convert from Local time to GMT time */
-		Time arrTime = Time.getGMTTime(arrLocalTime, airport.getLocation());
+//		/* Convert from Local time to GMT time */
+//		Time arrTime = Time.getGMTTime(arrLocalTime, airport.getLocation());
 
 		/* Make a new list to add the filtered flights to */
 		ArrayList<Flight> filteredFlights = new ArrayList<Flight>();

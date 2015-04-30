@@ -36,6 +36,7 @@ public class Time implements Comparable<Time>{
 	/* Returns a Time Object with the local time that was given */
 	public static Time getLocalTime(Time time, Location location) {
 		int localHours = (time.getHours() + (int) location.getTimeZoneOffset() / 3600) % 24;
+		
 		/* Add 24 hours to make it positive if the localHours is less than zero.*/
 		if(localHours <= 0)
 		{
