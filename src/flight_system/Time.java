@@ -38,11 +38,27 @@ public class Time implements Comparable<Time>{
 		int localHours = (time.getHours() + (int) location.getTimeZoneOffset() / 3600) % 24;
 		
 		/* Add 24 hours to make it positive if the localHours is less than zero.*/
-		if(localHours <= 0)
+		if(localHours < 0)
 		{
 			localHours += 24;
 		}
 		return new Time(localHours, time.getMinutes());
+	}
+	
+	/**
+	 * Returns a new object with the local time at at a given location.
+	 * <p>
+	 * Note: This time object may have -ive Hours, because this represents that the
+	 * time at the location is on the previous day. 
+	 * @param time
+	 * @param location
+	 * @return
+	 */
+	public static Time getNegativeLocalTime(Time time, Location location){
+
+		int localHours = (time.getHours() + (int) location.getTimeZoneOffset() / 3600) % 24;
+		return new Time(localHours, time.getMinutes());
+
 	}
 	
 	/**
@@ -57,7 +73,7 @@ public class Time implements Comparable<Time>{
 	public static Time getGMTTime(Time time, Location location) {
 		int gmtHours = (time.getHours() - (int) location.getTimeZoneOffset() / 3600) % 24;
 		/* Add 24 hours to make it positive if the gmtHours is less than zero.*/
-		if(gmtHours <= 0)
+		if(gmtHours < 0)
 		{
 			gmtHours += 24;
 		}

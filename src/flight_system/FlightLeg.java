@@ -115,12 +115,44 @@ public class FlightLeg {
 	}
 
 	/**
+	 * Gets the flight's local departure time.
+	 * <p>
+	 * Note: The time is the local time.
+	 * @return the flight's departure time.
+	 */
+	public Time getLocalDepartureTime(){
+		return Time.getNegativeLocalTime(getDepartureTime(), getDepartureAirport().getLocation());	
+	}
+	
+	/**
 	 * Gets the flight's departure date.
 	 * <p>
 	 * @return the flight's departure date.
 	 */
 	public Date getDepartureDate() {
 		return departureDate;
+	}
+	
+	/**
+	 * Gets the flight's local departure date.
+	 * <p>
+	 * @return the flight's local departure date.
+	 */
+	public Date getLocalDepartureDate() {
+		
+		/* 12:00 AM, Midnight */
+		Time zeroHours = new Time(0,0);
+		
+		/* If this departure time is before 12:00 AM */
+		if(getLocalDepartureTime().compareTo(zeroHours) < 0){
+			
+			return new Date(departureDate.getMonth(), departureDate.getDay() - 1, departureDate.getYear());
+			
+		}
+		else{
+			return departureDate;
+		}
+		
 	}
 
 	/**
@@ -143,6 +175,16 @@ public class FlightLeg {
 	}
 	
 	/**
+	 * Gets the flight's local arrival time.
+	 * <p>
+	 * Note: The time is the local time.
+	 * @return the flight's arrival time.
+	 */
+	public Time getLocalArrivalTime(){
+		return Time.getNegativeLocalTime(getArrivalTime(), getArrivalAirport().getLocation());	
+	}
+	
+	/**
 	 * Gets the flight's arrival date.
 	 * <p>
 	 * Note: The time is in GMT
@@ -150,6 +192,28 @@ public class FlightLeg {
 	 */
 	public Date getArrivalDate() {
 		return arrivalDate;
+	}
+	
+	/**
+	 * Gets the flight's local arrival date.
+	 * <p>
+	 * @return the flight's local arrival date.
+	 */
+	public Date getLocalArrivalDate() {
+		
+		/* 12:00 AM, Midnight */
+		Time zeroHours = new Time(0,0);
+		
+		/* If this departure time is before 12:00 AM */
+		if(getLocalArrivalTime().compareTo(zeroHours) < 0){
+			
+			return new Date(arrivalDate.getMonth(), arrivalDate.getDay() - 1, arrivalDate.getYear());
+			
+		}
+		else{
+			return arrivalDate;
+		}
+		
 	}
 	
 	/**

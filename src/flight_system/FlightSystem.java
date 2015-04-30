@@ -752,9 +752,16 @@ public class FlightSystem {
 				/* Add the Flight Leg to the flight */
 				addedFlight.addFlightLeg(fLeg);
 			}
+				
+			/* If the local departure date is not before the date the user want
+			 * their flight for, then add it to the origin flight list */
+			if(!(addedFlight.getLocalDepartureDate().compareTo(userInfo.getDepartureDate()) < 0)){
+				
+				/* Add the flight to the flight list */
+				originFlightList.add(addedFlight);
+				
+			}
 			
-			/* Add the flight to the flight list */
-			originFlightList.add(addedFlight);
 			
 		}
 		
@@ -788,8 +795,15 @@ public class FlightSystem {
 					addedFlight.addFlightLeg(fLeg);
 				}
 				
-				/* Add the flight to the flight list */
-				returnFlightList.add(addedFlight);
+				
+				/* If the local departure date is not before the date the user want
+				 * their flight for, then add it to the origin flight list */
+				if(!(addedFlight.getLocalDepartureDate().compareTo(userInfo.getDepartureDate()) < 0)){
+					
+					/* Add the flight to the flight list */
+					returnFlightList.add(addedFlight);
+					
+				}
 				
 			}
 		}
@@ -933,7 +947,7 @@ public class FlightSystem {
 	}
 
 	private void printShowFlightList(ArrayList<Flight> flightList, boolean localTime) {
-	
+		
 		/* Tell the user that there are # of available flights */
 		iFace.numOfFlights(flightList.size());
 		
@@ -1026,6 +1040,9 @@ public class FlightSystem {
 			
 			/* Get the time from the user */
 			Time depTime = getUserInputTime(true);
+			
+			/* Convert this time to GMT Time */
+//			Time depGMTTime = Time.getGMTTime(depTime, userInfo.getDepartureAirport().getLocation());
 	
 			/* Ask them if they want the time before or after */
 			String b4OrAfter = iFace.b4OrAfter();
@@ -1052,11 +1069,11 @@ public class FlightSystem {
 				
 				if(origin){
 					originFilter.clear(); // clean the list 1st.
-					originFilter.addAll(depFilter.filterDepTime(depTime, false, airport));
+					originFilter.addAll(depFilter.filterLocalDepTime(depTime, false, airport));
 				}
 				else{
 					returnFilter.clear();
-					returnFilter.addAll(depFilter.filterDepTime(depTime, false, airport));
+					returnFilter.addAll(depFilter.filterLocalDepTime(depTime, false, airport));
 				}
 				
 	
@@ -1066,11 +1083,11 @@ public class FlightSystem {
 	
 				if(origin){
 					originFilter.clear(); // clean the list 1st.
-					originFilter.addAll(depFilter.filterDepTime(depTime, true, airport));
+					originFilter.addAll(depFilter.filterLocalDepTime(depTime, true, airport));
 				}
 				else{
 					returnFilter.clear(); // clean the list 1st.
-					returnFilter.addAll(depFilter.filterDepTime(depTime, true, airport));
+					returnFilter.addAll(depFilter.filterLocalDepTime(depTime, true, airport));
 				}
 				
 			}
@@ -1112,6 +1129,9 @@ public class FlightSystem {
 			
 			/* Get the time from the user */
 			Time arrTime = getUserInputTime(false);
+			
+			/* Convert the arrival time to GMT */
+//			Time arrGMTTime = Time.getGMTTime(arrTime, userInfo.getArrivalAirport().getLocation());
 	
 			/* Ask them if they want the time before or after */
 			String b4OrAfter = iFace.b4OrAfter();
@@ -1144,12 +1164,12 @@ public class FlightSystem {
 				
 				if(origin){
 					originFilter.clear();
-					originFilter.addAll(originFilter2nd.filterArrTime(arrTime, false, airport));
+					originFilter.addAll(originFilter2nd.filterLocalArrTime(arrTime, false, airport));
 					oFilterList.clear();
 				}
 				else{
 					returnFilter.clear();
-					returnFilter.addAll(returnFilter2nd.filterArrTime(arrTime, false, airport));
+					returnFilter.addAll(returnFilter2nd.filterLocalArrTime(arrTime, false, airport));
 					rFilterList.clear();
 				}
 				
@@ -1159,11 +1179,11 @@ public class FlightSystem {
 				
 				if(origin){
 					originFilter.clear(); // clean the list 1st.
-					originFilter.addAll(originFilter2nd.filterArrTime(arrTime, true, airport));
+					originFilter.addAll(originFilter2nd.filterLocalArrTime(arrTime, true, airport));
 				}
 				else{
 					returnFilter.clear(); // clean the list 1st.
-					returnFilter.addAll(returnFilter2nd.filterArrTime(arrTime, true, airport));
+					returnFilter.addAll(returnFilter2nd.filterLocalArrTime(arrTime, true, airport));
 				}
 				
 			}

@@ -126,6 +126,13 @@ public class Flight implements Comparable<Flight>
 		return flightList.get(0).getDepartureTime();
 	}
 	
+	/**
+	 * Gets the origin departure local time for the flight.
+	 * @return the local time at the origin.
+	 */
+	public Time getLocalDepartureTime(){
+		return flightList.get(0).getLocalDepartureTime();
+	}
 
 	/**
 	 * Get a departure time of specific flight leg.
@@ -155,6 +162,16 @@ public class Flight implements Comparable<Flight>
 	public Time getArrivalTime()
 	{	
 		return flightList.get(flightList.size()-1).getArrivalTime();
+	}
+	
+	/**
+	 * Gets the arrival local time for the flight.
+	 * @return the local time at the origin.
+	 */
+	public Time getLocalArrivalTime(){
+		
+		return flightList.get(flightList.size()-1).getLocalArrivalTime();
+		
 	}
 	
 	/**
@@ -351,7 +368,7 @@ public class Flight implements Comparable<Flight>
 			
 			System.out.println(getDepartureAirport().getCode() + " -> " + getArrivalAirport().getCode() + "\tNum of stops: " + getNumOfConnection());
 			System.out.println(originDepTime + " -> " + finalArrTime + "\t(Total Flight Time: " + getTotalFlightTime() + ")");
-			System.out.println(getDepartureDate() + " -> " + getArrivalDate());
+			System.out.println(getLocalDepartureDate() + " -> " + getLocalArrivalDate());
 			System.out.println("Price: $" + priceFormat.format(getTotalCost(isFirstClass)) + "\t" + (isFirstClass ? "(First Class)": "(Coach)"));
 			
 		}
@@ -377,11 +394,27 @@ public class Flight implements Comparable<Flight>
 	}
 
 	/**
-	 * The date of arrival
-	 * @return the arrival date
+	 * The local date of departure 
+	 * @return the local departure date
+	 */
+	public Date getLocalDepartureDate() {
+		return flightList.get(0).getLocalDepartureDate();
+	}
+	
+	/**
+	 * The date of arrival.
+	 * @return the arrival date.
 	 */
 	public Date getArrivalDate() {
 		return flightList.get(flightList.size()-1).getArrivalDate();
+	}
+	
+	/**
+	 * The local date of arrival.
+	 * @return the arrival date
+	 */
+	public Date getLocalArrivalDate() {
+		return flightList.get(flightList.size()-1).getLocalArrivalDate();
 	}
 	
 	/**
@@ -403,7 +436,7 @@ public class Flight implements Comparable<Flight>
 				"Departs " + flight.getDepartureAirport().getCode() + " at " + depTime + 
 				"\t\tArrives " + flight.getArrivalAirport().getCode() + " at " + arrTime +
 				"\t\tDuration\n" + 
-				flight.getDepartureDate() + "\t\t\t" + flight.getArrivalDate() +
+				flight.getLocalDepartureDate() + "\t\t\t" + flight.getLocalArrivalDate() +
 				"\t\t\t" + Time.convertMinsToHours(flight.getFlightDuration()) +
 				"\n----------------------------------------------------------------------------------");
 				
