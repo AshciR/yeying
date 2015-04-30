@@ -469,7 +469,7 @@ public class FlightSystem {
 
 	private void printAirportList() {
 		/* Print a list of all the available airports */
-		System.out.println("\nHere is a list of all the available airports:\n");
+		System.out.println("\nHere is a list of all available airports:\n");
 		System.out.println("----------------------------------------------------------"
 				+ "--------------------------------------------------\n");
 		/* Used to print a new line in the airport list, 

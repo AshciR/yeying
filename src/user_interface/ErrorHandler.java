@@ -53,7 +53,7 @@ public class ErrorHandler {
 	 * for the date (day).
 	 */
 	public static void notANum(){
-		System.out.println("I'm sorry, that is not a number.");
+		System.out.println("I'm sorry, that is not a number.\n");
 	}
 	
 	/**
