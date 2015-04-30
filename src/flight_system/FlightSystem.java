@@ -1610,10 +1610,11 @@ public class FlightSystem {
 		boolean userContinue = false;
 		boolean ansValid = false;
 		
-		/* Ask if they want continue */
-		String ans = iFace.bookAnother();
-		
+
 		do {
+			
+			/* Ask if they want continue */
+			String ans = iFace.bookAnother();
 			
 			/* Go back to user info */
 			if (ans.startsWith("Y")) {

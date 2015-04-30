@@ -98,7 +98,7 @@ public class TextInterface implements IUserInterface {
 	@Override
 	public String bookAnother() {
 		/* Ask if they want continue */
-		System.out.print("\nDo you want book another flight? ");
+		System.out.print("\nDo you want book another flight? (Y/N) ");
 		return userInput.nextLine().toUpperCase();
 	}
 	
