@@ -471,7 +471,7 @@ public class FlightSystem {
 		/* Print a list of all the available airports */
 		System.out.println("\nHere is a list of all the available airports:\n");
 		System.out.println("----------------------------------------------------------"
-				+ "----------------------------");
+				+ "--------------------------------------------------\n");
 		/* Used to print a new line in the airport list, 
 		 * if the current line is over 4 airports long */
 		int printCount = 0;
@@ -495,7 +495,7 @@ public class FlightSystem {
 		}
 		
 		System.out.println("----------------------------------------------------------"
-				+ "----------------------------");
+				+ "--------------------------------------------------");
 	}
 	
 	private void initSys() {

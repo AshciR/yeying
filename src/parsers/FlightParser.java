@@ -1,11 +1,3 @@
-/** Engineer: Richard Walker
- * Date: March 17. 2015
- * Description: Creates a DOM that parses a Flight XML file
- * 				given by Professor Blake Nelson for the CS 509 Project.
- * 				The class stores the information in 
- * 				a list of Flight objects.
- */
-
 package parsers;
 
 import java.io.IOException;
@@ -26,6 +18,17 @@ import org.xml.sax.SAXException;
 
 import flight_system.*;
 
+/** 
+ * Creates a DOM that parses an Flight XML file from the flight database. 
+ * <p>
+ * The parser object also allows a client to get a copy of 
+ * a list that contains the flights that were parsed. Also, the
+ * object provides a method for getting a flight based on its number.  
+ * 				
+ * @author Richard Walker
+ * 
+ */
+
 public class FlightParser {
 	
 	/* List to hold the flights parsed from the XML */
@@ -38,8 +41,9 @@ public class FlightParser {
 	private AirportParser airports;
 	
 	/**
-	 * @param the constructor creates an empty 
-	 *        list that is used to hold a the parsed airplanes
+	 * Makes a Flight Parser.
+	 * @param planeXML the XML string that contains info about airplanes.
+	 * @param portXML the XML string that contains info about airports.
 	 */
 	public FlightParser(String planeXML, String portXML) {
 		
@@ -63,27 +67,47 @@ public class FlightParser {
 		 }
 		 
 	}
-	
+	/**
+	 * Makes a Flight Parser with an empty flight leg list.
+	 */
 	public FlightParser(){
 		/* Make an empty list to store the extracted flight legs */
 		 this.flightLegList = new ArrayList<FlightLeg>();
 	}
 	
+	/**
+	 * Gets the list of the parsed flight legs.
+	 * @return Returns a list of the parsed FlightLeg objects.
+	 * @see flight_system.FlightLeg
+	 */
 	/* Returns a list of the parsed airplanes */
 	public ArrayList<FlightLeg> getFlightList() {
 		return flightLegList;
 	}
 	
+	/**
+	 * Clears the internal flight leg list.
+	 */
 	/* Empties the list */
 	public void clearFlightList(){
 		this.flightLegList.clear();
 	}
 	
+	/**
+	 * Gets the number of flights in the list.
+	 * @return the number of flights in the list.
+	 */
 	/* Returns the number of airplanes in the list */
 	public int getNumOfFlights() {
 		return this.flightLegList.size();
 	}
 	
+	/**
+	 * Gets a flight that matches a provided flight number. Returns null, if it
+	 * doesn't exist.
+	 * @param flightNum the flight number you are looking for.
+	 * @return the flight leg that corresponds with the flight number.
+	 */
 	/* Return the flight from the list that corresponds with the flight number */
 	public FlightLeg getFlight(int flightNum){
 
@@ -116,6 +140,9 @@ public class FlightParser {
 
 	}
 	
+	/**
+	 * Prints the flight list.
+	 */
 	/* Prints the flight list */
 	public void printFlightList(){
 		System.out.println("Printing the Flight XML data:");
@@ -126,6 +153,11 @@ public class FlightParser {
 
 	}
 
+	/**
+	 * Used to parse a flight XML into Flight Leg objects.
+	 * @param xmlSource the XML string that needs to be parsed.
+	 * @see flight_system.FlightLeg
+	 */
 	/* Method used to parse the flight XML */
 	public void parseFlightXML(String xmlSource) {
 

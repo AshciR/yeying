@@ -86,7 +86,7 @@ public class TextInterface implements IUserInterface {
 	@Override
 	public String bookFlight() {
 		/* Get the Flight Number */
-		System.out.print("\nPlease confirm this flight option in order to purchase. (type the flight option #: ");
+		System.out.print("\nPlease confirm this flight option in order to purchase. (type the flight option #): ");
 		return userInput.nextLine();
 	}
 
