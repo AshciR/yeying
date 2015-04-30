@@ -10,6 +10,17 @@ import org.graphstream.graph.Edge;
 import parsers.*;
 import user_interface.*;
 
+/**
+ * The Main Flight System application.
+ * <p>
+ * Use the run method, to run the application.
+ * 
+ * @author Richard Walker
+ * @author Zhong Ren
+ * @author Jianan Ou
+ * @author Daoheng Guo
+ *
+ */
 public class FlightSystem {
 
 	/* Holds the states for the Flight System */
@@ -57,25 +68,8 @@ public class FlightSystem {
 		/* Initialize System */
 		initSys();
 		
-		/* Print a list of all the available airports */
-		System.out.println("\nHere is a list of all the available airports:\n");
-		
-		/* Used to print a new line in the airport list, 
-		 * if the current line is over 4 airports long */
-		int printCount = 0;
-		
-		for(Airport port : airportList){
-			
-			System.out.print(port.getCode() + "\t");
-			printCount++;
-			
-			/* Print a new line */
-			if (printCount >=4 ){
-				System.out.println("\n");
-				printCount = 0;
-			}
-			
-		}
+		/* Print the available airports */
+		printAirportList();
 		
 		/* Go to Get User Info State */
 		this.state = State.GetUserInfo;
@@ -233,6 +227,9 @@ public class FlightSystem {
 				break;
 				
 			case DetailFlights:
+				
+				/* Add a blank line for readability */
+				System.out.println("\n-- Viewing Flight Options --");
 				
 				/* This is a one-way trip */
 				if(!userInfo.getIsRoundTrip()){
@@ -427,9 +424,9 @@ public class FlightSystem {
 					iFace.confirmFlight();
 					
 					/* Print the flight again to confirm */
-					System.out.println("\n-----------------------------------");
+					System.out.println("\n--------------------------------------------");
 					chosenFlt.printFlight(userInfo.getIsFirstClass(),true);
-					System.out.println("-----------------------------------\n");
+					System.out.println("--------------------------------------------\n");
 					
 					/* Go to finished state */
 					state = State.FinishState;
@@ -468,6 +465,37 @@ public class FlightSystem {
 			
 		} while (userContinue == true);
 
+	}
+
+	private void printAirportList() {
+		/* Print a list of all the available airports */
+		System.out.println("\nHere is a list of all the available airports:\n");
+		System.out.println("----------------------------------------------------------"
+				+ "----------------------------");
+		/* Used to print a new line in the airport list, 
+		 * if the current line is over 4 airports long */
+		int printCount = 0;
+		
+		for(Airport port : airportList){
+			
+			/* How the airport info should be displayed*/
+			String printPort = port.getCode() + " : " + port.getName();
+			
+			/* Pad the string so that the tab is even */
+			System.out.print(String.format("%-50s", printPort) + "\t");
+			
+			printCount++;
+			
+			/* Print a new line after printCount exceeds the limit */
+			if (printCount >=2 ){
+				System.out.println("\n");
+				printCount = 0;
+			}
+			
+		}
+		
+		System.out.println("----------------------------------------------------------"
+				+ "----------------------------");
 	}
 	
 	private void initSys() {
@@ -700,9 +728,9 @@ public class FlightSystem {
 		/* Search for the departure flights that meet the user's 
 		 * requirements. Note, that it will return flights
 		 * that have up to maximum 2 connections. */
-		ArrayList<LinkedList<Edge>> availDepFlights = engineDep.getRoutes(userInfo.getDepartureAirport(), userInfo.getArrivalAirport(), 3, userInfo.getIsFirstClass());
+		ArrayList<LinkedList<Edge>> availDepFlights = engineDep.getRoutesDir(userInfo.getDepartureAirport(), userInfo.getArrivalAirport(), 3, userInfo.getIsFirstClass());
 		
-	
+		
 		/* Converts the graph edges, which are flights, into Flight objects
 		 * that can be used throughout the rest of the program */
 		for(LinkedList<Edge> flight : availDepFlights){
@@ -736,7 +764,7 @@ public class FlightSystem {
 			/* Search for the arrival flights that meet the user's 
 			 * requirements. Note, that it will return flights
 			 * that have up to maximum 2 connections. */
-			ArrayList<LinkedList<Edge>> availRetFlights = engineRet.getRoutes(userInfo.getArrivalAirport(), userInfo.getDepartureAirport(), 3, userInfo.getIsFirstClass());
+			ArrayList<LinkedList<Edge>> availRetFlights = engineRet.getRoutesDir(userInfo.getArrivalAirport(), userInfo.getDepartureAirport(), 3, userInfo.getIsFirstClass());
 			
 			/* Converts the graph edges, which are flights, into Flight objects
 			 * that can be used throughout the rest of the program */

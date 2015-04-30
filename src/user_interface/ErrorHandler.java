@@ -35,7 +35,7 @@ public class ErrorHandler {
 	 * user tried to input an invalid date.
 	 */
 	public static void invalidDate(){
-		System.out.println("I'm sorry, that is not a valid day.");
+		System.out.println("\nI'm sorry, that is not a valid day.");
 		System.out.println("Please select a day between 8 and 18 (inclusively).");
 	}
 		

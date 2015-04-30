@@ -603,7 +603,7 @@ public class Tester {
 		Date departureDate = new Date(Month.April, 26, 2015);
 
 		UserInfo user = new UserInfo(departureAirport, arrivalAirport,
-				departureDate, true);
+				departureDate, departureDate, true, false);
 
 		System.out.println(user.getDepartureAirport());
 		System.out.println(user.getArrivalAirport());
@@ -668,18 +668,18 @@ public class Tester {
 		
 		/* Print the flights */
 		System.out.println("======= Flight Option: 1 =======");
-		f1.printFlight(false);
-		f1.printDetailFlight(false);
+		f1.printFlight(false, false);
+		f1.printDetailFlight(false, false);
 		System.out.println();
 		
 		System.out.println("======= Flight Option: 2 =======");
-		f2.printFlight(true);
-		f2.printDetailFlight(true);
+		f2.printFlight(true, false);
+		f2.printDetailFlight(true, false);
 		System.out.println();
 		
 		System.out.println("======= Flight Option: 3 =======");
-		f3.printFlight(false);
-		f3.printDetailFlight(false);
+		f3.printFlight(false, false);
+		f3.printDetailFlight(false, false);
 		System.out.println();
 		
 	}

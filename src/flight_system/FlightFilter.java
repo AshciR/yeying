@@ -5,7 +5,7 @@ import java.util.Collections;
 
 /**
  * Class used to represent a flight filter based on flights.
- * @author Daoheng guo
+ * @author Daoheng Guo
  **/
 
 public class FlightFilter {
@@ -86,8 +86,8 @@ public class FlightFilter {
 	}
 
 	/**
-	 * This method returns the minimum layover time.
-	 * @return the minimum layover time in the list
+	 * This method returns the minimum lay over time.
+	 * @return the minimum lay over time in the list
 	 */
 	public Flight minLayover(){
 		Flight minLayover = flightList.get(0);
@@ -186,7 +186,6 @@ public class FlightFilter {
 		
 	}
 	
-	
 	/**
 	 * This method sorts the flight list based on the departure time.
 	 * @param ascending true if you want the sort price returned in ascending order
@@ -282,9 +281,9 @@ public class FlightFilter {
 	}
 	
 	/**
-	 * This method sort the flightlist based on the layovertime
-	 * @param ascending ture if you want the sorted returned in ascending order of layover time
-	 * false if you want the sorted returned in descending order of layover time
+	 * This method sorts the flight list based on the layover time
+	 * @param ascending true if you want the sorted returned in ascending order of lay over time
+	 * false if you want the sorted returned in descending order of lay over time
 	 * @return the sorted flights in a order decide by you
 	 */
 	public ArrayList<Flight> sortLayover(boolean ascending){
@@ -303,8 +302,8 @@ public class FlightFilter {
 	}
 	
 	/**
-	 * This method sort the flightlist based on the number of connections
-	 * @param ascending ture if you want the sort price returned in ascending order of number of connections
+	 * This method sort the flight list based on the number of connections
+	 * @param ascending true if you want the sort price returned in ascending order of number of connections
 	 * false if you want the sort price returned in descending order of connections
 	 * @return the sorted flights in a order decide by you
 	 */

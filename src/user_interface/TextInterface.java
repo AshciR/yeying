@@ -86,7 +86,7 @@ public class TextInterface implements IUserInterface {
 	@Override
 	public String bookFlight() {
 		/* Get the Flight Number */
-		System.out.print("\nPlease enter the number for the flight you wish to purchase ");
+		System.out.print("\nPlease confirm this flight option in order to purchase. (type the flight option #: ");
 		return userInput.nextLine();
 	}
 
@@ -98,7 +98,7 @@ public class TextInterface implements IUserInterface {
 	@Override
 	public String bookAnother() {
 		/* Ask if they want continue */
-		System.out.print("Do you want book another flight? ");
+		System.out.print("\nDo you want book another flight? ");
 		return userInput.nextLine().toUpperCase();
 	}
 	
@@ -123,7 +123,7 @@ public class TextInterface implements IUserInterface {
 	@Override
 	public String getDetailFlight() {
 		/* Ask what flight option they want detail about */
-		System.out.print("\nWhich flight do you want more detail about? (Enter the flight option number) ");
+		System.out.print("Which flight option do you want more detail about? (Enter the flight option number) ");
 		return userInput.nextLine().toUpperCase();
 	}
 
@@ -176,14 +176,13 @@ public class TextInterface implements IUserInterface {
 
 	@Override
 	public String askDepFilter() {
-		System.out.println("Would you like to filter by departure times?\n"
-				+ "(Yes or No)");
+		System.out.print("Would you like to filter by departure times? (Y/N) ");
 		return userInput.nextLine().toUpperCase();
 	}
 
 	@Override
 	public String askArrFilter() {
-		System.out.print("Would you like to filter by arrival times? (Yes or No) ");
+		System.out.print("\nWould you like to filter by arrival times? (Y/N) ");
 		return userInput.nextLine().toUpperCase();
 	}
 
@@ -195,18 +194,18 @@ public class TextInterface implements IUserInterface {
 
 	@Override
 	public void askDepTime(boolean depTime) {
-		System.out.println("What time do you want to " + ((depTime) ? "depart? " : "arrive? "));
+		System.out.println("What time do you want to " + ((depTime) ? "depart? " : "arrive?\n"));
 	}
 
 	@Override
 	public String getHours() {
-		System.out.println("Hour: ");
+		System.out.print("Hour: ");
 		return userInput.nextLine();
 	}
 
 	@Override
 	public String getMinutes() {
-		System.out.println("Minutes: ");
+		System.out.print("Minutes: ");
 		return userInput.nextLine();
 	}
 
@@ -226,7 +225,7 @@ public class TextInterface implements IUserInterface {
 	@Override
 	public String doWhatWithFlights() {
 		
-		System.out.println("\nWhat would you like to do?\n");
+		System.out.println("What would you like to do?\n");
 		System.out.println("1: Filter the flights:");
 		System.out.println("2: Sort the flights:");
 		System.out.println("3: View flight detail:");
@@ -253,7 +252,7 @@ public class TextInterface implements IUserInterface {
 
 	@Override
 	public String detailOriginOrReturn() {
-		System.out.print("\nWhich list do you want detail flight info. from? (Origin/Return) ");
+		System.out.print("Which list do you want detail flight info. from? (Origin/Return) ");
 		return userInput.nextLine().toUpperCase();
 	}
 
@@ -262,7 +261,6 @@ public class TextInterface implements IUserInterface {
 		System.out.print("\nDo you want to buy the origin ticket, or the return ticket? (Origin/Return) ");
 		return userInput.nextLine().toUpperCase();
 	}
-	
 	
 	
 }

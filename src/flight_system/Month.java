@@ -1,9 +1,13 @@
-/** Engineer: Zhong Ren
- * Date: March 18. 2015
- * Description: Enum that holds the months of a year
- */
 
 package flight_system;
+
+/**
+ * Enumeration used to represent months in the date class.
+ * @author Zhong Ren
+ * @see Date
+ *
+ */
+
 /*Set the month class as a enum type */
 public enum Month 
 {

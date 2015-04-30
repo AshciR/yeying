@@ -250,7 +250,7 @@ public class XMLPutter {
 			
 			/* If the connection was successful*/
 			if((responseCode>=200)&&(responseCode<=299)){
-				System.out.println("The ticket was bought.");
+//				System.out.println("The ticket was bought.");
 				BufferedReader in=new BufferedReader(new InputStreamReader(connection.getInputStream()));
 				String line;
 				StringBuffer response=new StringBuffer();
